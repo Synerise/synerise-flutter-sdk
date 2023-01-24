@@ -1,0 +1,5 @@
+include: package:flutter_lints/flutter.yaml
+rules: 
+  file_names: false
+# Additional information about this file can be found at
+# https://dart.dev/guides/language/analysis-options
