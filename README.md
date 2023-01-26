@@ -32,7 +32,7 @@ Most up-to-date documentation is available at [Synerise Help Center - Mobile SDK
 
 ## Android
 
-For the **Android** platform it uses the [Synerise Android SDK](https://github.com/Synerise/android-sdk) 
+For the **Android** platform it uses the [Synerise Android SDK](https://github.com/Synerise/android-sdk).
 
 The development and debugging can be done with Android Studio.
 
@@ -46,7 +46,7 @@ The development and debugging can be done with Android Studio.
 
 ## iOS
 
-For the **iOS** platform it uses the [Synerise iOS SDK](https://cocoapods.org/pods/SyneriseSDK)
+For the **iOS** platform it uses the [Synerise iOS SDK](https://cocoapods.org/pods/SyneriseSDK).
 
 The development and debugging can be done with Xcode.
 
