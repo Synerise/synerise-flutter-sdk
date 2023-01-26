@@ -26,7 +26,7 @@ synerise_flutter_sdk:
 
 ## Documentation
 
-Most up-to-date documentation is available at [Synerise Help Center - iOS SDK](https://help.synerise.com/developers/ios-sdk).
+Most up-to-date documentation is available at [Synerise Help Center - Mobile SDK](https://help.synerise.com/developers/mobile-sdk).
 
 ----------
 
