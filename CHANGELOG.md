@@ -13,7 +13,7 @@ It is initial experimental alpha version of flutter plugin for Synerise SDK.
 - `Content` module
 
 
-- architectural fixes
+ architectural fixes
 
 ## [0.1.0] - 2023-01-24
 
