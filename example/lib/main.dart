@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 
-import 'package:synerise_flutter_sdk_example/views/client/client_methods.dart';
-
 import 'package:synerise_flutter_sdk/synerise.dart';
+import 'package:synerise_flutter_sdk_example/views/client/client_methods_view.dart';
+import 'package:synerise_flutter_sdk_example/views/content/content_methods_view.dart';
+import 'package:synerise_flutter_sdk_example/views/tracker/tracker_methods_view.dart';
+
 
 class InitialView extends StatefulWidget {
   const InitialView({super.key});
@@ -26,11 +28,13 @@ class _InitialViewState extends State<InitialView> {
   }
 
   Future<void> initializeSynerise() async {
+    Synerise.settings.sdk.enabled = true;
+
     Synerise.initializer()
-        .withClientApiKey("YOUR_CLIENT_API_KEY")
-        .withBaseUrl("https://YOUR_BASE_URI.com")
-        .withDebugModeEnabled(true)
-        .init();
+      .withClientApiKey("622376f8-4a8f-8b24-d7f9-070fa956e963")
+      .withBaseUrl("https://api.snrapi.com")
+      .withDebugModeEnabled(true)
+      .init();
   }
 
   @override
@@ -52,6 +56,24 @@ class _InitialViewState extends State<InitialView> {
                   );
                 },
               ),
+              ElevatedButton(
+                child: const Text('Content Method Test'),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const ContentView()),
+                  );
+                },
+              ),
+              ElevatedButton(
+                child: const Text('Tracker Method Test'),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const TrackerView()),
+                  );
+                },
+              )
             ])))));
   }
 }
@@ -66,8 +88,37 @@ class ClientView extends StatelessWidget {
         title: const Text('Client Module Method Test'),
       ),
       body: const Center(
-        child: ClientMethods(),
+        child: ClientMethodsView(),
       ),
+    );
+  }
+}
+
+
+class ContentView extends StatelessWidget {
+  const ContentView({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Content Module Method Test'),
+      ),
+      body: const ContentMethodsView(),
+    );
+  }
+}
+
+class TrackerView extends StatelessWidget {
+  const TrackerView({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Tracker Module Method Test'),
+      ),
+      body: const TrackerMethodsView(),
     );
   }
 }

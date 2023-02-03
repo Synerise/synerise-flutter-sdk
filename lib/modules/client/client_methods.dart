@@ -19,7 +19,7 @@ class ClientMethods extends BaseMethodChannel {
     await methodChannel.invokeMethod('Client/registerAccount', clientAccountRegisterContext.asMap());
   }
 
-  void signOut() async {
+  Future<void> signOut() async {
     await methodChannel.invokeMethod("Client/signOut");
   }
 

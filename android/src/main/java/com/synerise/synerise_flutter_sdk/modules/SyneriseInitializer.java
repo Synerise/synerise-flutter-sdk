@@ -34,6 +34,8 @@ public class SyneriseInitializer implements SyneriseModule {
 
     public static void initSynerise(Application app, MethodCall call, MethodChannel.Result result) {
         if (isInitialized == false) {
+            prepareDefaultSettings();
+
             Map dataFull = (Map) call.arguments;
             Map data = (Map) dataFull.get("initializationParameters");
             Synerise.Builder.with(app, data.get("clientApiKey").toString(), SyneriseConnector.getApplicationName(app))
@@ -46,6 +48,10 @@ public class SyneriseInitializer implements SyneriseModule {
             isInitialized = true;
         }
         result.success(null);
+    }
+
+    private static void prepareDefaultSettings() {
+        Synerise.settings.tracker.autoTracking.enabled = false;
     }
 
     public static SyneriseInitializer getInstance() {

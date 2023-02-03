@@ -1,64 +1,35 @@
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/material.dart';
 
+import 'package:synerise_flutter_sdk/main/dependencies.dart';
+import 'package:synerise_flutter_sdk/main/synerise_initializer.dart';
+import 'package:synerise_flutter_sdk/modules/settings/settings_impl.dart';
 import 'package:synerise_flutter_sdk/modules/client/client_impl.dart';
-
-class SyneriseInitializer {
-  MethodChannel methodChannel;
-
-  String? clientApiKey;
-  String? baseUrl;
-  bool debugModeEnabled = false;
-  bool crashHandlingEnabled = false;
-
-  SyneriseInitializer(this.methodChannel);
-
-  SyneriseInitializer withClientApiKey(String clientApiKey) {
-    this.clientApiKey = clientApiKey;
-    return this;
-  }
-
-  SyneriseInitializer withBaseUrl(String baseUrl) {
-    this.baseUrl = baseUrl;
-    return this;
-  }
-
-  SyneriseInitializer withDebugModeEnabled(bool debugModeEnabled) {
-    this.debugModeEnabled = debugModeEnabled;
-    return this;
-  }
-
-  SyneriseInitializer withCrashHandlingEnabled(bool crashHandlingEnabled) {
-    this.crashHandlingEnabled = crashHandlingEnabled;
-    return this;
-  }
-
-  Future<void> init() async {
-    return await methodChannel.invokeMethod('Synerise/initialize', {
-      'preinitializationSettings': {
-
-      },
-      'initializationParameters': {
-        'clientApiKey': clientApiKey,
-        'baseUrl': baseUrl,
-        'debugModeEnabled': debugModeEnabled,
-        'crashHandlingEnabled': crashHandlingEnabled
-      }
-    });
-  }
-}
+import 'package:synerise_flutter_sdk/modules/tracker/tracker_impl.dart';
+import 'package:synerise_flutter_sdk/modules/content/content_impl.dart';
 
 class Synerise {
   // constructor method
   Synerise();
 
   //modules communication
-  static get client => ClientImpl();
+  static SettingsImpl settings = SettingsImpl();
+  static ClientImpl client = ClientImpl();
+  static TrackerImpl tracker = TrackerImpl();
+  static ContentImpl content = ContentImpl();
 
-  static const methodChannel = MethodChannel('synerise_flutter_sdk');
+  static const methodChannel = Dependencies.methodChannel;
 
   static SyneriseInitializer initializer() {
-    return SyneriseInitializer(Synerise.methodChannel);
+    final initializer = SyneriseInitializer();
+    initializer.setCompletionHandler((initialized) {
+      if (initialized == true) {
+        Synerise.settings.afterInitialization();
+      } else {
+        Synerise.settings.beforeInitialization();
+      }
+    });
+    return initializer;
   }
 
   static String handlePlatformException(PlatformException error) {
@@ -74,7 +45,7 @@ class Synerise {
     }
   }
 
-  static void displaySimpleAlert(String text, BuildContext context) {
+  static Future<void> displaySimpleAlert(String text, BuildContext context) async {
     showDialog(
       context: context,
       builder: (context) {

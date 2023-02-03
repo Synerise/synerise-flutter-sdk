@@ -7,7 +7,7 @@ ENV['COCOAPODS_DISABLE_STATS'] = 'true'
 platform :ios, '11.0'
 use_frameworks!
 
-project 'Runner', {
+project 'SampleAppFlutter', {
   'Debug' => :debug,
   'Profile' => :release,
   'Release' => :release,
@@ -30,7 +30,7 @@ require File.expand_path(File.join('packages', 'flutter_tools', 'bin', 'podhelpe
 
 flutter_ios_podfile_setup
 
-target 'Runner' do
+target 'SampleAppFlutter' do
   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
   pod 'SyneriseSDK'
 end

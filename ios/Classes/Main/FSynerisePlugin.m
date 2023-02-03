@@ -8,7 +8,10 @@
 
 #import "FSynerisePlugin.h"
 #import "FSynerise.h"
+#import "FSettings.h"
 #import "FClient.h"
+#import "FTracker.h"
+#import "FContent.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -40,8 +43,11 @@ NS_ASSUME_NONNULL_BEGIN
     NSString *calledMethod = callMethodComponents.lastObject;
         
      NSDictionary *availableModules = @{
+        @"Settings": [FSettings sharedInstance],
         @"Synerise": [FSynerise sharedInstance],
-        @"Client": [FClient sharedInstance]
+        @"Client": [FClient sharedInstance],
+        @"Tracker": [FTracker sharedInstance],
+        @"Content": [FContent sharedInstance]
     };
 
     FBaseModule *module = [availableModules objectForKey:callMethodModule];

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:synerise_flutter_sdk/enums/client/identity_provider.dart';
 import 'package:synerise_flutter_sdk/enums/client/token_origin.dart';
@@ -102,7 +104,10 @@ class _SignInState extends State<SignIn> with AutomaticKeepAliveClientMixin {
   }
 
   void _signOutCall() async {
-    await Synerise.client.signOut().whenComplete(Synerise.displaySimpleAlert("signed out", context)).catchError((error) {
+    await Synerise.client
+        .signOut()
+        .whenComplete(Synerise.displaySimpleAlert("signed out", context) as FutureOr<void> Function())
+        .catchError((error) {
       String errorMessage = Synerise.handlePlatformException(error);
       Synerise.displaySimpleAlert("error on handling api call \n $errorMessage", context);
       throw Exception(errorMessage);
@@ -125,7 +130,7 @@ class _SignInState extends State<SignIn> with AutomaticKeepAliveClientMixin {
       String errorMessage = Synerise.handlePlatformException(error);
       Synerise.displaySimpleAlert("error on handling api call: you need to be signed in to authenticate \n $errorMessage", context);
       throw Exception(errorMessage);
-    }) as bool;
+    });
     if (result == true) {
       if (!mounted) return;
       Synerise.displaySimpleAlert("authenticate true", context);
@@ -133,14 +138,12 @@ class _SignInState extends State<SignIn> with AutomaticKeepAliveClientMixin {
   }
 
   Future<void> _isSignedInCall() async {
-
     _isSignedInBool = await Synerise.client.isSignedIn().catchError((error) {
           _isSignedInBool = false;
           String errorMessage = Synerise.handlePlatformException(error);
           Synerise.displaySimpleAlert("error on handling api call \n $errorMessage", context);
           throw Exception(errorMessage);
-        }) ??
-        'error on handling api call';
+    });
   }
 
   Future<void> _retrieveTokenCall() async {
@@ -152,6 +155,7 @@ class _SignInState extends State<SignIn> with AutomaticKeepAliveClientMixin {
     String tokenString = token.tokenString;
     DateTime expirationDate = token.expirationDate;
     TokenOrigin? origin = token.origin;
+    if (!mounted) return;
     showDialog(
       context: context,
       builder: (context) {

@@ -9,7 +9,10 @@ import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
 import com.synerise.synerise_flutter_sdk.modules.SyneriseClient;
+import com.synerise.synerise_flutter_sdk.modules.SyneriseContent;
 import com.synerise.synerise_flutter_sdk.modules.SyneriseInitializer;
+import com.synerise.synerise_flutter_sdk.modules.SyneriseTracker;
+import com.synerise.synerise_flutter_sdk.modules.SyneriseSettings;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -94,8 +97,17 @@ public class SyneriseConnector implements FlutterPlugin, MethodCallHandler, Acti
             case "Synerise":
                 calledModule = SyneriseInitializer.getInstance();
                 return calledModule;
+            case "Settings":
+                calledModule = new SyneriseSettings();
+                return calledModule;
             case "Client":
                 calledModule = SyneriseClient.getInstance();
+                return calledModule;
+            case "Content":
+                calledModule = SyneriseContent.getInstance();
+                return calledModule;
+            case "Tracker":
+                calledModule = new SyneriseTracker();
                 return calledModule;
         }
         return null;

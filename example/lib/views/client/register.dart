@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:synerise_flutter_sdk/model/client/register_account.dart';
 import 'package:synerise_flutter_sdk/synerise.dart';
@@ -150,15 +152,14 @@ class _RegisterAccountState extends State<RegisterAccount> with AutomaticKeepAli
         },
       );
       throw Exception('Failed to call native register method: $error');
-    });
-    showDialog(
+    }).then(showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
           content: Text("$email account created succesfully"),
         );
       },
-    );
+    ) as FutureOr Function(void value));
   }
 
   @override

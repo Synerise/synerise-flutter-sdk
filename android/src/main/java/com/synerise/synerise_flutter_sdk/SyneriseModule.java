@@ -8,7 +8,7 @@ public interface SyneriseModule {
     void handleMethodCall(MethodCall call, Result result, String calledMethod);
 
     static Result executeFailureResult(ApiError apiError, Result result) {
-
+        Object errorDetails;
         String errorCode = Integer.toString(apiError.getHttpCode());
         if (errorCode == null) {
             errorCode = "";
@@ -17,8 +17,10 @@ public interface SyneriseModule {
         if (errorMessage == null) {
             errorMessage = "";
         }
-        Object errorDetails = apiError.getErrorBody().getMessage();
-        if (errorDetails == null) {
+        Object errorBody = apiError.getErrorBody();
+        if (errorBody != null) {
+            errorDetails = apiError.getErrorBody().getMessage();
+        } else {
             errorDetails = "";
         }
 

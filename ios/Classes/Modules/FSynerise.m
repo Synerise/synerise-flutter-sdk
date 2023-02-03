@@ -47,22 +47,31 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
+#pragma mark - Private
+
+- (void)overwriteDefaultSettings {
+    SNRSynerise.settings.tracker.autoTracking.enabled = NO;
+}
+
 #pragma mark - Methods
 
 - (void)initialize:(FlutterMethodCall *)call result:(FlutterResult)result {
     NSDictionary *dictionary = call.arguments;
     NSDictionary *initializationParameters = dictionary[@"initializationParameters"];
-    NSDictionary *preinitializationSettings = dictionary[@"preinitializationSettings"];
 
     NSString *clientApiKey = [initializationParameters getStringForKey:@"clientApiKey"];
     NSString *baseUrl = [initializationParameters getStringForKey:@"baseUrl"];
     BOOL debugModeEnabled = [initializationParameters getBoolForKey:@"debugModeEnabled"];
     BOOL crashHandlingEnabled = [initializationParameters getBoolForKey:@"crashHandlingEnabled"];
 
+    [self overwriteDefaultSettings];
+    
     [SNRSynerise initializeWithClientApiKey:clientApiKey andBaseUrl:baseUrl];
     [SNRSynerise setDebugModeEnabled:debugModeEnabled];
     [SNRSynerise setCrashHandlingEnabled:crashHandlingEnabled];
     [SNRSynerise setHostApplicationType:SNRHostApplicationTypeFlutter];
+
+    result(@YES);
 }
 
 #pragma mark - SNRSyneriseDelegate
