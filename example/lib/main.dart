@@ -31,10 +31,10 @@ class _InitialViewState extends State<InitialView> {
     Synerise.settings.sdk.enabled = true;
 
     Synerise.initializer()
-      .withClientApiKey("622376f8-4a8f-8b24-d7f9-070fa956e963")
-      .withBaseUrl("https://api.snrapi.com")
-      .withDebugModeEnabled(true)
-      .init();
+        .withClientApiKey("YOUR_CLIENT_API_KEY")
+        .withBaseUrl("https://YOUR_BASE_URI.com")
+        .withDebugModeEnabled(true)
+        .init();
   }
 
   @override

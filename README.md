@@ -1,4 +1,4 @@
-# Synerise Flutter SDK (v0.1.0) - User documentation
+# Synerise Flutter SDK (v0.2.0) - User documentation
 
 [![Platform](https://img.shields.io/badge/platform-iOS-orange.svg)](https://github.com/synerise/ios-sdk)
 [![Platform](https://img.shields.io/badge/platform-Android-orange.svg)](https://github.com/synerise/android-sdk)
@@ -11,11 +11,23 @@ This flutter plugin is an implementation of Synerise SDK.
 
 Path dependency:
 
+via ssh:
 ```
 synerise_flutter_sdk: 
     git:
       url: git@github.com:Synerise/synerise-flutter-sdk.git
 ``` 
+
+or 
+
+via https:
+
+```
+synerise_flutter_sdk: 
+    git:
+      url: https://github.com/Synerise/synerise-flutter-sdk.git
+``` 
+
 
 *Requirements*:
 - Flutter configured on your machine [Getting started](https://docs.flutter.dev)
