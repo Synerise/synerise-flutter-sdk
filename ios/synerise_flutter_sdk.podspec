@@ -3,7 +3,7 @@
 # Run `pod lib lint synerise_flutter_sdk.podspec` to validate before publishing.
 #
 
-SYNERISE_SDK_FRAMEWORK_VERSION = '4.10.0'
+SYNERISE_SDK_FRAMEWORK_VERSION = '4.10.1'
 
 Pod::Spec.new do |s|
   s.name             = 'synerise_flutter_sdk'

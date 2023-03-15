@@ -4,9 +4,14 @@ import android.util.Log;
 
 import com.synerise.sdk.client.Client;
 import com.synerise.sdk.client.model.ClientIdentityProvider;
+import com.synerise.sdk.client.model.GetAccountInformation;
+import com.synerise.sdk.client.model.UpdateAccountInformation;
 import com.synerise.sdk.client.model.client.Agreements;
 import com.synerise.sdk.client.model.client.Attributes;
 import com.synerise.sdk.client.model.client.RegisterClient;
+import com.synerise.sdk.client.model.password.PasswordResetConfirmation;
+import com.synerise.sdk.client.model.password.PasswordResetRequest;
+import com.synerise.sdk.core.listeners.ActionListener;
 import com.synerise.sdk.core.listeners.DataActionListener;
 import com.synerise.sdk.core.net.IApiCall;
 import com.synerise.sdk.core.net.IDataApiCall;
@@ -17,8 +22,10 @@ import com.synerise.synerise_flutter_sdk.SyneriseModule;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import io.flutter.plugin.common.MethodCall;
@@ -27,12 +34,12 @@ import io.flutter.plugin.common.MethodChannel;
 public final class SyneriseClient implements SyneriseModule {
 
     private static SyneriseClient instance;
-    public static IApiCall signInCall;
-    public static IApiCall signUpCall;
+    public static IApiCall signInCall, signUpCall, updateAccountCall, refreshTokenCall, passwordResetCall, activateCall, confirmCall;
     private static IDataApiCall<Token> retrieveTokenCall;
     private static final String TAG = "FlutterSyneriseSdk.Cli";
+    private IDataApiCall<GetAccountInformation> getAccountCall;
 
-    private SyneriseClient() {
+    public SyneriseClient() {
     }
 
     @Override
@@ -41,20 +48,56 @@ public final class SyneriseClient implements SyneriseModule {
             case "signIn":
                 signIn(call, result);
                 return;
-            case "registerAccount":
-                registerAccount(call, result);
-                return;
             case "signOut":
                 signOut();
                 return;
             case "isSignedIn":
                 isSignedIn(result);
                 return;
+            case "registerAccount":
+                registerAccount(call, result);
+                return;
+            case "updateAccount":
+                updateAccount(call, result);
+                return;
             case "retrieveToken":
                 retrieveToken(result);
                 return;
+            case "refreshToken":
+                refreshToken(result);
+                return;
             case "authenticate":
                 authenticate(call, result);
+                return;
+            case "getUUID":
+                getUUID(result);
+                return;
+            case "regenerateUUID":
+                regenerateUUID();
+                return;
+            case "requestPasswordReset":
+                requestPasswordReset(call, result);
+                return;
+            case "getAccount":
+                getAccount(call, result);
+                return;
+            case "destroySession":
+                destroySession();
+                return;
+            case "changePassword":
+                changePassword(call, result);
+                return;
+            case "confirmPasswordReset":
+                confirmPasswordReset(call, result);
+                return;
+            case "deleteAccount":
+                deleteAccount(call, result);
+                return;
+            case "activateAccount":
+                activateAccount(call, result);
+                return;
+            case "confirmAccount":
+                confirmAccount(call, result);
                 return;
         }
     }
@@ -66,13 +109,13 @@ public final class SyneriseClient implements SyneriseModule {
         String password = null;
 
         if (data != null && data.containsKey("email")) {
-            email = (data.get("email").toString());
+            email = (String) data.get("email");
         } else {
             result.error("email missing", null, null);
         }
 
         if (data != null && data.containsKey("password")) {
-            password = (data.get("password").toString());
+            password = (String) data.get("password");
         } else {
             result.error("password missing", null, null);
         }
@@ -85,12 +128,14 @@ public final class SyneriseClient implements SyneriseModule {
     public static void registerAccount(MethodCall call, MethodChannel.Result result) {
         Map data = (Map) call.arguments;
         RegisterClient registerClient = new RegisterClient();
-        if (data.get("email").toString().isEmpty() || data.get("password").toString().isEmpty() || data.get("phone").toString().isEmpty()) {
-            result.error("data missing", null, null);
+        registerClient.setEmail(data.containsKey("email") ? (String) data.get("email") : null);
+        registerClient.setPassword(data.containsKey("password") ? (String) data.get("password") : null);
+        if (data.containsKey("phone") && data.get("phone") != null) {
+            String phone = (String) data.get("phone");
+            if (!phone.isEmpty()) {
+                registerClient.setPhone(phone);
+            }
         }
-        registerClient.setEmail((String) data.get("email"));
-        registerClient.setPassword((String) data.get("password"));
-        registerClient.setPhone((String) data.get("phone"));
         registerClient.setAddress(data.containsKey("address") ? (String) data.get("address") : null);
         registerClient.setCity(data.containsKey("city") ? (String) data.get("city") : null);
         registerClient.setCompany(data.containsKey("company") ? (String) data.get("company") : null);
@@ -115,10 +160,17 @@ public final class SyneriseClient implements SyneriseModule {
 
         if (signUpCall != null) signUpCall.cancel();
         signUpCall = Client.registerAccount(registerClient);
-        signUpCall.execute(() -> SyneriseModule.executeSuccessResult(true, result),
-                (DataActionListener<ApiError>) apiError ->
-                        SyneriseModule.executeFailureResult(apiError, result));
-
+        signUpCall.execute(new ActionListener() {
+            @Override
+            public void onAction() {
+                SyneriseModule.executeSuccessResult(true, result);
+            }
+        }, new DataActionListener<ApiError>() {
+            @Override
+            public void onDataAction(ApiError apiError) {
+                SyneriseModule.executeFailureResult(apiError, result);
+            }
+        });
     }
 
     private static void signOut() {
@@ -132,7 +184,13 @@ public final class SyneriseClient implements SyneriseModule {
     private static void retrieveToken(MethodChannel.Result result) {
         if (retrieveTokenCall != null) retrieveTokenCall.cancel();
         retrieveTokenCall = Client.getToken();
-        retrieveTokenCall.execute(token -> SyneriseModule.executeSuccessResult(tokenMapper(token), result),
+        retrieveTokenCall.execute(token -> {
+                    Map<String, Object> tokenMap = new HashMap<String, Object>();
+                    tokenMap.put("tokenString", token.getRawJwt());
+                    tokenMap.put("origin", token.getOrigin().getOrigin());
+                    tokenMap.put("expirationDate", token.getExpirationUnixTime() * 1000);
+                    SyneriseModule.executeSuccessResult(tokenMap, result);
+                },
                 (DataActionListener<ApiError>) apiError -> SyneriseModule.executeFailureResult(apiError, result));
     }
 
@@ -182,16 +240,234 @@ public final class SyneriseClient implements SyneriseModule {
                 (DataActionListener<ApiError>) apiError -> SyneriseModule.executeFailureResult(apiError, result));
     }
 
-    private static String tokenMapper(Token token) {
-        HashMap tokenMap = new HashMap<String, String>();
+    public void refreshToken(MethodChannel.Result result) {
+        if (refreshTokenCall != null) refreshTokenCall.cancel();
+        {
+            refreshTokenCall = Client.refreshToken();
+            refreshTokenCall.execute(() -> SyneriseModule.executeSuccessResult(true, result),
+                    (DataActionListener<ApiError>) apiError -> SyneriseModule.executeFailureResult(apiError, result));
+        }
+    }
 
-        //tokenMap.putString("signKey", token.getSignKey());
-        tokenMap.put("tokenString", token.getRawJwt());
-        //tokenMap.putString("rlm", token.retrieveTokenRLM().getRlm());
-        tokenMap.put("origin", token.getOrigin().getOrigin());
-        tokenMap.put("expirationDate", token.getExpirationUnixTime());
-        JSONObject tokenJson = new JSONObject(tokenMap);
-        return tokenJson.toString();
+    public void getUUID(MethodChannel.Result result) {
+        String uuid = Client.getUuid();
+        SyneriseModule.executeSuccessResult(uuid, result);
+    }
+
+    public void regenerateUUID() {
+        Client.regenerateUuid();
+    }
+
+    public void updateAccount(MethodCall call, MethodChannel.Result result) {
+        Map data = (Map) call.arguments;
+        UpdateAccountInformation updateAccountInformation = new UpdateAccountInformation();
+        updateAccountInformation.setEmail(data.containsKey("email") ? (String) data.get("email") : null);
+        updateAccountInformation.setPhoneNumber(data.containsKey("phone") ? (String) data.get("phone") : null);
+        updateAccountInformation.setCustomId(data.containsKey("customId") ? (String) data.get("customId") : null);
+        updateAccountInformation.setUuid(data.containsKey("uuid") ? (String) data.get("uuid") : null);
+        updateAccountInformation.setFirstName(data.containsKey("firstName") ? (String) data.get("firstName") : null);
+        updateAccountInformation.setLastName(data.containsKey("lastName") ? (String) data.get("lastName") : null);
+        updateAccountInformation.setDisplayName(data.containsKey("displayName") ? (String) data.get("displayName") : null);
+        if (data.containsKey("sex")) {
+            updateAccountInformation.setSex(Sex.getSex((String) data.get("sex")));
+        }
+        updateAccountInformation.setBirthDate(data.containsKey("birthDate") ? (String) data.get("birthDate") : null);
+        updateAccountInformation.setAvatarUrl(data.containsKey("avatarUrl") ? (String) data.get("avatarUrl") : null);
+        updateAccountInformation.setCompany(data.containsKey("company") ? (String) data.get("company") : null);
+        updateAccountInformation.setAddress(data.containsKey("address") ? (String) data.get("address") : null);
+        updateAccountInformation.setCity(data.containsKey("city") ? (String) data.get("city") : null);
+        updateAccountInformation.setProvince(data.containsKey("province") ? (String) data.get("province") : null);
+        updateAccountInformation.setZipCode(data.containsKey("zipCode") ? (String) data.get("zipCode") : null);
+        updateAccountInformation.setCountryCode(data.containsKey("countryCode") ? (String) data.get("countryCode") : null);
+
+        if (data.containsKey("attributes")) {
+            Attributes attributes = attributesMapper((HashMap<String, Object>) data.get("attributes"));
+            updateAccountInformation.setAttributes(attributes);
+        }
+
+        if (data.containsKey("agreements")) {
+            Agreements agreements = agreementsMapper((Map) data.get("agreements"));
+            updateAccountInformation.setAgreements(agreements);
+        }
+
+        if (updateAccountCall != null) updateAccountCall.cancel();
+        updateAccountCall = Client.updateAccount(updateAccountInformation);
+        updateAccountCall.execute(() -> SyneriseModule.executeSuccessResult(true, result),
+                (DataActionListener<ApiError>) apiError ->
+                        SyneriseModule.executeFailureResult(apiError, result));
+
+    }
+
+    public void requestPasswordReset(MethodCall call, MethodChannel.Result result) {
+        Map data = (Map) call.arguments;
+        String email = null;
+
+        if (data != null && data.containsKey("email")) {
+            email = (String) data.get("email");
+        } else {
+            result.error("email missing", null, null);
+        }
+        if (passwordResetCall != null) passwordResetCall.cancel();
+        PasswordResetRequest passwordResetRequest = new PasswordResetRequest(email);
+        passwordResetCall = Client.requestPasswordReset(passwordResetRequest);
+        passwordResetCall.execute(() -> SyneriseModule.executeSuccessResult(true, result),
+                (DataActionListener<ApiError>) apiError -> SyneriseModule.executeFailureResult(apiError, result));
+    }
+
+    public void getAccount(MethodCall call, MethodChannel.Result result) {
+        Map<String, Object> accountMap = new HashMap<String, Object>();
+        if (getAccountCall != null) getAccountCall.cancel();
+        getAccountCall = Client.getAccount();
+        getAccountCall.execute((DataActionListener<GetAccountInformation>) getAccountInformation -> {
+                    Map<String, Object> agreements = new HashMap<String, Object>();
+                    agreements.put("email", getAccountInformation.getAgreements().getEmail());
+                    agreements.put("sms", getAccountInformation.getAgreements().getSms());
+                    agreements.put("push", getAccountInformation.getAgreements().getPush());
+                    agreements.put("bluetooth", getAccountInformation.getAgreements().getBluetooth());
+                    agreements.put("rfid", getAccountInformation.getAgreements().getRfid());
+                    agreements.put("wifi", getAccountInformation.getAgreements().getWifi());
+                    accountMap.put("clientId", getAccountInformation.getClientId());
+                    accountMap.put("email", getAccountInformation.getEmail());
+                    accountMap.put("phone", getAccountInformation.getPhone());
+                    accountMap.put("customId", getAccountInformation.getCustomId());
+                    accountMap.put("uuid", getAccountInformation.getUuid());
+                    accountMap.put("firstName", getAccountInformation.getFirstName());
+                    accountMap.put("lastName", getAccountInformation.getLastName());
+                    accountMap.put("displayName", getAccountInformation.getDisplayName());
+                    accountMap.put("company", getAccountInformation.getCompany());
+                    accountMap.put("address", getAccountInformation.getAddress());
+                    accountMap.put("city", getAccountInformation.getCity());
+                    accountMap.put("province", getAccountInformation.getProvince());
+                    accountMap.put("zipCode", getAccountInformation.getZipCode());
+                    accountMap.put("countryCode", getAccountInformation.getCountryCode());
+                    accountMap.put("birthDate", getAccountInformation.getBirthDate());
+                    accountMap.put("sex", getAccountInformation.getSex().getSex());
+                    accountMap.put("avatarUrl", getAccountInformation.getAvatarUrl());
+                    accountMap.put("anonymous", getAccountInformation.getAnonymous());
+                    accountMap.put("agreements", agreements);
+                    accountMap.put("attributes", (getAccountInformation.getAttributes()));
+                    accountMap.put("tags", mapTags(getAccountInformation.getTags()));
+                    if (getAccountInformation.getLastActivityDate() != null) {
+                        accountMap.put("lastActivityDate", getAccountInformation.getLastActivityDate().getTime());
+                    }
+                    SyneriseModule.executeSuccessResult(accountMap, result);
+                },
+                new DataActionListener<ApiError>() {
+                    @Override
+                    public void onDataAction(ApiError apiError) {
+                        SyneriseModule.executeFailureResult(apiError, result);
+                    }
+                });
+    }
+
+    public void destroySession() {
+        Client.destroySession();
+    }
+
+    public void changePassword(MethodCall call, MethodChannel.Result result) {
+        Map data = (Map) call.arguments;
+
+        String oldPassword = null;
+        String password = null;
+
+        if (data != null && data.containsKey("oldPassword")) {
+            oldPassword = (String) data.get("oldPassword");
+        } else {
+            result.error("oldPassword missing", null, null);
+        }
+
+        if (data != null && data.containsKey("password")) {
+            password = (String) data.get("password");
+        } else {
+            result.error("password missing", null, null);
+        }
+
+        IApiCall changePasswordCall = Client.changePassword(oldPassword, password);
+        changePasswordCall.execute(() -> SyneriseModule.executeSuccessResult(true, result),
+                (DataActionListener<ApiError>) apiError -> SyneriseModule.executeFailureResult(apiError, result));
+    }
+
+    public void confirmPasswordReset(MethodCall call, MethodChannel.Result result) {
+        Map data = (Map) call.arguments;
+        String token = null;
+        String password = null;
+
+        if (data != null && data.containsKey("token")) {
+            token = (String) data.get("token");
+        } else {
+            result.error("token missing", null, null);
+        }
+
+        if (data != null && data.containsKey("password")) {
+            password = (String) data.get("password");
+        } else {
+            result.error("password missing", null, null);
+        }
+
+        PasswordResetConfirmation passwordResetConfirmation = new PasswordResetConfirmation(password, token);
+        IApiCall confirmPasswordReset = Client.confirmPasswordReset(passwordResetConfirmation);
+        confirmPasswordReset.execute(() -> SyneriseModule.executeSuccessResult(true, result),
+                (DataActionListener<ApiError>) apiError -> SyneriseModule.executeFailureResult(apiError, result));
+    }
+
+    public void deleteAccount(MethodCall call, MethodChannel.Result result) {
+        Map data = (Map) call.arguments;
+        String clientAuthFactor = null;
+        ClientIdentityProvider clientIdentityProvider = null;
+        String authId = null;
+        if (data != null) {
+            if (data.containsKey("clientAuthFactor")) {
+                clientAuthFactor = (String) data.get("clientAuthFactor");
+            }
+            if (data.containsKey("identityProvider")) {
+                clientIdentityProvider = ClientIdentityProvider.getByProvider((String) data.get("identityProvider"));
+            }
+            if (data.containsKey("authID")) {
+                authId = (String) data.get("authID");
+            }
+        } else {
+            result.error("Missing method arguments", null, null);
+        }
+
+        IApiCall deleteAccountCall = Client.deleteAccount(clientAuthFactor, clientIdentityProvider, authId);
+        deleteAccountCall.execute(() -> SyneriseModule.executeSuccessResult(true, result),
+                (DataActionListener<ApiError>) apiError -> SyneriseModule.executeFailureResult(apiError, result));
+    }
+
+    public void activateAccount(MethodCall call, MethodChannel.Result result) {
+        Map data = (Map) call.arguments;
+        String email = null;
+
+        if (data != null && data.containsKey("email")) {
+            email = (String) data.get("email");
+        } else {
+            result.error("email missing", null, null);
+        }
+
+        if (activateCall != null) activateCall.cancel();
+        activateCall = Client.activateAccount(email);
+        activateCall.execute(() -> SyneriseModule.executeSuccessResult(true, result),
+                (DataActionListener<ApiError>) apiError -> SyneriseModule.executeFailureResult(apiError, result));
+    }
+
+    public void confirmAccount(MethodCall call, MethodChannel.Result result) {
+        Map data = (Map) call.arguments;
+        String token = null;
+
+        if (data != null && data.containsKey("token")) {
+            token = (String) data.get("token");
+        } else {
+            result.error("token missing", null, null);
+        }
+
+        if (confirmCall != null) confirmCall.cancel();
+        confirmCall = Client.confirmAccount(token);
+        confirmCall.execute(() -> SyneriseModule.executeSuccessResult(true, result),
+                (DataActionListener<ApiError>) apiError -> SyneriseModule.executeFailureResult(apiError, result));
+    }
+
+    private ArrayList<String> mapTags(List<String> list) {
+        return new ArrayList<>(list);
     }
 
     private static Attributes attributesMapper(HashMap<String, Object> map) {

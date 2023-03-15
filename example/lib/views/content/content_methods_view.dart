@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:synerise_flutter_sdk/synerise.dart';
-import 'package:synerise_flutter_sdk/model/content/documents_api_query.dart';
-import 'package:synerise_flutter_sdk/model/content/recommendation_options.dart';
+
+import 'package:synerise_flutter_sdk_example/classes/utils.dart';
 
 class ContentMethodsView extends StatefulWidget {
   const ContentMethodsView({super.key});
@@ -133,8 +133,8 @@ class _ContentMethodsViewState extends State<ContentMethodsView> with AutomaticK
     String slugName = slug;
 
     var documentJson = await Synerise.content.getDocument(slugName).catchError((error) {
-      String errorMessage = Synerise.handlePlatformException(error);
-      Synerise.displaySimpleAlert("error on handling api call \n $errorMessage", context);
+      String errorMessage = Utils.handlePlatformException(error);
+      Utils.displaySimpleAlert("error on handling api call \n $errorMessage", context);
       throw Exception(errorMessage);
     });
     if (!mounted) return;
@@ -161,8 +161,8 @@ class _ContentMethodsViewState extends State<ContentMethodsView> with AutomaticK
   Future<void> _getDocumentsCall(String typeValue, String? version) async {
     DocumentsApiQuery documentsApiQuery = DocumentsApiQuery(typeValue: typeValue, version: version != "" ? version : null);
     var documentsJson = await Synerise.content.getDocuments(documentsApiQuery).catchError((error) {
-      String errorMessage = Synerise.handlePlatformException(error);
-      Synerise.displaySimpleAlert("error on handling api call \n $errorMessage", context);
+      String errorMessage = Utils.handlePlatformException(error);
+      Utils.displaySimpleAlert("error on handling api call \n $errorMessage", context);
       throw Exception(errorMessage);
     });
     if (!mounted) return;
@@ -190,11 +190,11 @@ class _ContentMethodsViewState extends State<ContentMethodsView> with AutomaticK
     String productId = productRecoId;
     String slug = slugReco;
     RecommendationOptions recommendationOptions =
-        RecommendationOptions(slug: slug != "" ? slug : null, productId: productId != "" ? productId : null);
+        RecommendationOptions(slug: slug, productId: productId);
 
     var recommendationsJson = await Synerise.content.getRecommendations(recommendationOptions).catchError((error) {
-      String errorMessage = Synerise.handlePlatformException(error);
-      Synerise.displaySimpleAlert("error on handling api call \n $errorMessage", context);
+      String errorMessage = Utils.handlePlatformException(error);
+      Utils.displaySimpleAlert("error on handling api call \n $errorMessage", context);
       throw Exception(errorMessage);
     });
     if (!mounted) return;
@@ -220,8 +220,8 @@ class _ContentMethodsViewState extends State<ContentMethodsView> with AutomaticK
 
   Future<void> _getScreenViewCall() async {
     var screenViewJson = await Synerise.content.getScreenView().catchError((error) {
-      String errorMessage = Synerise.handlePlatformException(error);
-      Synerise.displaySimpleAlert("error on handling api call \n $errorMessage", context);
+      String errorMessage = Utils.handlePlatformException(error);
+      Utils.displaySimpleAlert("error on handling api call \n $errorMessage", context);
       throw Exception(errorMessage);
     });
     if (!mounted) return;

@@ -1,17 +1,15 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:synerise_flutter_sdk/model/client/register_account.dart';
 import 'package:synerise_flutter_sdk/synerise.dart';
 
-class RegisterAccount extends StatefulWidget {
-  const RegisterAccount({super.key});
+class UpdateAccount extends StatefulWidget {
+  const UpdateAccount({super.key});
 
   @override
-  State<RegisterAccount> createState() => _RegisterAccountState();
+  State<UpdateAccount> createState() => _UpdateAccountState();
 }
 
-class _RegisterAccountState extends State<RegisterAccount> with AutomaticKeepAliveClientMixin {
+class _UpdateAccountState extends State<UpdateAccount> with AutomaticKeepAliveClientMixin {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final firstNameController = TextEditingController();
@@ -24,15 +22,13 @@ class _RegisterAccountState extends State<RegisterAccount> with AutomaticKeepAli
   final zipCodeController = TextEditingController();
   final countryCodeController = TextEditingController();
   final provinceController = TextEditingController();
-  final uuidController = TextEditingController();
-  final customIdController = TextEditingController();
 
-  final registerForm = GlobalKey<FormState>();
+  final updateForm = GlobalKey<FormState>();
 
   _tempFormBody() {
     return Form(
         //autovalidate: true,
-        key: registerForm,
+        key: updateForm,
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -88,19 +84,11 @@ class _RegisterAccountState extends State<RegisterAccount> with AutomaticKeepAli
                 controller: provinceController,
                 decoration: const InputDecoration(labelText: "Province"),
               ),
-              TextFormField(
-                controller: uuidController,
-                decoration: const InputDecoration(labelText: "UUID"),
-              ),
-              TextFormField(
-                controller: customIdController,
-                decoration: const InputDecoration(labelText: "Custom ID"),
-              ),
               const SizedBox(height: 10.0),
               ButtonBar(
                 children: <Widget>[
                   ElevatedButton.icon(
-                      onPressed: () => _registerAccountCall(
+                      onPressed: () => _updateAccountCall(
                           emailController.text,
                           passwordController.text,
                           firstNameController.text,
@@ -112,11 +100,9 @@ class _RegisterAccountState extends State<RegisterAccount> with AutomaticKeepAli
                           cityController.text,
                           zipCodeController.text,
                           countryCodeController.text,
-                          provinceController.text,
-                          uuidController.text,
-                          customIdController.text),
+                          provinceController.text),
                       icon: const Icon(Icons.arrow_forward),
-                      label: const Text('Sign in')),
+                      label: const Text('Update Account')),
                 ],
               ),
             ],
@@ -124,34 +110,32 @@ class _RegisterAccountState extends State<RegisterAccount> with AutomaticKeepAli
         ));
   }
 
-  Future<void> _registerAccountCall(
-      email, password, firstName, lastName, sex, phone, company, address, city, zipcode, countrycode, province, uuid, customId) async {
-    ClientAccountRegisterContext clientAccountRegisterContext = ClientAccountRegisterContext(
+  Future<void> _updateAccountCall(
+      email, password, firstName, lastName, sex, phone, company, address, city, zipcode, countrycode, province) async {
+    ClientAccountUpdateContext clientAccountUpdateContext = ClientAccountUpdateContext(
         email: email,
         password: password,
         firstName: firstName,
         lastName: lastName,
-        sex: sex,
-        phone: phone,
-        company: company,
-        address: address,
-        city: city,
-        zipcode: zipcode,
-        countrycode: countrycode,
-        province: province,
-        uuid: uuid,
-        customId: customId);
+        sex: ClientSex.getClientSexFromString(sex),
+        phone: null,
+        company: null,
+        address: null,
+        city: null,
+        zipcode: null,
+        countrycode: null,
+        province: null);
 
-    await Synerise.client.registerAccount(clientAccountRegisterContext).catchError((error) {
+    await Synerise.client.updateAccount(clientAccountUpdateContext).catchError((error) {
       showDialog(
         context: context,
         builder: (context) {
           return AlertDialog(
-            content: Text("register call failed: $error"),
+            content: Text("update call failed: $error"),
           );
         },
       );
-      throw Exception('Failed to call native register method: $error');
+      throw Exception('Failed to call native update method: $error');
     }).then(showDialog(
       context: context,
       builder: (context) {
@@ -176,8 +160,6 @@ class _RegisterAccountState extends State<RegisterAccount> with AutomaticKeepAli
     zipCodeController.dispose();
     countryCodeController.dispose();
     provinceController.dispose();
-    uuidController.dispose();
-    customIdController.dispose();
     super.dispose();
   }
 

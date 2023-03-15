@@ -1,9 +1,9 @@
 class RecommendationOptions {
-  final String? slug;
-  final String? productId;
+  String slug;
+  String? productId;
 
   RecommendationOptions({
-    this.slug,
+    required this.slug,
     this.productId,
   });
 

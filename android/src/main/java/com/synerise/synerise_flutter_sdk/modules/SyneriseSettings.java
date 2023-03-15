@@ -131,7 +131,7 @@ public class SyneriseSettings implements SyneriseModule {
 
             case F_SETTINGS_IN_APP_MESSAGING_RENDERING_TIMEOUT:
                 if (value instanceof Double) {
-                    int renderingTimeout = ((Double) value).intValue() * 1000;
+                    int renderingTimeout = ((Double) value).intValue();
                     Settings.getInstance().inAppMessaging.renderingTimeout = renderingTimeout;
                 }
                 break;
@@ -151,7 +151,7 @@ public class SyneriseSettings implements SyneriseModule {
         settings.put(F_SETTINGS_NOTIFICATIONS_ENCRYPTION, Synerise.settings.notifications.getEncryption());
         settings.put(F_SETTINGS_SHOULD_DESTROY_SESSION_ON_API_KEY_CHANGE, Synerise.settings.sdk.shouldDestroySessionOnApiKeyChange);
         settings.put(F_SETTINGS_IN_APP_MESSAGING_MAX_DEFINITION_UPDATE_INTERVAL_LIMIT, Synerise.settings.inAppMessaging.getMaxDefinitionUpdateIntervalLimit());
-        settings.put(F_SETTINGS_IN_APP_MESSAGING_RENDERING_TIMEOUT, Synerise.settings.inAppMessaging.renderingTimeout / 1000);
+        settings.put(F_SETTINGS_IN_APP_MESSAGING_RENDERING_TIMEOUT, Synerise.settings.inAppMessaging.renderingTimeout);
         return settings;
     }
 }

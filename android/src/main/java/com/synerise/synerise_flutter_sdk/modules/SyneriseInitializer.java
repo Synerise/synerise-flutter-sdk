@@ -17,9 +17,9 @@ import io.flutter.plugin.common.MethodChannel;
 public class SyneriseInitializer implements SyneriseModule {
 
     private static SyneriseInitializer instance;
-    private static volatile boolean isInitialized = false;
+    protected static volatile boolean isInitialized = false;
 
-    private SyneriseInitializer() {
+    public SyneriseInitializer() {
     }
 
     @Override
@@ -32,7 +32,7 @@ public class SyneriseInitializer implements SyneriseModule {
         }
     }
 
-    public static void initSynerise(Application app, MethodCall call, MethodChannel.Result result) {
+    public void initSynerise(Application app, MethodCall call, MethodChannel.Result result) {
         if (isInitialized == false) {
             prepareDefaultSettings();
 
@@ -43,9 +43,12 @@ public class SyneriseInitializer implements SyneriseModule {
                     .syneriseDebugMode(data.containsKey("debugModeEnabled") ? (boolean) data.get("debugModeEnabled") : null)
                     .crashHandlingEnabled(data.containsKey("crashHandlingEnabled") ? (boolean) data.get("crashHandlingEnabled") : null)
                     .hostApplicationType(HostApplicationType.FLUTTER)
+                    .pushRegistrationRequired(SyneriseNotifications.getPushNotificationsListener())
                     .build();
 
             isInitialized = true;
+
+            SyneriseInjector.registerListeners();
         }
         result.success(null);
     }

@@ -3,15 +3,12 @@
 //  flutter-synerise-sdk
 //
 //  Created by Synerise
-//  Copyright © 2022 Synerise. All rights reserved.
+//  Copyright © 2023 Synerise. All rights reserved.
 //
 
 #import "FSynerisePlugin.h"
-#import "FSynerise.h"
-#import "FSettings.h"
-#import "FClient.h"
-#import "FTracker.h"
-#import "FContent.h"
+#import "FSyneriseManager.h"
+#import "FBaseModule.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -24,10 +21,20 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Static
 
 + (void)registerWithRegistrar:(NSObject<FlutterPluginRegistrar>*)registrar {
-    FlutterMethodChannel *channel = [FlutterMethodChannel methodChannelWithName:@"synerise_flutter_sdk" binaryMessenger:[registrar messenger]];
-    FSynerisePlugin *plugin = [[FSynerisePlugin alloc] init];
+    FlutterMethodChannel *mainChannel = [FlutterMethodChannel methodChannelWithName:@"synerise_flutter_sdk" binaryMessenger:[registrar messenger]];
+    FlutterMethodChannel *reverseChannel = [FlutterMethodChannel methodChannelWithName:@"synerise_dart_channel" binaryMessenger:[registrar messenger]];
+    FlutterMethodChannel *backgroundChannel = [[FlutterMethodChannel alloc] initWithName:@"synerise_flutter_sdk_background" binaryMessenger:[registrar messenger] codec:[FlutterStandardMethodCodec sharedInstance] taskQueue:[[registrar messenger] makeBackgroundTaskQueue]];
     
-    [registrar addMethodCallDelegate:plugin channel:channel];
+    FSynerisePlugin *plugin = [[FSynerisePlugin alloc] init];
+    [registrar addMethodCallDelegate:plugin channel:mainChannel];
+    [registrar addMethodCallDelegate:plugin channel:reverseChannel];
+    [registrar addMethodCallDelegate:plugin channel:backgroundChannel];
+    
+    [FSyneriseManager sharedInstance].mainChannel = mainChannel;
+    [FSyneriseManager sharedInstance].reverseChannel = reverseChannel;
+    [FSyneriseManager sharedInstance].backgroundChannel = backgroundChannel;
+    
+    [[FSyneriseManager sharedInstance] createModules];
 }
 
 #pragma mark - Public
@@ -43,11 +50,13 @@ NS_ASSUME_NONNULL_BEGIN
     NSString *calledMethod = callMethodComponents.lastObject;
         
      NSDictionary *availableModules = @{
-        @"Settings": [FSettings sharedInstance],
-        @"Synerise": [FSynerise sharedInstance],
-        @"Client": [FClient sharedInstance],
-        @"Tracker": [FTracker sharedInstance],
-        @"Content": [FContent sharedInstance]
+        @"Settings": [FSyneriseManager sharedInstance].settings,
+        @"Synerise": [FSyneriseManager sharedInstance].synerise,
+        @"Notifications": [FSyneriseManager sharedInstance].notifications,
+        @"Client": [FSyneriseManager sharedInstance].client,
+        @"Tracker": [FSyneriseManager sharedInstance].tracker,
+        @"Injector": [FSyneriseManager sharedInstance].injector,
+        @"Content": [FSyneriseManager sharedInstance].content
     };
 
     FBaseModule *module = [availableModules objectForKey:callMethodModule];

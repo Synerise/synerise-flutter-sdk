@@ -1,4 +1,4 @@
-class Agreements {
+class ClientAgreements {
   bool? email;
   bool? sms;
   bool? push;
@@ -6,7 +6,7 @@ class Agreements {
   bool? rfid;
   bool? wifi;
 
-  Agreements({this.email, this.sms, this.push, this.bluetooth, this.rfid, this.wifi});
+  ClientAgreements({this.email, this.sms, this.push, this.bluetooth, this.rfid, this.wifi});
 
   void setEmail(bool email) {
     this.email = email;
@@ -56,7 +56,7 @@ class Agreements {
     return wifi;
   }
 
-  Agreements.fromMap(Map map)
+  ClientAgreements.fromMap(Map map)
       : this(email: map['email'], sms: map['sms'], push: map['push'], bluetooth: map['bluetooth'], rfid: map['rfid'], wifi: map['wifi']);
 
   Map asMap() => {'email': email, 'sms': sms, 'push': push, 'bluetooth': bluetooth, 'rfid': rfid, 'wifi': wifi};

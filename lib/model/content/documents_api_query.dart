@@ -1,9 +1,9 @@
 import 'package:synerise_flutter_sdk/enums/content/documents_api_query_type.dart';
 
 class DocumentsApiQuery {
-  final DocumentsApiQueryType? type;
-  final String typeValue;
-  final String? version;
+  DocumentsApiQueryType? type;
+  String typeValue;
+  String? version;
 
   DocumentsApiQuery({
     this.type,

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -11,6 +12,8 @@ import com.google.gson.Gson;
 import com.synerise.synerise_flutter_sdk.modules.SyneriseClient;
 import com.synerise.synerise_flutter_sdk.modules.SyneriseContent;
 import com.synerise.synerise_flutter_sdk.modules.SyneriseInitializer;
+import com.synerise.synerise_flutter_sdk.modules.SyneriseInjector;
+import com.synerise.synerise_flutter_sdk.modules.SyneriseNotifications;
 import com.synerise.synerise_flutter_sdk.modules.SyneriseTracker;
 import com.synerise.synerise_flutter_sdk.modules.SyneriseSettings;
 
@@ -21,18 +24,21 @@ import java.util.List;
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
 import io.flutter.embedding.engine.plugins.activity.ActivityAware;
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding;
+import io.flutter.plugin.common.BinaryMessenger;
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
+import io.flutter.plugin.common.StandardMethodCodec;
 
 public class SyneriseConnector implements FlutterPlugin, MethodCallHandler, ActivityAware {
-    private MethodChannel channel;
+    public static MethodChannel channel;
+    public static MethodChannel backgroundChannel;
     public Context context;
-    private Activity activity;
     public static Application app;
+    private Activity activity;
     private static volatile boolean isCalled = false;
-    private Gson gson = new Gson();
+    private final Gson gson = new Gson();
 
     @Override
     public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) {
@@ -40,6 +46,17 @@ public class SyneriseConnector implements FlutterPlugin, MethodCallHandler, Acti
         channel.setMethodCallHandler(this);
         context = flutterPluginBinding.getApplicationContext();
         this.app = (Application) context.getApplicationContext();
+
+        BinaryMessenger messenger = flutterPluginBinding.getBinaryMessenger();
+        BinaryMessenger.TaskQueue taskQueue =
+                messenger.makeBackgroundTaskQueue();
+        backgroundChannel =
+                new MethodChannel(
+                        messenger,
+                        "synerise_flutter_sdk_background",
+                        StandardMethodCodec.INSTANCE,
+                        taskQueue);
+        backgroundChannel.setMethodCallHandler(this);
     }
 
     @Override
@@ -108,6 +125,12 @@ public class SyneriseConnector implements FlutterPlugin, MethodCallHandler, Acti
                 return calledModule;
             case "Tracker":
                 calledModule = new SyneriseTracker();
+                return calledModule;
+            case "Notifications":
+                calledModule = new SyneriseNotifications();
+                return calledModule;
+            case "Injector":
+                calledModule = new SyneriseInjector();
                 return calledModule;
         }
         return null;

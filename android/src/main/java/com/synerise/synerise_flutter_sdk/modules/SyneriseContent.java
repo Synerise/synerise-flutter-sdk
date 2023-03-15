@@ -36,7 +36,7 @@ public class SyneriseContent implements SyneriseModule {
     private IDataApiCall<ScreenViewResponse> getScreenViewApiCall;
     private Gson gson = new Gson();
 
-    private SyneriseContent() {
+    public SyneriseContent() {
     }
 
     @Override
@@ -160,7 +160,7 @@ public class SyneriseContent implements SyneriseModule {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            recommendationMap.put("itemID", recommendation.getItemId());
+            recommendationMap.put("itemId", recommendation.getItemId());
             recommendationMap.put("attributes", objectMap);
 
             map.putAll(recommendationMap);

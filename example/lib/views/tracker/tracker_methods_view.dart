@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:synerise_flutter_sdk/model/tracker/custom_event.dart';
 import 'package:synerise_flutter_sdk/synerise.dart';
+
+import 'package:synerise_flutter_sdk_example/classes/utils.dart';
 
 class TrackerMethodsView extends StatefulWidget {
   const TrackerMethodsView({super.key});
@@ -173,7 +174,7 @@ class _TrackerMethodsViewState extends State<TrackerMethodsView> with AutomaticK
     Synerise.tracker.send(event);
     Synerise.tracker.setCustomIdentifier(customIdentifier);
     Synerise.tracker.flush();
-    Synerise.displaySimpleAlert("$event succesfully sent", context);
+    Utils.displaySimpleAlert("$event succesfully sent", context);
   }
 
   @override

@@ -1,6 +1,5 @@
 import '../base/base_module_method_channel.dart';
 
-/// An implementation of [SettingsMethods] that uses main method channel.
 class SettingsMethods extends BaseMethodChannel {
 
   Future<Map<String, dynamic>> getAllSettings() async {

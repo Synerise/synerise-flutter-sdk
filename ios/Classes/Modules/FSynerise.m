@@ -3,10 +3,13 @@
 //  flutter-synerise-sdk
 //
 //  Created by Synerise
-//  Copyright © 2022 Synerise. All rights reserved.
+//  Copyright © 2023 Synerise. All rights reserved.
 //
 
 #import "FSynerise.h"
+#import "FSyneriseManager.h"
+#import "FNotifications.h"
+#import "FInjector.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -16,22 +19,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation FSynerise
 
-#pragma mark - Static
-
-+ (FSynerise *)sharedInstance {
-    static FSynerise *sharedInstance = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        sharedInstance = [[self alloc] init];
-    });
-    return sharedInstance;
-}
-
 #pragma mark - Lifecycle
 
-- (FSynerise *)init {
+- (instancetype)init {
     self = [super init];
-  
+    
     if (self) {
         [SNRSynerise setDelegate:self];
     }
@@ -77,11 +69,35 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - SNRSyneriseDelegate
 
 - (void)SNR_initialized {
-
+    [[FSyneriseManager sharedInstance] notifyModulesWhenSyneriseInitialized];
 }
 
 - (void)SNR_initializationError:(NSError *)error {
 
+}
+
+- (void)SNR_registerForPushNotificationsIsNeeded {
+    [[FSyneriseManager sharedInstance].notifications executeRegistrationRequired];
+}
+
+- (void)SNR_handledActionWithURL:(NSURL *)url activity:(SNRSyneriseActivity)activity completionHandler:(SNRSyneriseActivityCompletionHandler)completionHandler {
+    if (activity == SNRSyneriseActivityInAppMessage) {
+        return;
+    }
+    
+    completionHandler(SNRSyneriseActivityActionHide, ^{
+        [[FSyneriseManager sharedInstance].injector executeURLAction:url];
+    });
+}
+
+- (void)SNR_handledActionWithDeepLink:(NSString *)deepLink activity:(SNRSyneriseActivity)activity completionHandler:(SNRSyneriseActivityCompletionHandler)completionHandler {
+    if (activity == SNRSyneriseActivityInAppMessage) {
+        return;
+    }
+    
+    completionHandler(SNRSyneriseActivityActionHide, ^{
+        [[FSyneriseManager sharedInstance].injector executeDeepLinkAction:deepLink];
+    });
 }
 
 @end

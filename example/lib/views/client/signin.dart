@@ -1,13 +1,11 @@
 import 'dart:async';
 
+
 import 'package:flutter/material.dart';
-import 'package:synerise_flutter_sdk/enums/client/identity_provider.dart';
-import 'package:synerise_flutter_sdk/enums/client/token_origin.dart';
-import 'package:synerise_flutter_sdk/model/client/agreements.dart';
-import 'package:synerise_flutter_sdk/model/client/attributes.dart';
-import 'package:synerise_flutter_sdk/model/client/token.dart';
-import 'package:synerise_flutter_sdk/model/client/client_auth_context.dart';
+
 import 'package:synerise_flutter_sdk/synerise.dart';
+
+import 'package:synerise_flutter_sdk_example/classes/utils.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({super.key});
@@ -25,131 +23,147 @@ class _SignInState extends State<SignIn> with AutomaticKeepAliveClientMixin {
   _tempFormBody() {
     return Form(
       key: loginForm,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          TextFormField(
-            controller: emailController,
-            decoration: const InputDecoration(labelText: "Email"),
-            keyboardType: TextInputType.text,
-          ),
-          TextFormField(
-            controller: passController,
-            decoration: const InputDecoration(labelText: "Password"),
-            obscureText: true,
-          ),
-          ButtonBar(
-            alignment: MainAxisAlignment.center,
-            children: <Widget>[
-              ElevatedButton.icon(
-                  onPressed: () => _signInCall(emailController.text, passController.text),
-                  icon: const Icon(Icons.arrow_forward),
-                  label: const Text('Sign in')),
-              ElevatedButton.icon(onPressed: () => _signOutCall(), icon: const Icon(Icons.logout), label: const Text('Sign out')),
-              ElevatedButton.icon(
-                  onPressed: () => {
-                        _isSignedInCall().whenComplete(() => {
-                              if (_isSignedInBool)
-                                {
-                                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                    content: const Text('Signed In!'),
-                                    action: SnackBarAction(
-                                      label: 'signedIn',
-                                      onPressed: () {
-                                        // Code to execute.
-                                      },
-                                    ),
-                                  ))
-                                }
-                              else
-                                {
-                                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                    content: const Text('Not signed In!'),
-                                    action: SnackBarAction(
-                                      label: 'notSignedIn',
-                                      onPressed: () {
-                                        // Code to execute.
-                                      },
-                                    ),
-                                  ))
-                                }
-                            })
-                      },
-                  icon: const Icon(Icons.login),
-                  label: const Text('Is signed in test')),
-              ElevatedButton.icon(
-                  onPressed: () => _retrieveTokenCall(),
-                  icon: const Icon(Icons.generating_tokens_outlined),
-                  label: const Text('Retrieve token')),
-              ElevatedButton.icon(
-                  onPressed: () => _authenticateCall(),
-                  icon: const Icon(Icons.person_search_outlined),
-                  label: const Text('Authenticate Client Test')),
-            ],
-          ),
-        ],
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            TextFormField(
+              controller: emailController,
+              decoration: const InputDecoration(labelText: "Email"),
+              keyboardType: TextInputType.text,
+            ),
+            TextFormField(
+              controller: passController,
+              decoration: const InputDecoration(labelText: "Password"),
+              obscureText: true,
+            ),
+            ButtonBar(
+              alignment: MainAxisAlignment.center,
+              children: <Widget>[
+                ElevatedButton.icon(
+                    onPressed: () => _signInCall(emailController.text, passController.text),
+                    icon: const Icon(Icons.arrow_forward),
+                    label: const Text('Sign in')),
+                ElevatedButton.icon(onPressed: () => _signOutCall(), icon: const Icon(Icons.logout), label: const Text('Sign out')),
+                ElevatedButton.icon(
+                    onPressed: () => {
+                          _isSignedInCall().whenComplete(() => {
+                                if (_isSignedInBool)
+                                  {
+                                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                      content: const Text('Signed In!'),
+                                      action: SnackBarAction(
+                                        label: 'signedIn',
+                                        onPressed: () {
+                                          // Code to execute.
+                                        },
+                                      ),
+                                    ))
+                                  }
+                                else
+                                  {
+                                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                      content: const Text('Not signed In!'),
+                                      action: SnackBarAction(
+                                        label: 'notSignedIn',
+                                        onPressed: () {
+                                          // Code to execute.
+                                        },
+                                      ),
+                                    ))
+                                  }
+                              })
+                        },
+                    icon: const Icon(Icons.login),
+                    label: const Text('Is signed in test')),
+                ElevatedButton.icon(
+                    onPressed: () => _retrieveTokenCall(),
+                    icon: const Icon(Icons.generating_tokens_outlined),
+                    label: const Text('Retrieve token')),
+                ElevatedButton.icon(
+                    onPressed: () => _refreshTokenCall(),
+                    icon: const Icon(Icons.generating_tokens_sharp),
+                    label: const Text('RefreshToken Client Test')),
+                ElevatedButton.icon(
+                    onPressed: () => _getAccountCall(), icon: const Icon(Icons.generating_tokens_sharp), label: const Text('Get Account')),
+                ElevatedButton.icon(
+                    onPressed: () => _authenticateCall(),
+                    icon: const Icon(Icons.person_search_outlined),
+                    label: const Text('Authenticate Client Test')),
+                ElevatedButton.icon(
+                    onPressed: () => _getUUIDCall(), icon: const Icon(Icons.person_search_outlined), label: const Text('GetUuid Test')),
+                ElevatedButton.icon(
+                    onPressed: () => _regenerateUUIDCall(),
+                    icon: const Icon(Icons.person_search_outlined),
+                    label: const Text('RegenerateUuid Client Test')),
+                ElevatedButton.icon(
+                    onPressed: () => _requestPasswordResetCall(emailController.text),
+                    icon: const Icon(Icons.password_outlined),
+                    label: const Text('RequestPasswordReset Test')),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
 
   Future<void> _signInCall(email, password) async {
     await Synerise.client.signIn(email, password).catchError((error) {
-      String errorMessage = Synerise.handlePlatformException(error);
-      Synerise.displaySimpleAlert("$email and $password are not valid credentials \n $errorMessage", context);
-      throw Exception(errorMessage);
+      final String errorCode = error.code;
+      final String errorMessage = error.message;
+      print("Error: $errorCode - $errorMessage");
     });
-    if (!mounted) return;
-    Synerise.displaySimpleAlert("$email succesfully logged in", context);
   }
 
-  void _signOutCall() async {
+  Future<void> _signOutCall() async {
     await Synerise.client
         .signOut()
-        .whenComplete(Synerise.displaySimpleAlert("signed out", context) as FutureOr<void> Function())
+        .whenComplete(() => Utils.displaySimpleAlert("signed out", context))
         .catchError((error) {
-      String errorMessage = Synerise.handlePlatformException(error);
-      Synerise.displaySimpleAlert("error on handling api call \n $errorMessage", context);
+      String errorMessage = Utils.handlePlatformException(error);
+      Utils.displaySimpleAlert("error on handling api call \n $errorMessage", context);
       throw Exception(errorMessage);
     });
   }
 
   Future<void> _authenticateCall() async {
-    Agreements? agreements = Agreements(push: false, rfid: false, wifi: false);
-    Attributes? attributes;
-    ClientAuthContext clientAuthContext = ClientAuthContext(authID: 'AUTH_ID', agreements: agreements, attributes: attributes);
+    ClientAgreements? agreements = ClientAgreements(push: false, rfid: false, wifi: false);
+    ClientAttributes? attributes;
+    ClientAuthContext clientAuthContext = ClientAuthContext(authId: 'AUTH_ID', agreements: agreements, attributes: attributes);
     Token token = await Synerise.client.retrieveToken().catchError((error) {
-      String errorMessage = Synerise.handlePlatformException(error);
-      Synerise.displaySimpleAlert("error on handling api call \n $errorMessage", context);
+      String errorMessage = Utils.handlePlatformException(error);
+      Utils.displaySimpleAlert("error on handling api call \n $errorMessage", context);
       throw Exception(errorMessage);
     });
     String tokenString = token.tokenString;
     IdentityProvider identityProvider = IdentityProvider.oauth;
 
     final bool result = await Synerise.client.authenticate(clientAuthContext, identityProvider, tokenString).catchError((error) {
-      String errorMessage = Synerise.handlePlatformException(error);
-      Synerise.displaySimpleAlert("error on handling api call: you need to be signed in to authenticate \n $errorMessage", context);
+      String errorMessage = Utils.handlePlatformException(error);
+      Utils.displaySimpleAlert("error on handling api call: you need to be signed in to authenticate \n $errorMessage", context);
       throw Exception(errorMessage);
     });
     if (result == true) {
       if (!mounted) return;
-      Synerise.displaySimpleAlert("authenticate true", context);
+      Utils.displaySimpleAlert("authenticate true", context);
     }
   }
 
   Future<void> _isSignedInCall() async {
     _isSignedInBool = await Synerise.client.isSignedIn().catchError((error) {
           _isSignedInBool = false;
-          String errorMessage = Synerise.handlePlatformException(error);
-          Synerise.displaySimpleAlert("error on handling api call \n $errorMessage", context);
+          String errorMessage = Utils.handlePlatformException(error);
+          Utils.displaySimpleAlert("error on handling api call \n $errorMessage", context);
           throw Exception(errorMessage);
     });
   }
 
   Future<void> _retrieveTokenCall() async {
     Token token = await Synerise.client.retrieveToken().catchError((error) {
-      String errorMessage = Synerise.handlePlatformException(error);
-      Synerise.displaySimpleAlert("error on handling api call \n $errorMessage", context);
+      String errorMessage = Utils.handlePlatformException(error);
+      Utils.displaySimpleAlert("error on handling api call \n $errorMessage", context);
       throw Exception(errorMessage);
     });
     String tokenString = token.tokenString;
@@ -191,11 +205,61 @@ class _SignInState extends State<SignIn> with AutomaticKeepAliveClientMixin {
                 margin: const EdgeInsets.all(5.0),
                 padding: const EdgeInsets.all(5),
                 decoration: BoxDecoration(border: Border.all(width: 0.5, color: Colors.black)),
-                child: Text(origin!.tokenOrigin, textScaleFactor: 0.5)),
+                child: Text(origin.tokenOrigin, textScaleFactor: 0.5)),
           ])),
         );
       },
     );
+  }
+
+  Future<void> _refreshTokenCall() async {
+    await Synerise.client.refreshToken().whenComplete(() => Utils.displaySimpleAlert("token refreshed", context)).catchError((error) {
+      String errorMessage = Utils.handlePlatformException(error);
+      Utils.displaySimpleAlert("error on handling api call \n $errorMessage", context);
+      throw Exception(errorMessage);
+    });
+  }
+
+  Future<void> _getAccountCall() async {
+    ClientAccountInformation info = await Synerise.client.getAccount().catchError((error) {
+      String errorMessage = Utils.handleException(error);
+      Utils.displaySimpleAlert("error on handling api call \n $errorMessage", context);
+      throw Exception(errorMessage);
+    });
+    if (!mounted) return;
+    var email = info.email;
+    var uuid = info.uuid;
+    var clientId = info.clientId;
+    var lastActivity = info.lastActivityDate;
+    Utils.displaySimpleAlert("email: $email uuid: $uuid clientId: $clientId lastActivity: $lastActivity", context);
+  }
+
+  Future<void> _getUUIDCall() async {
+    String uuid = await Synerise.client.getUUID().catchError((error) {
+      String errorMessage = Utils.handlePlatformException(error);
+      Utils.displaySimpleAlert("error on handling api call \n $errorMessage", context);
+      throw Exception(errorMessage);
+    });
+    if (!mounted) return;
+    Utils.displaySimpleAlert("uuid: $uuid", context);
+  }
+
+  Future<void> _regenerateUUIDCall() async {
+    await Synerise.client.regenerateUUID().whenComplete(() => Utils.displaySimpleAlert("uuid regenerated", context)).catchError((error) {
+      String errorMessage = Utils.handlePlatformException(error);
+      Utils.displaySimpleAlert("error on handling api call \n $errorMessage", context);
+      throw Exception(errorMessage);
+    });
+  }
+
+  Future<void> _requestPasswordResetCall(email) async {
+    await Synerise.client.requestPasswordReset(email).catchError((error) {
+      String errorMessage = Utils.handlePlatformException(error);
+      Utils.displaySimpleAlert("error on handling api call \n $errorMessage", context);
+      throw Exception(errorMessage);
+    });
+    if (!mounted) return;
+    Utils.displaySimpleAlert("$email pasword request succes", context);
   }
 
   @override

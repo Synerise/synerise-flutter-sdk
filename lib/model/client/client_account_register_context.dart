@@ -1,22 +1,27 @@
+import '../../enums/client/client_sex.dart';
+import 'package:synerise_flutter_sdk/model/client/client_agreements.dart';
+
 class ClientAccountRegisterContext {
-  final String? email;
-  final String? password;
-  final String? firstName;
-  final String? lastName;
-  final String? sex;
-  final String? phone;
-  final String? company;
-  final String? address;
-  final String? city;
-  final String? zipcode;
-  final String? countrycode;
-  final String? province;
-  final String? uuid;
-  final String? customId;
+  String email;
+  String password;
+  String? firstName;
+  String? lastName;
+  ClientSex? sex;
+  String? phone;
+  String? company;
+  String? address;
+  String? city;
+  String? zipcode;
+  String? countrycode;
+  String? province;
+  String? uuid;
+  String? customId;
+  ClientAgreements? agreements;
+  Object? attributes;
 
   ClientAccountRegisterContext(
-      {this.email,
-      this.password,
+      {required this.email,
+      required this.password,
       this.firstName,
       this.lastName,
       this.sex,
@@ -28,7 +33,9 @@ class ClientAccountRegisterContext {
       this.countrycode,
       this.province,
       this.uuid,
-      this.customId});
+      this.customId,
+      this.agreements,
+      this.attributes});
 
   ClientAccountRegisterContext.fromMap(Map map)
       : this(
@@ -45,7 +52,9 @@ class ClientAccountRegisterContext {
             countrycode: map['countrycode'],
             province: map['province'],
             uuid: map['uuid'],
-            customId: map['customId']);
+            customId: map['customId'],
+            agreements: map['agreements'],
+            attributes: map['attributes']);
 
   Map asMap() => {
         'email': email,
@@ -61,6 +70,8 @@ class ClientAccountRegisterContext {
         'countrycode': countrycode,
         'province': province,
         'uuid': uuid,
-        'customId': customId
+        'customId': customId,
+        'agreements': agreements?.asMap(),
+        'attributes': attributes
       };
 }

@@ -8,19 +8,19 @@ class ContentImpl extends BaseModule {
   final ContentMethods _methods = ContentMethods();
   ContentImpl();
 
-  Future<dynamic> getDocument(String slugName) {
+  Future<dynamic> getDocument(String slugName) async {
     return _methods.getDocument(slugName);
   }
 
-  Future<dynamic> getDocuments(DocumentsApiQuery documentsApiQueryModel) {
+  Future<dynamic> getDocuments(DocumentsApiQuery documentsApiQueryModel) async {
     return _methods.getDocuments(documentsApiQueryModel);
   }
 
-  Future<dynamic> getRecommendations(RecommendationOptions recommendationOptions) {
+  Future<dynamic> getRecommendations(RecommendationOptions recommendationOptions) async {
     return _methods.getRecommendations(recommendationOptions);
   }
 
-  Future<dynamic> getScreenView() {
+  Future<dynamic> getScreenView() async {
     return _methods.getScreenView();
   }
 }

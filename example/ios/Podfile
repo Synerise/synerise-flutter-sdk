@@ -7,7 +7,7 @@ ENV['COCOAPODS_DISABLE_STATS'] = 'true'
 platform :ios, '11.0'
 use_frameworks!
 
-project 'SampleAppFlutter', {
+project 'Runner', {
   'Debug' => :debug,
   'Profile' => :release,
   'Release' => :release,

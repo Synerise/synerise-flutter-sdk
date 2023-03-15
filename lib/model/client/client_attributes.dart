@@ -1,10 +1,10 @@
 import 'dart:collection';
 
-class Attributes {
+class ClientAttributes {
   HashMap<dynamic, dynamic>? properties = HashMap();
-  Attributes(HashMap<dynamic, dynamic>? properties);
+  ClientAttributes(HashMap<dynamic, dynamic>? properties);
 
-  Attributes add(String key, String value) {
+  ClientAttributes add(String key, String value) {
     properties![key] = value;
     return this;
   }

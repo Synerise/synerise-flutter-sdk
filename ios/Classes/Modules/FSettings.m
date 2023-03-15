@@ -3,7 +3,7 @@
 //  flutter-synerise-sdk
 //
 //  Created by Synerise
-//  Copyright © 2022 Synerise. All rights reserved.
+//  Copyright © 2023 Synerise. All rights reserved.
 //
 
 #import "FSettings.h"
@@ -35,29 +35,6 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @implementation FSettings
-
-#pragma mark - Static
-
-+ (FSettings *)sharedInstance {
-    static FSettings *sharedInstance = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        sharedInstance = [[self alloc] init];
-    });
-    return sharedInstance;
-}
-
-#pragma mark - Lifecycle
-
-- (id)init {
-    self = [super init];
-
-    if (self) {
-        
-    }
-
-    return self;
-}
 
 #pragma mark - Public
 
@@ -125,7 +102,7 @@ NS_ASSUME_NONNULL_BEGIN
     id value = dictionary[@"value"];
     
     if (key == nil || value == nil) {
-        result(@YES);
+        result(nil);
         return;
     }
     
@@ -135,14 +112,14 @@ NS_ASSUME_NONNULL_BEGIN
         [self updateSettingsWithDictionary:@{ key: value }];
     }
 
-    result(@YES);
+    result(nil);
 }
 
 - (void)setMany:(FlutterMethodCall *)call result:(FlutterResult)result {
     NSDictionary *dictionary = call.arguments;
     
     if (dictionary == nil || [dictionary count] == 0) {
-        result(@YES);
+        result(nil);
         return;
     }
     
@@ -151,7 +128,7 @@ NS_ASSUME_NONNULL_BEGIN
     
     [self updateSettingsWithDictionary:settingsDictionary];
     
-    result(@YES);
+    result(nil);
 }
 
 #pragma mark - Dart Mapping

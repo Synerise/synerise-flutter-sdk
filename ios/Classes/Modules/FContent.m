@@ -3,7 +3,7 @@
 //  flutter-synerise-sdk
 //
 //  Created by Synerise
-//  Copyright © 2022 Synerise. All rights reserved.
+//  Copyright © 2023 Synerise. All rights reserved.
 //
 
 #import "FContent.h"
@@ -15,29 +15,6 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @implementation FContent
-
-#pragma mark - Lifecycle
-
-+ (FContent *)sharedInstance {
-    static FContent *sharedInstance = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        sharedInstance = [[self alloc] init];
-    });
-    return sharedInstance;
-}
-
-#pragma mark - Lifecycle
-
-- (FContent *)init {
-    self = [super init];
-    
-    if (self = [super init]) {
-      
-    }
-
-    return self;
-}
 
 #pragma mark - Public
 
@@ -57,12 +34,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)getDocument:(FlutterMethodCall *)call result:(FlutterResult)result {
     NSString *slug = call.arguments;
+    
     [SNRContent getDocument:slug success:^(NSDictionary *document) {
-        if (document != nil) {
-            result (document);
-        } else {
-            result([FlutterError errorWithCode:@"APIERROR" message:@"Api failure" details:nil]);
-        }
+        result (document);
     } failure:^(NSError *error) {
         result([self makeFlutterErrorWithError:error]);
     }];
@@ -70,50 +44,48 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)getDocuments:(FlutterMethodCall*)call result:(FlutterResult)result {
     NSDictionary *dictionary = call.arguments;
+    
     SNRDocumentsApiQuery *documentsApiQuery = [self modelDocumentsApiQueryWithDictionary:dictionary];
-    if (documentsApiQuery != nil) {
-        [SNRContent getDocumentsWithApiQuery:documentsApiQuery success:^(NSArray *documents) {
-            if (documents != nil) {
-                result (documents);
-            } else {
-                result([FlutterError errorWithCode:@"APIERROR" message:@"Api failure" details:nil]);
-            }
-        } failure:^(NSError *error) {
-            result([self makeFlutterErrorWithError:error]);
-        }];
+    if (documentsApiQuery == nil) {
+        result([self defaultFlutterError]);
+        return;
     }
+    
+    [SNRContent getDocumentsWithApiQuery:documentsApiQuery success:^(NSArray *documents) {
+        result (documents);
+    } failure:^(NSError *error) {
+        result([self makeFlutterErrorWithError:error]);
+    }];
 }
 
 - (void)getRecommendations:(FlutterMethodCall *)call result:(FlutterResult)result {
     NSDictionary *dictionary = call.arguments;
+    
     SNRRecommendationOptions *recommendationOptions = [self modelRecommendationOptionsWithDictionary:dictionary];
-    if (recommendationOptions != nil) {
-        [SNRContent getRecommendations:recommendationOptions success:^(SNRRecommendationResponse *recommendationResponse) {
-            if (recommendationResponse != nil) {
-                NSDictionary *recommendationResponseDictionary = [self dictionaryWithRecommendationResponse:recommendationResponse];
-                if (recommendationResponseDictionary != nil) {
-                    result(recommendationResponseDictionary);
-                } else {
-                    result([FlutterError errorWithCode:@"APIERROR" message:@"Api failure" details:nil]);
-                }
-            } else {
-                result([FlutterError errorWithCode:@"APIERROR" message:@"Api failure" details:nil]);
-            }
-        } failure:^(NSError *error) {
-            result([self makeFlutterErrorWithError:error]);
-        }];
+    if (recommendationOptions == nil) {
+        result([self defaultFlutterError]);
+        return;
     }
+    
+    [SNRContent getRecommendations:recommendationOptions success:^(SNRRecommendationResponse *recommendationResponse) {
+        NSDictionary *recommendationResponseDictionary = [self dictionaryWithRecommendationResponse:recommendationResponse];
+        if (recommendationResponseDictionary != nil) {
+            result(recommendationResponseDictionary);
+        } else {
+            result([self defaultFlutterError]);
+        }
+    } failure:^(NSError *error) {
+        result([self makeFlutterErrorWithError:error]);
+    }];
 }
 
 - (void)getScreenView:(FlutterMethodCall *)call result:(FlutterResult)result {
     [SNRContent getScreenViewWithSuccess:^(SNRScreenViewResponse *screenViewResponse) {
-        if (screenViewResponse != nil) {
-            NSDictionary *screenViewResponseDictionary = [self dictionaryWithScreenViewResponse:screenViewResponse];
-            if (screenViewResponseDictionary != nil) {
-                result(screenViewResponseDictionary);
-            } else {
-                result([FlutterError errorWithCode:@"APIERROR" message:@"Api failure" details:nil]);
-            }
+        NSDictionary *screenViewResponseDictionary = [self dictionaryWithScreenViewResponse:screenViewResponse];
+        if (screenViewResponseDictionary != nil) {
+            result(screenViewResponseDictionary);
+        } else {
+            result([self defaultFlutterError]);
         }
     } failure:^(NSError *error) {
         result([self makeFlutterErrorWithError:error]);
@@ -129,7 +101,6 @@ NS_ASSUME_NONNULL_BEGIN
         
         if (typeValue != nil) {
             SNRDocumentsApiQuery *model = [[SNRDocumentsApiQuery alloc] initWithType:type typeValue:typeValue];
-            
             model.version = [dictionary getStringForKey:@"version"];
             
             return model;
@@ -177,7 +148,7 @@ NS_ASSUME_NONNULL_BEGIN
     if (model != nil) {
         NSMutableDictionary *dictionary = [@{} mutableCopy];
         
-        [dictionary setString:model.itemID forKey:@"itemID"];
+        [dictionary setString:model.itemID forKey:@"itemId"];
         [dictionary setDictionary:model.attributes forKey:@"attributes"];
         
         return dictionary;

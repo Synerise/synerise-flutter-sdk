@@ -3,7 +3,7 @@
 //  flutter-synerise-sdk
 //
 //  Created by Synerise
-//  Copyright © 2022 Synerise. All rights reserved.
+//  Copyright © 2023 Synerise. All rights reserved.
 //
 
 #import "FTracker.h"
@@ -15,29 +15,6 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @implementation FTracker
-
-#pragma mark - Static
-
-+ (FTracker *)sharedInstance {
-    static FTracker *sharedInstance = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        sharedInstance = [[self alloc] init];
-    });
-    return sharedInstance;
-}
-
-#pragma mark - Lifecycle
-
-- (id)init {
-    self = [super init];
-
-    if (self) {
-        
-    }
-
-    return self;
-}
 
 #pragma mark - Public
 

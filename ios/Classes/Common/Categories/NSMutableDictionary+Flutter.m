@@ -3,7 +3,7 @@
 //  flutter-synerise-sdk
 //
 //  Created by Synerise
-//  Copyright © 2022 Synerise. All rights reserved.
+//  Copyright © 2023 Synerise. All rights reserved.
 //
 
 #import "NSMutableDictionary+Flutter.h"
@@ -45,7 +45,7 @@
 }
 
 - (void)setDate:(NSDate *)date forKey:(NSString *)key {
-    [self setObject:[NSNumber numberWithDouble:[date timeIntervalSince1970]] properClass:NSNumber.class forKey:key];
+    [self setObject:[NSNumber numberWithInteger:([date timeIntervalSince1970] * 1000)] properClass:NSNumber.class forKey:key];
 }
 
 #pragma mark - Private

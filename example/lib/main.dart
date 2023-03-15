@@ -1,11 +1,19 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 
 import 'package:synerise_flutter_sdk/synerise.dart';
+
+import 'package:synerise_flutter_sdk_example/classes/utils.dart';
 import 'package:synerise_flutter_sdk_example/views/client/client_methods_view.dart';
 import 'package:synerise_flutter_sdk_example/views/content/content_methods_view.dart';
 import 'package:synerise_flutter_sdk_example/views/tracker/tracker_methods_view.dart';
+import 'package:synerise_flutter_sdk_example/views/notifications/notifications_methods_view.dart';
+import 'dart:developer' as developer;
 
+
+String? firebaseToken;
 
 class InitialView extends StatefulWidget {
   const InitialView({super.key});
@@ -15,11 +23,74 @@ class InitialView extends StatefulWidget {
 }
 
 class _InitialViewState extends State<InitialView> {
-
   @override
   void initState() {
     initializeSynerise();
+    initializeFirebase();
     super.initState();
+  }
+
+  Future<void> initializeSynerise() async {
+    Synerise.settings.injector.automatic = true;
+    Synerise.initializer()
+      .withClientApiKey("YOUR_CLIENT_API_KEY").withBaseUrl("YOUR_BASE_URL")
+      .withDebugModeEnabled(true)
+      .init();
+
+    Synerise.injector.listener((listener) {
+      listener.onOpenUrl = (url) {
+        Utils.displaySimpleAlert(url, context);
+      
+      };
+      listener.onDeepLink = (deepLink) {
+        Utils.displaySimpleAlert(deepLink, context);
+      };
+    });
+
+    Synerise.injector.bannerListener((listener) {
+      listener.onPresent = () {
+
+      };
+      listener.onHide = () {
+
+      };
+    });
+
+    Synerise.injector.walkthroughListener((listener) {
+      listener.onLoad = () {
+
+      };
+      listener.onLoadingError = () {
+
+      };
+      listener.onPresent = () {
+
+      };
+      listener.onHide = () {
+
+      };
+    });
+
+    Synerise.injector.inAppMessageListener((listener) {
+      listener.onOpenUrl = (data, url) {
+
+      };
+      listener.onDeepLink = (data, deepLink) {
+
+      };
+
+      listener.onPresent = (data) {
+        Utils.displaySimpleAlert(data.campaignHash, context);
+      };
+
+      listener.onHide = (data) {
+        Utils.displaySimpleAlert(data.campaignHash, context);
+      };
+
+      listener.onCustomAction = (data, name, parameters) {
+
+      };
+    });
   }
 
   @override
@@ -27,15 +98,58 @@ class _InitialViewState extends State<InitialView> {
     super.dispose();
   }
 
-  Future<void> initializeSynerise() async {
-    Synerise.settings.sdk.enabled = true;
+  Future<void> initializeFirebase() async {
+    await FirebaseMessaging.instance.requestPermission(
+      alert: true,
+      announcement: false,
+      badge: true,
+      carPlay: false,
+      criticalAlert: false,
+      provisional: false,
+      sound: true,
+    );
+    FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+      alert: true,
+      sound: true,
+      badge: true
+    );
+    FirebaseMessaging.onBackgroundMessage(backgroundHandlerForFCM);
+    
+    FirebaseMessaging.instance.onTokenRefresh.listen((event) {
+      FirebaseMessaging.instance.getToken().then((value) {
+        if (value != null) {
+          Synerise.notifications.registerForNotifications(value, true);
+        }
+      });
+    });
+    FirebaseMessaging.instance.getToken().then((value) {
+      if (value != null) {
+        Synerise.notifications.registerForNotifications(value, true);
+        firebaseToken = value;
+      }
+    });
+    FirebaseMessaging.instance.getInitialMessage().then((message) {
+      if (message != null) {
+        Synerise.notifications.handleNotificationClick(message.toMap());
+      }
+    });
 
-    Synerise.initializer()
-        .withClientApiKey("YOUR_CLIENT_API_KEY")
-        .withBaseUrl("https://YOUR_BASE_URI.com")
-        .withDebugModeEnabled(true)
-        .init();
+    FirebaseMessaging.onMessage.listen((RemoteMessage message,) {
+      Synerise.notifications.handleNotification(message.toMap());
+    });
+
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      Synerise.notifications.handleNotificationClick(message.toMap());
+    });
+
+    Synerise.notifications.listener((listener) {
+        listener.onRegistrationRequired = () {
+          Synerise.notifications.registerForNotifications(firebaseToken!, true);
+        };
+    });
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -68,9 +182,17 @@ class _InitialViewState extends State<InitialView> {
               ElevatedButton(
                 child: const Text('Tracker Method Test'),
                 onPressed: () {
+                  final paramMap = <String, String>{"firstKeyCustomParam": "TEST"};
+                  CustomEvent event = CustomEvent("label", "flutter.konrad", paramMap);
+                  Synerise.tracker.send(event);
+                },
+              ),
+              ElevatedButton(
+                child: const Text('Notifications Method Test'),
+                onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const TrackerView()),
+                    MaterialPageRoute(builder: (context) => const NotificationsView()),
                   );
                 },
               )
@@ -93,7 +215,6 @@ class ClientView extends StatelessWidget {
     );
   }
 }
-
 
 class ContentView extends StatelessWidget {
   const ContentView({super.key});
@@ -123,7 +244,23 @@ class TrackerView extends StatelessWidget {
   }
 }
 
-void main() {
+class NotificationsView extends StatelessWidget {
+  const NotificationsView({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Notifications Module Method Test'),
+      ),
+      body: const NotificationsMethodsView(),
+    );
+  }
+}
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
@@ -141,3 +278,16 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+@pragma('vm:entry-point')
+  Future<void> backgroundHandlerForFCM(RemoteMessage message) async {
+  await Firebase.initializeApp();
+  await Synerise.initializer()
+        .withClientApiKey("YOUR-CLIENT-API-KEY").withBaseUrl("YOUR-BASE-URL")
+        .withDebugModeEnabled(true)
+        .init();
+  // If you're going to use other Firebase services in the background, such as Firestore,
+  // make sure you call `initializeApp` before using other Firebase services.
+  developer.log('milan flutter', name: 'onMessage background');
+  bool isPushSynerise = await Synerise.notifications.handleNotification(message.toMap());
+} 

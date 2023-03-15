@@ -1,7 +1,6 @@
 import 'package:synerise_flutter_sdk/model/tracker/event.dart';
 import '../base/base_module_method_channel.dart';
 
-/// An implementation of [TrackerMethods] that uses main method channel.
 class TrackerMethods extends BaseMethodChannel {
 
   void setCustomIdentifier(String customIdentifier) {

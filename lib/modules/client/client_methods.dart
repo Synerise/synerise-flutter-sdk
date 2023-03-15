@@ -1,49 +1,35 @@
-import 'dart:collection';
-import 'dart:convert';
-
 import 'package:synerise_flutter_sdk/enums/client/identity_provider.dart';
-import 'package:synerise_flutter_sdk/enums/client/token_origin.dart';
-import 'package:synerise_flutter_sdk/model/client/register_account.dart';
+import 'package:synerise_flutter_sdk/model/client/client_account_information.dart';
+import 'package:synerise_flutter_sdk/model/client/client_account_register_context.dart';
 import 'package:synerise_flutter_sdk/model/client/token.dart';
+import 'package:synerise_flutter_sdk/model/client/client_account_update_context.dart';
 
 import '../../model/client/client_auth_context.dart';
 import '../base/base_module_method_channel.dart';
 
-/// An implementation of [ClientMethods] that uses main method channel.
 class ClientMethods extends BaseMethodChannel {
-  Future<void> signIn(String email, String password) async {
-    await methodChannel.invokeMethod('Client/signIn', {"email": email, "password": password});
-  }
-
+  
   Future<void> registerAccount(ClientAccountRegisterContext clientAccountRegisterContext) async {
     await methodChannel.invokeMethod('Client/registerAccount', clientAccountRegisterContext.asMap());
   }
 
-  Future<void> signOut() async {
-    await methodChannel.invokeMethod("Client/signOut");
+  Future<void> confirmAccount(String token) async {
+    await methodChannel.invokeMethod('Client/confirmAccount', {
+      "token": token
+    });
+  }
+  
+  Future<void> activateAccount(String email) async {
+    await methodChannel.invokeMethod('Client/activateAccount', {
+      "email": email
+    });
   }
 
-  Future<bool> isSignedIn() async {
-    bool isSignedIn = await methodChannel.invokeMethod('Client/isSignedIn');
-    return isSignedIn;
-  }
-
-  Future<Token> retrieveToken() async {
-    var tokenJson = await methodChannel.invokeMethod('Client/retrieveToken');
-    var tokenMap = json.decode(tokenJson);
-    var tokenHashMap = HashMap<String, dynamic>.from(tokenMap);
-    var tokenString = tokenHashMap['tokenString'];
-    var tokenOriginString = tokenHashMap['origin'];
-    TokenOrigin tokenOrigin;
-    if (tokenOriginString != null) {
-      tokenOrigin = TokenOrigin.fromString(tokenOriginString);
-    } else {
-      tokenOrigin = TokenOrigin.unknown;
-    }
-    var expirationDateString = tokenHashMap['expirationDate'].toString();
-    DateTime expirationDate = DateTime.parse(expirationDateString);
-    Token token = Token(tokenString.toString(), tokenOrigin, expirationDate);
-    return token;
+  Future<void> signIn(String email, String password) async {
+    await methodChannel.invokeMethod('Client/signIn', {
+      "email": email,
+      "password": password
+    });
   }
 
   Future<bool> authenticate(ClientAuthContext clientAuthContext, IdentityProvider identityProvider, String tokenString) async {
@@ -54,5 +40,75 @@ class ClientMethods extends BaseMethodChannel {
     };
     bool isAuthenticated = await methodChannel.invokeMethod('Client/authenticate', authenticateMap);
     return isAuthenticated;
+  }
+
+  Future<bool> isSignedIn() async {
+    bool isSignedIn = await methodChannel.invokeMethod('Client/isSignedIn');
+    return isSignedIn;
+  }
+
+  Future<void> signOut() async {
+    await methodChannel.invokeMethod("Client/signOut");
+  }
+
+  Future<void> destroySession() async {
+    await methodChannel.invokeMethod('Client/destroySession');
+  }
+
+  Future<Token> retrieveToken() async {
+    var tokenMap = await methodChannel.invokeMethod('Client/retrieveToken');
+    Token token = Token.fromMap(tokenMap);
+    return token;
+  }
+
+  Future<void> refreshToken() async {
+    await methodChannel.invokeMethod("Client/refreshToken");
+  }
+
+  Future<String> getUUID() async {
+    String uuid = await methodChannel.invokeMethod('Client/getUUID');
+    return uuid;
+  }
+
+  Future<void> regenerateUUID() async {
+    await methodChannel.invokeMethod("Client/regenerateUUID");
+  }
+
+  Future<ClientAccountInformation> getAccount() async {
+    var clientAccountMap = await methodChannel.invokeMethod('Client/getAccount');
+    ClientAccountInformation clientAccountInformation = ClientAccountInformation.fromMap(clientAccountMap);
+    return clientAccountInformation;
+  }
+  
+  Future<void> updateAccount(ClientAccountUpdateContext clientAccountUpdateContext) async {
+    await methodChannel.invokeMethod('Client/updateAccount', clientAccountUpdateContext.asMap());
+  }
+
+  Future<void> requestPasswordReset(String email) async {
+    await methodChannel.invokeMethod('Client/requestPasswordReset', {
+      "email": email
+    });
+  }
+
+  Future<void> confirmPasswordReset(String token, String password) async {
+    await methodChannel.invokeMethod('Client/confirmPasswordReset', {
+      "token": token,
+      "password": password
+    });
+  }
+
+  Future<void> changePassword(String oldPassword, String password) async {
+    await methodChannel.invokeMethod('Client/changePassword', {
+      "oldPassword": oldPassword,
+      "password": password
+    });
+  }
+
+  Future<void> deleteAccount(String clientAuthFactor, IdentityProvider identityProvider, String? authId) async {
+    await methodChannel.invokeMethod('Client/deleteAccount', {
+      "clientAuthFactor": clientAuthFactor,
+      "identityProvider": identityProvider.getIdentityProvider(),
+      "authId": authId
+    });
   }
 }

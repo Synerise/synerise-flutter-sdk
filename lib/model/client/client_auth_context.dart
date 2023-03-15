@@ -1,22 +1,23 @@
-import 'package:synerise_flutter_sdk/model/client/agreements.dart';
-import 'package:synerise_flutter_sdk/model/client/attributes.dart';
+import 'package:synerise_flutter_sdk/model/client/client_agreements.dart';
+import 'package:synerise_flutter_sdk/model/client/client_attributes.dart';
 
 class ClientAuthContext {
-  String? authID;
-  Agreements? agreements;
-  Attributes? attributes;
+  String? authId;
+  ClientAgreements? agreements;
+  ClientAttributes? attributes;
 
-  ClientAuthContext({this.authID, this.agreements, this.attributes});
+  ClientAuthContext({this.authId, this.agreements, this.attributes});
 
-  String? get getAuthID => authID;
-  Agreements? get getAgreements => agreements;
-  Attributes? get getAttributes => attributes;
+  String? get getAuthID => authId;
+  ClientAgreements? get getAgreements => agreements;
+  ClientAttributes? get getAttributes => attributes;
 
-  set setAuthID(String? authID) => this.authID = authID;
-  set setAgreements(Agreements? agreements) => this.agreements = agreements;
-  set setAttributes(Attributes? attributes) => this.attributes = attributes;
+  // ignore: unnecessary_this
+  set setAuthID(String? authID) => this.authId = authID;
+  set setAgreements(ClientAgreements? agreements) => this.agreements = agreements;
+  set setAttributes(ClientAttributes? attributes) => this.attributes = attributes;
 
-  ClientAuthContext.fromMap(Map map) : this(authID: map['authID'], agreements: map['agreements'], attributes: map['attributes']);
+  ClientAuthContext.fromMap(Map map) : this(authId: map['authID'], agreements: map['agreements'], attributes: map['attributes']);
 
-  Map asMap() => {'authID': authID, 'agreements': agreements?.asMap(), 'attributes': attributes?.getProperties()};
+  Map asMap() => {'authID': authId, 'agreements': agreements?.asMap(), 'attributes': attributes?.getProperties()};
 }

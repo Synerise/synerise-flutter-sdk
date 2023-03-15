@@ -3,20 +3,27 @@
 //  flutter-synerise-sdk
 //
 //  Created by Synerise
-//  Copyright © 2022 Synerise. All rights reserved.
+//  Copyright © 2023 Synerise. All rights reserved.
 //
 
 #import "FBaseModule.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-static NSString * const FDefaultErrorDomain = @"com.synerise.sdk.flutter.error";
 static NSInteger const FDefaultErrorCode = -1;
 static NSString * const FDefaultErrorMessage = @"An unknown error has occurred";
+
+@interface FBaseModule ()
+
+@end
 
 @implementation FBaseModule
 
 #pragma mark - Public
+
+- (void)syneriseInitialized {
+    // nothing for yet
+}
 
 - (void)handleMethodCall:(FlutterMethodCall *)call result:(FlutterResult)result calledMethod:(NSString *)calledMethod{
 	THROW_ABSTRACT_METHOD_EXCEPTION();
@@ -25,15 +32,12 @@ static NSString * const FDefaultErrorMessage = @"An unknown error has occurred";
 - (FlutterError *)defaultFlutterError {
     NSInteger code = FDefaultErrorCode;
     NSString *description = FDefaultErrorMessage;
-    NSDictionary *userInfo = @{
-                               NSLocalizedDescriptionKey: description
-                               };
     
-    return [FlutterError errorWithCode:[NSString stringWithFormat:@"%li", code] message:description details:@""];
+    return [FlutterError errorWithCode:[NSString stringWithFormat:@"%li", code] message:description details:nil];
 }
 
 - (FlutterError *)makeFlutterErrorWithError:(NSError *)error {
-    return [FlutterError errorWithCode:[NSString stringWithFormat:@"%li", error.code] message:error.localizedDescription details:@""];
+    return [FlutterError errorWithCode:[NSString stringWithFormat:@"%li", error.code] message:error.localizedDescription details:nil];
 }
 
 @end

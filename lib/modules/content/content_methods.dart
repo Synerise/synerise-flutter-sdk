@@ -3,7 +3,6 @@ import 'package:synerise_flutter_sdk/model/content/recommendation_options.dart';
 
 import '../base/base_module_method_channel.dart';
 
-/// An implementation of [ContentMethods] that uses main method channel.
 class ContentMethods extends BaseMethodChannel {
   Future<dynamic> getDocument(String slugName) async {
     var documentJson = await methodChannel.invokeMethod("Content/getDocument", slugName);
