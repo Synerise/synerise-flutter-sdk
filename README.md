@@ -1,4 +1,4 @@
-# Synerise Flutter SDK (v0.2.0) - User documentation
+# Synerise Flutter SDK (v0.3.0) - User documentation
 
 [![Platform](https://img.shields.io/badge/platform-iOS-orange.svg)](https://github.com/synerise/ios-sdk)
 [![Platform](https://img.shields.io/badge/platform-Android-orange.svg)](https://github.com/synerise/android-sdk)
@@ -6,7 +6,6 @@
 
 ---
 
-## Experimental alpha version. - !! Not for production release !!
 This flutter plugin is an implementation of Synerise SDK.
 
 Path dependency:
