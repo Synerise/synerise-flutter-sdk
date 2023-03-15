@@ -1,14 +1,41 @@
-# Synerise Flutter SDK (v0.3.0) - User documentation
+# Synerise Flutter SDK (synerise-flutter-sdk) (0.3.0)
 
 [![Platform](https://img.shields.io/badge/platform-iOS-orange.svg)](https://github.com/synerise/ios-sdk)
 [![Platform](https://img.shields.io/badge/platform-Android-orange.svg)](https://github.com/synerise/android-sdk)
-[![Documentation](https://img.shields.io/badge/docs-latest-brightgreen.svg?style=flat-square)](https://help.synerise.com/)
+[![Documentation](https://img.shields.io/badge/docs-latest-brightgreen.svg?style=flat-square)](https://help.synerise.com/developers/mobile-sdk/)
 
 ---
 
-This flutter plugin is an implementation of Synerise SDK.
+## Documentation
 
-Path dependency:
+Most up-to-date documentation is available at [Synerise Help Center](https://help.synerise.com/developers/mobile-sdk/)
+
+
+## Requirements
+
+* Flutter configured - [Getting Started](https://docs.flutter.dev)
+
+## Android
+
+* Recommended environment:
+
+  - Minimum Android SDK version - 21
+  - Supported targetSDKVersion - 30
+
+## iOS
+
+* Recommended environment:
+
+  - Xcode 14 
+  - iOS SDK 16
+
+* Target deployment: iOS 9.0+
+
+---
+
+## Installation
+
+### Path dependency
 
 via ssh:
 ```
@@ -27,46 +54,55 @@ synerise_flutter_sdk:
       url: https://github.com/Synerise/synerise-flutter-sdk.git
 ``` 
 
+---
 
-*Requirements*:
-- Flutter configured on your machine [Getting started](https://docs.flutter.dev)
-- Flutter Doctor green output for the selected platform
-- Android Studio / VS Code / XCode
+### Importing Synerise SDK
 
-----------
+```
+import 'package:synerise_flutter_sdk/synerise.dart';
+```
 
-## Documentation
 
-Most up-to-date documentation is available at [Synerise Help Center - Mobile SDK](https://help.synerise.com/developers/mobile-sdk).
+## Android gradle & configuration
 
-----------
+Add to the `android/build.gradle`:
 
-## Android
 
-For the **Android** platform it uses the [Synerise Android SDK](https://github.com/Synerise/android-sdk).
+```
+repositories {
+    mavenLocal()
+    google()
+    mavenCentral()
+    maven { url 'https://pkgs.dev.azure.com/Synerise/AndroidSDK/_packaging/prod/maven/v1' }
+}
 
-The development and debugging can be done with Android Studio.
+``` 
 
-*Requirements*:
--   Access to  [Workspaces](https://help.synerise.com/docs/settings/business-profile/)
--   Created Client (customer)  [API Key](https://help.synerise.com/docs/settings/tool/api)
--   Minimum Android SDK version - 21
--   Supported targetSDKVersion - 30
+in MainActivity add:
+```
+public class MainActivity extends FlutterActivity {
+@Override    
+public void configureFlutterEngine(@NonNull FlutterEngine flutterEngine) {
+    super.configureFlutterEngine(flutterEngine);        
+    SyneriseMethodChannel.configureChannel(flutterEngine);    
+}}
+```
 
-----------
+## iOS configuration
 
-## iOS
+In iOS portion of your application (/ios) you will need to run
+`pod update`
 
-For the **iOS** platform it uses the [Synerise iOS SDK](https://cocoapods.org/pods/SyneriseSDK).
+## Initialization
 
-The development and debugging can be done with Xcode.
+### Basic initialization
 
-*Requirements*:
--   Xcode 14 and iOS SDK 16
--   iOS 9.0+ minimum deployment target
--   Valid architectures: arm64 devices and arm64, x86_64 simulators
-
-----------
+```
+Synerise.initializer()
+  .withClientApiKey("YOUR_PROFILE_API_KEY")  // 1
+  .withDebugModeEnabled(false)  // 2
+  .init(); 
+```
 
 ## Running example app
 
