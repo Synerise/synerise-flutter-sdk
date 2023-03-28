@@ -1,14 +1,14 @@
 import 'package:flutter/services.dart';
+import 'dependencies.dart';
 
-import 'package:synerise_flutter_sdk/main/dependencies.dart';
 
 class SyneriseInitializer {
   MethodChannel methodChannel = Dependencies.methodChannel;
 
-  String? clientApiKey;
-  String? baseUrl;
-  bool debugModeEnabled = false;
-  bool crashHandlingEnabled = false;
+  String? _clientApiKey;
+  String? _baseUrl;
+  bool _debugModeEnabled = false;
+  bool _crashHandlingEnabled = false;
 
   Function(bool initialized)? completionHandler;
 
@@ -19,22 +19,22 @@ class SyneriseInitializer {
   }
 
   SyneriseInitializer withClientApiKey(String clientApiKey) {
-    this.clientApiKey = clientApiKey;
+    _clientApiKey = clientApiKey;
     return this;
   }
 
   SyneriseInitializer withBaseUrl(String baseUrl) {
-    this.baseUrl = baseUrl;
+    _baseUrl = baseUrl;
     return this;
   }
 
   SyneriseInitializer withDebugModeEnabled(bool debugModeEnabled) {
-    this.debugModeEnabled = debugModeEnabled;
+    _debugModeEnabled = debugModeEnabled;
     return this;
   }
 
   SyneriseInitializer withCrashHandlingEnabled(bool crashHandlingEnabled) {
-    this.crashHandlingEnabled = crashHandlingEnabled;
+    _crashHandlingEnabled = crashHandlingEnabled;
     return this;
   }
 
@@ -45,10 +45,10 @@ class SyneriseInitializer {
 
     final result = await methodChannel.invokeMethod('Synerise/initialize', {
       'initializationParameters': {
-        'clientApiKey': clientApiKey,
-        'baseUrl': baseUrl,
-        'debugModeEnabled': debugModeEnabled,
-        'crashHandlingEnabled': crashHandlingEnabled
+        'clientApiKey': _clientApiKey,
+        'baseUrl': _baseUrl,
+        'debugModeEnabled': _debugModeEnabled,
+        'crashHandlingEnabled': _crashHandlingEnabled
       }
     });
 

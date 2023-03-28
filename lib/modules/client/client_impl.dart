@@ -1,10 +1,9 @@
-import 'package:synerise_flutter_sdk/enums/client/identity_provider.dart';
-import 'package:synerise_flutter_sdk/model/client/token.dart';
-import 'package:synerise_flutter_sdk/model/client/client_auth_context.dart';
-import 'package:synerise_flutter_sdk/model/client/client_account_information.dart';
-import 'package:synerise_flutter_sdk/model/client/client_account_register_context.dart';
-import 'package:synerise_flutter_sdk/model/client/client_account_update_context.dart';
-
+import '../../enums/client/identity_provider.dart';
+import '../../model/client/client_account_information.dart';
+import '../../model/client/client_account_register_context.dart';
+import '../../model/client/client_account_update_context.dart';
+import '../../model/client/client_auth_context.dart';
+import '../../model/client/token.dart';
 import '../base/base_module.dart';
 import 'client_methods.dart';
 
@@ -48,7 +47,7 @@ class ClientImpl extends BaseModule {
     return _methods.retrieveToken();
   }
 
-  Future<void> refreshToken() async {
+  Future<bool> refreshToken() async {
     return _methods.refreshToken();
   }
 

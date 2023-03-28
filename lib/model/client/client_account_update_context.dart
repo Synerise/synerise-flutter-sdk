@@ -1,9 +1,9 @@
 import '../../enums/client/client_sex.dart';
-import 'package:synerise_flutter_sdk/model/client/client_agreements.dart';
+import 'client_agreements.dart';
 
 class ClientAccountUpdateContext {
-  String email;
-  String password;
+  String? email;
+  String? password;
   String? firstName;
   String? lastName;
   ClientSex? sex;
@@ -17,11 +17,11 @@ class ClientAccountUpdateContext {
   String? uuid;
   String? customId;
   ClientAgreements? agreements;
-  Object? attributes;
+  Map<String, Object>? attributes;
 
   ClientAccountUpdateContext(
-      {required this.email,
-      required this.password,
+      {this.email,
+      this.password,
       this.firstName,
       this.lastName,
       this.sex,

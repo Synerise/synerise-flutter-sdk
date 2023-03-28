@@ -1,4 +1,3 @@
-
 abstract class Event {
 
 String type;

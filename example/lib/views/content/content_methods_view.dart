@@ -21,7 +21,7 @@ class _ContentMethodsViewState extends State<ContentMethodsView> with AutomaticK
 
   final getRecommendationsForm = GlobalKey<FormState>();
   final slugRecoController = TextEditingController();
-  final productIdController = TextEditingController();
+  final productIDController = TextEditingController();
 
   _tempFormBody() {
     return SingleChildScrollView(
@@ -107,12 +107,12 @@ class _ContentMethodsViewState extends State<ContentMethodsView> with AutomaticK
                     SizedBox(
                         width: 350,
                         child: TextFormField(
-                          controller: productIdController,
-                          decoration: const InputDecoration(border: OutlineInputBorder(), labelText: "productId"),
+                          controller: productIDController,
+                          decoration: const InputDecoration(border: OutlineInputBorder(), labelText: "productID"),
                           keyboardType: TextInputType.text,
                         )),
                     ElevatedButton.icon(
-                        onPressed: () => _getRecommendationsCall(slugRecoController.text, productIdController.text),
+                        onPressed: () => _getRecommendationsCall(slugRecoController.text, productIDController.text),
                         icon: const Icon(Icons.recommend_outlined),
                         label: const Text('getRecommendations')),
                   ],
@@ -132,7 +132,7 @@ class _ContentMethodsViewState extends State<ContentMethodsView> with AutomaticK
   Future<void> _getDocumentCall(String slug) async {
     String slugName = slug;
 
-    var documentJson = await Synerise.content.getDocument(slugName).catchError((error) {
+    Map<String, Object> documentMap = await Synerise.content.getDocument(slugName).catchError((error) {
       String errorMessage = Utils.handlePlatformException(error);
       Utils.displaySimpleAlert("error on handling api call \n $errorMessage", context);
       throw Exception(errorMessage);
@@ -145,7 +145,7 @@ class _ContentMethodsViewState extends State<ContentMethodsView> with AutomaticK
               content: SingleChildScrollView(
                   child: Column(children: [
             const Text(
-              'Document JSON',
+              'Document Map',
               style: TextStyle(fontStyle: FontStyle.italic),
             ),
             Container(
@@ -153,14 +153,16 @@ class _ContentMethodsViewState extends State<ContentMethodsView> with AutomaticK
                 margin: const EdgeInsets.all(5.0),
                 padding: const EdgeInsets.all(5),
                 decoration: BoxDecoration(border: Border.all(width: 0.5, color: Colors.black)),
-                child: Text(documentJson.toString(), textScaleFactor: 0.5))
+                child: Text(documentMap.toString(), textScaleFactor: 0.5))
           ])));
         });
   }
 
   Future<void> _getDocumentsCall(String typeValue, String? version) async {
-    DocumentsApiQuery documentsApiQuery = DocumentsApiQuery(typeValue: typeValue, version: version != "" ? version : null);
-    var documentsJson = await Synerise.content.getDocuments(documentsApiQuery).catchError((error) {
+    DocumentsApiQueryType documentsApiQueryType = DocumentsApiQueryType.schema;
+    DocumentsApiQuery documentsApiQuery =
+        DocumentsApiQuery(typeValue: typeValue, version: version != "" ? version : null, type: documentsApiQueryType);
+    List<Map<String, Object>> documentsList = await Synerise.content.getDocuments(documentsApiQuery).catchError((error) {
       String errorMessage = Utils.handlePlatformException(error);
       Utils.displaySimpleAlert("error on handling api call \n $errorMessage", context);
       throw Exception(errorMessage);
@@ -173,7 +175,7 @@ class _ContentMethodsViewState extends State<ContentMethodsView> with AutomaticK
               content: SingleChildScrollView(
                   child: Column(children: [
             const Text(
-              'Documents JSON',
+              'Documents Map',
               style: TextStyle(fontStyle: FontStyle.italic),
             ),
             Container(
@@ -181,18 +183,17 @@ class _ContentMethodsViewState extends State<ContentMethodsView> with AutomaticK
                 margin: const EdgeInsets.all(5.0),
                 padding: const EdgeInsets.all(5),
                 decoration: BoxDecoration(border: Border.all(width: 0.5, color: Colors.black)),
-                child: Text(documentsJson.toString(), textScaleFactor: 0.5))
+                child: Text(documentsList.toString(), textScaleFactor: 0.5))
           ])));
         });
   }
 
-  Future<void> _getRecommendationsCall(String slugReco, String productRecoId) async {
-    String productId = productRecoId;
+  Future<void> _getRecommendationsCall(String slugReco, String productRecoID) async {
+    String productID = productRecoID;
     String slug = slugReco;
-    RecommendationOptions recommendationOptions =
-        RecommendationOptions(slug: slug, productId: productId);
+    RecommendationOptions recommendationOptions = RecommendationOptions(slug: slug, productID: productID);
 
-    var recommendationsJson = await Synerise.content.getRecommendations(recommendationOptions).catchError((error) {
+    RecommendationResponse recommendationResponse = await Synerise.content.getRecommendations(recommendationOptions).catchError((error) {
       String errorMessage = Utils.handlePlatformException(error);
       Utils.displaySimpleAlert("error on handling api call \n $errorMessage", context);
       throw Exception(errorMessage);
@@ -205,7 +206,7 @@ class _ContentMethodsViewState extends State<ContentMethodsView> with AutomaticK
               content: SingleChildScrollView(
                   child: Column(children: [
             const Text(
-              'Recommendation JSON',
+              'Recommendation List',
               style: TextStyle(fontStyle: FontStyle.italic),
             ),
             Container(
@@ -213,13 +214,13 @@ class _ContentMethodsViewState extends State<ContentMethodsView> with AutomaticK
                 margin: const EdgeInsets.all(5.0),
                 padding: const EdgeInsets.all(5),
                 decoration: BoxDecoration(border: Border.all(width: 0.5, color: Colors.black)),
-                child: Text(recommendationsJson.toString(), textScaleFactor: 0.5))
+                child: Text(recommendationResponse.asMap().toString(), textScaleFactor: 0.5))
           ])));
         });
   }
 
   Future<void> _getScreenViewCall() async {
-    var screenViewJson = await Synerise.content.getScreenView().catchError((error) {
+    ScreenViewResponse screenViewResponse = await Synerise.content.getScreenView().catchError((error) {
       String errorMessage = Utils.handlePlatformException(error);
       Utils.displaySimpleAlert("error on handling api call \n $errorMessage", context);
       throw Exception(errorMessage);
@@ -232,7 +233,7 @@ class _ContentMethodsViewState extends State<ContentMethodsView> with AutomaticK
               content: SingleChildScrollView(
                   child: Column(children: [
             const Text(
-              'ScreenView JSON',
+              'ScreenView Map',
               style: TextStyle(fontStyle: FontStyle.italic),
             ),
             Container(
@@ -240,7 +241,7 @@ class _ContentMethodsViewState extends State<ContentMethodsView> with AutomaticK
                 margin: const EdgeInsets.all(5.0),
                 padding: const EdgeInsets.all(5),
                 decoration: BoxDecoration(border: Border.all(width: 0.5, color: Colors.black)),
-                child: Text(screenViewJson.toString(), textScaleFactor: 0.5))
+                child: Text(screenViewResponse.asMap().toString(), textScaleFactor: 0.5))
           ])));
         });
   }

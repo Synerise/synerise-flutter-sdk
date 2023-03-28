@@ -21,7 +21,6 @@ export 'package:synerise_flutter_sdk/model/client/client_account_information.dar
 export 'package:synerise_flutter_sdk/model/client/client_account_register_context.dart';
 export 'package:synerise_flutter_sdk/model/client/client_account_update_context.dart';
 export 'package:synerise_flutter_sdk/model/client/client_agreements.dart';
-export 'package:synerise_flutter_sdk/model/client/client_attributes.dart';
 export 'package:synerise_flutter_sdk/model/client/token.dart';
 export 'package:synerise_flutter_sdk/enums/client/identity_provider.dart';
 export 'package:synerise_flutter_sdk/enums/client/token_origin.dart';
@@ -31,8 +30,9 @@ export 'package:synerise_flutter_sdk/model/content/documents_api_query.dart';
 export 'package:synerise_flutter_sdk/model/content/recommendation_options.dart';
 export 'package:synerise_flutter_sdk/model/content/recommendation.dart';
 export 'package:synerise_flutter_sdk/model/content/screen_view_audience.dart';
-export 'package:synerise_flutter_sdk/model/content/screen_view_response.dart';
+export 'package:synerise_flutter_sdk/model/content/recommendation_response.dart';
 export 'package:synerise_flutter_sdk/enums/content/documents_api_query_type.dart';
+export 'package:synerise_flutter_sdk/model/content/screen_view_response.dart';
 
 // INJECTOR
 export 'package:synerise_flutter_sdk/model/in_app/in_app_message_data.dart';

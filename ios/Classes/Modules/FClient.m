@@ -162,7 +162,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)refreshToken:(FlutterMethodCall *)call result:(FlutterResult)result {
     [SNRClient refreshTokenWithSuccess:^() {
-        result(nil);
+        result([NSNumber numberWithBool:YES]);
     } failure:^(NSError *error) {
         result([self makeFlutterErrorWithError:error]);
     }];

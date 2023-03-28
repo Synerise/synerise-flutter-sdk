@@ -115,7 +115,7 @@ NS_ASSUME_NONNULL_BEGIN
     SNRRecommendationOptions *model = [[SNRRecommendationOptions alloc] initWithSlug:slug];
     
     if (dictionary != nil) {
-        model.productID = [dictionary getStringForKey:@"productId"];
+        model.productID = [dictionary getStringForKey:@"productID"];
     }
     
     return model;
@@ -130,7 +130,9 @@ NS_ASSUME_NONNULL_BEGIN
         [dictionary setString:model.name forKey:@"name"];
         [dictionary setString:model.campaignHash forKey:@"campaignHash"];
         [dictionary setString:model.campaignID forKey:@"campaignID"];
-        
+        [dictionary setString:model.schema forKey:@"schema"];
+        [dictionary setString:model.UUID forKey:@"uuid"];
+        [dictionary setString:model.slug forKey:@"slug"];
         NSMutableArray *recommendationsArray = [@[] mutableCopy];
         for (SNRRecommendation *recommendationModel in model.items) {
             [recommendationsArray addObject:[self dictionaryWithRecommendation:recommendationModel]];
@@ -148,7 +150,7 @@ NS_ASSUME_NONNULL_BEGIN
     if (model != nil) {
         NSMutableDictionary *dictionary = [@{} mutableCopy];
         
-        [dictionary setString:model.itemID forKey:@"itemId"];
+        [dictionary setString:model.itemID forKey:@"itemID"];
         [dictionary setDictionary:model.attributes forKey:@"attributes"];
         
         return dictionary;

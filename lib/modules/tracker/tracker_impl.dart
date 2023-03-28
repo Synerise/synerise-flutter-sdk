@@ -1,6 +1,6 @@
-import 'package:synerise_flutter_sdk/model/tracker/event.dart';
-import 'package:synerise_flutter_sdk/modules/tracker/tracker_methods.dart';
+import '../../model/tracker/event.dart';
 import '../base/base_module.dart';
+import 'tracker_methods.dart';
 
 class TrackerImpl extends BaseModule {
   final TrackerMethods _methods = TrackerMethods();

@@ -1,4 +1,4 @@
-import 'package:synerise_flutter_sdk/main/dependencies.dart';
+import '../../main/dependencies.dart';
 
 class BaseMethodChannel {
   final methodChannel = Dependencies.methodChannel;

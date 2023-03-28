@@ -1,41 +1,34 @@
-import 'package:synerise_flutter_sdk/enums/client/identity_provider.dart';
-import 'package:synerise_flutter_sdk/model/client/client_account_information.dart';
-import 'package:synerise_flutter_sdk/model/client/client_account_register_context.dart';
-import 'package:synerise_flutter_sdk/model/client/token.dart';
-import 'package:synerise_flutter_sdk/model/client/client_account_update_context.dart';
 
+
+import '../../enums/client/identity_provider.dart';
+import '../../model/client/client_account_information.dart';
+import '../../model/client/client_account_register_context.dart';
+import '../../model/client/client_account_update_context.dart';
 import '../../model/client/client_auth_context.dart';
+import '../../model/client/token.dart';
 import '../base/base_module_method_channel.dart';
 
 class ClientMethods extends BaseMethodChannel {
-  
   Future<void> registerAccount(ClientAccountRegisterContext clientAccountRegisterContext) async {
     await methodChannel.invokeMethod('Client/registerAccount', clientAccountRegisterContext.asMap());
   }
 
   Future<void> confirmAccount(String token) async {
-    await methodChannel.invokeMethod('Client/confirmAccount', {
-      "token": token
-    });
+    await methodChannel.invokeMethod('Client/confirmAccount', {"token": token});
   }
-  
+
   Future<void> activateAccount(String email) async {
-    await methodChannel.invokeMethod('Client/activateAccount', {
-      "email": email
-    });
+    await methodChannel.invokeMethod('Client/activateAccount', {"email": email});
   }
 
   Future<void> signIn(String email, String password) async {
-    await methodChannel.invokeMethod('Client/signIn', {
-      "email": email,
-      "password": password
-    });
+    await methodChannel.invokeMethod('Client/signIn', {"email": email, "password": password});
   }
 
   Future<bool> authenticate(ClientAuthContext clientAuthContext, IdentityProvider identityProvider, String tokenString) async {
     var authenticateMap = <String, dynamic>{
       'clientAuthContext': clientAuthContext.asMap(),
-      'identityProvider': identityProvider.getIdentityProvider(),
+      'identityProvider': identityProvider.getIdentityProviderAsString(),
       'tokenString': tokenString
     };
     bool isAuthenticated = await methodChannel.invokeMethod('Client/authenticate', authenticateMap);
@@ -61,8 +54,9 @@ class ClientMethods extends BaseMethodChannel {
     return token;
   }
 
-  Future<void> refreshToken() async {
-    await methodChannel.invokeMethod("Client/refreshToken");
+  Future<bool> refreshToken() async {
+    bool result = await methodChannel.invokeMethod("Client/refreshToken");
+    return result;
   }
 
   Future<String> getUUID() async {
@@ -79,36 +73,25 @@ class ClientMethods extends BaseMethodChannel {
     ClientAccountInformation clientAccountInformation = ClientAccountInformation.fromMap(clientAccountMap);
     return clientAccountInformation;
   }
-  
+
   Future<void> updateAccount(ClientAccountUpdateContext clientAccountUpdateContext) async {
     await methodChannel.invokeMethod('Client/updateAccount', clientAccountUpdateContext.asMap());
   }
 
   Future<void> requestPasswordReset(String email) async {
-    await methodChannel.invokeMethod('Client/requestPasswordReset', {
-      "email": email
-    });
+    await methodChannel.invokeMethod('Client/requestPasswordReset', {"email": email});
   }
 
   Future<void> confirmPasswordReset(String token, String password) async {
-    await methodChannel.invokeMethod('Client/confirmPasswordReset', {
-      "token": token,
-      "password": password
-    });
+    await methodChannel.invokeMethod('Client/confirmPasswordReset', {"token": token, "password": password});
   }
 
   Future<void> changePassword(String oldPassword, String password) async {
-    await methodChannel.invokeMethod('Client/changePassword', {
-      "oldPassword": oldPassword,
-      "password": password
-    });
+    await methodChannel.invokeMethod('Client/changePassword', {"oldPassword": oldPassword, "password": password});
   }
 
   Future<void> deleteAccount(String clientAuthFactor, IdentityProvider identityProvider, String? authId) async {
-    await methodChannel.invokeMethod('Client/deleteAccount', {
-      "clientAuthFactor": clientAuthFactor,
-      "identityProvider": identityProvider.getIdentityProvider(),
-      "authId": authId
-    });
+    await methodChannel.invokeMethod('Client/deleteAccount',
+        {"clientAuthFactor": clientAuthFactor, "identityProvider": identityProvider.getIdentityProviderAsString(), "authId": authId});
   }
 }

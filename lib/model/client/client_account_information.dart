@@ -1,5 +1,6 @@
 import '../../enums/client/client_sex.dart';
-import 'package:synerise_flutter_sdk/model/client/client_agreements.dart';
+import '../../utils/synerise_utils.dart';
+import 'client_agreements.dart';
 
 class ClientAccountInformation {
   final int clientId;
@@ -27,7 +28,7 @@ class ClientAccountInformation {
 
   final ClientAgreements? agreements;
 
-  final Object? attributes;
+  final Map<String, Object>? attributes;
   final List<String?> tags;
 
   ClientAccountInformation(
@@ -74,8 +75,8 @@ class ClientAccountInformation {
             zipCode: map['zipCode'],
             countryCode: map['countryCode'],
             anonymous: map['anonymous'],
-            lastActivityDate: map['lastActivityDate'] != null ? DateTime.fromMillisecondsSinceEpoch(map['lastActivityDate']) : null,
+            lastActivityDate: map['lastActivityDate'] != null ? SyneriseUtils.formatIntToDateTime(map['lastActivityDate']) : null,
             agreements: ClientAgreements.fromMap(map['agreements']),
-            attributes: map['attributes'],
+            attributes: Map<String, Object>.from(map['attributes']),
             tags: List<String>.from(map['tags']));
 }

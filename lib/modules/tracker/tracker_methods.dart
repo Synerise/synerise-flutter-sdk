@@ -1,4 +1,4 @@
-import 'package:synerise_flutter_sdk/model/tracker/event.dart';
+import '../../model/tracker/event.dart';
 import '../base/base_module_method_channel.dart';
 
 class TrackerMethods extends BaseMethodChannel {

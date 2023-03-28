@@ -1,5 +1,5 @@
 import '../../enums/client/client_sex.dart';
-import 'package:synerise_flutter_sdk/model/client/client_agreements.dart';
+import 'client_agreements.dart';
 
 class ClientAccountRegisterContext {
   String email;
@@ -17,7 +17,7 @@ class ClientAccountRegisterContext {
   String? uuid;
   String? customId;
   ClientAgreements? agreements;
-  Object? attributes;
+  Map<String, Object>? attributes;
 
   ClientAccountRegisterContext(
       {required this.email,
@@ -54,7 +54,8 @@ class ClientAccountRegisterContext {
             uuid: map['uuid'],
             customId: map['customId'],
             agreements: map['agreements'],
-            attributes: map['attributes']);
+          attributes: Map<String, Object>.from(map['attributes']),
+        );
 
   Map asMap() => {
         'email': email,

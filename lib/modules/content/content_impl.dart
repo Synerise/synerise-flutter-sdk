@@ -1,6 +1,7 @@
-import 'package:synerise_flutter_sdk/model/content/documents_api_query.dart';
-import 'package:synerise_flutter_sdk/model/content/recommendation_options.dart';
-
+import '../../model/content/documents_api_query.dart';
+import '../../model/content/recommendation_options.dart';
+import '../../model/content/recommendation_response.dart';
+import '../../model/content/screen_view_response.dart';
 import '../base/base_module.dart';
 import 'content_methods.dart';
 
@@ -8,19 +9,19 @@ class ContentImpl extends BaseModule {
   final ContentMethods _methods = ContentMethods();
   ContentImpl();
 
-  Future<dynamic> getDocument(String slugName) async {
+  Future<Map<String, Object>> getDocument(String slugName) async {
     return _methods.getDocument(slugName);
   }
 
-  Future<dynamic> getDocuments(DocumentsApiQuery documentsApiQueryModel) async {
+  Future<List<Map<String, Object>>> getDocuments(DocumentsApiQuery documentsApiQueryModel) async {
     return _methods.getDocuments(documentsApiQueryModel);
   }
 
-  Future<dynamic> getRecommendations(RecommendationOptions recommendationOptions) async {
+  Future<RecommendationResponse> getRecommendations(RecommendationOptions recommendationOptions) async {
     return _methods.getRecommendations(recommendationOptions);
   }
 
-  Future<dynamic> getScreenView() async {
+  Future<ScreenViewResponse> getScreenView() async {
     return _methods.getScreenView();
   }
 }

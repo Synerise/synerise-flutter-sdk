@@ -5,7 +5,7 @@ enum DocumentsApiQueryType {
 
   final String documentApiQueryType;
 
-  String? getDocumentsApiQueryType() {
+  String? getDocumentsApiQueryTypeAsString() {
     return documentApiQueryType;
   }
 }

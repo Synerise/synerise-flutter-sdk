@@ -1,4 +1,4 @@
-import 'package:synerise_flutter_sdk/model/tracker/event.dart';
+import 'event.dart';
 
 class CustomEvent extends Event {
 

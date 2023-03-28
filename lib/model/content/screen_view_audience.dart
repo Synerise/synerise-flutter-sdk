@@ -2,13 +2,13 @@ class ScreenViewAudience {
   final String? query;
   final List<String>? ids;
 
-  ScreenViewAudience({
+  ScreenViewAudience._({
     this.query,
     this.ids,
   });
 
   ScreenViewAudience.fromMap(Map map)
-      : this(
+      : this._(
           query: map['query'],
           ids: map['IDs'],
         );

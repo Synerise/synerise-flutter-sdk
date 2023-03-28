@@ -140,7 +140,7 @@ class _UpdateAccountState extends State<UpdateAccount> with AutomaticKeepAliveCl
       context: context,
       builder: (context) {
         return AlertDialog(
-          content: Text("$email account created succesfully"),
+          content: Text("$email account updated succesfully"),
         );
       },
     ) as FutureOr Function(void value));

@@ -1,22 +1,20 @@
-import 'dart:collection';
-
 class Recommendation {
-  final HashMap<dynamic, dynamic> attributes;
-  final String itemId;
+  final Map<String, Object> attributes;
+  final String itemID;
 
-  Recommendation({
+  Recommendation._({
     required this.attributes,
-    required this.itemId,
+    required this.itemID,
   });
 
   Recommendation.fromMap(Map map)
-      : this(
-          attributes: map['attributes'],
-          itemId: map['itemId'],
+      : this._(
+          attributes: Map<String, Object>.from(map['attributes']),
+          itemID: map['itemID'],
         );
 
   Map asMap() => {
         'attributes': attributes,
-        'itemId': itemId,
+        'itemID': itemID,
       };
 }

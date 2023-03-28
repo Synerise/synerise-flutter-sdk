@@ -3,7 +3,7 @@ import 'dart:io' show Platform;
 import 'package:flutter/services.dart';
 
 import '../base/base_module.dart';
-import 'package:synerise_flutter_sdk/modules/settings/settings_methods.dart';
+import 'settings_methods.dart';
 
 class SettingsKeys {
   static const sdkEnabled = "SDK_ENABLED";

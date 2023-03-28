@@ -9,7 +9,6 @@ import 'package:synerise_flutter_sdk_example/classes/utils.dart';
 import 'package:synerise_flutter_sdk_example/views/client/client_methods_view.dart';
 import 'package:synerise_flutter_sdk_example/views/content/content_methods_view.dart';
 import 'package:synerise_flutter_sdk_example/views/tracker/tracker_methods_view.dart';
-import 'package:synerise_flutter_sdk_example/views/notifications/notifications_methods_view.dart';
 import 'dart:developer' as developer;
 
 
@@ -40,7 +39,6 @@ class _InitialViewState extends State<InitialView> {
     Synerise.injector.listener((listener) {
       listener.onOpenUrl = (url) {
         Utils.displaySimpleAlert(url, context);
-      
       };
       listener.onDeepLink = (deepLink) {
         Utils.displaySimpleAlert(deepLink, context);
@@ -183,19 +181,10 @@ class _InitialViewState extends State<InitialView> {
                 child: const Text('Tracker Method Test'),
                 onPressed: () {
                   final paramMap = <String, String>{"firstKeyCustomParam": "TEST"};
-                  CustomEvent event = CustomEvent("label", "flutter.konrad", paramMap);
+                  CustomEvent event = CustomEvent("label", "flutter", paramMap);
                   Synerise.tracker.send(event);
                 },
               ),
-              ElevatedButton(
-                child: const Text('Notifications Method Test'),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const NotificationsView()),
-                  );
-                },
-              )
             ])))));
   }
 }
@@ -244,20 +233,6 @@ class TrackerView extends StatelessWidget {
   }
 }
 
-class NotificationsView extends StatelessWidget {
-  const NotificationsView({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Notifications Module Method Test'),
-      ),
-      body: const NotificationsMethodsView(),
-    );
-  }
-}
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -283,11 +258,12 @@ class MyApp extends StatelessWidget {
   Future<void> backgroundHandlerForFCM(RemoteMessage message) async {
   await Firebase.initializeApp();
   await Synerise.initializer()
-        .withClientApiKey("YOUR-CLIENT-API-KEY").withBaseUrl("YOUR-BASE-URL")
+        .withClientApiKey("YOUR_CLIENT_API_KEY").withBaseUrl("YOUR_BASE_URL")
         .withDebugModeEnabled(true)
         .init();
   // If you're going to use other Firebase services in the background, such as Firestore,
   // make sure you call `initializeApp` before using other Firebase services.
-  developer.log('milan flutter', name: 'onMessage background');
+  // ignore: unused_local_variable
   bool isPushSynerise = await Synerise.notifications.handleNotification(message.toMap());
+  developer.log('flutter', name: 'onMessage background');
 } 

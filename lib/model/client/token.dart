@@ -1,4 +1,5 @@
-import 'package:synerise_flutter_sdk/enums/client/token_origin.dart';
+import '../../enums/client/token_origin.dart';
+import '../../utils/synerise_utils.dart';
 
 class Token {
   final String tokenString;
@@ -10,6 +11,6 @@ class Token {
   Token.fromMap(Map map): this(
         tokenString: map['tokenString'],
         origin: TokenOrigin.fromString(map['origin']),
-        expirationDate: DateTime.fromMillisecondsSinceEpoch(map['expirationDate'], isUtc: true)
+            expirationDate: SyneriseUtils.formatIntToDateTime(map['expirationDate'])
     );
 }

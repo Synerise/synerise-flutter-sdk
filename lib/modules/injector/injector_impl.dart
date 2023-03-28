@@ -102,7 +102,7 @@ class InjectorImpl extends BaseModule {
     var methodPath = call.method.split('#');
     var listenerName = methodPath[1];
     var listenerMethodName = methodPath[2];
-    Map<String, dynamic> arguments = call.arguments != null ? Map<String, dynamic>.from(call.arguments) : Map<String, dynamic>();
+    Map<String, dynamic> arguments = call.arguments != null ? Map<String, dynamic>.from(call.arguments) : <String, dynamic>{};
 
     if (listenerMethodName == 'onOpenUrl') {
       if (_listener.onOpenUrl != null) {

@@ -9,11 +9,11 @@ enum IdentityProvider {
 
   final String identityPrvovider;
 
-  String? getIdentityProvider() {
+  String getIdentityProviderAsString() {
     return identityPrvovider;
   }
 
-  String getIdentityProviderByString(String string) {
+  static String getIdentityProviderFromString(String string) {
     if (string == synerise.identityPrvovider) {
       return synerise.identityPrvovider;
     } else if (string == facebook.identityPrvovider) {

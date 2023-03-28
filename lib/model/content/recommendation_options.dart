@@ -1,20 +1,20 @@
 class RecommendationOptions {
   String slug;
-  String? productId;
+  String? productID;
 
   RecommendationOptions({
     required this.slug,
-    this.productId,
+    this.productID,
   });
 
   RecommendationOptions.fromMap(Map map)
       : this(
           slug: map['slug'],
-          productId: map['productId'],
+          productID: map['productID'],
         );
 
   Map asMap() => {
         'slug': slug,
-        'productId': productId,
+        'productID': productID,
       };
 }

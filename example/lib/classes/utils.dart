@@ -13,6 +13,10 @@ class Utils {
     );
   }
 
+  static String handleTypeError(TypeError error) {
+    return error.toString();
+  }
+
   static String handlePlatformException(PlatformException error) {
     String? eMsg = error.message;
     String? eDetails = error.details;
@@ -26,9 +30,9 @@ class Utils {
     }
   }
 
-  static String handleException(TypeError error) {
+  static String handleException(Exception error) {
     String? eMsg = error as String;
-  
+
     // ignore: unnecessary_null_comparison
     if (eMsg != null) {
       String errorMessage = eMsg;
@@ -38,4 +42,4 @@ class Utils {
       return errorMessage;
     }
   }
-} 
+}

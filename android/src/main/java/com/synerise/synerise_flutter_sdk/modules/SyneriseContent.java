@@ -15,6 +15,7 @@ import com.synerise.synerise_flutter_sdk.SyneriseModule;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -96,25 +97,27 @@ public class SyneriseContent implements SyneriseModule {
 
     public void getRecommendations(MethodCall call, MethodChannel.Result result) {
         Map recommendationOptions = (Map) call.arguments;
-        String productId = null;
+        String productID = null;
         String slugName = null;
         if (call.arguments != null) {
-            productId = (String) recommendationOptions.get("productId");
+            productID = (String) recommendationOptions.get("productID");
             slugName = (String) recommendationOptions.get("slug");
         }
         if (getRecommendationsApiCall != null) getRecommendationsApiCall.cancel();
 
         RecommendationRequestBody recommendationRequestBody = new RecommendationRequestBody();
-        recommendationRequestBody.setProductId(productId);
+        recommendationRequestBody.setProductId(productID);
         Map<String, Object> recommendationMap = new HashMap<>();
+
         getRecommendationsApiCall = Content.getRecommendations(slugName, recommendationRequestBody);
         getRecommendationsApiCall.execute(responseBody -> {
+            recommendationMap.put("name", responseBody.getName());
             recommendationMap.put("campaignHash", responseBody.getCampaignHash());
-            recommendationMap.put("campaignId", responseBody.getCampaignId());
+            recommendationMap.put("campaignID", responseBody.getCampaignId());
             recommendationMap.put("schema", responseBody.getSchema());
             recommendationMap.put("slug", responseBody.getSlug());
             recommendationMap.put("uuid", responseBody.getUuid());
-            recommendationMap.put("items", recommendationToMap(responseBody.getRecommendations()));
+            recommendationMap.put("items", recommendationToArrayList(responseBody.getRecommendations()));
             SyneriseModule.executeSuccessResult(recommendationMap, result);
         }, apiError -> SyneriseModule.executeFailureResult(apiError, result));
     }
@@ -148,25 +151,19 @@ public class SyneriseContent implements SyneriseModule {
         }, apiError -> SyneriseModule.executeFailureResult(apiError, result));
     }
 
-    private Map<String, Object> recommendationToMap(List<Recommendation> array) {
-        Map<String, Object> map = new HashMap<>();
+    private ArrayList<Map<String,Object>> recommendationToArrayList(List<Recommendation> array) {
+
+        ArrayList<Map<String, Object>> arrayList = new ArrayList();
         for (int i = 0; i < array.size(); i++) {
             Recommendation recommendation = array.get(i);
             Map<String, Object> recommendationMap = new HashMap<>();
-            Map<String, Object> objectMap = new HashMap<>();
-            try {
-                String jsonString = gson.toJson(recommendation.getFeed());
-                objectMap = gson.fromJson(jsonString, Map.class);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            recommendationMap.put("itemId", recommendation.getItemId());
-            recommendationMap.put("attributes", objectMap);
-
-            map.putAll(recommendationMap);
+            Map<String,Object> feed = recommendation.getFeed();
+            recommendationMap.put("itemID", recommendation.getItemId());
+            recommendationMap.put("attributes", feed);
+            arrayList.add(recommendationMap);
         }
 
-        return map;
+        return arrayList;
     }
 
     private ArrayList<Object> listOfStringsToArrayList(List<String> array) {

@@ -1,6 +1,6 @@
-import 'package:synerise_flutter_sdk/main/index.dart';
-import 'package:synerise_flutter_sdk/modules/SyneriseDartMethodChannel.dart';
-export 'package:synerise_flutter_sdk/main/index.dart';
+import 'main/index.dart';
+import 'modules/synerise_dart_method_channel.dart';
+export 'main/index.dart';
 
 class Synerise {
   Synerise();
