@@ -1,6 +1,13 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [0.4.1] - 2023-04-21
+### Added
+- update of ssl pins for all domains.
+
+### Removed
+- `QUERY_ALL_PACKAGES` permission in android.
+
 ## [0.4.0] - 2023-03-28
 
 ### Added 

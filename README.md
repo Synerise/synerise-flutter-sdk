@@ -1,4 +1,4 @@
-# Synerise Flutter SDK (synerise-flutter-sdk) (0.4.0)
+# Synerise Flutter SDK (synerise-flutter-sdk) (0.4.1)
 
 [![Platform](https://img.shields.io/badge/platform-iOS-orange.svg)](https://github.com/synerise/ios-sdk)
 [![Platform](https://img.shields.io/badge/platform-Android-orange.svg)](https://github.com/synerise/android-sdk)
@@ -34,6 +34,21 @@ Most up-to-date documentation is available at [Synerise Help Center](https://hel
 ---
 
 ## Installation
+
+### With flutter
+
+```
+ $ flutter pub add synerise_flutter_sdk
+```
+
+This will add a line like this to your package's pubspec.yaml (and run an implicit flutter pub get):
+
+```
+dependencies:
+  synerise_flutter_sdk: ^0.4.1
+```
+
+Alternatively, your editor might support flutter pub get. Check the docs for your editor to learn more.
 
 ### Path dependency
 

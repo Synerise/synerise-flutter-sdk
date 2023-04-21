@@ -30,17 +30,16 @@ android {
     }
 
     defaultConfig {
-        minSdkVersion 16
+        minSdkVersion 21
     }
 }
 
 repositories {
-    mavenLocal()
     mavenCentral()
     google()
     jcenter()
 }
 
 dependencies {
-    implementation 'com.synerise.sdk:synerise-mobile-sdk:5.0.1'
+    implementation 'com.synerise.sdk:synerise-mobile-sdk:5.2.0'
 }
