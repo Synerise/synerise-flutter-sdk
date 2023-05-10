@@ -14,6 +14,7 @@ import com.synerise.synerise_flutter_sdk.modules.SyneriseContent;
 import com.synerise.synerise_flutter_sdk.modules.SyneriseInitializer;
 import com.synerise.synerise_flutter_sdk.modules.SyneriseInjector;
 import com.synerise.synerise_flutter_sdk.modules.SyneriseNotifications;
+import com.synerise.synerise_flutter_sdk.modules.SynerisePromotions;
 import com.synerise.synerise_flutter_sdk.modules.SyneriseTracker;
 import com.synerise.synerise_flutter_sdk.modules.SyneriseSettings;
 
@@ -131,6 +132,9 @@ public class SyneriseConnector implements FlutterPlugin, MethodCallHandler, Acti
                 return calledModule;
             case "Injector":
                 calledModule = new SyneriseInjector();
+                return calledModule;
+            case "Promotions":
+                calledModule = new SynerisePromotions();
                 return calledModule;
         }
         return null;

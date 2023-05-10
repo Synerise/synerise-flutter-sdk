@@ -10,7 +10,7 @@ class ScreenViewAudience {
   ScreenViewAudience.fromMap(Map map)
       : this._(
           query: map['query'],
-          ids: map['IDs'],
+          ids: map['IDs'] != null ? List<String>.from(map['IDs']) : null,
         );
 
   Map asMap() => {

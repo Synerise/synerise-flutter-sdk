@@ -17,6 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 @class FTracker;
 @class FInjector;
 @class FContent;
+@class FPromotions;
 
 @interface FSyneriseManager : NSObject
 
@@ -27,6 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic, nullable, readonly) FTracker *tracker;
 @property (weak, nonatomic, nullable, readonly) FInjector *injector;
 @property (weak, nonatomic, nullable, readonly) FContent *content;
+@property (weak, nonatomic, nullable, readonly) FPromotions *promotions;
 
 @property (strong, nonatomic, nonnull, readwrite) FlutterMethodChannel *mainChannel;
 @property (strong, nonatomic, nonnull, readwrite) FlutterMethodChannel *reverseChannel;

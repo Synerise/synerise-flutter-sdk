@@ -113,22 +113,23 @@ class _SignInState extends State<SignIn> with AutomaticKeepAliveClientMixin {
   }
 
   Future<void> _signInCall(email, password) async {
-    await Synerise.client.signIn(email, password).whenComplete(() => Utils.displaySimpleAlert("signed in", context)).catchError((error) {
+    await Synerise.client.signIn(email, password).catchError((error) {
       String errorMessage = Utils.handlePlatformException(error);
       Utils.displaySimpleAlert("error on handling api call \n $errorMessage", context);
       throw Exception(errorMessage);
     });
+    if (!mounted) return;
+    Utils.displaySimpleAlert("$email successfully signed in", context);
   }
 
   Future<void> _signOutCall() async {
-    await Synerise.client
-        .signOut()
-        .whenComplete(() => Utils.displaySimpleAlert("signed out", context))
-        .catchError((error) {
+    await Synerise.client.signOut().catchError((error) {
       String errorMessage = Utils.handlePlatformException(error);
       Utils.displaySimpleAlert("error on handling api call \n $errorMessage", context);
       throw Exception(errorMessage);
     });
+    if (!mounted) return;
+    Utils.displaySimpleAlert("signed out", context);
   }
 
   Future<void> _authenticateCall() async {
@@ -156,10 +157,10 @@ class _SignInState extends State<SignIn> with AutomaticKeepAliveClientMixin {
 
   Future<void> _isSignedInCall() async {
     _isSignedInBool = await Synerise.client.isSignedIn().catchError((error) {
-          _isSignedInBool = false;
-          String errorMessage = Utils.handlePlatformException(error);
-          Utils.displaySimpleAlert("error on handling api call \n $errorMessage", context);
-          throw Exception(errorMessage);
+      _isSignedInBool = false;
+      String errorMessage = Utils.handlePlatformException(error);
+      Utils.displaySimpleAlert("error on handling api call \n $errorMessage", context);
+      throw Exception(errorMessage);
     });
   }
 
@@ -216,11 +217,13 @@ class _SignInState extends State<SignIn> with AutomaticKeepAliveClientMixin {
   }
 
   Future<void> _refreshTokenCall() async {
-    await Synerise.client.refreshToken().whenComplete(() => Utils.displaySimpleAlert("token refreshed", context)).catchError((error) {
+    await Synerise.client.refreshToken().catchError((error) {
       String errorMessage = Utils.handlePlatformException(error);
       Utils.displaySimpleAlert("error on handling api call \n $errorMessage", context);
       throw Exception(errorMessage);
     });
+    if (!mounted) return;
+    Utils.displaySimpleAlert("token refreshed", context);
   }
 
   Future<void> _getAccountCall() async {
@@ -248,11 +251,13 @@ class _SignInState extends State<SignIn> with AutomaticKeepAliveClientMixin {
   }
 
   Future<void> _regenerateUUIDCall() async {
-    await Synerise.client.regenerateUUID().whenComplete(() => Utils.displaySimpleAlert("uuid regenerated", context)).catchError((error) {
+    await Synerise.client.regenerateUUID().catchError((error) {
       String errorMessage = Utils.handlePlatformException(error);
       Utils.displaySimpleAlert("error on handling api call \n $errorMessage", context);
       throw Exception(errorMessage);
     });
+    if (!mounted) return;
+    Utils.displaySimpleAlert("uuid regenerated", context);
   }
 
   Future<void> _requestPasswordResetCall(email) async {
@@ -266,22 +271,23 @@ class _SignInState extends State<SignIn> with AutomaticKeepAliveClientMixin {
   }
 
   Future<void> _destroySessionCall() async {
-    await Synerise.client.destroySession().whenComplete(() => Utils.displaySimpleAlert("session destroyed", context)).catchError((error) {
+    await Synerise.client.destroySession().catchError((error) {
       String errorMessage = Utils.handlePlatformException(error);
       Utils.displaySimpleAlert("error on handling api call \n $errorMessage", context);
       throw Exception(errorMessage);
     });
+    if (!mounted) return;
+    Utils.displaySimpleAlert("session destroyed", context);
   }
 
   Future<void> _activateAccountCall(email) async {
-    await Synerise.client
-        .activateAccount(email)
-        .whenComplete(() => Utils.displaySimpleAlert("account activated", context))
-        .catchError((error) {
+    await Synerise.client.activateAccount(email).catchError((error) {
       String errorMessage = Utils.handlePlatformException(error);
       Utils.displaySimpleAlert("error on handling api call \n $errorMessage", context);
       throw Exception(errorMessage);
     });
+    if (!mounted) return;
+    Utils.displaySimpleAlert("account activated", context);
   }
 
   @override

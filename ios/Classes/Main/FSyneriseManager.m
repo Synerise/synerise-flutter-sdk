@@ -14,6 +14,7 @@
 #import "FTracker.h"
 #import "FInjector.h"
 #import "FContent.h"
+#import "FPromotions.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -78,6 +79,11 @@ NS_ASSUME_NONNULL_BEGIN
     return [self getModuleForClass:FContent.class];
 }
 
+- (nullable FPromotions *)promotions {
+    return [self getModuleForClass:FPromotions.class];
+}
+
+
 #pragma mark - Public
 
 - (void)createModules {
@@ -88,7 +94,8 @@ NS_ASSUME_NONNULL_BEGIN
         FClient.class,
         FTracker.class,
         FInjector.class,
-        FContent.class
+        FContent.class,
+        FPromotions.class
     ];
     
     for (Class aClass in nativeModulesToCreate) {

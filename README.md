@@ -1,4 +1,4 @@
-# Synerise Flutter SDK (synerise-flutter-sdk) (0.4.1)
+# Synerise Flutter SDK (synerise-flutter-sdk) (0.5.0)
 
 [![Platform](https://img.shields.io/badge/platform-iOS-orange.svg)](https://github.com/synerise/ios-sdk)
 [![Platform](https://img.shields.io/badge/platform-Android-orange.svg)](https://github.com/synerise/android-sdk)
@@ -45,7 +45,7 @@ This will add a line like this to your package's pubspec.yaml (and run an implic
 
 ```
 dependencies:
-  synerise_flutter_sdk: ^0.4.1
+  synerise_flutter_sdk: ^0.5.0
 ```
 
 Alternatively, your editor might support flutter pub get. Check the docs for your editor to learn more.
@@ -85,7 +85,6 @@ Add to the `android/build.gradle`:
 
 ```
 repositories {
-    mavenLocal()
     google()
     mavenCentral()
     maven { url 'https://pkgs.dev.azure.com/Synerise/AndroidSDK/_packaging/prod/maven/v1' }
@@ -125,4 +124,3 @@ Synerise.initializer()
 - `flutter pub get` in the terminal (dependencies pull)
 - select the device/emulator in your IDE (for ios part it is required to run `pod update` in example/ios directory)
 - `cd example` and  `flutter run`
-

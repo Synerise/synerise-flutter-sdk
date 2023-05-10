@@ -1,6 +1,13 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [0.5.0] - 2023-05-10
+### Added
+- `Promotions` module
+
+### Fixed
+- minor mapping fixes
+
 ## [0.4.1] - 2023-04-21
 ### Added
 - update of ssl pins for all domains.

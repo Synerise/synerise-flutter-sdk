@@ -17,6 +17,10 @@ class Utils {
     return error.toString();
   }
 
+  static String handleArgumentError(ArgumentError error) {
+    return error.toString();
+  }
+
   static String handlePlatformException(PlatformException error) {
     String? eMsg = error.message;
     String? eDetails = error.details;

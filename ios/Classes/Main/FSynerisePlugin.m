@@ -56,7 +56,8 @@ NS_ASSUME_NONNULL_BEGIN
         @"Client": [FSyneriseManager sharedInstance].client,
         @"Tracker": [FSyneriseManager sharedInstance].tracker,
         @"Injector": [FSyneriseManager sharedInstance].injector,
-        @"Content": [FSyneriseManager sharedInstance].content
+        @"Content": [FSyneriseManager sharedInstance].content,
+        @"Promotions": [FSyneriseManager sharedInstance].promotions
     };
 
     FBaseModule *module = [availableModules objectForKey:callMethodModule];

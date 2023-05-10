@@ -54,7 +54,7 @@ class ClientAccountRegisterContext {
             uuid: map['uuid'],
             customId: map['customId'],
             agreements: map['agreements'],
-          attributes: Map<String, Object>.from(map['attributes']),
+          attributes: map['attributes'] != null ? Map<String, Object>.from(map['attributes']) : null,
         );
 
   Map asMap() => {

@@ -11,6 +11,7 @@ class Synerise {
   static ContentImpl content = ContentImpl();
   static NotificationsImpl notifications = NotificationsImpl();
   static InjectorImpl injector = InjectorImpl();
+  static PromotionsImpl promotions = PromotionsImpl();
 
   static SyneriseInitializer initializer() {
     final initializer = SyneriseInitializer();

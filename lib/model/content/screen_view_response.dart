@@ -49,7 +49,7 @@ class ScreenViewResponse {
             data: Map<String, Object>.from(map['data']),
             parentVersion: map['parentVersion'],
             descriptionText: map['descriptionText'],
-            deletedAt: map['lastActivityDate'] != null ? SyneriseUtils.formatIntToDateTime(map['deletedAt']) : null);
+            deletedAt: map['deletedAt'] != null ? SyneriseUtils.formatIntToDateTime(map['deletedAt']) : null);
 
   Map asMap() => {
         'audience': audience,

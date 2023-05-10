@@ -1,8 +1,7 @@
 name: synerise_flutter_sdk
 description: Synerise Flutter SDK
-version: 0.4.1
-homepage: https://synerise.com
-documentation: https://help.synerise.com/developers/mobile-sdk/installation-and-configuration/flutter/
+version: 0.5.0
+homepage:
 
 environment:
   sdk: '>=2.18.2 <3.0.0'

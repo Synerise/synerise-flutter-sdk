@@ -11,6 +11,8 @@ import 'package:synerise_flutter_sdk_example/views/content/content_methods_view.
 import 'package:synerise_flutter_sdk_example/views/tracker/tracker_methods_view.dart';
 import 'dart:developer' as developer;
 
+import 'views/promotions/promotions_methods_view.dart';
+
 
 String? firebaseToken;
 
@@ -32,7 +34,8 @@ class _InitialViewState extends State<InitialView> {
   Future<void> initializeSynerise() async {
     Synerise.settings.injector.automatic = true;
     Synerise.initializer()
-      .withClientApiKey("YOUR_CLIENT_API_KEY").withBaseUrl("YOUR_BASE_URL")
+      .withClientApiKey("YOUR_CLIENT_API_KEY")
+      .withBaseUrl("https://api.snrapi.com")
       .withDebugModeEnabled(true)
       .init();
 
@@ -185,6 +188,15 @@ class _InitialViewState extends State<InitialView> {
                   Synerise.tracker.send(event);
                 },
               ),
+              ElevatedButton(
+                child: const Text('Promotions Method Test'),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const PromotionsView()),
+                  );
+                },
+              ),
             ])))));
   }
 }
@@ -233,6 +245,20 @@ class TrackerView extends StatelessWidget {
   }
 }
 
+class PromotionsView extends StatelessWidget {
+  const PromotionsView({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Promotions Module Method Test'),
+      ),
+      body: const PromotionsMethodsView(),
+    );
+  }
+}
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -258,7 +284,8 @@ class MyApp extends StatelessWidget {
   Future<void> backgroundHandlerForFCM(RemoteMessage message) async {
   await Firebase.initializeApp();
   await Synerise.initializer()
-        .withClientApiKey("YOUR_CLIENT_API_KEY").withBaseUrl("YOUR_BASE_URL")
+        .withClientApiKey("YOUR_CLIENT_API_KEY")
+        .withBaseUrl("https://api.snrapi.com")
         .withDebugModeEnabled(true)
         .init();
   // If you're going to use other Firebase services in the background, such as Firestore,
