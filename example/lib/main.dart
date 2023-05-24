@@ -34,7 +34,7 @@ class _InitialViewState extends State<InitialView> {
   Future<void> initializeSynerise() async {
     Synerise.settings.injector.automatic = true;
     Synerise.initializer()
-      .withClientApiKey("YOUR_CLIENT_API_KEY")
+      .withClientApiKey("YOUR_PROFILE_API_KEY")
       .withBaseUrl("https://api.snrapi.com")
       .withDebugModeEnabled(true)
       .init();
@@ -284,7 +284,7 @@ class MyApp extends StatelessWidget {
   Future<void> backgroundHandlerForFCM(RemoteMessage message) async {
   await Firebase.initializeApp();
   await Synerise.initializer()
-        .withClientApiKey("YOUR_CLIENT_API_KEY")
+        .withClientApiKey("YOUR_PROFILE_API_KEY")
         .withBaseUrl("https://api.snrapi.com")
         .withDebugModeEnabled(true)
         .init();
