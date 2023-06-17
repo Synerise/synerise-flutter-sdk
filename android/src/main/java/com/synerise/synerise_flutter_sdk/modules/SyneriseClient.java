@@ -20,8 +20,6 @@ import com.synerise.sdk.core.types.model.Token;
 import com.synerise.sdk.error.ApiError;
 import com.synerise.synerise_flutter_sdk.SyneriseModule;
 
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;

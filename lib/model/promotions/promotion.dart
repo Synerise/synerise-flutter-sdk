@@ -1,5 +1,4 @@
-import 'package:synerise_flutter_sdk/model/promotions/promotion_image.dart';
-
+import '../../model/promotions/promotion_image.dart';
 import '../../enums/promotions/promotion_discount_mode.dart';
 import '../../enums/promotions/promotion_discount_type.dart';
 import '../../enums/promotions/promotion_item_scope.dart';
@@ -9,6 +8,8 @@ import '../../utils/synerise_utils.dart';
 import 'promotion_details.dart';
 import 'promotion_discount_mode_details.dart';
 
+/// The Promotion class represents a promotional offer with various properties such as discount type,
+/// redemption limits, and expiration dates.
 class Promotion {
   String uuid;
   String code;
@@ -46,7 +47,7 @@ class Promotion {
   int? lastingTime;
   String? displayFrom;
   String? displayTo;
-  
+
   Map<String, Object>? params;
   List<String>? catalogIndexItems;
   List<Object>? tags;
@@ -89,6 +90,10 @@ class Promotion {
     this.tags,
   });
 
+  /// `Promotion.fromMap(Map map)` is a factory constructor that creates a new instance of the
+  /// `Promotion` class from a `Map` object. It takes a `Map` object as an argument and uses the values
+  /// from the map to initialize the properties of the `Promotion` object. It returns a new instance of
+  /// the `Promotion` class with the properties set to the values from the `Map`.
   Promotion.fromMap(Map map)
       : this._(
             uuid: map['uuid'],
@@ -129,6 +134,7 @@ class Promotion {
             tags: map['tags'] != null ? List<Object>.from(map['tags']) : null);
 }
 
+/// This function converts a list of objects to a list of PromotionImage objects.
 List<PromotionImage> _convertObjectListToPromotionImageList(List<Object?> list) {
   List<PromotionImage> promotionImageList = [];
   for (var promotionImageMap in list) {

@@ -1,3 +1,5 @@
+/// This code exports various classes and enums from the Synerise Flutter SDK. It allows the application developer
+/// to access the objects from the Synerise SDK without the importing them.
 // CONFIG
 export 'package:synerise_flutter_sdk/main/dependencies.dart';
 
@@ -27,13 +29,12 @@ export 'package:synerise_flutter_sdk/enums/client/identity_provider.dart';
 export 'package:synerise_flutter_sdk/enums/client/token_origin.dart';
 
 // CONTENT
-export 'package:synerise_flutter_sdk/model/content/documents_api_query.dart';
 export 'package:synerise_flutter_sdk/model/content/recommendation_options.dart';
 export 'package:synerise_flutter_sdk/model/content/recommendation.dart';
-export 'package:synerise_flutter_sdk/model/content/screen_view_audience.dart';
 export 'package:synerise_flutter_sdk/model/content/recommendation_response.dart';
-export 'package:synerise_flutter_sdk/enums/content/documents_api_query_type.dart';
-export 'package:synerise_flutter_sdk/model/content/screen_view_response.dart';
+export 'package:synerise_flutter_sdk/model/content/document.dart';
+export 'package:synerise_flutter_sdk/model/content/screen_view_audience_info.dart';
+export 'package:synerise_flutter_sdk/model/content/screen_view.dart';
 
 // PROMOTIONS
 export 'package:synerise_flutter_sdk/model/promotions/promotion.dart';
@@ -51,6 +52,7 @@ export 'package:synerise_flutter_sdk/enums/promotions/promotion_identifier_key.d
 export 'package:synerise_flutter_sdk/enums/promotions/promotion_item_scope.dart';
 export 'package:synerise_flutter_sdk/enums/promotions/promotion_status.dart';
 export 'package:synerise_flutter_sdk/enums/promotions/promotion_type.dart';
+export 'package:synerise_flutter_sdk/enums/promotions/promotion_sorting_key.dart';
 
 // VOUCHERS
 export 'package:synerise_flutter_sdk/model/vouchers/assign_voucher_data.dart';
@@ -63,8 +65,29 @@ export 'package:synerise_flutter_sdk/enums/vouchers/voucher_code_status.dart';
 export 'package:synerise_flutter_sdk/model/in_app/in_app_message_data.dart';
 
 // TRACKER
-export 'package:synerise_flutter_sdk/model/tracker/event.dart';
-export 'package:synerise_flutter_sdk/model/tracker/custom_event.dart';
+export 'package:synerise_flutter_sdk/events/event.dart';
+export 'package:synerise_flutter_sdk/events/custom_event.dart';
+export 'package:synerise_flutter_sdk/events/cart/cart_event.dart';
+export 'package:synerise_flutter_sdk/model/tracker/unit_price.dart';
+export 'package:synerise_flutter_sdk/events/cart/product_added_to_cart_event.dart';
+export 'package:synerise_flutter_sdk/events/cart/product_removed_from_cart_event.dart';
+export 'package:synerise_flutter_sdk/events/auth/logged_in_event.dart';
+export 'package:synerise_flutter_sdk/events/auth/logged_out_event.dart';
+export 'package:synerise_flutter_sdk/events/auth/registered_event.dart';
+export 'package:synerise_flutter_sdk/events/other/appeared_in_location_event.dart';
+export 'package:synerise_flutter_sdk/events/other/hit_timer_event.dart';
+export 'package:synerise_flutter_sdk/events/other/searched_event.dart';
+export 'package:synerise_flutter_sdk/events/other/shared_event.dart';
+export 'package:synerise_flutter_sdk/events/other/visited_screen_event.dart';
+export 'package:synerise_flutter_sdk/events/product/product_added_to_favorites_event.dart';
+export 'package:synerise_flutter_sdk/events/product/product_viewed_event.dart';
+export 'package:synerise_flutter_sdk/events/push/push_cancelled_event.dart';
+export 'package:synerise_flutter_sdk/events/push/push_clicked_event.dart';
+export 'package:synerise_flutter_sdk/events/push/push_viewed_event.dart';
+export 'package:synerise_flutter_sdk/events/recommendation/recommendation_click_event.dart';
+export 'package:synerise_flutter_sdk/events/recommendation/recommendation_event.dart';
+export 'package:synerise_flutter_sdk/events/recommendation/recommendation_seen_event.dart';
+export 'package:synerise_flutter_sdk/events/recommendation/recommendation_view_event.dart';
 
 //BASE API QUERY
 export 'package:synerise_flutter_sdk/model/base_api_query.dart';

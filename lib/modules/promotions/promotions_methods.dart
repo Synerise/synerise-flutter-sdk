@@ -1,5 +1,4 @@
-import 'package:synerise_flutter_sdk/model/vouchers/voucher_codes_response.dart';
-
+import '../../model/vouchers/voucher_codes_response.dart';
 import '../../model/promotions/promotion.dart';
 import '../../model/promotions/promotion_identifier.dart';
 import '../../model/promotions/promotion_response.dart';

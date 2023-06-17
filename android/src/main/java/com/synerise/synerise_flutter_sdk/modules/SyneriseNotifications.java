@@ -1,7 +1,5 @@
 package com.synerise.synerise_flutter_sdk.modules;
 
-import android.util.Log;
-
 import com.synerise.sdk.client.Client;
 import com.synerise.sdk.core.listeners.DataActionListener;
 import com.synerise.sdk.core.listeners.OnRegisterForPushListener;
@@ -31,7 +29,7 @@ public class SyneriseNotifications implements SyneriseModule {
                 registerForNotifications(call, result);
                 return;
             case "handleNotification":
-                handleNotification(call,result);
+                handleNotification(call, result);
                 return;
         }
     }
@@ -56,7 +54,7 @@ public class SyneriseNotifications implements SyneriseModule {
 
     public static OnRegisterForPushListener getPushNotificationsListener() {
         Map<String, Object> map = new HashMap<>();
-        registerNativeForPushListener = () -> SyneriseMethodChannel.methodChannel.invokeMethod("Notifications#NotificationsListener#onRegistrationRequired",map);
+        registerNativeForPushListener = () -> SyneriseMethodChannel.methodChannel.invokeMethod("Notifications#NotificationsListener#onRegistrationRequired", map);
         return registerNativeForPushListener;
-        }
+    }
 }

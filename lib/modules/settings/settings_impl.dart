@@ -128,9 +128,30 @@ class SettingsImpl extends BaseModule {
     await _refreshAllSettings();
   }
 
+  /// This function retrieves a function based on a given key and platform, with optional default
+  /// values.
+  ///
+  /// Args:
+  ///   key (String): A string representing the key of the setting to be retrieved.
+  ///   isSupportedPlatform: A boolean value indicating whether the current platform is supported. If it
+  /// is set to false, the function will return the default value for the platform (androidDefault for
+  /// Android, iosDefault for iOS). If it is set to null or true, the function will proceed to retrieve
+  /// the value for the given key
+  ///   androidDefault (dynamic): The default value to be returned if the platform is Android and the
+  /// requested key is not found in the settings.
+  ///   iosDefault (dynamic): The default value to be returned if the platform is iOS and the requested
+  /// key is not found in the settings.
+  ///
+  /// Returns:
+  ///   either the value associated with the given key in the settings map, or null if the key is not
+  /// found. If the function is called before initialization or on an unsupported platform, it throws a
+  /// PlatformException. If the function is called on a supported platform but the key is not found in
+  /// the settings map, it returns the default value provided for that platform (androidDefault for
+  /// Android, ios
   dynamic _getFunction<T>(String key, [isSupportedPlatform, dynamic androidDefault, dynamic iosDefault]) {
     if (isInitialized == false) {
-      throw PlatformException(message: 'Synerise is not initialized. Access to reading settings is possible when Synerise is initialized.', code: '-1');
+      throw PlatformException(
+          message: 'Synerise is not initialized. Access to reading settings is possible when Synerise is initialized.', code: '-1');
     }
 
     if (isSupportedPlatform != null && isSupportedPlatform == false) {
@@ -148,6 +169,18 @@ class SettingsImpl extends BaseModule {
     return _getOne<T>(key);
   }
 
+  /// This function sets a value for a given key, but only if the platform is supported.
+  ///
+  /// Args:
+  ///   key (String): A string representing the key of the function to be set or overridden.
+  ///   value (dynamic): The value to be set for the given key.
+  ///   isSupportedPlatform: isSupportedPlatform is an optional boolean parameter that determines
+  /// whether the platform is supported or not.
+  ///
+  /// Returns:
+  ///   If the `isSupportedPlatform` parameter is not provided or is `true`, then nothing is being
+  /// returned. If `isSupportedPlatform` is `false`, then the function returns without executing the
+  /// rest of the code.
   void _setFunction<T>(String key, dynamic value, [isSupportedPlatform]) {
     if (isSupportedPlatform != null && isSupportedPlatform == false) {
       return;
@@ -157,6 +190,7 @@ class SettingsImpl extends BaseModule {
     _setOne(key, value);
   }
 
+  /// This function refreshes all settings by overriding them with values obtained from a method call.
   Future<void> _refreshAllSettings() async {
     return _methods.getAllSettings().then((settings) {
       _overrideOne<bool>(SettingsKeys.sdkEnabled, settings[SettingsKeys.sdkEnabled]);
@@ -187,6 +221,17 @@ class SettingsImpl extends BaseModule {
     await _methods.setOne(key, value);
   }
 
+  /// This function retrieves a value from a settings map and returns it if it matches the specified
+  /// type, otherwise it returns null.
+  ///
+  /// Args:
+  ///   key (String): The key is a string parameter that represents the key of the value to be retrieved
+  /// from the settingsValues map.
+  ///
+  /// Returns:
+  ///   either the value associated with the given key in the `settingsValues` map, or `null` if the key
+  /// is not found or the value is not of type `T`. The return type of the function is `dynamic`, which
+  /// means it can return any type of value.
   dynamic _getOne<T>(String key) {
     dynamic value = settingsValues[key];
 
@@ -201,6 +246,12 @@ class SettingsImpl extends BaseModule {
     return value;
   }
 
+  /// This function overrides a value in a settings map if the new value is not null and is of the same
+  /// type as the original value.
+  ///
+  /// Args:
+  ///   key (String): A string representing the key of the setting value to be overridden or removed.
+  ///   value (dynamic): The value that needs to be stored or removed in the settingsValues map.
   void _overrideOne<T>(String key, dynamic value) {
     if (value == null) {
       settingsValues.remove(key);

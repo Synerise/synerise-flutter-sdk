@@ -2,6 +2,8 @@ import '../../enums/client/client_sex.dart';
 import '../../utils/synerise_utils.dart';
 import 'client_agreements.dart';
 
+/// The class represents client account information with various properties such as email, phone, name,
+/// address, and agreements.
 class ClientAccountInformation {
   final int clientId;
   final String email;
@@ -55,6 +57,8 @@ class ClientAccountInformation {
       this.attributes,
       required this.tags});
 
+  /// This is a named constructor in the `ClientAccountInformation` class that takes a `Map` as input
+  /// and creates a new instance of `ClientAccountInformation` with the values extracted from the map.
   ClientAccountInformation.fromMap(Map map)
       : this(
             clientId: map['clientId'],

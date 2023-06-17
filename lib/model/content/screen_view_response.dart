@@ -1,16 +1,18 @@
 import '../../utils/synerise_utils.dart';
 import 'screen_view_audience.dart';
 
+/// The `ScreenViewResponse` class represents a response object containing information about a screen
+/// view, including its audience, identifier, name, path, priority, version, and data.
 class ScreenViewResponse {
   final ScreenViewAudience audience;
-  
+
   final String identifier;
   final String hashString;
   final String name;
   final String path;
   final int priority;
   final String? descriptionText;
-  
+
   final Map<String, Object> data;
 
   final String version;
@@ -35,6 +37,8 @@ class ScreenViewResponse {
       this.descriptionText,
       this.deletedAt});
 
+  /// `ScreenViewResponse.fromMap(Map map)` is a named constructor that takes a `Map` as an argument and
+  /// creates a new instance of `ScreenViewResponse` using the values from the `Map`.
   ScreenViewResponse.fromMap(Map map)
       : this._(
             audience: ScreenViewAudience.fromMap(map['audience']),
@@ -51,6 +55,7 @@ class ScreenViewResponse {
             descriptionText: map['descriptionText'],
             deletedAt: map['deletedAt'] != null ? SyneriseUtils.formatIntToDateTime(map['deletedAt']) : null);
 
+  /// The function returns a map containing various properties of an object.
   Map asMap() => {
         'audience': audience,
         'createdAt': createdAt,

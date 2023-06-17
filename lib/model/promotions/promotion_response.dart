@@ -1,5 +1,7 @@
 import 'promotion.dart';
 
+/// The code defines a Dart class for a promotion response and includes a private constructor and a
+/// function to convert a list of objects to a list of promotions.
 class PromotionResponse {
   final int? totalCount;
   final int? totalPages;
@@ -8,10 +10,10 @@ class PromotionResponse {
   final int? code;
   final List<Promotion> items;
 
-  PromotionResponse._(
-      {this.totalCount, this.totalPages, this.page, this.limit, this.code,
-      required this.items});
+  PromotionResponse._({this.totalCount, this.totalPages, this.page, this.limit, this.code, required this.items});
 
+  /// `PromotionResponse.fromMap(Map map)` is a factory constructor that takes in a `Map` object and
+  /// returns a new instance of the `PromotionResponse` class.
   PromotionResponse.fromMap(Map map)
       : this._(
             totalCount: map['totalCount'],
@@ -22,6 +24,7 @@ class PromotionResponse {
             items: _convertObjectListToPromotion(map['items']));
 }
 
+/// This function converts a list of objects to a list of Promotion objects.
 List<Promotion> _convertObjectListToPromotion(List<Object?> list) {
   List<Promotion> promotionList = [];
   for (var promotionMap in list) {

@@ -57,26 +57,32 @@ class InjectorImpl extends BaseModule {
   final InjectorWalkthroughListener _walkthroughListener = InjectorWalkthroughListener();
   final InjectorInAppMessageListener _inAppMessageListener = InjectorInAppMessageListener();
 
+  /// This function handles method calls for listeners related to opening URLs and deep links.
   void listener(InjectorListenerFunction listenerFunction) {
     listenerFunction(_listener);
   }
 
+  /// This function handles banner listener methods by calling the appropriate listener method based on
+  /// the method name.
   void bannerListener(InjectorBannerListenerFunction listenerFunction) {
     listenerFunction(_bannerListener);
   }
 
+  /// This function handles different listener methods for a walkthrough feature in a Dart application.
   void walkthroughListener(InjectorWalkthroughListenerFunction listenerFunction) {
     listenerFunction(_walkthroughListener);
   }
-  
+
+  /// This function handles different listener methods for in-app messages in Dart.
   void inAppMessageListener(InjectorInAppMessageListenerFunction listenerFunction) {
     listenerFunction(_inAppMessageListener);
   }
 
+  /// This function handles different types of listeners based on the method call received.
   void handleMethod(MethodCall call) async {
     var methodPath = call.method.split('#');
     var listenerName = methodPath[1];
- 
+
     if (listenerName == 'InjectorListener') {
       _handleListenerMethod(call);
       return;
@@ -132,7 +138,7 @@ class InjectorImpl extends BaseModule {
     var methodPath = call.method.split('#');
     var listenerName = methodPath[1];
     var listenerMethodName = methodPath[2];
-    
+
     if (listenerMethodName == 'onPresent') {
       if (_bannerListener.onPresent != null) {
         _bannerListener.onPresent!();
@@ -200,7 +206,7 @@ class InjectorImpl extends BaseModule {
     String campaignHash = inAppMessageDataArguments['campaignHash'];
     String variantIdentifier = inAppMessageDataArguments['variantIdentifier'];
     Map<String, String> additionalParamaters = Map<String, String>.from(inAppMessageDataArguments['additionalParameters']);
-    bool isTest =  inAppMessageDataArguments['isTest'];
+    bool isTest = inAppMessageDataArguments['isTest'];
     InAppMessageData data = InAppMessageData(campaignHash, variantIdentifier, additionalParamaters, isTest);
 
     if (listenerMethodName == 'onPresent') {

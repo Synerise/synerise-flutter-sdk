@@ -42,15 +42,14 @@ public class SyneriseTracker implements SyneriseModule {
     }
 
     private void send(MethodCall call) {
-        String type = call.argument("type");
         String action = call.argument("action");
         String label = call.argument("label");
         HashMap<String, Object> hashMapParams = call.argument("params");
         TrackerParams params = new TrackerParams.Builder()
                 .addAll(hashMapParams)
                 .build();
-        if (type != null && action != null && label != null) {
-            CustomEvent event = new CustomEvent(type, action, label, params);
+        if (action != null && label != null) {
+            CustomEvent event = new CustomEvent(action, label, params);
             Tracker.send(event);
         }
     }

@@ -76,7 +76,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (SNRCustomEvent *)eventWithDictionary:(NSDictionary *)dictionary {
     NSString *label = [dictionary getStringForKey:@"label"];
     NSString *action = [dictionary getStringForKey:@"action"];
-    NSDictionary *parameters = [dictionary getDictionaryForKey:@"parameters"];
+    NSDictionary *parameters = [dictionary getDictionaryForKey:@"params"];
     
     if (label != nil && action != nil) {
         SNRTrackerParams *params = [SNRTrackerParams makeWithBuilder:^(SNRTrackerParamsBuilder *builder) {

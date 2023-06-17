@@ -1,6 +1,17 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [0.6.0] - 2023-06-16
+### Added
+- new methods for `Content` module
+- added predefined `Events`
+
+### Fixed
+- apiKey terminology
+
+### Removed
+- old `Content` module methods got deprecated
+
 ## [0.5.0] - 2023-05-10
 ### Added
 - `Promotions` module

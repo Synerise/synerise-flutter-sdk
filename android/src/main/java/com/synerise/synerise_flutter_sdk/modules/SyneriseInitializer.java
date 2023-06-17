@@ -39,9 +39,9 @@ public class SyneriseInitializer implements SyneriseModule {
             Map dataFull = (Map) call.arguments;
             Map data = (Map) dataFull.get("initializationParameters");
             Synerise.Builder.with(app, data.get("clientApiKey").toString(), SyneriseConnector.getApplicationName(app))
-                    .baseUrl(data.containsKey("baseUrl") ? data.get("baseUrl").toString() : null)
-                    .syneriseDebugMode(data.containsKey("debugModeEnabled") ? (boolean) data.get("debugModeEnabled") : null)
-                    .crashHandlingEnabled(data.containsKey("crashHandlingEnabled") ? (boolean) data.get("crashHandlingEnabled") : null)
+                    .baseUrl(data.containsKey("baseUrl") ? (String) data.get("baseUrl") : null)
+                    .syneriseDebugMode(data.containsKey("debugModeEnabled") ? (boolean) data.get("debugModeEnabled") : false)
+                    .crashHandlingEnabled(data.containsKey("crashHandlingEnabled") ? (boolean) data.get("crashHandlingEnabled") : false)
                     .hostApplicationType(HostApplicationType.FLUTTER)
                     .pushRegistrationRequired(SyneriseNotifications.getPushNotificationsListener())
                     .build();

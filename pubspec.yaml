@@ -1,7 +1,10 @@
 name: synerise_flutter_sdk
-description: Synerise Flutter SDK
-version: 0.5.0
-homepage:
+description: >-
+  Flutter plugin for Synerise SDK
+version: 0.6.0
+homepage: https://synerise.com
+documentation: https://help.synerise.com/developers/mobile-sdk/
+repository: https://github.com/Synerise/synerise-flutter-sdk
 
 environment:
   sdk: '>=2.18.2 <3.0.0'

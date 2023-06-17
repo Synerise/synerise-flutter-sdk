@@ -39,9 +39,7 @@ class _RegisterAccountState extends State<RegisterAccount> with AutomaticKeepAli
               ButtonBar(
                 children: <Widget>[
                   ElevatedButton.icon(
-                      onPressed: () => _registerAccountCall(
-                          emailController.text,
-                          passwordController.text),
+                      onPressed: () => _registerAccountCall(emailController.text, passwordController.text),
                       icon: const Icon(Icons.arrow_forward),
                       label: const Text('Register')),
                 ],
@@ -51,11 +49,8 @@ class _RegisterAccountState extends State<RegisterAccount> with AutomaticKeepAli
         ));
   }
 
-  Future<void> _registerAccountCall(
-      email, password) async {
-    ClientAccountRegisterContext clientAccountRegisterContext = ClientAccountRegisterContext(
-        email: email,
-        password: password);
+  Future<void> _registerAccountCall(email, password) async {
+    ClientAccountRegisterContext clientAccountRegisterContext = ClientAccountRegisterContext(email: email, password: password);
 
     await Synerise.client.registerAccount(clientAccountRegisterContext).catchError((error) {
       showDialog(

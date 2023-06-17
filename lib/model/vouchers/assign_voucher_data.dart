@@ -1,5 +1,7 @@
 import '../../utils/synerise_utils.dart';
 
+/// The AssignVoucherData class represents data related to a voucher, including its code, expiration
+/// date, redemption date, and creation/update timestamps.
 class AssignVoucherData {
   String code;
   DateTime? expireIn;
@@ -17,6 +19,9 @@ class AssignVoucherData {
     required this.updatedAt,
   });
 
+  /// `AssignVoucherData.fromMap(Map map)` is a named constructor that creates an instance of the
+  /// `AssignVoucherData` class from a `Map` object. It takes a `Map` object as an argument and uses its
+  /// values to initialize the properties of the `AssignVoucherData` object.
   AssignVoucherData.fromMap(Map map)
       : this(
             code: map['code'],
@@ -26,6 +31,7 @@ class AssignVoucherData {
             createdAt: SyneriseUtils.formatIntToDateTime(map['createdAt']! * 1000),
             updatedAt: SyneriseUtils.formatIntToDateTime(map['updatedAt']! * 1000));
 
+  /// This function returns a map containing various properties of an object, including timestamps.
   Map asMap() => {
         'code': code,
         'expireIn': expireIn?.millisecondsSinceEpoch,

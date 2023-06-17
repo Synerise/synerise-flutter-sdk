@@ -12,16 +12,14 @@ class ContentMethodsView extends StatefulWidget {
 
 class _ContentMethodsViewState extends State<ContentMethodsView> with AutomaticKeepAliveClientMixin {
   final slugController = TextEditingController();
-  final getDocumentForm = GlobalKey<FormState>();
+  final generateDocumentForm = GlobalKey<FormState>();
 
-  final getDocumentsForm = GlobalKey<FormState>();
-  final typeController = TextEditingController();
-  final typeValueController = TextEditingController();
-  final versionController = TextEditingController();
-
-  final getRecommendationsForm = GlobalKey<FormState>();
+  final getRecommendationsV2Form = GlobalKey<FormState>();
   final slugRecoController = TextEditingController();
   final productIDController = TextEditingController();
+
+  final feedSlugController = TextEditingController();
+  final generateScreenViewForm = GlobalKey<FormState>();
 
   _tempFormBody() {
     return SingleChildScrollView(
@@ -30,12 +28,12 @@ class _ContentMethodsViewState extends State<ContentMethodsView> with AutomaticK
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            //getDocument
+            //generateDocument
             Form(
-                key: getDocumentForm,
+                key: generateDocumentForm,
                 child: Column(
                   children: [
-                    const Padding(padding: EdgeInsets.all(15), child: Text("getDocument Test")),
+                    const Padding(padding: EdgeInsets.all(15), child: Text("generateDocument Test")),
                     SizedBox(
                         width: 350,
                         child: TextFormField(
@@ -44,7 +42,7 @@ class _ContentMethodsViewState extends State<ContentMethodsView> with AutomaticK
                           keyboardType: TextInputType.text,
                         )),
                     ElevatedButton.icon(
-                        onPressed: () => _getDocumentCall(slugController.text),
+                        onPressed: () => _generateDocumentCall(slugController.text),
                         icon: const Icon(Icons.file_copy_outlined),
                         label: const Text('getDocument')),
                   ],
@@ -53,50 +51,12 @@ class _ContentMethodsViewState extends State<ContentMethodsView> with AutomaticK
               thickness: 1,
               color: Colors.grey,
             ),
-            //getDocuments
-            Form(
-                key: getDocumentsForm,
-                child: Column(
-                  children: [
-                    const Padding(padding: EdgeInsets.all(15), child: Text("getDocuments Test")),
-                    SizedBox(
-                        width: 350,
-                        child: TextFormField(
-                          enabled: false,
-                          controller: typeController,
-                          decoration: const InputDecoration(border: OutlineInputBorder(), labelText: "type"),
-                          keyboardType: TextInputType.text,
-                        )),
-                    SizedBox(
-                        width: 350,
-                        child: TextFormField(
-                          controller: typeValueController,
-                          decoration: const InputDecoration(border: OutlineInputBorder(), labelText: "typeValue"),
-                          keyboardType: TextInputType.text,
-                        )),
-                    SizedBox(
-                        width: 350,
-                        child: TextFormField(
-                          controller: versionController,
-                          decoration: const InputDecoration(border: OutlineInputBorder(), labelText: "version"),
-                          keyboardType: TextInputType.text,
-                        )),
-                    ElevatedButton.icon(
-                        onPressed: () => _getDocumentsCall(typeValueController.text, versionController.text),
-                        icon: const Icon(Icons.list_alt),
-                        label: const Text('getDocuments')),
-                  ],
-                )),
-            const Divider(
-              thickness: 1,
-              color: Colors.grey,
-            ),
             //getRecommendations
             Form(
-                key: getRecommendationsForm,
+                key: getRecommendationsV2Form,
                 child: Column(
                   children: [
-                    const Padding(padding: EdgeInsets.all(15), child: Text("getRecommendations Test")),
+                    const Padding(padding: EdgeInsets.all(15), child: Text("getRecommendationsV2 Test")),
                     SizedBox(
                         width: 350,
                         child: TextFormField(
@@ -112,27 +72,46 @@ class _ContentMethodsViewState extends State<ContentMethodsView> with AutomaticK
                           keyboardType: TextInputType.text,
                         )),
                     ElevatedButton.icon(
-                        onPressed: () => _getRecommendationsCall(slugRecoController.text, productIDController.text),
+                        onPressed: () => _getRecommendationsV2Call(slugRecoController.text, productIDController.text),
                         icon: const Icon(Icons.recommend_outlined),
-                        label: const Text('getRecommendations')),
+                        label: const Text('getRecommendationsV2')),
                   ],
                 )),
             const Divider(
               thickness: 1,
               color: Colors.grey,
             ),
-            //getScreenView
-            const Padding(padding: EdgeInsets.all(15), child: Text("getScreenView Test")),
-            ElevatedButton.icon(
-                onPressed: () => _getScreenViewCall(), icon: const Icon(Icons.fit_screen), label: const Text('getScreenView')),
+            //generateScreenView
+            Form(
+                key: generateScreenViewForm,
+                child: Column(
+                  children: [
+                    const Padding(padding: EdgeInsets.all(15), child: Text("generateScreenView Test")),
+                    SizedBox(
+                        width: 350,
+                        child: TextFormField(
+                          controller: feedSlugController,
+                          decoration: const InputDecoration(border: OutlineInputBorder(), labelText: "feedSlug"),
+                          keyboardType: TextInputType.text,
+                        )),
+                    ElevatedButton.icon(
+                        onPressed: () => _generateScreenViewCall(feedSlugController.text),
+                        icon: const Icon(Icons.fit_screen),
+                        label: const Text('generateScreenView')),
+                  ],
+                )),
+            const Divider(
+              thickness: 1,
+              color: Colors.grey,
+            ),
           ],
         ));
   }
 
-  Future<void> _getDocumentCall(String slug) async {
+  Future<void> _generateDocumentCall(String slug) async {
     String slugName = slug;
 
-    Map<String, Object> documentMap = await Synerise.content.getDocument(slugName).catchError((error) {
+    Document document = await Synerise.content.generateDocument(slugName).catchError((error) {
       String errorMessage = Utils.handlePlatformException(error);
       Utils.displaySimpleAlert("error on handling api call \n $errorMessage", context);
       throw Exception(errorMessage);
@@ -145,7 +124,7 @@ class _ContentMethodsViewState extends State<ContentMethodsView> with AutomaticK
               content: SingleChildScrollView(
                   child: Column(children: [
             const Text(
-              'Document Map',
+              'Document Identifier',
               style: TextStyle(fontStyle: FontStyle.italic),
             ),
             Container(
@@ -153,47 +132,19 @@ class _ContentMethodsViewState extends State<ContentMethodsView> with AutomaticK
                 margin: const EdgeInsets.all(5.0),
                 padding: const EdgeInsets.all(5),
                 decoration: BoxDecoration(border: Border.all(width: 0.5, color: Colors.black)),
-                child: Text(documentMap.toString(), textScaleFactor: 0.5))
+                child: Text(document.identifier.toString(), textScaleFactor: 0.5))
           ])));
         });
   }
 
-  Future<void> _getDocumentsCall(String typeValue, String? version) async {
-    DocumentsApiQueryType documentsApiQueryType = DocumentsApiQueryType.schema;
-    DocumentsApiQuery documentsApiQuery =
-        DocumentsApiQuery(typeValue: typeValue, version: version != "" ? version : null, type: documentsApiQueryType);
-    List<Map<String, Object>> documentsList = await Synerise.content.getDocuments(documentsApiQuery).catchError((error) {
-      String errorMessage = Utils.handlePlatformException(error);
-      Utils.displaySimpleAlert("error on handling api call \n $errorMessage", context);
-      throw Exception(errorMessage);
-    });
-    if (!mounted) return;
-    showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-              content: SingleChildScrollView(
-                  child: Column(children: [
-            const Text(
-              'Documents Map',
-              style: TextStyle(fontStyle: FontStyle.italic),
-            ),
-            Container(
-                width: double.infinity,
-                margin: const EdgeInsets.all(5.0),
-                padding: const EdgeInsets.all(5),
-                decoration: BoxDecoration(border: Border.all(width: 0.5, color: Colors.black)),
-                child: Text(documentsList.toString(), textScaleFactor: 0.5))
-          ])));
-        });
-  }
-
-  Future<void> _getRecommendationsCall(String slugReco, String productRecoID) async {
-    String productID = productRecoID;
+  Future<void> _getRecommendationsV2Call(String slugReco, String productID) async {
+    String productId = productID;
     String slug = slugReco;
-    RecommendationOptions recommendationOptions = RecommendationOptions(slug: slug, productID: productID);
-
-    RecommendationResponse recommendationResponse = await Synerise.content.getRecommendations(recommendationOptions).catchError((error) {
+    RecommendationOptions recommendationOptions = RecommendationOptions(
+        slug: slug,
+        productID: productId);
+        
+    RecommendationResponse recommendationResponse = await Synerise.content.getRecommendationsV2(recommendationOptions).catchError((error) {
       String errorMessage = Utils.handlePlatformException(error);
       Utils.displaySimpleAlert("error on handling api call \n $errorMessage", context);
       throw Exception(errorMessage);
@@ -214,13 +165,14 @@ class _ContentMethodsViewState extends State<ContentMethodsView> with AutomaticK
                 margin: const EdgeInsets.all(5.0),
                 padding: const EdgeInsets.all(5),
                 decoration: BoxDecoration(border: Border.all(width: 0.5, color: Colors.black)),
-                child: Text(recommendationResponse.asMap().toString(), textScaleFactor: 0.5))
+                child: Text(recommendationResponse.items.toString(), textScaleFactor: 0.5))
           ])));
         });
   }
 
-  Future<void> _getScreenViewCall() async {
-    ScreenViewResponse screenViewResponse = await Synerise.content.getScreenView().catchError((error) {
+  Future<void> _generateScreenViewCall(String feedSlug) async {
+    String slug = feedSlug;
+    ScreenView screenViewResponse = await Synerise.content.generateScreenView(slug).catchError((error) {
       String errorMessage = Utils.handlePlatformException(error);
       Utils.displaySimpleAlert("error on handling api call \n $errorMessage", context);
       throw Exception(errorMessage);
@@ -233,7 +185,7 @@ class _ContentMethodsViewState extends State<ContentMethodsView> with AutomaticK
               content: SingleChildScrollView(
                   child: Column(children: [
             const Text(
-              'ScreenView Map',
+              'ScreenView Data',
               style: TextStyle(fontStyle: FontStyle.italic),
             ),
             Container(
@@ -241,7 +193,7 @@ class _ContentMethodsViewState extends State<ContentMethodsView> with AutomaticK
                 margin: const EdgeInsets.all(5.0),
                 padding: const EdgeInsets.all(5),
                 decoration: BoxDecoration(border: Border.all(width: 0.5, color: Colors.black)),
-                child: Text(screenViewResponse.asMap().toString(), textScaleFactor: 0.5))
+                child: Text(screenViewResponse.data.toString(), textScaleFactor: 0.5))
           ])));
         });
   }

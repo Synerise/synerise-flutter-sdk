@@ -1,3 +1,5 @@
+/// This is defining an enumeration called `IdentityProvider` with five possible values: `synerise`,
+/// `facebook`, `google`, `oauth`, and `unknown`. Each value is associated with a string representation.
 enum IdentityProvider {
   synerise('SYNERISE'),
   facebook('FACEBOOK'),
@@ -9,10 +11,12 @@ enum IdentityProvider {
 
   final String identityPrvovider;
 
+  /// This function returns the identity provider as a string.
   String getIdentityProviderAsString() {
     return identityPrvovider;
   }
 
+  /// This function returns an identity provider as a string based on a given input string.
   static String getIdentityProviderFromString(String string) {
     if (string == synerise.identityPrvovider) {
       return synerise.identityPrvovider;

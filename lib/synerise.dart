@@ -13,6 +13,8 @@ class Synerise {
   static InjectorImpl injector = InjectorImpl();
   static PromotionsImpl promotions = PromotionsImpl();
 
+  /// This function returns a SyneriseInitializer object with a completion handler that initializes
+  /// Synerise and configures the SyneriseDartMethodChannel instance.
   static SyneriseInitializer initializer() {
     final initializer = SyneriseInitializer();
     initializer.setCompletionHandler((initialized) {

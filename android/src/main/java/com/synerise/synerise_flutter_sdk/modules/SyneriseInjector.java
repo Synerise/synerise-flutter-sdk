@@ -2,7 +2,6 @@ package com.synerise.synerise_flutter_sdk.modules;
 
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 
 import com.synerise.sdk.error.ApiError;
 import com.synerise.sdk.injector.Injector;
@@ -66,7 +65,7 @@ public class SyneriseInjector implements SyneriseModule {
             public void onHandledOpenDeepLink(InAppMessageData inAppMessageData) {
                 Map<String, Object> data = createMapFromInAppMessageData(inAppMessageData);
                 data.put("deepLink", inAppMessageData.getDeepLink());
-                SyneriseMethodChannel.methodChannel.invokeMethod("Injector#InjectorInAppMessageListener#onDeepLink",data);
+                SyneriseMethodChannel.methodChannel.invokeMethod("Injector#InjectorInAppMessageListener#onDeepLink", data);
             }
 
             @Override
@@ -79,7 +78,7 @@ public class SyneriseInjector implements SyneriseModule {
                 Map<String, Object> data = createMapFromInAppMessageData(inAppMessageData);
                 data.put("name", identifier);
                 data.put("parameters", params);
-                SyneriseMethodChannel.methodChannel.invokeMethod("Injector#InjectorInAppMessageListener#onCustomAction",data);
+                SyneriseMethodChannel.methodChannel.invokeMethod("Injector#InjectorInAppMessageListener#onCustomAction", data);
             }
         });
     }
@@ -101,7 +100,7 @@ public class SyneriseInjector implements SyneriseModule {
             @Override
             public void onClosed() {
                 Map<String, Object> map = new HashMap<>();
-                SyneriseMethodChannel.methodChannel.invokeMethod("Injector#InjectorBannerListener#onHide",map);
+                SyneriseMethodChannel.methodChannel.invokeMethod("Injector#InjectorBannerListener#onHide", map);
                 super.onClosed();
             }
         });
@@ -136,28 +135,28 @@ public class SyneriseInjector implements SyneriseModule {
             @Override
             public void onLoadingError(ApiError error) {
                 Map<String, Object> map = new HashMap<>();
-                SyneriseMethodChannel.methodChannel.invokeMethod("Injector#InjectorWalkthroughListener#onLoadingError",map);
+                SyneriseMethodChannel.methodChannel.invokeMethod("Injector#InjectorWalkthroughListener#onLoadingError", map);
                 super.onLoadingError(error);
             }
 
             @Override
             public void onLoaded(WalkthroughResponse walkthrough) {
                 Map<String, Object> map = new HashMap<>();
-                SyneriseMethodChannel.methodChannel.invokeMethod("Injector#InjectorWalkthroughListener#onLoad",map);
+                SyneriseMethodChannel.methodChannel.invokeMethod("Injector#InjectorWalkthroughListener#onLoad", map);
                 super.onLoaded(walkthrough);
             }
 
             @Override
             public void onPresented() {
                 Map<String, Object> map = new HashMap<>();
-                SyneriseMethodChannel.methodChannel.invokeMethod("Injector#InjectorWalkthroughListener#onPresent",map);
+                SyneriseMethodChannel.methodChannel.invokeMethod("Injector#InjectorWalkthroughListener#onPresent", map);
                 super.onPresented();
             }
 
             @Override
             public void onClosed() {
                 Map<String, Object> map = new HashMap<>();
-                SyneriseMethodChannel.methodChannel.invokeMethod("Injector#InjectorWalkthroughListener#onHide",map);
+                SyneriseMethodChannel.methodChannel.invokeMethod("Injector#InjectorWalkthroughListener#onHide", map);
                 super.onClosed();
             }
         });

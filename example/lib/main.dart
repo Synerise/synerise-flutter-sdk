@@ -13,7 +13,6 @@ import 'dart:developer' as developer;
 
 import 'views/promotions/promotions_methods_view.dart';
 
-
 String? firebaseToken;
 
 class InitialView extends StatefulWidget {
@@ -34,10 +33,7 @@ class _InitialViewState extends State<InitialView> {
   Future<void> initializeSynerise() async {
     Synerise.settings.injector.automatic = true;
     Synerise.initializer()
-      .withClientApiKey("YOUR_CLIENT_API_KEY")
-      .withBaseUrl("https://api.snrapi.com")
-      .withDebugModeEnabled(true)
-      .init();
+        .withClientApiKey("YOUR_PROFILE_API_KEY").withBaseUrl("https://api.snrapi.com").withDebugModeEnabled(true).init();
 
     Synerise.injector.listener((listener) {
       listener.onOpenUrl = (url) {
@@ -49,36 +45,20 @@ class _InitialViewState extends State<InitialView> {
     });
 
     Synerise.injector.bannerListener((listener) {
-      listener.onPresent = () {
-
-      };
-      listener.onHide = () {
-
-      };
+      listener.onPresent = () {};
+      listener.onHide = () {};
     });
 
     Synerise.injector.walkthroughListener((listener) {
-      listener.onLoad = () {
-
-      };
-      listener.onLoadingError = () {
-
-      };
-      listener.onPresent = () {
-
-      };
-      listener.onHide = () {
-
-      };
+      listener.onLoad = () {};
+      listener.onLoadingError = () {};
+      listener.onPresent = () {};
+      listener.onHide = () {};
     });
 
     Synerise.injector.inAppMessageListener((listener) {
-      listener.onOpenUrl = (data, url) {
-
-      };
-      listener.onDeepLink = (data, deepLink) {
-
-      };
+      listener.onOpenUrl = (data, url) {};
+      listener.onDeepLink = (data, deepLink) {};
 
       listener.onPresent = (data) {
         Utils.displaySimpleAlert(data.campaignHash, context);
@@ -88,9 +68,7 @@ class _InitialViewState extends State<InitialView> {
         Utils.displaySimpleAlert(data.campaignHash, context);
       };
 
-      listener.onCustomAction = (data, name, parameters) {
-
-      };
+      listener.onCustomAction = (data, name, parameters) {};
     });
   }
 
@@ -109,13 +87,9 @@ class _InitialViewState extends State<InitialView> {
       provisional: false,
       sound: true,
     );
-    FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
-      alert: true,
-      sound: true,
-      badge: true
-    );
+    FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(alert: true, sound: true, badge: true);
     FirebaseMessaging.onBackgroundMessage(backgroundHandlerForFCM);
-    
+
     FirebaseMessaging.instance.onTokenRefresh.listen((event) {
       FirebaseMessaging.instance.getToken().then((value) {
         if (value != null) {
@@ -135,7 +109,9 @@ class _InitialViewState extends State<InitialView> {
       }
     });
 
-    FirebaseMessaging.onMessage.listen((RemoteMessage message,) {
+    FirebaseMessaging.onMessage.listen((
+      RemoteMessage message,
+    ) {
       Synerise.notifications.handleNotification(message.toMap());
     });
 
@@ -144,13 +120,11 @@ class _InitialViewState extends State<InitialView> {
     });
 
     Synerise.notifications.listener((listener) {
-        listener.onRegistrationRequired = () {
-          Synerise.notifications.registerForNotifications(firebaseToken!, true);
-        };
+      listener.onRegistrationRequired = () {
+        Synerise.notifications.registerForNotifications(firebaseToken!, true);
+      };
     });
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -281,16 +255,16 @@ class MyApp extends StatelessWidget {
 }
 
 @pragma('vm:entry-point')
-  Future<void> backgroundHandlerForFCM(RemoteMessage message) async {
+Future<void> backgroundHandlerForFCM(RemoteMessage message) async {
   await Firebase.initializeApp();
   await Synerise.initializer()
-        .withClientApiKey("YOUR_CLIENT_API_KEY")
-        .withBaseUrl("https://api.snrapi.com")
-        .withDebugModeEnabled(true)
-        .init();
+      .withClientApiKey("YOUR_PROFILE_API_KEY")
+      .withBaseUrl("https://api.snrapi.com")
+      .withDebugModeEnabled(true)
+      .init();
   // If you're going to use other Firebase services in the background, such as Firestore,
   // make sure you call `initializeApp` before using other Firebase services.
   // ignore: unused_local_variable
   bool isPushSynerise = await Synerise.notifications.handleNotification(message.toMap());
   developer.log('flutter', name: 'onMessage background');
-} 
+}

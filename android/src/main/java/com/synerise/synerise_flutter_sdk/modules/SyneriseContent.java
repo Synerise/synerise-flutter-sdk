@@ -6,8 +6,11 @@ import com.synerise.sdk.content.model.Audience;
 import com.synerise.sdk.content.model.DocumentsApiQuery;
 import com.synerise.sdk.content.model.DocumentsApiQueryType;
 import com.synerise.sdk.content.model.ScreenViewResponse;
+import com.synerise.sdk.content.model.document.Document;
+import com.synerise.sdk.content.model.recommendation.FiltersJoinerRule;
 import com.synerise.sdk.content.model.recommendation.RecommendationRequestBody;
 import com.synerise.sdk.content.model.recommendation.RecommendationResponse;
+import com.synerise.sdk.content.model.screenview.ScreenView;
 import com.synerise.sdk.content.widgets.dataModel.Recommendation;
 import com.synerise.sdk.core.net.IDataApiCall;
 import com.synerise.synerise_flutter_sdk.SyneriseModule;
@@ -15,7 +18,6 @@ import com.synerise.synerise_flutter_sdk.SyneriseModule;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -35,6 +37,8 @@ public class SyneriseContent implements SyneriseModule {
     private final String ISO8601_FORMAT = "yyyy-MM-dd'T'kk:mm:ss.SSS'Z'";
     private IDataApiCall<RecommendationResponse> getRecommendationsApiCall;
     private IDataApiCall<ScreenViewResponse> getScreenViewApiCall;
+    private IDataApiCall<ScreenView> generateScreenViewApiCall;
+    private IDataApiCall<Document> generateDocumentApiCall;
     private Gson gson = new Gson();
 
     public SyneriseContent() {
@@ -45,16 +49,25 @@ public class SyneriseContent implements SyneriseModule {
 
         switch (calledMethod) {
             case "getDocument":
-                getDocument(call,result);
+                getDocument(call, result);
                 return;
             case "getDocuments":
-                getDocuments(call,result);
+                getDocuments(call, result);
                 return;
             case "getRecommendations":
-                getRecommendations(call,result);
+                getRecommendations(call, result);
                 return;
             case "getScreenView":
                 getScreenView(result);
+                return;
+            case "getRecommendationsV2":
+                getRecommendationsV2(call, result);
+                return;
+            case "generateDocument":
+                generateDocument(call, result);
+                return;
+            case "generateScreenView":
+                generateScreenView(call, result);
                 return;
         }
     }
@@ -151,13 +164,106 @@ public class SyneriseContent implements SyneriseModule {
         }, apiError -> SyneriseModule.executeFailureResult(apiError, result));
     }
 
-    private ArrayList<Map<String,Object>> recommendationToArrayList(List<Recommendation> array) {
+    public void getRecommendationsV2(MethodCall call, MethodChannel.Result result) {
+        Map recommendationOptions = (Map) call.arguments;
+        String productID = null;
+        String slugName = null;
+        if (call.arguments != null) {
+            productID = (String) recommendationOptions.get("productID");
+            slugName = (String) recommendationOptions.get("slug");
+        }
+        if (getRecommendationsApiCall != null) getRecommendationsApiCall.cancel();
+
+        RecommendationRequestBody recommendationRequestBody = new RecommendationRequestBody();
+        recommendationRequestBody.setProductId(productID);
+        recommendationRequestBody.setItemsIds(recommendationOptions.get("productIDs") != null ? (ArrayList<String>) recommendationOptions.get("productIDs") : null);
+        recommendationRequestBody.setItemsExcluded((ArrayList<String>) recommendationOptions.get("itemsExcluded"));
+        recommendationRequestBody.setAdditionalFilters((String) recommendationOptions.get("additionalFilters"));
+        if (recommendationOptions.get("filtersJoiner") != null) {
+            recommendationRequestBody.setFiltersJoiner(getFiltersJoinerRuleFromString((String) recommendationOptions.get("filtersJoiner")));
+        }
+        if (recommendationOptions.get("elasticFiltersJoiner") != null) {
+            recommendationRequestBody.setElasticFiltersJoiner(getFiltersJoinerRuleFromString((String) recommendationOptions.get("elasticFiltersJoiner")));
+        }
+        recommendationRequestBody.setAdditionalElasticFilters((String) recommendationOptions.get("additionalElasticFilters"));
+        recommendationRequestBody.setDisplayAttributes((ArrayList<String>) recommendationOptions.get("displayAttributes"));
+        recommendationRequestBody.setIncludeContextItems((boolean) recommendationOptions.get("includeContextItems"));
+
+        Map<String, Object> recommendationMap = new HashMap<>();
+
+        getRecommendationsApiCall = Content.getRecommendationsV2(slugName, recommendationRequestBody);
+        getRecommendationsApiCall.execute(responseBody -> {
+            recommendationMap.put("name", responseBody.getName());
+            recommendationMap.put("correlationID", responseBody.getCorrelationId());
+            recommendationMap.put("campaignHash", responseBody.getCampaignHash());
+            recommendationMap.put("campaignID", responseBody.getCampaignId());
+            recommendationMap.put("schema", responseBody.getSchema());
+            recommendationMap.put("slug", responseBody.getSlug());
+            recommendationMap.put("uuid", responseBody.getUuid());
+            recommendationMap.put("items", recommendationToArrayList(responseBody.getRecommendations()));
+            SyneriseModule.executeSuccessResult(recommendationMap, result);
+        }, apiError -> SyneriseModule.executeFailureResult(apiError, result));
+    }
+
+    public void generateDocument(MethodCall call, MethodChannel.Result result) {
+        String slug = (String) call.arguments;
+        Map<String, Object> documentMap = new HashMap<>();
+        if (generateDocumentApiCall != null) generateDocumentApiCall.cancel();
+        generateDocumentApiCall = Content.generateDocument(slug);
+        generateDocumentApiCall.execute(document -> {
+            if (document.getContent() instanceof String) {
+                try {
+                    HashMap<String, Object> contentMap = new Gson().fromJson((String) document.getContent(), HashMap.class);
+                    documentMap.put("content", contentMap);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else {
+                documentMap.put("content", document.getContent());
+            }
+            documentMap.put("identifier", document.getUuid());
+            documentMap.put("slug", document.getSlug());
+            documentMap.put("schema", document.getSchema());
+            SyneriseModule.executeSuccessResult(documentMap, result);
+        }, apiError -> SyneriseModule.executeFailureResult(apiError, result));
+    }
+
+    public void generateScreenView(MethodCall call, MethodChannel.Result result) {
+        String slug = (String) call.arguments;
+        Map<String, Object> screenViewMap = new HashMap<>();
+        if (generateScreenViewApiCall != null) generateScreenViewApiCall.cancel();
+        generateScreenViewApiCall = Content.generateScreenView(slug);
+        generateScreenViewApiCall.execute(screenView -> {
+            screenViewMap.put("audience", screenViewAudienceToWritableMap(screenView.getAudience()));
+            screenViewMap.put("identifier", screenView.getId());
+            screenViewMap.put("hashString", screenView.getHash());
+            screenViewMap.put("path", screenView.getPath());
+            screenViewMap.put("name", screenView.getName());
+            screenViewMap.put("priority", screenView.getPriority());
+            screenViewMap.put("data", screenViewDataMapper(screenView.getData()));
+            try {
+                Date createdAtDate = new SimpleDateFormat(ISO8601_FORMAT, Locale.getDefault()).parse(screenView.getCreatedAt());
+                Date updatedAtDate = new SimpleDateFormat(ISO8601_FORMAT, Locale.getDefault()).parse(screenView.getUpdatedAt());
+                if (createdAtDate != null) {
+                    screenViewMap.put("createdAt", createdAtDate.getTime());
+                }
+                if (updatedAtDate != null) {
+                    screenViewMap.put("updatedAt", updatedAtDate.getTime());
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            SyneriseModule.executeSuccessResult(screenViewMap, result);
+        }, apiError -> SyneriseModule.executeFailureResult(apiError, result));
+    }
+
+    private ArrayList<Map<String, Object>> recommendationToArrayList(List<Recommendation> array) {
 
         ArrayList<Map<String, Object>> arrayList = new ArrayList();
         for (int i = 0; i < array.size(); i++) {
             Recommendation recommendation = array.get(i);
             Map<String, Object> recommendationMap = new HashMap<>();
-            Map<String,Object> feed = recommendation.getFeed();
+            Map<String, Object> feed = recommendation.getFeed();
             recommendationMap.put("itemID", recommendation.getItemId());
             recommendationMap.put("attributes", feed);
             arrayList.add(recommendationMap);
@@ -183,6 +289,15 @@ public class SyneriseContent implements SyneriseModule {
         return audienceMap;
     }
 
+    private Map screenViewAudienceToWritableMap(com.synerise.sdk.content.model.screenview.Audience audience) {
+        Map<String, Object> audienceMap = new HashMap<>();
+        List<String> segmentsList = audience.getSegments();
+        audienceMap.put("query", audience.getQuery());
+        audienceMap.put("targetType", audience.getTargetType());
+        audienceMap.put("segments", segmentsList != null ? listOfStringsToArrayList(segmentsList) : null);
+        return audienceMap;
+    }
+
     private Map screenViewDataMapper(Object data) {
         Map screenViewData = (Map) data;
         String jsonObject = gson.toJson(data);
@@ -192,6 +307,19 @@ public class SyneriseContent implements SyneriseModule {
             e.printStackTrace();
         }
         return screenViewData;
+    }
+
+    private FiltersJoinerRule getFiltersJoinerRuleFromString(String filtersJoiner) {
+        switch (filtersJoiner) {
+            case "and":
+                return FiltersJoinerRule.AND;
+            case "or":
+                return FiltersJoinerRule.OR;
+            case "replace":
+                return FiltersJoinerRule.REPLACE;
+            default:
+                return null;
+        }
     }
 
     public static SyneriseContent getInstance() {

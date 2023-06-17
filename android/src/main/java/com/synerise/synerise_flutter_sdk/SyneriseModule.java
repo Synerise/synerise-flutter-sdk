@@ -1,6 +1,7 @@
 package com.synerise.synerise_flutter_sdk;
 
 import com.synerise.sdk.error.ApiError;
+
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel.Result;
 

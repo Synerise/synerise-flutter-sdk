@@ -172,7 +172,9 @@ class _PromotionsMethodsViewState extends State<PromotionsMethodsView> with Auto
   Future<void> _getPromotionsCall() async {
     List<PromotionStatus> promotionsStatusList = <PromotionStatus>[PromotionStatus.active];
     List<PromotionType> promotionTypeList = <PromotionType>[PromotionType.general];
-    List<ApiQuerySorting> apiQuerySortingList = <ApiQuerySorting>[ApiQuerySorting(property: "", order: ApiQuerySortingOrder.ascending)];
+    List<ApiQuerySorting> apiQuerySortingList = <ApiQuerySorting>[
+      ApiQuerySorting(property: PromotionSortingKey.expireAt, order: ApiQuerySortingOrder.ascending)
+    ];
     PromotionsApiQuery promotionsApiQuery = PromotionsApiQuery(
         statuses: promotionsStatusList, types: promotionTypeList, sorting: apiQuerySortingList, limit: 10, page: 10, includeMeta: true);
     PromotionResponse promotionResponse = await Synerise.promotions.getPromotions(promotionsApiQuery).catchError((error) {
@@ -276,9 +278,7 @@ class _PromotionsMethodsViewState extends State<PromotionsMethodsView> with Auto
   }
 
   Future<void> _deactivatePromotionByUUIDCall(String uuid) async {
-    await Synerise.promotions
-        .deactivatePromotionByUUID(uuid)
-        .catchError((error) {
+    await Synerise.promotions.deactivatePromotionByUUID(uuid).catchError((error) {
       String errorMessage = Utils.handlePlatformException(error);
       Utils.displaySimpleAlert("error on handling api call \n $errorMessage", context);
       throw Exception(errorMessage);
@@ -288,9 +288,7 @@ class _PromotionsMethodsViewState extends State<PromotionsMethodsView> with Auto
   }
 
   Future<void> _deactivatePromotionByCodeCall(String code) async {
-    await Synerise.promotions
-        .deactivatePromotionByCode(code)
-        .catchError((error) {
+    await Synerise.promotions.deactivatePromotionByCode(code).catchError((error) {
       String errorMessage = Utils.handlePlatformException(error);
       Utils.displaySimpleAlert("error on handling api call \n $errorMessage", context);
       throw Exception(errorMessage);

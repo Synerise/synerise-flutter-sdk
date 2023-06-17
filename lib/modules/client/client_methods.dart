@@ -1,5 +1,3 @@
-
-
 import '../../enums/client/identity_provider.dart';
 import '../../model/client/client_account_information.dart';
 import '../../model/client/client_account_register_context.dart';

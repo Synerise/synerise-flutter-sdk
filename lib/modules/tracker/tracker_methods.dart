@@ -1,14 +1,13 @@
-import '../../model/tracker/event.dart';
+import '../../events/event.dart';
 import '../base/base_module_method_channel.dart';
 
 class TrackerMethods extends BaseMethodChannel {
-
   void setCustomIdentifier(String customIdentifier) {
-    methodChannel.invokeMethod('Tracker/setCustomIdentifier', {"customIdentifier" : customIdentifier});
+    methodChannel.invokeMethod('Tracker/setCustomIdentifier', {"customIdentifier": customIdentifier});
   }
 
   void setCustomEmail(String customEmail) {
-    methodChannel.invokeMethod('Tracker/setCustomEmail', {"customEmail" : customEmail});
+    methodChannel.invokeMethod('Tracker/setCustomEmail', {"customEmail": customEmail});
   }
 
   void send(Event event) {

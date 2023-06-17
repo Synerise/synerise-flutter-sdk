@@ -1,6 +1,8 @@
 import '../../enums/client/client_sex.dart';
 import 'client_agreements.dart';
 
+/// The `ClientAccountUpdateContext` class represents the context for updating a client's account
+/// information, including personal details, agreements, and custom attributes.
 class ClientAccountUpdateContext {
   String? email;
   String? password;
@@ -37,6 +39,9 @@ class ClientAccountUpdateContext {
       this.agreements,
       this.attributes});
 
+  /// `Map asMap()` is a method that returns a `Map` object containing all the properties of the
+  /// `ClientAccountUpdateContext` instance. The keys of the map correspond to the property names, and
+  /// the values correspond to the property values.
   Map asMap() => {
         'email': email,
         'password': password,
