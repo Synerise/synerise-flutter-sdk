@@ -24,7 +24,6 @@ public class SyneriseInitializer implements SyneriseModule {
 
     @Override
     public void handleMethodCall(MethodCall call, MethodChannel.Result result, String calledMethod) {
-
         switch (calledMethod) {
             case "initialize":
                 initSynerise(app, call, result);
@@ -42,16 +41,10 @@ public class SyneriseInitializer implements SyneriseModule {
                     .baseUrl(data.containsKey("baseUrl") ? (String) data.get("baseUrl") : null)
                     .syneriseDebugMode(data.containsKey("debugModeEnabled") ? (boolean) data.get("debugModeEnabled") : false)
                     .crashHandlingEnabled(data.containsKey("crashHandlingEnabled") ? (boolean) data.get("crashHandlingEnabled") : false)
-                    .notificationDefaultChannelId("synerise-3-300")
-                    .notificationDefaultChannelName("test-default-channel-noti")
-                    .notificationHighPriorityChannelId("synerise-4-300")
-                    .notificationHighPriorityChannelName("test-channel-noti")
                     .hostApplicationType(HostApplicationType.FLUTTER)
                     .pushRegistrationRequired(SyneriseNotifications.getPushNotificationsListener())
                     .build();
-
             isInitialized = true;
-
             SyneriseInjector.registerListeners();
         }
         result.success(null);

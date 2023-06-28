@@ -11,12 +11,8 @@ import 'package:synerise_flutter_sdk_example/views/content/content_methods_view.
 import 'package:synerise_flutter_sdk_example/views/tracker/tracker_methods_view.dart';
 import 'dart:developer' as developer;
 import 'views/promotions/promotions_methods_view.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 String? firebaseToken;
-
-/// initialize the [FlutterLocalNotificationsPlugin] package.
-FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
 class InitialView extends StatefulWidget {
   const InitialView({super.key});
@@ -125,26 +121,6 @@ class _InitialViewState extends State<InitialView> {
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       Synerise.notifications.handleNotificationClick(message.toMap());
     });
-
-    AndroidNotificationChannel channel = const AndroidNotificationChannel(
-      'synerise-4-300',
-      'test-channel-noti',
-      importance: Importance.max,
-    );
-
-    AndroidNotificationChannel channel2 = const AndroidNotificationChannel(
-      'synerise-3-300',
-      'test-default-channel-noti',
-      importance: Importance.high,
-    );
-
-    await flutterLocalNotificationsPlugin
-        .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
-        ?.createNotificationChannel(channel);
-
-    await flutterLocalNotificationsPlugin
-        .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
-        ?.createNotificationChannel(channel2);
 
     Synerise.notifications.listener((listener) {
       listener.onRegistrationRequired = () {
