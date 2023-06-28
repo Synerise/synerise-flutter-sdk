@@ -10,10 +10,13 @@ import 'package:synerise_flutter_sdk_example/views/client/client_methods_view.da
 import 'package:synerise_flutter_sdk_example/views/content/content_methods_view.dart';
 import 'package:synerise_flutter_sdk_example/views/tracker/tracker_methods_view.dart';
 import 'dart:developer' as developer;
-
 import 'views/promotions/promotions_methods_view.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 String? firebaseToken;
+
+/// initialize the [FlutterLocalNotificationsPlugin] package.
+FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
 class InitialView extends StatefulWidget {
   const InitialView({super.key});
@@ -32,8 +35,7 @@ class _InitialViewState extends State<InitialView> {
 
   Future<void> initializeSynerise() async {
     Synerise.settings.injector.automatic = true;
-    Synerise.initializer()
-        .withClientApiKey("YOUR_PROFILE_API_KEY").withBaseUrl("https://api.snrapi.com").withDebugModeEnabled(true).init();
+    Synerise.initializer().withClientApiKey("YOUR_PROFILE_API_KEY").withBaseUrl("https://api.snrapi.com").withDebugModeEnabled(true).init();
 
     Synerise.injector.listener((listener) {
       listener.onOpenUrl = (url) {
@@ -87,7 +89,12 @@ class _InitialViewState extends State<InitialView> {
       provisional: false,
       sound: true,
     );
-    FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(alert: true, sound: true, badge: true);
+
+    await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
     FirebaseMessaging.onBackgroundMessage(backgroundHandlerForFCM);
 
     FirebaseMessaging.instance.onTokenRefresh.listen((event) {
@@ -97,13 +104,13 @@ class _InitialViewState extends State<InitialView> {
         }
       });
     });
-    FirebaseMessaging.instance.getToken().then((value) {
+    await FirebaseMessaging.instance.getToken().then((value) {
       if (value != null) {
         Synerise.notifications.registerForNotifications(value, true);
         firebaseToken = value;
       }
     });
-    FirebaseMessaging.instance.getInitialMessage().then((message) {
+    await FirebaseMessaging.instance.getInitialMessage().then((message) {
       if (message != null) {
         Synerise.notifications.handleNotificationClick(message.toMap());
       }
@@ -118,6 +125,26 @@ class _InitialViewState extends State<InitialView> {
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       Synerise.notifications.handleNotificationClick(message.toMap());
     });
+
+    AndroidNotificationChannel channel = const AndroidNotificationChannel(
+      'synerise-4-300',
+      'test-channel-noti',
+      importance: Importance.max,
+    );
+
+    AndroidNotificationChannel channel2 = const AndroidNotificationChannel(
+      'synerise-3-300',
+      'test-default-channel-noti',
+      importance: Importance.high,
+    );
+
+    await flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
+        ?.createNotificationChannel(channel);
+
+    await flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
+        ?.createNotificationChannel(channel2);
 
     Synerise.notifications.listener((listener) {
       listener.onRegistrationRequired = () {

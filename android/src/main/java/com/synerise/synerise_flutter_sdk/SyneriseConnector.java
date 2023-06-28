@@ -7,7 +7,6 @@ import android.content.pm.ApplicationInfo;
 
 import androidx.annotation.NonNull;
 
-import com.google.gson.Gson;
 import com.synerise.synerise_flutter_sdk.modules.SyneriseClient;
 import com.synerise.synerise_flutter_sdk.modules.SyneriseContent;
 import com.synerise.synerise_flutter_sdk.modules.SyneriseInitializer;
@@ -38,7 +37,6 @@ public class SyneriseConnector implements FlutterPlugin, MethodCallHandler, Acti
     public static Application app;
     private Activity activity;
     private static volatile boolean isCalled = false;
-    private final Gson gson = new Gson();
 
     @Override
     public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) {

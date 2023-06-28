@@ -42,6 +42,10 @@ public class SyneriseInitializer implements SyneriseModule {
                     .baseUrl(data.containsKey("baseUrl") ? (String) data.get("baseUrl") : null)
                     .syneriseDebugMode(data.containsKey("debugModeEnabled") ? (boolean) data.get("debugModeEnabled") : false)
                     .crashHandlingEnabled(data.containsKey("crashHandlingEnabled") ? (boolean) data.get("crashHandlingEnabled") : false)
+                    .notificationDefaultChannelId("synerise-3-300")
+                    .notificationDefaultChannelName("test-default-channel-noti")
+                    .notificationHighPriorityChannelId("synerise-4-300")
+                    .notificationHighPriorityChannelName("test-channel-noti")
                     .hostApplicationType(HostApplicationType.FLUTTER)
                     .pushRegistrationRequired(SyneriseNotifications.getPushNotificationsListener())
                     .build();

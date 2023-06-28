@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [0.6.1] - 2023-06-28
+### Fixed
+- android push notifications banner related bug
+
 ## [0.6.0] - 2023-06-16
 ### Added
 - new methods for `Content` module

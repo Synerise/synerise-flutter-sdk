@@ -47,8 +47,15 @@ public class SyneriseNotifications implements SyneriseModule {
     private void handleNotification(MethodCall call, MethodChannel.Result result) {
         Map<String, Object> notificationMap = (Map) call.arguments;
         Map<String, Object> notificationContentMap = (Map<String, Object>) notificationMap.get("notification");
-        Map<String, String> dataMap = (Map<String, String>) notificationContentMap.get("data");
-        Boolean handlePushPayload = Injector.handlePushPayload(dataMap);
+        Map<String, String> dataMapSerialized = (Map<String, String>) notificationContentMap.get("data");
+
+        String content = (String) dataMapSerialized.get("content");
+        if (content != null) {
+            String newContent = content.replace("\"priority\":\"high\"","\"priority\":\"HIGH\"");
+            dataMapSerialized.put("content", newContent);
+        }
+        Boolean handlePushPayload = Injector.handlePushPayload(dataMapSerialized);
+
         SyneriseModule.executeSuccessResult(handlePushPayload, result);
     }
 

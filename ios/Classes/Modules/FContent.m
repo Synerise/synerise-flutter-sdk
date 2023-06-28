@@ -168,9 +168,13 @@ NS_ASSUME_NONNULL_BEGIN
         model.productIDs = [dictionary getArrayForKey:@"productIDs"];
         model.itemsExcluded = [dictionary getArrayForKey:@"itemsExcluded"];
         model.additionalFilters = [dictionary getStringForKey:@"additionalFilters"];
-        model.filtersJoiner =  ([self modelFiltersJoiner:[dictionary getStringForKey:@"filtersJoiner"]]);
+        if (dictionary[@"filtersJoiner"] != nil) {
+            model.filtersJoiner =  ([self modelFiltersJoiner:[dictionary getStringForKey:@"filtersJoiner"]]);
+        }
         model.additionalElasticFilters = [dictionary getStringForKey:@"additionalElasticFilters"];
-        model.elasticFiltersJoiner = ([self modelFiltersJoiner:[dictionary getStringForKey:@"elasticFiltersJoiner"]]);
+        if (dictionary[@"elasticFiltersJoiner"] != nil) {
+            model.elasticFiltersJoiner = ([self modelFiltersJoiner:[dictionary getStringForKey:@"elasticFiltersJoiner"]]);
+        }
         model.displayAttribute = [dictionary getArrayForKey:@"displayAttribute"];
         model.includeContextItems = [dictionary getBoolForKey:@"includeContextItems"];
     }
