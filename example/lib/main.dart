@@ -30,7 +30,10 @@ class _InitialViewState extends State<InitialView> {
   }
 
   Future<void> initializeSynerise() async {
+    Synerise.settings.sdk.appGroupIdentifier = "group.com.synerise.sdk.flutter";
+    Synerise.settings.sdk.keychainGroupIdentifier = "34N2Z22TKH.FlutterKeychainGroup";
     Synerise.settings.injector.automatic = true;
+    
     Synerise.initializer().withClientApiKey("YOUR_PROFILE_API_KEY").withBaseUrl("https://api.snrapi.com").withDebugModeEnabled(true).init();
 
     Synerise.injector.listener((listener) {
