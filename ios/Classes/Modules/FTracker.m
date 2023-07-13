@@ -108,6 +108,11 @@ NS_ASSUME_NONNULL_BEGIN
                         [builder setObject:((NSDictionary *)paramValue) forKey:paramKey];
                         continue;
                     }
+                    
+                    if ([paramValue isKindOfClass:[NSArray class]] == YES) {
+                        [builder setObject:((NSArray *)paramValue) forKey:paramKey];
+                        continue;
+                    }
                 }
             }
         }];

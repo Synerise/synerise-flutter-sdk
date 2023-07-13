@@ -47,7 +47,7 @@ public final class SyneriseClient implements SyneriseModule {
                 signIn(call, result);
                 return;
             case "signOut":
-                signOut();
+                signOut(result);
                 return;
             case "isSignedIn":
                 isSignedIn(result);
@@ -71,7 +71,7 @@ public final class SyneriseClient implements SyneriseModule {
                 getUUID(result);
                 return;
             case "regenerateUUID":
-                regenerateUUID();
+                regenerateUUID(result);
                 return;
             case "requestPasswordReset":
                 requestPasswordReset(call, result);
@@ -80,7 +80,7 @@ public final class SyneriseClient implements SyneriseModule {
                 getAccount(call, result);
                 return;
             case "destroySession":
-                destroySession();
+                destroySession(result);
                 return;
             case "changePassword":
                 changePassword(call, result);
@@ -171,8 +171,9 @@ public final class SyneriseClient implements SyneriseModule {
         });
     }
 
-    private static void signOut() {
+    private static void signOut(MethodChannel.Result result) {
         Client.signOut();
+        SyneriseModule.executeSuccessResult(true, result);
     }
 
     private static void isSignedIn(MethodChannel.Result result) {
@@ -252,8 +253,9 @@ public final class SyneriseClient implements SyneriseModule {
         SyneriseModule.executeSuccessResult(uuid, result);
     }
 
-    public void regenerateUUID() {
+    public void regenerateUUID(MethodChannel.Result result) {
         Client.regenerateUuid();
+        SyneriseModule.executeSuccessResult(true, result);
     }
 
     public void updateAccount(MethodCall call, MethodChannel.Result result) {
@@ -358,8 +360,9 @@ public final class SyneriseClient implements SyneriseModule {
                 });
     }
 
-    public void destroySession() {
+    public void destroySession(MethodChannel.Result result) {
         Client.destroySession();
+        SyneriseModule.executeSuccessResult(true, result);
     }
 
     public void changePassword(MethodCall call, MethodChannel.Result result) {

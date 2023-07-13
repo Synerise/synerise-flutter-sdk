@@ -34,7 +34,11 @@ class _InitialViewState extends State<InitialView> {
     Synerise.settings.sdk.keychainGroupIdentifier = "34N2Z22TKH.FlutterKeychainGroup";
     Synerise.settings.injector.automatic = true;
     
-    Synerise.initializer().withClientApiKey("YOUR_PROFILE_API_KEY").withBaseUrl("https://api.snrapi.com").withDebugModeEnabled(true).init();
+    Synerise.initializer()
+        .withClientApiKey("YOUR_PROFILE_API_KEY")
+        .withBaseUrl("https://api.snrapi.com")
+        .withDebugModeEnabled(true)
+        .init();
 
     Synerise.injector.listener((listener) {
       listener.onOpenUrl = (url) {
@@ -163,7 +167,14 @@ class _InitialViewState extends State<InitialView> {
               ElevatedButton(
                 child: const Text('Tracker Method Test'),
                 onPressed: () {
-                  final paramMap = <String, String>{"firstKeyCustomParam": "TEST"};
+                  final paramMap = <String, Object>{
+                    "firstKeyCustomParam": "TEST",
+                    "arraytest": [
+                      {
+                     "test1": "test2"
+                      }
+                   ]};
+                   
                   CustomEvent event = CustomEvent("label", "flutter", paramMap);
                   Synerise.tracker.send(event);
                 },

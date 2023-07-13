@@ -1,9 +1,18 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [0.6.3] - 2023-07-13
+### Added
+- ios native push extensions to example app
+
+### Fixed
+- ios tracker params mapping
+- client methods not finishing with results
+
 ## [0.6.2] - 2023-06-28
 ### Fixed
 - removed redundant code from example app
+- fixed parameters mapping for custom events in ios native part
 
 ## [0.6.1] - 2023-06-28
 ### Fixed

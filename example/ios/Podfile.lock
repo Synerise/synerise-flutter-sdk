@@ -42,9 +42,9 @@ PODS:
     - FirebaseCoreInternal (~> 10.0)
     - GoogleUtilities/Environment (~> 7.8)
     - GoogleUtilities/Logger (~> 7.8)
-  - FirebaseCoreInternal (10.11.0):
+  - FirebaseCoreInternal (10.12.0):
     - "GoogleUtilities/NSData+zlib (~> 7.8)"
-  - FirebaseInstallations (10.11.0):
+  - FirebaseInstallations (10.12.0):
     - FirebaseCore (~> 10.0)
     - GoogleUtilities/Environment (~> 7.8)
     - GoogleUtilities/UserDefaults (~> 7.8)
@@ -108,7 +108,7 @@ PODS:
   - nanopb/decode (2.30909.0)
   - nanopb/encode (2.30909.0)
   - PromisesObjC (2.2.0)
-  - synerise_flutter_sdk (0.6.2):
+  - synerise_flutter_sdk (0.6.3):
     - Flutter
     - SyneriseSDK (= 4.13.1)
   - SyneriseSDK (4.13.1)
@@ -155,8 +155,8 @@ SPEC CHECKSUMS:
   firebase_messaging: 8ac28baba96e69a58ad26b4bb5f9ee67c3e5efe2
   FirebaseAnalytics: 036232b6a1e2918e5f67572417be1173576245f3
   FirebaseCore: 988754646ab3bd4bdcb740f1bfe26b9f6c0d5f2a
-  FirebaseCoreInternal: 9e46c82a14a3b3a25be4e1e151ce6d21536b89c0
-  FirebaseInstallations: 2a2c6859354cbec0a228a863d4daf6de7c74ced4
+  FirebaseCoreInternal: 950500ad8a08963657f6d8c67b579740c06d6aa1
+  FirebaseInstallations: 7b99ef103f013624444c614397038219c45f8e63
   FirebaseMessaging: e345b219fd15d325f0cf2fef28cb8ce00d851b3f
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
   GoogleAppMeasurement: c7d6fff39bf2d829587d74088d582e32d75133c3
@@ -164,7 +164,7 @@ SPEC CHECKSUMS:
   GoogleUtilities: 9aa0ad5a7bc171f8bae016300bfcfa3fb8425749
   nanopb: b552cce312b6c8484180ef47159bc0f65a1f0431
   PromisesObjC: 09985d6d70fbe7878040aa746d78236e6946d2ef
-  synerise_flutter_sdk: 3bf373dedd3c8029df803e684d030e102d8c242d
+  synerise_flutter_sdk: 0556f4dd1bbc112e20f0ffaa17e85d80d4853e89
   SyneriseSDK: 811c9cad83d986a1ad0bac1826c6c0fb1fc9fe35
 
 PODFILE CHECKSUM: d4b311433acbfaca5931fa80e48619297945167e
