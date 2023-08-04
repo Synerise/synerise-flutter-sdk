@@ -42,7 +42,15 @@ class _SignInState extends State<SignIn> with AutomaticKeepAliveClientMixin {
                     onPressed: () => _signInCall(emailController.text, passController.text),
                     icon: const Icon(Icons.arrow_forward),
                     label: const Text('Sign in')),
+                ElevatedButton.icon(
+                    onPressed: () => _signInConditionallyCall(emailController.text, passController.text),
+                    icon: const Icon(Icons.arrow_forward_ios_rounded),
+                    label: const Text('Sign in conditionally')),
                 ElevatedButton.icon(onPressed: () => _signOutCall(), icon: const Icon(Icons.logout), label: const Text('Sign out')),
+                ElevatedButton.icon(
+                    onPressed: () => _signOutWithModeCall(),
+                    icon: const Icon(Icons.arrow_back_ios),
+                    label: const Text('Sign out with mode')),
                 ElevatedButton.icon(
                     onPressed: () => {
                           _isSignedInCall().whenComplete(() => {
@@ -88,6 +96,10 @@ class _SignInState extends State<SignIn> with AutomaticKeepAliveClientMixin {
                     onPressed: () => _authenticateCall(),
                     icon: const Icon(Icons.person_search_outlined),
                     label: const Text('Authenticate Client Test')),
+                ElevatedButton.icon(
+                    onPressed: () => _authenticateConditionallyCall(),
+                    icon: const Icon(Icons.person_search_sharp),
+                    label: const Text('Authenticate Conditionally Client Test')),
                 ElevatedButton.icon(
                     onPressed: () => _getUUIDCall(), icon: const Icon(Icons.person_search_outlined), label: const Text('GetUuid Test')),
                 ElevatedButton.icon(
@@ -288,6 +300,46 @@ class _SignInState extends State<SignIn> with AutomaticKeepAliveClientMixin {
     });
     if (!mounted) return;
     Utils.displaySimpleAlert("account activated", context);
+  }
+
+  Future<void> _authenticateConditionallyCall() async {
+    Token token = await Synerise.client.retrieveToken().catchError((error) {
+      String errorMessage = Utils.handlePlatformException(error);
+      Utils.displaySimpleAlert("error on handling api call \n $errorMessage", context);
+      throw Exception(errorMessage);
+    });
+    String tokenString = token.tokenString;
+    IdentityProvider identityProvider = IdentityProvider.oauth;
+
+    ClientConditionalAuthResult result = await Synerise.client.authenticateConditionally(identityProvider, tokenString).catchError((error) {
+      String errorMessage = Utils.handlePlatformException(error);
+      Utils.displaySimpleAlert("error on handling api call \n $errorMessage", context);
+      throw Exception(errorMessage);
+    });
+    if (!mounted) return;
+    Utils.displaySimpleAlert(result.asMap().toString(), context);
+  }
+
+  Future<void> _signInConditionallyCall(email, password) async {
+    ClientConditionalAuthResult result = await Synerise.client.signInConditionally(email, password).catchError((error) {
+      String errorMessage = Utils.handlePlatformException(error);
+      Utils.displaySimpleAlert("error on handling api call \n $errorMessage", context);
+      throw Exception(errorMessage);
+    });
+    if (!mounted) return;
+    Utils.displaySimpleAlert(result.asMap().toString(), context);
+  }
+
+  Future<void> _signOutWithModeCall() async {
+    ClientSignOutMode mode = ClientSignOutMode.signOutWithSessionDestroy;
+    bool fromAllDevices = true;
+    await Synerise.client.signOutWithMode(mode, fromAllDevices).catchError((error) {
+      String errorMessage = Utils.handlePlatformException(error);
+      Utils.displaySimpleAlert("error on handling api call \n $errorMessage", context);
+      throw Exception(errorMessage);
+    });
+    if (!mounted) return;
+    Utils.displaySimpleAlert("signed out with mode", context);
   }
 
   @override

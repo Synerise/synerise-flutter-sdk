@@ -2,7 +2,9 @@ package com.synerise.synerise_flutter_sdk.modules;
 
 import android.util.Log;
 
+import com.google.gson.Gson;
 import com.synerise.sdk.client.Client;
+import com.synerise.sdk.client.model.AuthConditions;
 import com.synerise.sdk.client.model.ClientIdentityProvider;
 import com.synerise.sdk.client.model.GetAccountInformation;
 import com.synerise.sdk.client.model.UpdateAccountInformation;
@@ -11,10 +13,12 @@ import com.synerise.sdk.client.model.client.Attributes;
 import com.synerise.sdk.client.model.client.RegisterClient;
 import com.synerise.sdk.client.model.password.PasswordResetConfirmation;
 import com.synerise.sdk.client.model.password.PasswordResetRequest;
+import com.synerise.sdk.client.model.simpleAuth.ClientData;
 import com.synerise.sdk.core.listeners.ActionListener;
 import com.synerise.sdk.core.listeners.DataActionListener;
 import com.synerise.sdk.core.net.IApiCall;
 import com.synerise.sdk.core.net.IDataApiCall;
+import com.synerise.sdk.core.types.enums.ClientSignOutMode;
 import com.synerise.sdk.core.types.model.Sex;
 import com.synerise.sdk.core.types.model.Token;
 import com.synerise.sdk.error.ApiError;
@@ -32,10 +36,12 @@ import io.flutter.plugin.common.MethodChannel;
 public final class SyneriseClient implements SyneriseModule {
 
     private static SyneriseClient instance;
-    public static IApiCall signInCall, signUpCall, updateAccountCall, refreshTokenCall, passwordResetCall, activateCall, confirmCall;
+    public static IApiCall signInCall, signUpCall, signOutCall, updateAccountCall, passwordResetCall;
+    public static IApiCall activateCall, confirmCall, refreshTokenCall, simpleAuthenticationCall;
     private static IDataApiCall<Token> retrieveTokenCall;
     private static final String TAG = "FlutterSyneriseSdk.Cli";
     private IDataApiCall<GetAccountInformation> getAccountCall;
+    private Gson gson = new Gson();
 
     public SyneriseClient() {
     }
@@ -91,11 +97,46 @@ public final class SyneriseClient implements SyneriseModule {
             case "deleteAccount":
                 deleteAccount(call, result);
                 return;
+            case "confirmAccount":
+                confirmAccount(call, result);
             case "activateAccount":
                 activateAccount(call, result);
                 return;
-            case "confirmAccount":
-                confirmAccount(call, result);
+            case "signInConditionally":
+                signInConditionally(call, result);
+                return;
+            case "authenticateConditionally":
+                authenticateConditionally(call, result);
+                return;
+            case "requestPhoneUpdate":
+                requestPhoneUpdate(call, result);
+                return;
+            case "confirmPhoneUpdate":
+                confirmPhoneUpdate(call, result);
+                return;
+            case "requestEmailChange":
+                requestEmailChange(call, result);
+                return;
+            case "confirmEmailChange":
+                confirmEmailChange(call, result);
+                return;
+            case "confirmAccountActivationByPin":
+                confirmAccountActivationByPin(call, result);
+                return;
+            case "requestAccountActivationByPin":
+                requestAccountActivationByPin(call, result);
+                return;
+            case "regenerateUUIDWithClientIdentifier":
+                regenerateUUIDWithClientIdentifier(call, result);
+                return;
+            case "signOutWithMode":
+                signOutWithMode(call, result);
+                return;
+            case "simpleAuthentication":
+                simpleAuthentication(call, result);
+                return;
+            case "isSignedInViaSimpleAuthentication":
+                isSignedInViaSimpleAuthentication(result);
                 return;
         }
     }
@@ -110,12 +151,14 @@ public final class SyneriseClient implements SyneriseModule {
             email = (String) data.get("email");
         } else {
             result.error("email missing", null, null);
+            return;
         }
 
         if (data != null && data.containsKey("password")) {
             password = (String) data.get("password");
         } else {
             result.error("password missing", null, null);
+            return;
         }
 
         signInCall = Client.signIn(email, password);
@@ -177,7 +220,8 @@ public final class SyneriseClient implements SyneriseModule {
     }
 
     private static void isSignedIn(MethodChannel.Result result) {
-        SyneriseModule.executeSuccessResult(Client.isSignedIn(), result);
+        boolean boolResult = Client.isSignedIn();
+        SyneriseModule.executeSuccessResult(boolResult, result);
     }
 
     private static void retrieveToken(MethodChannel.Result result) {
@@ -254,8 +298,8 @@ public final class SyneriseClient implements SyneriseModule {
     }
 
     public void regenerateUUID(MethodChannel.Result result) {
-        Client.regenerateUuid();
-        SyneriseModule.executeSuccessResult(true, result);
+        boolean boolResult = Client.regenerateUuid();
+        SyneriseModule.executeSuccessResult(boolResult, result);
     }
 
     public void updateAccount(MethodCall call, MethodChannel.Result result) {
@@ -306,6 +350,7 @@ public final class SyneriseClient implements SyneriseModule {
             email = (String) data.get("email");
         } else {
             result.error("email missing", null, null);
+            return;
         }
         if (passwordResetCall != null) passwordResetCall.cancel();
         PasswordResetRequest passwordResetRequest = new PasswordResetRequest(email);
@@ -375,12 +420,14 @@ public final class SyneriseClient implements SyneriseModule {
             oldPassword = (String) data.get("oldPassword");
         } else {
             result.error("oldPassword missing", null, null);
+            return;
         }
 
         if (data != null && data.containsKey("password")) {
             password = (String) data.get("password");
         } else {
             result.error("password missing", null, null);
+            return;
         }
 
         IApiCall changePasswordCall = Client.changePassword(oldPassword, password);
@@ -397,12 +444,14 @@ public final class SyneriseClient implements SyneriseModule {
             token = (String) data.get("token");
         } else {
             result.error("token missing", null, null);
+            return;
         }
 
         if (data != null && data.containsKey("password")) {
             password = (String) data.get("password");
         } else {
             result.error("password missing", null, null);
+            return;
         }
 
         PasswordResetConfirmation passwordResetConfirmation = new PasswordResetConfirmation(password, token);
@@ -428,6 +477,7 @@ public final class SyneriseClient implements SyneriseModule {
             }
         } else {
             result.error("Missing method arguments", null, null);
+            return;
         }
 
         IApiCall deleteAccountCall = Client.deleteAccount(clientAuthFactor, clientIdentityProvider, authId);
@@ -443,11 +493,53 @@ public final class SyneriseClient implements SyneriseModule {
             email = (String) data.get("email");
         } else {
             result.error("email missing", null, null);
+            return;
         }
 
         if (activateCall != null) activateCall.cancel();
         activateCall = Client.activateAccount(email);
         activateCall.execute(() -> SyneriseModule.executeSuccessResult(true, result),
+                (DataActionListener<ApiError>) apiError -> SyneriseModule.executeFailureResult(apiError, result));
+    }
+
+    public void requestAccountActivationByPin(MethodCall call, MethodChannel.Result result) {
+        Map data = (Map) call.arguments;
+        String email = null;
+
+        if (data != null && data.containsKey("email")) {
+            email = (String) data.get("email");
+        } else {
+            result.error("email missing", null, null);
+            return;
+        }
+
+        IApiCall requestAccountActivationCall = Client.requestAccountActivationByPin(email);
+        requestAccountActivationCall.execute(() -> SyneriseModule.executeSuccessResult(true, result),
+                (DataActionListener<ApiError>) apiError -> SyneriseModule.executeFailureResult(apiError, result));
+    }
+
+
+    public void confirmAccountActivationByPin(MethodCall call, MethodChannel.Result result) {
+        Map data = (Map) call.arguments;
+        String email = null;
+        String pinCode = null;
+
+        if (data != null && data.containsKey("email")) {
+            email = (String) data.get("email");
+        } else {
+            result.error("email missing", null, null);
+            return;
+        }
+
+        if (data != null && data.containsKey("pinCode")) {
+            pinCode = (String) data.get("pinCode");
+        } else {
+            result.error("pinCode missing", null, null);
+            return;
+        }
+
+        IApiCall confirmAccountActivationCall = Client.confirmAccountActivationByPin(pinCode, email);
+        confirmAccountActivationCall.execute(() -> SyneriseModule.executeSuccessResult(true, result),
                 (DataActionListener<ApiError>) apiError -> SyneriseModule.executeFailureResult(apiError, result));
     }
 
@@ -459,12 +551,310 @@ public final class SyneriseClient implements SyneriseModule {
             token = (String) data.get("token");
         } else {
             result.error("token missing", null, null);
+            return;
         }
 
         if (confirmCall != null) confirmCall.cancel();
         confirmCall = Client.confirmAccount(token);
         confirmCall.execute(() -> SyneriseModule.executeSuccessResult(true, result),
                 (DataActionListener<ApiError>) apiError -> SyneriseModule.executeFailureResult(apiError, result));
+    }
+
+    public void signInConditionally(MethodCall call, MethodChannel.Result result) {
+        Map data = (Map) call.arguments;
+        String email = null;
+        String password = null;
+
+        if (data != null && data.containsKey("email")) {
+            email = (String) data.get("email");
+        } else {
+            result.error("email missing", null, null);
+            return;
+        }
+
+        if (data.containsKey("password")) {
+            password = (String) data.get("password");
+        } else {
+            result.error("password missing", null, null);
+            return;
+        }
+        IDataApiCall<AuthConditions> apiDataCallConditional = Client.signInConditionally(email, password);
+        apiDataCallConditional.execute(response -> {
+            Map<String, Object> authMap = new HashMap<String, Object>();
+
+            if (response.getStatus() != null) {
+                authMap.put("status", response.getStatus().toString());
+            }
+
+            ArrayList<Object> conditions = response.getConditions();
+            if (conditions != null) {
+                ArrayList<Map<String, Object>> array = new ArrayList();
+                for (Object object : conditions) {
+                    try {
+                        String jsonObject = gson.toJson(object);
+                        HashMap<String, Object> objectMap = gson.fromJson(jsonObject, HashMap.class);
+                        array.add(objectMap);
+                    } catch (Exception e) {
+                        result.error("conditions gson error", e.getMessage(),null);
+                        return;
+                    }
+                }
+                authMap.put("conditions", array);
+            }
+            SyneriseModule.executeSuccessResult(authMap, result);
+        }, apiError -> SyneriseModule.executeFailureResult( apiError, result));
+    }
+
+    public void authenticateConditionally(MethodCall call, MethodChannel.Result result) {
+        Map data = (Map) call.arguments;
+
+        String token = null;
+        String clientIdentityProvider = null;
+        Map contextMap = null;
+
+        Agreements agreements = null;
+        Attributes attributes = null;
+        String authID = null;
+
+        if (data != null && data.get("tokenString") != null) {
+            token = (String) data.get("tokenString");
+        } else {
+            result.error("tokenString missing", null, null);
+            return;
+        }
+
+        if (data.containsKey("identityProvider") && data.get("identityProvider") != null) {
+            clientIdentityProvider = (String) data.get("identityProvider");
+        } else {
+            result.error("identityProvider missing", null, null);
+            return;
+        }
+
+        if (data.get("clientAuthContext") != null) {
+            contextMap = (Map) data.get("clientAuthContext");
+
+            if (contextMap.containsKey("agreements") && contextMap.get("agreements") != null) {
+                agreements = agreementsMapper((Map) contextMap.get("agreements"));
+            }
+
+            if (contextMap.containsKey("attributes") && contextMap.get("attributes") != null) {
+                attributes = attributesMapper((HashMap<String, Object>) contextMap.get("attributes"));
+            }
+        }
+
+        if (data.get("authID") != null) {
+            authID = (String) data.get("authID");
+        }
+
+        IDataApiCall<AuthConditions> apiDataCallConditional = Client.authenticateConditionally(token, ClientIdentityProvider.getByProvider(clientIdentityProvider), agreements, attributes, authID);
+        apiDataCallConditional.execute(response -> {
+            Map<String, Object> authMap = new HashMap<String, Object>();
+
+            if (response.getStatus() != null) {
+                authMap.put("status", response.getStatus().toString());
+            }
+
+            ArrayList<Object> conditions = response.getConditions();
+            if (conditions != null) {
+
+                ArrayList<Map<String, Object>> array = new ArrayList();
+                for (Object object : conditions) {
+                    try {
+                        String jsonObject = gson.toJson(object);
+                        HashMap<String, Object> objectMap = gson.fromJson(jsonObject, HashMap.class);
+                        array.add(objectMap);
+                    } catch (Exception e) {
+                        result.error("conditions gson error", e.getMessage(), null);
+                        return;
+                    }
+                }
+                authMap.put("conditions", array);
+            }
+
+            SyneriseModule.executeSuccessResult(authMap, result);
+        }, apiError -> SyneriseModule.executeFailureResult(apiError, result));
+    }
+
+    public void requestEmailChange(MethodCall call, MethodChannel.Result result) {
+        Map data = (Map) call.arguments;
+        String email = null;
+        String password = null;
+        String externalToken = null;
+        String authId = null;
+
+        if (data != null && data.get("email") != null) {
+            email = (String) data.get("email");
+        } else {
+            result.error("email missing", null, null);
+            return;
+        }
+
+        if (data.get("password") != null) {
+            password = (String) data.get("password");
+        } else {
+            result.error("password missing", null, null);
+            return;
+        }
+
+        if (data.get("externalToken") != null) {
+            externalToken  = (String) data.get("externalToken");
+        }
+
+        if (data.get("authID") != null) {
+            authId = (String) data.get("authID");
+        }
+
+        IApiCall emailChangeCall = Client.requestEmailChange(email, password, externalToken, authId);
+        emailChangeCall.execute(() -> SyneriseModule.executeSuccessResult( true, result), (DataActionListener<ApiError>) apiError -> SyneriseModule.executeFailureResult(apiError, result));
+    }
+
+    public void confirmEmailChange(MethodCall call, MethodChannel.Result result) {
+        Map data = (Map) call.arguments;
+        String token = null;
+        boolean newsletterAgreement;
+
+        if (data != null && data.containsKey("token")) {
+            token = (String) data.get("token");
+        } else {
+            result.error("token missing", null, null);
+            return;
+        }
+        newsletterAgreement = (boolean) data.get("newsletterAgreement");
+
+        IApiCall confirmEmailChange = Client.confirmEmailChange(token, newsletterAgreement);
+        confirmEmailChange.execute(() -> SyneriseModule.executeSuccessResult( true, result), (DataActionListener<ApiError>) apiError -> SyneriseModule.executeFailureResult(apiError, result));
+    }
+
+    public void requestPhoneUpdate(MethodCall call, MethodChannel.Result result) {
+        Map data = (Map) call.arguments;
+        String phone = null;
+
+        if (data != null && data.containsKey("phone")) {
+            phone = (String) data.get("phone");
+        } else {
+            result.error("phone missing", null, null);
+            return;
+        }
+
+        IApiCall requestPhoneUpdateCall = Client.requestPhoneUpdate(phone);
+        requestPhoneUpdateCall.execute(() -> SyneriseModule.executeSuccessResult( true, result), (DataActionListener<ApiError>) apiError -> SyneriseModule.executeFailureResult(apiError, result));
+    }
+
+    public void confirmPhoneUpdate(MethodCall call, MethodChannel.Result result)  {
+        Map data = (Map) call.arguments;
+        String phone = null;
+        String confirmationCode = null;
+        boolean smsAgreement;
+
+        if (data != null && data.containsKey("phone")) {
+            phone = (String) data.get("phone");
+        } else {
+            result.error("phone missing", null, null);
+            return;
+        }
+        if (data.containsKey("confirmationCode")) {
+            confirmationCode = (String) data.get("confirmationCode");
+        } else {
+            result.error("phone missing", null, null);
+            return;
+        }
+        smsAgreement = (boolean) data.get("smsAgreement");
+
+        IApiCall confirmPhoneUpdateCall = Client.confirmPhoneUpdate(phone, confirmationCode, smsAgreement);
+        confirmPhoneUpdateCall.execute(() -> SyneriseModule.executeSuccessResult( true, result), (DataActionListener<ApiError>) apiError -> SyneriseModule.executeFailureResult(apiError, result));
+    }
+
+    public void regenerateUUIDWithClientIdentifier(MethodCall call, MethodChannel.Result result) {
+        Map data = (Map) call.arguments;
+        String clientIdentifier = (String) data.get("clientIdentifier");
+
+        if (clientIdentifier != null) {
+            boolean isUUIDRegenerated = Client.regenerateUuid(clientIdentifier);
+            SyneriseModule.executeSuccessResult(isUUIDRegenerated, result);
+        } else {
+            result.error("clientIdentifier missing", null, null);
+            return;
+        }
+    }
+
+    public void signOutWithMode(MethodCall call, MethodChannel.Result result) {
+        Map data = (Map) call.arguments;
+
+        String mode = (String) data.get("mode");
+        Boolean fromAllDevices;
+        fromAllDevices = (Boolean) data.get("fromAllDevices");
+
+        ClientSignOutMode nativeMode = clientSignOutModeMapper(mode);
+
+        if (signOutCall != null) signOutCall.cancel();
+        if (nativeMode == null) {
+            result.error("mode missing", null, null);
+            return;
+        } else {
+            signOutCall = Client.signOut(nativeMode, fromAllDevices);
+            signOutCall.execute(() -> SyneriseModule.executeSuccessResult(true, result), (DataActionListener<ApiError>) apiError -> SyneriseModule.executeFailureResult(apiError, result));
+        }
+    }
+
+    public void simpleAuthentication(MethodCall call, MethodChannel.Result result) {
+        Map callArgs = (Map) call.arguments;
+        String authID = (String) callArgs.get("authID");
+        Map data = (Map) callArgs.get("clientSimpleAuthenticationData");
+
+        ClientData clientData = new ClientData();
+        clientData.setEmail(data.containsKey("email") ? (String) data.get("email") : null);
+        clientData.setPhoneNumber(data.containsKey("phone") ? (String) data.get("phone") : null);
+        clientData.setCustomId(data.containsKey("customId") ? (String) data.get("customId") : null);
+        clientData.setUuid(data.containsKey("uuid") ? (String) data.get("uuid") : null);
+        clientData.setFirstName(data.containsKey("firstName") ? (String) data.get("firstName") : null);
+        clientData.setLastName(data.containsKey("lastName") ? (String) data.get("lastName") : null);
+        clientData.setDisplayName(data.containsKey("displayName") ? (String) data.get("displayName") : null);
+        if (data.containsKey("sex")) {
+            clientData.setSex(Sex.getSex((String) data.get("sex")));
+        }
+        clientData.setBirthDate(data.containsKey("birthDate") ? (String) data.get("birthDate") : null);
+        clientData.setAvatarUrl(data.containsKey("avatarUrl") ? (String) data.get("avatarUrl") : null);
+        clientData.setCompany(data.containsKey("company") ? (String) data.get("company") : null);
+        clientData.setAddress(data.containsKey("address") ? (String) data.get("address") : null);
+        clientData.setCity(data.containsKey("city") ? (String) data.get("city") : null);
+        clientData.setProvince(data.containsKey("province") ? (String) data.get("province") : null);
+        clientData.setZipCode(data.containsKey("zipCode") ? (String) data.get("zipCode") : null);
+        clientData.setCountryCode(data.containsKey("countryCode") ? (String) data.get("countryCode") : null);
+
+        if (data.containsKey("attributes")) {
+            Attributes attributes = attributesMapper((HashMap<String, Object>) data.get("attributes"));
+            clientData.setAttributes(attributes);
+        }
+
+        if (data.containsKey("agreements")) {
+            Agreements agreements = agreementsMapper((Map) data.get("agreements"));
+            clientData.setAgreements(agreements);
+        }
+
+        if (simpleAuthenticationCall != null) simpleAuthenticationCall.cancel();
+        simpleAuthenticationCall = Client.simpleAuthentication(clientData, authID);
+        simpleAuthenticationCall.execute(() -> SyneriseModule.executeSuccessResult(true, result),
+                (DataActionListener<ApiError>) apiError ->
+                        SyneriseModule.executeFailureResult(apiError, result));
+    }
+
+    public void isSignedInViaSimpleAuthentication(MethodChannel.Result result) {
+        boolean boolResult = Client.isSignedInViaSimpleAuthentication();
+        SyneriseModule.executeSuccessResult(boolResult, result);
+    }
+
+    private static ClientSignOutMode clientSignOutModeMapper(String mode) {
+        ClientSignOutMode nativeMode;
+        switch (mode) {
+            case "SIGN_OUT":
+                nativeMode = ClientSignOutMode.SIGN_OUT;
+                return nativeMode;
+            case "SIGN_OUT_WITH_SESSION_DESTROY":
+                nativeMode = ClientSignOutMode.SIGN_OUT_WITH_SESSION_DESTROY;
+                return nativeMode;
+            default:
+                return ClientSignOutMode.SIGN_OUT;
+        }
     }
 
     private ArrayList<String> mapTags(List<String> list) {

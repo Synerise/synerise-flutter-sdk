@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 
+import 'simple_authentication.dart.dart';
+import 'change_email_and_phone.dart';
 import 'change_password.dart';
+import 'regenerate_uuid_with_client_identifier.dart';
 import 'register_account.dart';
 import 'signin.dart';
 import 'update_account.dart';
+import 'activate_account_by_pin.dart';
 
 class ClientMethodsView extends StatefulWidget {
   const ClientMethodsView({super.key});
@@ -53,6 +57,42 @@ class _ClientMethodsViewState extends State<ClientMethodsView> with AutomaticKee
             },
             icon: const Icon(Icons.password_sharp),
             label: const Text('Change password')),
+        ElevatedButton.icon(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const ActivateAccountByPinView()),
+              );
+            },
+            icon: const Icon(Icons.pin),
+            label: const Text('ActivateAccountByPin')),
+        ElevatedButton.icon(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const ChangeEmailAndPhoneView()),
+              );
+            },
+            icon: const Icon(Icons.email),
+            label: const Text('Change phone + change email')),
+        ElevatedButton.icon(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const RegenerateUUIDWithClientIdentifierView()),
+              );
+            },
+            icon: const Icon(Icons.numbers_outlined),
+            label: const Text('RegenerateUUIDWithClientIdentifier')),
+        ElevatedButton.icon(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const SimpleAuthenticationView()),
+              );
+            },
+            icon: const Icon(Icons.person_pin),
+            label: const Text('Simple Authentication')),
       ],
     );
   }
@@ -131,6 +171,71 @@ class ChangePasswordView extends StatelessWidget {
       ),
       body: const Center(
         child: ChangePassword(),
+      ),
+    );
+  }
+}
+
+class ActivateAccountByPinView extends StatelessWidget {
+  const ActivateAccountByPinView({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('ActivateAccountByPin Native Method Test'),
+      ),
+      body: const Center(
+        child: ActivateAccountByPin(),
+      ),
+    );
+  }
+}
+
+
+class ChangeEmailAndPhoneView extends StatelessWidget {
+  const ChangeEmailAndPhoneView({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('ChangeEmailAndPhoneView Native Method Test'),
+      ),
+      body: const Center(
+        child: ChangeEmailAndPhone(),
+      ),
+    );
+  }
+}
+
+class RegenerateUUIDWithClientIdentifierView extends StatelessWidget {
+  const RegenerateUUIDWithClientIdentifierView({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('RegenerateUUIDWithClientIdentifier Native Method Test'),
+      ),
+      body: const Center(
+        child: RegenerateUUIDWithClientIdentifier(),
+      ),
+    );
+  }
+}
+
+class SimpleAuthenticationView extends StatelessWidget {
+  const SimpleAuthenticationView({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('SimpleAuthentication Native Method Test'),
+      ),
+      body: const Center(
+        child: SimpleAuthentication(),
       ),
     );
   }

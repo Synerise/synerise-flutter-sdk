@@ -23,6 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (FlutterError *)defaultFlutterError;
 - (FlutterError *)makeFlutterErrorWithError:(NSError *)error;
+- (FlutterError *)makeFlutterErrorWithMessage:(NSString *)message;
 
 @end
 

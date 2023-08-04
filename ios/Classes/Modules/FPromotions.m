@@ -125,7 +125,7 @@ NS_ASSUME_NONNULL_BEGIN
 {
     NSString *UUID = call.arguments;
     [SNRPromotions activatePromotionByUuid:UUID success:^(BOOL isSuccess) {
-        result(@YES);
+        result([NSNumber numberWithBool:YES]);
     } failure:^(NSError *error) {
         result([self makeFlutterErrorWithError:error]);
     }];
@@ -137,7 +137,7 @@ NS_ASSUME_NONNULL_BEGIN
 {
     NSString *code = call.arguments;
     [SNRPromotions activatePromotionByCode:code success:^(BOOL isSuccess) {
-        result(@YES);
+        result([NSNumber numberWithBool:YES]);
     } failure:^(NSError *error) {
         result([self makeFlutterErrorWithError:error]);
     }];
@@ -150,7 +150,7 @@ NS_ASSUME_NONNULL_BEGIN
     NSArray *array = call.arguments;
     NSArray *promotionIdentifiers = [self modelPromotionIdentifiersWithArray:array];
     [SNRPromotions activatePromotionsWithIdentifiers:promotionIdentifiers success:^(BOOL isSuccess) {
-        result(@YES);
+        result([NSNumber numberWithBool:YES]);
     } failure:^(NSError *error) {
         result([self makeFlutterErrorWithError:error]);
     }];
@@ -162,7 +162,7 @@ NS_ASSUME_NONNULL_BEGIN
 {
     NSString *UUID = call.arguments;
     [SNRPromotions deactivatePromotionByUuid:UUID success:^(BOOL isSuccess) {
-        result(@YES);
+        result([NSNumber numberWithBool:YES]);
     } failure:^(NSError *error) {
         result([self makeFlutterErrorWithError:error]);
     }];
@@ -174,7 +174,7 @@ NS_ASSUME_NONNULL_BEGIN
 {
     NSString *code = call.arguments;
     [SNRPromotions deactivatePromotionByCode:code success:^(BOOL isSuccess) {
-        result(@YES);
+        result([NSNumber numberWithBool:YES]);
     } failure:^(NSError *error) {
         result([self makeFlutterErrorWithError:error]);
     }];
@@ -187,7 +187,7 @@ NS_ASSUME_NONNULL_BEGIN
     NSArray *array = call.arguments;
     NSArray *promotionIdentifiers = [self modelPromotionIdentifiersWithArray:array];
     [SNRPromotions deactivatePromotionsWithIdentifiers:promotionIdentifiers success:^(BOOL isSuccess) {
-        result(@YES);
+        result([NSNumber numberWithBool:YES]);
     } failure:^(NSError *error) {
         result([self makeFlutterErrorWithError:error]);
     }];

@@ -55,6 +55,30 @@ NS_ASSUME_NONNULL_BEGIN
         [self changePassword:call result:result];
     } else if ([calledMethod isEqualToString:@"deleteAccount"]) {
         [self deleteAccount:call result:result];
+    } else if ([calledMethod isEqualToString:@"confirmAccountActivationByPin"]) {
+        [self confirmAccountActivationByPin:call result:result];
+    } else if ([calledMethod isEqualToString:@"requestAccountActivationByPin"]) {
+        [self requestAccountActivationByPin:call result:result];
+    } else if ([calledMethod isEqualToString:@"authenticateConditionally"]) {
+        [self authenticateConditionally:call result:result];
+    } else if ([calledMethod isEqualToString:@"signInConditionally"]) {
+        [self signInConditionally:call result:result];
+    } else if ([calledMethod isEqualToString:@"requestEmailChange"]) {
+        [self requestEmailChange:call result:result];
+    } else if ([calledMethod isEqualToString:@"confirmEmailChange"]) {
+        [self confirmEmailChange:call result:result];
+    } else if ([calledMethod isEqualToString:@"requestPhoneUpdate"]) {
+        [self requestPhoneUpdate:call result:result];
+    } else if ([calledMethod isEqualToString:@"confirmPhoneUpdate"]) {
+        [self confirmPhoneUpdate:call result:result];
+    } else if ([calledMethod isEqualToString:@"regenerateUUIDWithClientIdentifier"]) {
+        [self regenerateUUIDWithClientIdentifier:call result:result];
+    } else if ([calledMethod isEqualToString:@"signOutWithMode"]) {
+        [self signOutWithMode:call result:result];
+    } else if ([calledMethod isEqualToString:@"simpleAuthentication"]) {
+        [self simpleAuthentication:call result:result];
+    } else if ([calledMethod isEqualToString:@"isSignedInViaSimpleAuthentication"]) {
+        [self isSignedInViaSimpleAuthentication:call result:result];
     }
 }
 
@@ -70,7 +94,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
     
     [SNRClient registerAccount:clientRegisterAccountContext success:^(BOOL isSuccess) {
-        result(nil);
+        result([NSNumber numberWithBool:YES]);
     } failure:^(NSError *error) {
         result([self makeFlutterErrorWithError:error]);
     }];
@@ -80,7 +104,7 @@ NS_ASSUME_NONNULL_BEGIN
     NSString *token = call.arguments;
     
     [SNRClient confirmAccount:token success:^(BOOL isSuccess) {
-        result(nil);
+        result([NSNumber numberWithBool:YES]);
     } failure:^(NSError *error) {
         result([self makeFlutterErrorWithError:error]);
     }];
@@ -90,7 +114,7 @@ NS_ASSUME_NONNULL_BEGIN
     NSString *email = call.arguments;
     
     [SNRClient activateAccount:email success:^(BOOL isSuccess) {
-        result(nil);
+        result([NSNumber numberWithBool:YES]);
     } failure:^(NSError *error) {
         result([self makeFlutterErrorWithError:error]);
     }];
@@ -108,7 +132,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
     
     [SNRClient signInWithEmail:email password:password success:^(BOOL isSuccess) {
-        result(nil);
+        result([NSNumber numberWithBool:YES]);
     } failure:^(NSError *error) {
         result([self makeFlutterErrorWithError:error]);
     }];
@@ -127,7 +151,7 @@ NS_ASSUME_NONNULL_BEGIN
     SNRClientAuthenticationContext *context = [self modelClientAuthenticationContextWithDictionary:contextDictionary];
     
     [SNRClient authenticateWithToken:token clientIdentityProvider:clientIdentityProvider authID:authId context:context success:^(BOOL isSuccess) {
-        result(nil);
+        result([NSNumber numberWithBool:YES]);
     } failure:^(NSError *error) {
         result([self makeFlutterErrorWithError:error]);
     }];
@@ -139,12 +163,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)signOut:(FlutterMethodCall *)call result:(FlutterResult)result {
     [SNRClient signOut];
-    result(nil);
+    result([NSNumber numberWithBool:YES]);
 }
 
 - (void)destroySession:(FlutterMethodCall *)call result:(FlutterResult)result {
     [SNRClient destroySession];
-    result(nil);
+    result([NSNumber numberWithBool:YES]);
 }
 
 - (void)retrieveToken:(FlutterMethodCall *)call result:(FlutterResult)result {
@@ -174,8 +198,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)regenerateUUID:(FlutterMethodCall *)call result:(FlutterResult)result {
-    [SNRClient regenerateUUID];
-    result(nil);
+    result([NSNumber numberWithBool:[SNRClient regenerateUUID]]);
 }
 
 - (void)getAccount:(FlutterMethodCall *)call result:(FlutterResult)result {
@@ -184,7 +207,7 @@ NS_ASSUME_NONNULL_BEGIN
         if (clientAccountInformationDictionary != nil) {
             result(clientAccountInformationDictionary);
         } else {
-            [self defaultFlutterError];
+            result([self makeFlutterErrorWithMessage:@"clientAccountInformationDictionary is nil"]);
         }
     } failure:^(NSError *error) {
         result([self makeFlutterErrorWithError:error]);
@@ -201,7 +224,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
     
     [SNRClient updateAccount:clientUpdateAccountContext success:^(BOOL isSuccess) {
-        result(nil);
+        result([NSNumber numberWithBool:YES]);
     } failure:^(NSError *error) {
         result([self makeFlutterErrorWithError:error]);
     }];
@@ -212,7 +235,7 @@ NS_ASSUME_NONNULL_BEGIN
     SNRClientPasswordResetRequestContext *clientPasswordResetRequestContext = [[SNRClientPasswordResetRequestContext alloc] initWithEmail:email];
     
     [SNRClient requestPasswordReset:clientPasswordResetRequestContext success:^(BOOL isSuccess) {
-        result(nil);
+        result([NSNumber numberWithBool:YES]);
     } failure:^(NSError *error) {
         result([self makeFlutterErrorWithError:error]);
     }];
@@ -227,7 +250,7 @@ NS_ASSUME_NONNULL_BEGIN
     SNRClientPasswordResetConfirmationContext *clientPasswordResetConfirmationContext = [[SNRClientPasswordResetConfirmationContext alloc] initWithPassword:password andToken:token];
     
     [SNRClient confirmResetPassword:clientPasswordResetConfirmationContext success:^(BOOL isSuccess) {
-        result(nil);
+        result([NSNumber numberWithBool:YES]);
     } failure:^(NSError *error) {
         result([self makeFlutterErrorWithError:error]);
     }];
@@ -240,7 +263,7 @@ NS_ASSUME_NONNULL_BEGIN
     NSString *oldPassword = [dictionary getStringForKey:@"oldPassword"];
     
     [SNRClient changePassword:newPassword oldPassword:oldPassword success:^(BOOL isSuccess) {
-        result(nil);
+        result([NSNumber numberWithBool:YES]);
     } failure:^(NSError *error) {
         result([self makeFlutterErrorWithError:error]);
     }];
@@ -255,10 +278,239 @@ NS_ASSUME_NONNULL_BEGIN
     NSString *authId = dictionary[@"authId"];
     
     [SNRClient deleteAccount:clientAuthFactor clientIdentityProvider:clientIdentityProvider authID:authId success:^(BOOL isSuccess) {
-        result(nil);
+        result([NSNumber numberWithBool:YES]);
     } failure:^(NSError *error) {
         result([self makeFlutterErrorWithError:error]);
     }];
+}
+
+- (void)requestAccountActivationByPin:(FlutterMethodCall *)call result:(FlutterResult)result {
+    NSDictionary *dictionary = call.arguments;
+    NSString *email = [dictionary getStringForKey:@"email"];
+    
+    if (email != nil) {
+        [SNRClient requestAccountActivationByPinWithEmail:email success:^(BOOL isSuccess) {
+            result([NSNumber numberWithBool:YES]);
+        } failure:^(NSError *error) {
+            result([self makeFlutterErrorWithError:error]);
+        }];
+    } else {
+        result([self makeFlutterErrorWithMessage:@"email missing"]);
+    }
+}
+
+- (void)confirmAccountActivationByPin:(FlutterMethodCall *)call result:(FlutterResult)result {
+    NSDictionary *dictionary = call.arguments;
+    NSString *email = [dictionary getStringForKey:@"email"];
+    NSString *pinCode = [dictionary getStringForKey:@"pinCode"];
+    
+    if (email != nil || pinCode != nil) {
+        [SNRClient confirmAccountActivationByPin:pinCode email:email success:^(BOOL isSuccess) {
+            result([NSNumber numberWithBool:YES]);
+        } failure:^(NSError *error) {
+            result([self makeFlutterErrorWithError:error]);
+        }];
+    } else {
+        result([self makeFlutterErrorWithMessage:@"email / pincode missing"]);
+    }
+}
+
+
+- (void)signInConditionally:(FlutterMethodCall *)call result:(FlutterResult)result {
+    NSDictionary *dictionary = call.arguments;
+    
+    NSString *email = [dictionary getStringForKey:@"email"];
+    NSString *password = [dictionary getStringForKey:@"password"];
+    
+    if (email == nil || password == nil) {
+        result([self makeFlutterErrorWithMessage:@"email / password missing"]);
+        return;
+    }
+    
+    [SNRClient signInConditionallyWithEmail:email password:password success:^(SNRClientConditionalAuthResult *authResult) {
+        NSDictionary *authResultDictionary = [self dictionaryWithClientConditionalAuthResult:authResult];
+        if (authResultDictionary != nil) {
+            result(authResultDictionary);
+        } else {
+            result([self makeFlutterErrorWithMessage:@"signInResult is nil"]);
+        }
+    } failure:^(NSError *error) {
+        result([self makeFlutterErrorWithError:error]);
+    }];
+}
+
+- (void)authenticateConditionally:(FlutterMethodCall *)call result:(FlutterResult)result {
+    NSDictionary *dictionary = call.arguments;
+    
+    id token = [dictionary getStringForKey:@"tokenString"];
+    NSString *clientIdentityProviderString = [dictionary getStringForKey:@"identityProvider"];
+    SNRClientIdentityProvider clientIdentityProvider = SNR_StringToClientIdentityProvider(clientIdentityProviderString);
+    NSString *authID;
+    SNRClientConditionalAuthenticationContext *context;
+    
+    if (token == nil || clientIdentityProviderString == nil) {
+        result([self makeFlutterErrorWithMessage:@"token / clientIdentityProviderString missing"]);
+        return;
+    }
+    
+    if ([dictionary getStringForKey:@"authID"] != nil) {
+        authID = dictionary[@"authID"];
+    } else {
+        authID = nil;
+    }
+    
+    if ([dictionary getDictionaryForKey:@"clientAuthContext"] != nil) {
+        NSDictionary *contextDictionary = dictionary[@"clientAuthContext"];
+        context = [self modelClientConditionalAuthenticationContextWithDictionary:contextDictionary];
+    } else {
+        context = nil;
+    }
+    
+    [SNRClient authenticateConditionallyWithToken:token clientIdentityProvider:clientIdentityProvider authID:authID context:context success:^(SNRClientConditionalAuthResult *authResult) {
+        NSDictionary *authResultDictionary = [self dictionaryWithClientConditionalAuthResult:authResult];
+        if (authResultDictionary != nil) {
+            result(authResultDictionary);
+        } else {
+            result([self makeFlutterErrorWithMessage:@"authResult is nil"]);
+        }
+        
+        result([NSNumber numberWithBool:YES]);
+    } failure:^(NSError *error) {
+        result([self makeFlutterErrorWithError:error]);
+    }];
+}
+
+- (void)requestEmailChange:(FlutterMethodCall *)call result:(FlutterResult)result {
+    NSDictionary *dictionary = call.arguments;
+    
+    NSString *email = [dictionary getStringForKey:@"email"];
+    NSString *password = [dictionary getStringForKey:@"password"];
+    NSString *externalToken;
+    NSString *authID;
+    
+    if (email == nil || password == nil) {
+        result([self makeFlutterErrorWithMessage:@"email / password missing"]);
+        return;
+    }
+    
+    if ([dictionary getStringForKey:@"externalToken"] != nil) {
+        externalToken = [dictionary getStringForKey:@"externalToken"];
+    } else {
+        externalToken = nil;
+    }
+    
+    if ([dictionary getStringForKey:@"authID"] != nil) {
+        authID = dictionary[@"authID"];
+    } else {
+        authID = nil;
+    }
+    
+    [SNRClient requestEmailChange:email password:password externalToken:externalToken authID:authID success:^(BOOL isSuccess) {
+        result([NSNumber numberWithBool:YES]);
+    } failure:^(NSError *error) {
+        result([self makeFlutterErrorWithError:error]);
+    }];
+}
+
+- (void)confirmEmailChange:(FlutterMethodCall *)call result:(FlutterResult)result {
+    NSDictionary *dictionary = call.arguments;
+    
+    NSString *token = [dictionary getStringForKey:@"token"];
+    BOOL newsletterAgreement;
+    newsletterAgreement = [dictionary getBoolForKey:@"newsletterAgreement"];
+    if (token == nil) {
+        result([self makeFlutterErrorWithMessage:@"token missing"]);
+        return;
+    }
+    
+    [SNRClient confirmEmailChange:token newsletterAgreement:newsletterAgreement success:^(BOOL isSuccess) {
+        result([NSNumber numberWithBool:YES]);
+    } failure:^(NSError *error) {
+        result([self makeFlutterErrorWithError:error]);
+    }];
+}
+
+- (void)requestPhoneUpdate:(FlutterMethodCall *)call result:(FlutterResult)result {
+    NSDictionary *dictionary = call.arguments;
+    NSString *phone = [dictionary getStringForKey:@"phone"];
+    if (phone == nil) {
+        result([self makeFlutterErrorWithMessage:@"phone missing"]);
+        return;
+    }
+    
+    [SNRClient requestPhoneUpdate:phone success:^(BOOL isSuccess) {
+        result([NSNumber numberWithBool:YES]);
+    } failure:^(NSError *error) {
+        result([self makeFlutterErrorWithError:error]);
+    }];
+}
+
+- (void)confirmPhoneUpdate:(FlutterMethodCall *)call result:(FlutterResult)result {
+    NSDictionary *dictionary = call.arguments;
+    
+    NSString *phone = [dictionary getStringForKey:@"phone"];
+    NSString *confirmationCode = [dictionary getStringForKey:@"confirmationCode"];
+    BOOL smsAgreement;
+    smsAgreement = [dictionary getBoolForKey:@"smsAgreement"];
+    if (phone == nil || confirmationCode == nil) {
+        result([self makeFlutterErrorWithMessage:@"phone / confirmationCode missing"]);
+        return;
+    }
+    
+    [SNRClient confirmPhoneUpdate:phone confirmationCode:confirmationCode smsAgreement:smsAgreement success:^(BOOL isSuccess) {
+        result([NSNumber numberWithBool:YES]);
+    } failure:^(NSError *error) {
+        result([self makeFlutterErrorWithError:error]);
+    }];
+}
+
+- (void)regenerateUUIDWithClientIdentifier:(FlutterMethodCall *)call result:(FlutterResult)result  {
+    NSDictionary *dictionary = call.arguments;
+    NSString *clientIdentifier = [dictionary getStringForKey:@"clientIdentifier"];
+    
+    if (clientIdentifier != nil) {
+        result([NSNumber numberWithBool:[SNRClient regenerateUUIDWithClientIdentifier:clientIdentifier]]);
+    } else {
+        result([self makeFlutterErrorWithMessage:@"clientIdentifier missing"]);
+    }
+}
+
+- (void)signOutWithMode:(FlutterMethodCall *)call result:(FlutterResult)result {
+    NSDictionary *dictionary = call.arguments;
+        
+    NSString *modeString = [dictionary getStringForKey:@"mode"];
+    BOOL fromAllDevices;
+    fromAllDevices = [dictionary getBoolForKey:@"fromAllDevices"];
+    
+    SNRClientSignOutMode mode = [self enumClientSignOutModeWithString:modeString];
+    
+    [SNRClient signOutWithMode:mode fromAllDevices:fromAllDevices success:^() {
+        result([NSNumber numberWithBool:YES]);
+    } failure:^(NSError *error) {
+        result([self makeFlutterErrorWithError:error]);
+    }];
+}
+
+- (void)simpleAuthentication:(FlutterMethodCall *)call result:(FlutterResult)result {
+    NSDictionary *dictionary = call.arguments;
+    
+    NSString *authID = [dictionary getStringForKey:@"authID"];
+    SNRClientSimpleAuthenticationData *clientSimpleAuthenticationData = [self modelClientSimpleAuthenticationDataWithDictionary:[dictionary getDictionaryForKey:@"clientSimpleAuthenticationData"]];
+    
+    if (clientSimpleAuthenticationData == nil) {
+        result([self makeFlutterErrorWithMessage:@"clientAuthenticationData is missing"]);
+        return;
+    }
+    
+    [SNRClient simpleAuthentication:clientSimpleAuthenticationData authID:authID success:^(void) {
+            result([NSNumber numberWithBool:YES]);
+        } failure:^(NSError *error) {
+            result([self makeFlutterErrorWithError:error]);
+    }];
+}
+
+- (void)isSignedInViaSimpleAuthentication:(FlutterMethodCall *)call result:(FlutterResult)result {
+    result([NSNumber numberWithBool:[SNRClient isSignedInViaSimpleAuthentication]]);
 }
 
 #pragma mark - SDK Mapping
@@ -272,11 +524,11 @@ NS_ASSUME_NONNULL_BEGIN
             SNRClientRegisterAccountContext *model = [[SNRClientRegisterAccountContext alloc] initWithEmail:email andPassword:password];
             model.phone = [dictionary getStringForKey:@"phone"];
             model.customId = [dictionary getStringForKey:@"customId"];
-
+            
             model.firstName = [dictionary getStringForKey:@"firstName"];
             model.lastName = [dictionary getStringForKey:@"lastName"];
             model.sex = SNR_StringToClientSex([dictionary getStringForKey:@"sex"]);
-
+            
             model.company = [dictionary getStringForKey:@"company"];
             model.address = [dictionary getStringForKey:@"address"];
             model.city = [dictionary getStringForKey:@"city"];
@@ -285,7 +537,7 @@ NS_ASSUME_NONNULL_BEGIN
             model.countryCode = [dictionary getStringForKey:@"countryCode"];
             
             model.agreements = [self modelClientAgreementsWithDictionary:[dictionary getDictionaryForKey:@"agreements"]];
-
+            
             model.attributes = [dictionary getDictionaryForKey:@"attributes"];
             
             return model;
@@ -302,14 +554,14 @@ NS_ASSUME_NONNULL_BEGIN
         model.phone = [dictionary getStringForKey:@"phone"];
         model.customId = [dictionary getStringForKey:@"customId"];
         model.uuid = [dictionary getStringForKey:@"uuid"];
-                                                
+        
         model.firstName = [dictionary getStringForKey:@"firstName"];
         model.lastName = [dictionary getStringForKey:@"lastName"];
         model.displayName = [dictionary getStringForKey:@"displayName"];
         model.sex = SNR_StringToClientSex([dictionary getStringForKey:@"sex"]);
         model.birthDate = [dictionary getStringForKey:@"birthDate"];
         model.avatarUrl = [dictionary getStringForKey:@"avatarUrl"];
-                                                
+        
         model.company = [dictionary getStringForKey:@"company"];
         model.address = [dictionary getStringForKey:@"address"];
         model.city = [dictionary getStringForKey:@"city"];
@@ -318,7 +570,7 @@ NS_ASSUME_NONNULL_BEGIN
         model.countryCode = [dictionary getStringForKey:@"countryCode"];
         
         model.agreements = [self modelClientAgreementsWithDictionary:[dictionary getDictionaryForKey:@"agreements"]];
-
+        
         model.attributes = [dictionary getDictionaryForKey:@"attributes"];
         
         return model;
@@ -373,6 +625,63 @@ NS_ASSUME_NONNULL_BEGIN
     return nil;
 }
 
+- (nullable SNRClientConditionalAuthenticationContext *)modelClientConditionalAuthenticationContextWithDictionary:(nullable NSDictionary *)dictionary {
+    if (dictionary != nil) {
+        SNRClientConditionalAuthenticationContext *model = [SNRClientConditionalAuthenticationContext new];
+        model.attributes = [dictionary getDictionaryForKey:@"attributes"];
+        model.agreements = [self modelClientAgreementsWithDictionary:[dictionary getDictionaryForKey:@"agreements"]];
+        
+        return model;
+    }
+    
+    return nil;
+}
+
+- (nullable SNRClientSimpleAuthenticationData *)modelClientSimpleAuthenticationDataWithDictionary:(nullable NSDictionary *)dictionary {
+    if (dictionary != nil) {
+        SNRClientSimpleAuthenticationData *model = [SNRClientSimpleAuthenticationData new];
+        model.email = [[dictionary getStringForKey:@"email"] lowercaseString];
+        model.phone = [dictionary getStringForKey:@"phone"];
+        model.customId = [dictionary getStringForKey:@"customId"];
+        model.uuid = [dictionary getStringForKey:@"uuid"];
+                                                
+        model.firstName = [dictionary getStringForKey:@"firstName"];
+        model.lastName = [dictionary getStringForKey:@"lastName"];
+        model.displayName = [dictionary getStringForKey:@"displayName"];
+        model.sex = SNR_StringToClientSex([dictionary getStringForKey:@"sex"]);
+        model.birthDate = [dictionary getStringForKey:@"birthDate"];
+        model.avatarUrl = [dictionary getStringForKey:@"avatarUrl"];
+                                                
+        model.company = [dictionary getStringForKey:@"company"];
+        model.address = [dictionary getStringForKey:@"address"];
+        model.city = [dictionary getStringForKey:@"city"];
+        model.province = [dictionary getStringForKey:@"province"];
+        model.zipCode = [dictionary getStringForKey:@"zipCode"];
+        model.countryCode = [dictionary getStringForKey:@"countryCode"];
+        
+        model.agreements = [self modelClientAgreementsWithDictionary:[dictionary getDictionaryForKey:@"agreements"]];
+
+        model.attributes = [dictionary getDictionaryForKey:@"attributes"];
+        
+        return model;
+    }
+    return nil;
+}
+
+- (SNRClientSignOutMode)enumClientSignOutModeWithString:(nullable NSString *)string {
+    if (string != nil && [string isKindOfClass:NSString.class] == YES) {
+        if ([string isEqualToString:@"SIGN_OUT"] == YES) {
+            return SNRClientSignOutModeSignOut;
+        }
+        
+        if ([string isEqualToString:@"SIGN_OUT_WITH_SESSION_DESTROY"] == YES) {
+            return SNRClientSignOutModeSignOutWithSessionDestroy;
+        }
+    }
+    
+    return SNRClientSignOutModeSignOut;
+}
+
 #pragma mark - Dart Mapping
 
 - (nullable NSDictionary *)dictionaryWithClientAccountInformation:(nullable SNRClientAccountInformation *)model {
@@ -398,7 +707,7 @@ NS_ASSUME_NONNULL_BEGIN
         [dictionary setString:model.province forKey:@"province"];
         [dictionary setString:model.zipCode forKey:@"zipCode"];
         [dictionary setString:model.countryCode forKey:@"countryCode"];
-
+        
         [dictionary setBool:model.anonymous forKey:@"anonymous"];
         [dictionary setDate:model.lastActivityDate forKey:@"lastActivityDate"];
         
@@ -437,7 +746,19 @@ NS_ASSUME_NONNULL_BEGIN
         [dictionary setString:model.tokenString forKey:@"tokenString"];
         [dictionary setString:SNR_TokenOriginToString(model.origin) forKey:@"origin"];
         [dictionary setDate:model.expirationDate forKey:@"expirationDate"];
+        
+        return dictionary;
+    }
     
+    return nil;
+}
+
+- (nullable NSDictionary *)dictionaryWithClientConditionalAuthResult:(nullable SNRClientConditionalAuthResult *)model {
+    if (model != nil) {
+        NSMutableDictionary *dictionary = [@{} mutableCopy];
+        [dictionary setString:SNR_ClientConditionalAuthStatusToString(model.status) forKey:@"status"];
+        [dictionary setArray:model.conditions forKey:@"conditions"];
+        
         return dictionary;
     }
     

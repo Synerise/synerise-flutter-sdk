@@ -1,16 +1,18 @@
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'dart:developer' as developer;
+import 'package:flutter/services.dart' show rootBundle;
 import 'dart:async';
 
 import 'package:synerise_flutter_sdk/synerise.dart';
-
-import 'package:synerise_flutter_sdk_example/classes/utils.dart';
-import 'package:synerise_flutter_sdk_example/views/client/client_methods_view.dart';
-import 'package:synerise_flutter_sdk_example/views/content/content_methods_view.dart';
-import 'package:synerise_flutter_sdk_example/views/tracker/tracker_methods_view.dart';
-import 'dart:developer' as developer;
+import 'classes/utils.dart';
+import 'views/client/client_methods_view.dart';
+import 'views/content/content_methods_view.dart';
+import 'views/tracker/tracker_methods_view.dart';
 import 'views/promotions/promotions_methods_view.dart';
+
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+
 
 String? firebaseToken;
 
@@ -33,11 +35,11 @@ class _InitialViewState extends State<InitialView> {
     Synerise.settings.sdk.appGroupIdentifier = "group.com.synerise.sdk.flutter";
     Synerise.settings.sdk.keychainGroupIdentifier = "34N2Z22TKH.FlutterKeychainGroup";
     Synerise.settings.injector.automatic = true;
-    
+
     Synerise.initializer()
-        .withClientApiKey("YOUR_PROFILE_API_KEY")
-        .withBaseUrl("https://api.snrapi.com")
+        .withClientApiKey(await rootBundle.loadString('lib/api_key.txt'))
         .withDebugModeEnabled(true)
+        .setRequestValidationSalt("YOUR_SALT_HERE")
         .init();
 
     Synerise.injector.listener((listener) {
@@ -66,11 +68,11 @@ class _InitialViewState extends State<InitialView> {
       listener.onDeepLink = (data, deepLink) {};
 
       listener.onPresent = (data) {
-        Utils.displaySimpleAlert(data.campaignHash, context);
+        
       };
 
       listener.onHide = (data) {
-        Utils.displaySimpleAlert(data.campaignHash, context);
+        
       };
 
       listener.onCustomAction = (data, name, parameters) {};
@@ -275,8 +277,7 @@ class MyApp extends StatelessWidget {
 Future<void> backgroundHandlerForFCM(RemoteMessage message) async {
   await Firebase.initializeApp();
   await Synerise.initializer()
-      .withClientApiKey("YOUR_PROFILE_API_KEY")
-      .withBaseUrl("https://api.snrapi.com")
+      .withClientApiKey(await rootBundle.loadString('lib/api_key.txt'))
       .withDebugModeEnabled(true)
       .init();
   // If you're going to use other Firebase services in the background, such as Firestore,

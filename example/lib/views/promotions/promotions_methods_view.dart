@@ -144,7 +144,7 @@ class _PromotionsMethodsViewState extends State<PromotionsMethodsView> with Auto
 
   Future<void> _getAllPromotionsCall() async {
     PromotionResponse promotionResponse = await Synerise.promotions.getAllPromotions().catchError((error) {
-      String errorMessage = Utils.handleTypeError(error);
+      String errorMessage = Utils.handlePlatformException(error);
       Utils.displaySimpleAlert("error on handling api call \n $errorMessage", context);
       throw Exception(errorMessage);
     });

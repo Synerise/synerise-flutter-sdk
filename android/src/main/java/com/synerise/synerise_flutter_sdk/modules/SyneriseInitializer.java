@@ -4,6 +4,7 @@ import static com.synerise.synerise_flutter_sdk.SyneriseConnector.app;
 
 import android.app.Application;
 
+import com.synerise.sdk.client.Client;
 import com.synerise.sdk.core.Synerise;
 import com.synerise.sdk.core.types.enums.HostApplicationType;
 import com.synerise.synerise_flutter_sdk.SyneriseConnector;
@@ -28,6 +29,9 @@ public class SyneriseInitializer implements SyneriseModule {
             case "initialize":
                 initSynerise(app, call, result);
                 return;
+            case "changeApiKey":
+                changeApiKey(call, result);
+                return;
         }
     }
 
@@ -37,17 +41,37 @@ public class SyneriseInitializer implements SyneriseModule {
 
             Map dataFull = (Map) call.arguments;
             Map data = (Map) dataFull.get("initializationParameters");
-            Synerise.Builder.with(app, data.get("clientApiKey").toString(), SyneriseConnector.getApplicationName(app))
+            String requestValidationSalt = data.containsKey("requestValidationSalt") ? (String) data.get("requestValidationSalt") : null;
+            Synerise.Builder builder = Synerise.Builder.with(app, (String) data.get("clientApiKey"), SyneriseConnector.getApplicationName(app))
                     .baseUrl(data.containsKey("baseUrl") ? (String) data.get("baseUrl") : null)
                     .syneriseDebugMode(data.containsKey("debugModeEnabled") ? (boolean) data.get("debugModeEnabled") : false)
                     .crashHandlingEnabled(data.containsKey("crashHandlingEnabled") ? (boolean) data.get("crashHandlingEnabled") : false)
                     .hostApplicationType(HostApplicationType.FLUTTER)
-                    .pushRegistrationRequired(SyneriseNotifications.getPushNotificationsListener())
-                    .build();
+                    .pushRegistrationRequired(SyneriseNotifications.getPushNotificationsListener());
+            if (requestValidationSalt != null) {
+                builder.setRequestValidationSalt(requestValidationSalt);
+            }
+            builder.build();
+
             isInitialized = true;
             SyneriseInjector.registerListeners();
         }
-        result.success(null);
+        result.success(true);
+    }
+
+    public void changeApiKey(MethodCall call, MethodChannel.Result result) {
+        Map data = (Map) call.arguments;
+        String apiKey = null;
+
+        if (data != null && data.containsKey("apiKey")) {
+            apiKey = (String) data.get("apiKey");
+        } else {
+            result.error("apiKey missing", null, null);
+            return;
+        }
+
+        Client.changeApiKey(apiKey);
+        SyneriseModule.executeSuccessResult(true,result);
     }
 
     private static void prepareDefaultSettings() {

@@ -40,6 +40,12 @@ static NSString * const FDefaultErrorMessage = @"An unknown error has occurred";
     return [FlutterError errorWithCode:[NSString stringWithFormat:@"%li", error.code] message:error.localizedDescription details:nil];
 }
 
+- (FlutterError *)makeFlutterErrorWithMessage:(NSString *)message {
+    NSInteger code = FDefaultErrorCode;
+    NSString *description = FDefaultErrorMessage;
+    return [FlutterError errorWithCode:[NSString stringWithFormat:@"%li", code] message:description details:message];
+}
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -25,8 +25,13 @@ export 'package:synerise_flutter_sdk/model/client/client_account_register_contex
 export 'package:synerise_flutter_sdk/model/client/client_account_update_context.dart';
 export 'package:synerise_flutter_sdk/model/client/client_agreements.dart';
 export 'package:synerise_flutter_sdk/model/client/token.dart';
+export 'package:synerise_flutter_sdk/model/client/client_conditional_auth_result.dart';
+export 'package:synerise_flutter_sdk/model/client/client_conditional_auth_context.dart';
+export 'package:synerise_flutter_sdk/model/client/client_simple_authentication_data.dart';
 export 'package:synerise_flutter_sdk/enums/client/identity_provider.dart';
 export 'package:synerise_flutter_sdk/enums/client/token_origin.dart';
+export 'package:synerise_flutter_sdk/enums/client/client_conditional_auth_status.dart';
+export 'package:synerise_flutter_sdk/enums/client/client_sign_out_mode.dart';
 
 // CONTENT
 export 'package:synerise_flutter_sdk/model/content/recommendation_options.dart';

@@ -28,4 +28,13 @@ class Synerise {
 
     return initializer;
   }
+
+  /// The function `changeApiKey` is a function that is used to change the: Profile API key.
+  ///
+  /// Args:
+  ///   apiKey (String): The `apiKey` parameter is a string that represents the new Profile API key that you
+  /// want to set.
+  static Future<void> changeApiKey(String apiKey) async {
+    await Dependencies.methodChannel.invokeMethod('Synerise/changeApiKey', {"apiKey": apiKey});
+  }
 }

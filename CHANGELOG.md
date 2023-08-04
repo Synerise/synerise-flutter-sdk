@@ -1,13 +1,22 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [0.7.0] - 2023-08-04
+### Added
+- `Simple Authentication` feature
+- `Client` methods: pinCodeMethods(request, confirm), conditional authenticate/sign in, changeApiKey, phone/EmailChange, regenerateWithUUID, signOut with mode 
+- apple to identityProvider enum
+
+### Fixed
+- minor fixes in channel method result handling
+
 ## [0.6.3] - 2023-07-13
 ### Added
 - ios native push extensions to example app
 
 ### Fixed
 - ios tracker params mapping
-- client methods not finishing with results
+- channel methods result handling
 
 ## [0.6.2] - 2023-06-28
 ### Fixed

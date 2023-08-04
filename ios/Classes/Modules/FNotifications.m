@@ -60,7 +60,7 @@ NS_ASSUME_NONNULL_BEGIN
         });
     }
     
-    result(@YES);
+    result([NSNumber numberWithBool:YES]);
 }
 
 - (void)handleNotificationClick:(FlutterMethodCall *)call result:(FlutterResult)result {
@@ -74,7 +74,7 @@ NS_ASSUME_NONNULL_BEGIN
         });
     }
     
-    result(@YES);
+    result([NSNumber numberWithBool:YES]);
 }
 
 #pragma mark - SDK Mapping

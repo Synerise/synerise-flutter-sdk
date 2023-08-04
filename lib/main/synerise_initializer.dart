@@ -6,6 +6,7 @@ class SyneriseInitializer {
 
   String? _clientApiKey;
   String? _baseUrl;
+  String? _requestValidationSalt;
   bool _debugModeEnabled = false;
   bool _crashHandlingEnabled = false;
 
@@ -62,6 +63,16 @@ class SyneriseInitializer {
     return this;
   }
 
+  /// The function sets the request validation salt for SyneriseInitializer.
+  ///
+  /// Args:
+  ///   requestValidationSalt (String): This parameter is a string value that is used for request validation in the
+  /// SyneriseInitializer class.
+  SyneriseInitializer setRequestValidationSalt(String requestValidationSalt) {
+    _requestValidationSalt = requestValidationSalt;
+    return this;
+  }
+
   /// This function initializes a Synerise SDK instance with specified parameters and invokes a
   /// completion handler.
   Future<void> init() async {
@@ -74,7 +85,8 @@ class SyneriseInitializer {
         'clientApiKey': _clientApiKey,
         'baseUrl': _baseUrl,
         'debugModeEnabled': _debugModeEnabled,
-        'crashHandlingEnabled': _crashHandlingEnabled
+        'crashHandlingEnabled': _crashHandlingEnabled,
+        'requestValidationSalt': _requestValidationSalt
       }
     });
 
