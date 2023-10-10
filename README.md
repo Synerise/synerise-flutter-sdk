@@ -2,36 +2,31 @@
 
 [![Platform](https://img.shields.io/badge/platform-iOS-orange.svg)](https://github.com/synerise/ios-sdk)
 [![Platform](https://img.shields.io/badge/platform-Android-orange.svg)](https://github.com/synerise/android-sdk)
-[![Documentation](https://img.shields.io/badge/docs-latest-brightgreen.svg?style=flat-square)](https://help.synerise.com/developers/mobile-sdk/)
+[![Languages](https://img.shields.io/badge/language-Dart%20%7C%20Java%20%7C%20Objective--C-orange.svg)](https://github.com/synerise/synerise-flutter-sdk)
+[![Synerise](https://img.shields.io/badge/www-synerise-green.svg)](https://synerise.com)
+[![Documentation](https://img.shields.io/badge/docs-latest-brightgreen.svg)](https://help.synerise.com/developers/mobile-sdk/)
 
 ---
+
+## About
+Synerise SDK plugin for Flutter for Synerise platform (http://www.synerise.com).
 
 ## Documentation
-
 Most up-to-date documentation is available at [Synerise Help Center](https://help.synerise.com/developers/mobile-sdk/)
 
-
 ## Requirements
-
-* Flutter configured - [Getting Started](https://docs.flutter.dev)
+* Access to workspace
+* A Profile API Key
+* Development environment configured - [Flutter documentation](https://docs.flutter.dev)
 
 ## Android
+* Minimum Android SDK version - 21
+* Supported targetSDKVersion - 33
 
-* Recommended environment:
-
-  - Minimum Android SDK version - 21
-  - Supported targetSDKVersion - 30
-
-## iOS
-
-* Recommended environment:
-
-  - Xcode 14 
-  - iOS SDK 16
-
-* Target deployment: iOS 9.0+
-
----
+### iOS
+* Xcode 15 and iOS SDK 17
+* iOS 9.0+ minimum deployment target
+* Valid architectures: arm64 devices and arm64, x86_64 simulators
 
 ## Installation
 
@@ -69,20 +64,14 @@ synerise_flutter_sdk:
       url: https://github.com/Synerise/synerise-flutter-sdk.git
 ``` 
 
----
-
 ### Importing Synerise SDK
-
 ```
 import 'package:synerise_flutter_sdk/synerise.dart';
 ```
 
-
 ## Android gradle & configuration
 
 Add to the `android/build.gradle`:
-
-
 ```
 repositories {
     google()
@@ -104,23 +93,21 @@ public void configureFlutterEngine(@NonNull FlutterEngine flutterEngine) {
 
 ## iOS configuration
 
-In iOS portion of your application (/ios) you will need to run
-`pod update`
+In iOS portion of your application (/ios) you will need to run `pod update`.
 
 ## Initialization
 
-### Basic initialization
-
 ```
 Synerise.initializer()
-  .withClientApiKey("YOUR_PROFILE_API_KEY")  // 1
-  .withDebugModeEnabled(false)  // 2
+  .withClientApiKey("YOUR_PROFILE_API_KEY")
   .init(); 
 ```
 
 ## Running example app
-
 -  Open project folder in selected IDE
 - `flutter pub get` in the terminal (dependencies pull)
 - select the device/emulator in your IDE (for ios part it is required to run `pod update` in example/ios directory)
 - `cd example` and  `flutter run`
+
+## Author
+Synerise, developer@synerise.com. If you need support please feel free to contact us.
