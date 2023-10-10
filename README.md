@@ -9,7 +9,7 @@
 ---
 
 ## About
-Synerise SDK plugin for Flutter for Synerise platform (http://www.synerise.com).
+[Synerise](http://www.synerise.com) SDK plugin for Flutter.
 
 ## Documentation
 Most up-to-date documentation is available at [Synerise Help Center](https://help.synerise.com/developers/mobile-sdk/)
