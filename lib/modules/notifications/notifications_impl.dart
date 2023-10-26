@@ -46,7 +46,7 @@ class NotificationsImpl extends BaseModule {
   /// notifications. This token is used to identify the device and send push notifications to it.
   ///   mobileAgreement (bool): mobileAgreement is a boolean parameter that indicates whether the user
   /// has agreed to receive notifications on their mobile device.
-  void registerForNotifications(String registrationToken, bool mobileAgreement) {
+  void registerForNotifications(String registrationToken, [bool? mobileAgreement]) {
     _methods.registerForNotifications(registrationToken, mobileAgreement);
   }
 
@@ -68,5 +68,45 @@ class NotificationsImpl extends BaseModule {
   /// notification that was received by the app.
   Future<bool> handleNotificationClick(Map notification) async {
     return _methods.handleNotificationClick(notification);
+  }
+
+  /// The function isSyneriseNotification checks if a given notification is a Synerise notification.
+  ///
+  /// Args:
+  ///   notification (Map): A map containing the notification data.
+  Future<bool> isSyneriseNotification(Map notification) async {
+    return _methods.isSyneriseNotification(notification);
+  }
+
+  /// The function checks if a given notification is a Synerise Simple Push notification.
+  ///
+  /// Args:
+  ///   notification (Map): A map containing the notification data.
+  Future<bool> isSyneriseSimplePush(Map notification) async {
+    return _methods.isSyneriseSimplePush(notification);
+  }
+
+  /// The function isSyneriseBanner checks if a given notification is a Synerise banner.
+  ///
+  /// Args:
+  ///   notification (Map): A map containing the notification data.
+  Future<bool> isSyneriseBanner(Map notification) async {
+    return _methods.isSyneriseBanner(notification);
+  }
+
+  /// The function isSilentCommand checks if a notification is a silent command.
+  ///
+  /// Args:
+  ///   notification (Map): A map containing the notification data.
+  Future<bool> isSilentCommand(Map notification) async {
+    return _methods.isSilentCommand(notification);
+  }
+
+  /// The function checks if a given notification is a silent SDK command.
+  ///
+  /// Args:
+  ///   notification (Map): A map containing the notification data.
+  Future<bool> isSilentSDKCommand(Map notification) async {
+    return _methods.isSilentSDKCommand(notification);
   }
 }

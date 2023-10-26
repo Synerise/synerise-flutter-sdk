@@ -51,20 +51,20 @@ public class SyneriseContent implements SyneriseModule {
             case "getDocument":
                 getDocument(call, result);
                 return;
+            case "generateDocument":
+                generateDocument(call, result);
+                return;
             case "getDocuments":
                 getDocuments(call, result);
                 return;
             case "getRecommendations":
                 getRecommendations(call, result);
                 return;
-            case "getScreenView":
-                getScreenView(result);
-                return;
             case "getRecommendationsV2":
                 getRecommendationsV2(call, result);
                 return;
-            case "generateDocument":
-                generateDocument(call, result);
+            case "getScreenView":
+                getScreenView(result);
                 return;
             case "generateScreenView":
                 generateScreenView(call, result);
@@ -80,6 +80,29 @@ public class SyneriseContent implements SyneriseModule {
             String jsonObject = gson.toJson(document);
             HashMap<String, Object> objectMap = new Gson().fromJson(jsonObject, HashMap.class);
             SyneriseModule.executeSuccessResult(objectMap, result);
+        }, apiError -> SyneriseModule.executeFailureResult(apiError, result));
+    }
+
+    public void generateDocument(MethodCall call, MethodChannel.Result result) {
+        String slug = (String) call.arguments;
+        Map<String, Object> documentMap = new HashMap<>();
+        if (generateDocumentApiCall != null) generateDocumentApiCall.cancel();
+        generateDocumentApiCall = Content.generateDocument(slug);
+        generateDocumentApiCall.execute(document -> {
+            if (document.getContent() instanceof String) {
+                try {
+                    HashMap<String, Object> contentMap = new Gson().fromJson((String) document.getContent(), HashMap.class);
+                    documentMap.put("content", contentMap);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else {
+                documentMap.put("content", document.getContent());
+            }
+            documentMap.put("identifier", document.getUuid());
+            documentMap.put("slug", document.getSlug());
+            documentMap.put("schema", document.getSchema());
+            SyneriseModule.executeSuccessResult(documentMap, result);
         }, apiError -> SyneriseModule.executeFailureResult(apiError, result));
     }
 
@@ -135,35 +158,6 @@ public class SyneriseContent implements SyneriseModule {
         }, apiError -> SyneriseModule.executeFailureResult(apiError, result));
     }
 
-    public void getScreenView(MethodChannel.Result result) {
-        getScreenViewApiCall = Content.getScreenView();
-        getScreenViewApiCall.execute(response -> {
-            Map<String, Object> screenViewMap = new HashMap<>();
-            screenViewMap.put("audience", audienceToWritableMap(response.getAudience()));
-            screenViewMap.put("identifier", response.getId());
-            screenViewMap.put("hashString", response.getHash());
-            screenViewMap.put("path", response.getPath());
-            screenViewMap.put("name", response.getName());
-            screenViewMap.put("priority", response.getPriority());
-            screenViewMap.put("data", screenViewDataMapper(response.getData()));
-            screenViewMap.put("version", response.getVersion());
-            screenViewMap.put("parentVersion", response.getParentVersion());
-            try {
-                Date createdAtDate = new SimpleDateFormat(ISO8601_FORMAT, Locale.getDefault()).parse(response.getCreatedAt());
-                Date updatedAtDate = new SimpleDateFormat(ISO8601_FORMAT, Locale.getDefault()).parse(response.getUpdatedAt());
-                if (createdAtDate != null) {
-                    screenViewMap.put("createdAt", createdAtDate.getTime());
-                }
-                if (updatedAtDate != null) {
-                    screenViewMap.put("updatedAt", updatedAtDate.getTime());
-                }
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            SyneriseModule.executeSuccessResult(screenViewMap, result);
-        }, apiError -> SyneriseModule.executeFailureResult(apiError, result));
-    }
-
     public void getRecommendationsV2(MethodCall call, MethodChannel.Result result) {
         Map recommendationOptions = (Map) call.arguments;
         String productID = null;
@@ -205,26 +199,32 @@ public class SyneriseContent implements SyneriseModule {
         }, apiError -> SyneriseModule.executeFailureResult(apiError, result));
     }
 
-    public void generateDocument(MethodCall call, MethodChannel.Result result) {
-        String slug = (String) call.arguments;
-        Map<String, Object> documentMap = new HashMap<>();
-        if (generateDocumentApiCall != null) generateDocumentApiCall.cancel();
-        generateDocumentApiCall = Content.generateDocument(slug);
-        generateDocumentApiCall.execute(document -> {
-            if (document.getContent() instanceof String) {
-                try {
-                    HashMap<String, Object> contentMap = new Gson().fromJson((String) document.getContent(), HashMap.class);
-                    documentMap.put("content", contentMap);
-                } catch (Exception e) {
-                    e.printStackTrace();
+    public void getScreenView(MethodChannel.Result result) {
+        getScreenViewApiCall = Content.getScreenView();
+        getScreenViewApiCall.execute(response -> {
+            Map<String, Object> screenViewMap = new HashMap<>();
+            screenViewMap.put("audience", audienceToWritableMap(response.getAudience()));
+            screenViewMap.put("identifier", response.getId());
+            screenViewMap.put("hashString", response.getHash());
+            screenViewMap.put("path", response.getPath());
+            screenViewMap.put("name", response.getName());
+            screenViewMap.put("priority", response.getPriority());
+            screenViewMap.put("data", screenViewDataMapper(response.getData()));
+            screenViewMap.put("version", response.getVersion());
+            screenViewMap.put("parentVersion", response.getParentVersion());
+            try {
+                Date createdAtDate = new SimpleDateFormat(ISO8601_FORMAT, Locale.getDefault()).parse(response.getCreatedAt());
+                Date updatedAtDate = new SimpleDateFormat(ISO8601_FORMAT, Locale.getDefault()).parse(response.getUpdatedAt());
+                if (createdAtDate != null) {
+                    screenViewMap.put("createdAt", createdAtDate.getTime());
                 }
-            } else {
-                documentMap.put("content", document.getContent());
+                if (updatedAtDate != null) {
+                    screenViewMap.put("updatedAt", updatedAtDate.getTime());
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
             }
-            documentMap.put("identifier", document.getUuid());
-            documentMap.put("slug", document.getSlug());
-            documentMap.put("schema", document.getSchema());
-            SyneriseModule.executeSuccessResult(documentMap, result);
+            SyneriseModule.executeSuccessResult(screenViewMap, result);
         }, apiError -> SyneriseModule.executeFailureResult(apiError, result));
     }
 

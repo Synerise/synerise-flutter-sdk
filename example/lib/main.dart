@@ -123,8 +123,14 @@ class _InitialViewState extends State<InitialView> {
 
     FirebaseMessaging.onMessage.listen((
       RemoteMessage message,
-    ) {
-      Synerise.notifications.handleNotification(message.toMap());
+    ) async {
+      Map<String, dynamic> remoteMessageMap = message.toMap();
+      bool isSyneriseNotification = await Synerise.notifications.isSyneriseNotification(remoteMessageMap);
+      if (isSyneriseNotification) {
+        Synerise.notifications.handleNotification(remoteMessageMap);
+      } else {
+        //custom notification handling
+      }
     });
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
@@ -283,6 +289,12 @@ Future<void> backgroundHandlerForFCM(RemoteMessage message) async {
   // If you're going to use other Firebase services in the background, such as Firestore,
   // make sure you call `initializeApp` before using other Firebase services.
   // ignore: unused_local_variable
-  bool isPushSynerise = await Synerise.notifications.handleNotification(message.toMap());
-  developer.log('flutter', name: 'onMessage background');
+  Map<String, dynamic> remoteMessageMap = message.toMap();
+  bool isSyneriseNotification = await Synerise.notifications.isSyneriseNotification(remoteMessageMap);
+  if (isSyneriseNotification) {
+    Synerise.notifications.handleNotification(remoteMessageMap);
+  } else {
+    developer.log('flutter', name: 'onMessage background');
+    //custom notification handling
+  }
 }

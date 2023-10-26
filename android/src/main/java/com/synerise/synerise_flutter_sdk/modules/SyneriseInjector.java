@@ -46,26 +46,42 @@ public class SyneriseInjector implements SyneriseModule {
 
             @Override
             public void onShown(InAppMessageData inAppMessageData) {
-                SyneriseMethodChannel.methodChannel.invokeMethod("Injector#InjectorInAppMessageListener#onPresent", createMapFromInAppMessageData(inAppMessageData));
+                SyneriseModule.executeCallbackOnMainHandler(() -> {
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("data", createMapFromInAppMessageData(inAppMessageData));
+                    SyneriseMethodChannel.methodChannel.invokeMethod("Injector#InjectorInAppMessageListener#onPresent", map);
+                });
             }
 
             @Override
             public void onDismissed(InAppMessageData inAppMessageData) {
-                SyneriseMethodChannel.methodChannel.invokeMethod("Injector#InjectorInAppMessageListener#onHide", createMapFromInAppMessageData(inAppMessageData));
+                SyneriseModule.executeCallbackOnMainHandler(() -> {
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("data", createMapFromInAppMessageData(inAppMessageData));
+                    SyneriseMethodChannel.methodChannel.invokeMethod("Injector#InjectorInAppMessageListener#onHide", map);
+                });
             }
 
             @Override
             public void onHandledOpenUrl(InAppMessageData inAppMessageData) {
-                Map<String, Object> data = createMapFromInAppMessageData(inAppMessageData);
-                data.put("url", inAppMessageData.getUrl());
-                SyneriseMethodChannel.methodChannel.invokeMethod("Injector#InjectorInAppMessageListener#onOpenUrl", data);
+                SyneriseModule.executeCallbackOnMainHandler(() -> {
+                    Map<String, Object> map = new HashMap<>();
+                    Map<String, Object> data = createMapFromInAppMessageData(inAppMessageData);
+                    map.put("data", data);
+                    map.put("url", inAppMessageData.getUrl());
+                    SyneriseMethodChannel.methodChannel.invokeMethod("Injector#InjectorInAppMessageListener#onOpenUrl", map);
+                });
             }
 
             @Override
             public void onHandledOpenDeepLink(InAppMessageData inAppMessageData) {
-                Map<String, Object> data = createMapFromInAppMessageData(inAppMessageData);
-                data.put("deepLink", inAppMessageData.getDeepLink());
-                SyneriseMethodChannel.methodChannel.invokeMethod("Injector#InjectorInAppMessageListener#onDeepLink", data);
+                SyneriseModule.executeCallbackOnMainHandler(() -> {
+                    Map<String, Object> map = new HashMap<>();
+                    Map<String, Object> data = createMapFromInAppMessageData(inAppMessageData);
+                    map.put("data", data);
+                    map.put("deepLink", inAppMessageData.getDeepLink());
+                    SyneriseMethodChannel.methodChannel.invokeMethod("Injector#InjectorInAppMessageListener#onDeepLink", map);
+                });
             }
 
             @Override
@@ -75,10 +91,14 @@ public class SyneriseInjector implements SyneriseModule {
 
             @Override
             public void onCustomAction(String identifier, HashMap<String, Object> params, InAppMessageData inAppMessageData) {
-                Map<String, Object> data = createMapFromInAppMessageData(inAppMessageData);
-                data.put("name", identifier);
-                data.put("parameters", params);
-                SyneriseMethodChannel.methodChannel.invokeMethod("Injector#InjectorInAppMessageListener#onCustomAction", data);
+                SyneriseModule.executeCallbackOnMainHandler(() -> {
+                    Map<String, Object> map = new HashMap<>();
+                    Map<String, Object> data = createMapFromInAppMessageData(inAppMessageData);
+                    map.put("data", data);
+                    map.put("name", identifier);
+                    map.put("parameters", params);
+                    SyneriseMethodChannel.methodChannel.invokeMethod("Injector#InjectorInAppMessageListener#onCustomAction", map);
+                });
             }
         });
     }
@@ -92,16 +112,20 @@ public class SyneriseInjector implements SyneriseModule {
 
             @Override
             public void onPresented() {
-                Map<String, Object> map = new HashMap<>();
-                SyneriseMethodChannel.methodChannel.invokeMethod("Injector#InjectorBannerListener#onPresent", map);
-                super.onPresented();
+                SyneriseModule.executeCallbackOnMainHandler(() -> {
+                    Map<String, Object> map = new HashMap<>();
+                    SyneriseMethodChannel.methodChannel.invokeMethod("Injector#InjectorBannerListener#onPresent", map);
+                    super.onPresented();
+                });
             }
 
             @Override
             public void onClosed() {
-                Map<String, Object> map = new HashMap<>();
-                SyneriseMethodChannel.methodChannel.invokeMethod("Injector#InjectorBannerListener#onHide", map);
-                super.onClosed();
+                SyneriseModule.executeCallbackOnMainHandler(() -> {
+                    Map<String, Object> map = new HashMap<>();
+                    SyneriseMethodChannel.methodChannel.invokeMethod("Injector#InjectorBannerListener#onHide", map);
+                    super.onClosed();
+                });
             }
         });
     }
@@ -110,21 +134,21 @@ public class SyneriseInjector implements SyneriseModule {
         InjectorActionHandler.setOnInjectorListener(new OnInjectorListener() {
             @Override
             public boolean onOpenUrl(InjectorSource injectorSource, String url) {
-                Handler mainHandler = new Handler(Looper.getMainLooper());
-                Runnable myRunnable = () -> {
-                    Map<String, Object> map = new HashMap<>();
-                    map.put("url", url);
-                    SyneriseMethodChannel.methodChannel.invokeMethod("Injector#InjectorListener#onOpenUrl", map);
-                };
-                mainHandler.post(myRunnable);
+                SyneriseModule.executeCallbackOnMainHandler(() -> {
+                        Map<String, Object> map = new HashMap<>();
+                        map.put("url", url);
+                        SyneriseMethodChannel.methodChannel.invokeMethod("Injector#InjectorListener#onOpenUrl", map);
+            });
                 return injectorSource != InjectorSource.WALKTHROUGH;
             }
 
             @Override
             public boolean onDeepLink(InjectorSource injectorSource, String deepLink) {
-                Map<String, Object> map = new HashMap<>();
-                map.put("deepLink", deepLink);
-                SyneriseMethodChannel.methodChannel.invokeMethod("Injector#InjectorListener#onDeepLink", map);
+                SyneriseModule.executeCallbackOnMainHandler(() -> {
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("deepLink", deepLink);
+                    SyneriseMethodChannel.methodChannel.invokeMethod("Injector#InjectorListener#onDeepLink", map);
+                });
                 return injectorSource != InjectorSource.WALKTHROUGH;
             }
         });
@@ -134,40 +158,48 @@ public class SyneriseInjector implements SyneriseModule {
         Injector.setOnWalkthroughListener(new OnWalkthroughListener() {
             @Override
             public void onLoadingError(ApiError error) {
-                Map<String, Object> map = new HashMap<>();
-                SyneriseMethodChannel.methodChannel.invokeMethod("Injector#InjectorWalkthroughListener#onLoadingError", map);
-                super.onLoadingError(error);
+                SyneriseModule.executeCallbackOnMainHandler(() -> {
+                    Map<String, Object> map = new HashMap<>();
+                    SyneriseMethodChannel.methodChannel.invokeMethod("Injector#InjectorWalkthroughListener#onLoadingError", map);
+                    super.onLoadingError(error);
+                });
             }
 
             @Override
             public void onLoaded(WalkthroughResponse walkthrough) {
-                Map<String, Object> map = new HashMap<>();
-                SyneriseMethodChannel.methodChannel.invokeMethod("Injector#InjectorWalkthroughListener#onLoad", map);
-                super.onLoaded(walkthrough);
+                SyneriseModule.executeCallbackOnMainHandler(() -> {
+                    Map<String, Object> map = new HashMap<>();
+                    SyneriseMethodChannel.methodChannel.invokeMethod("Injector#InjectorWalkthroughListener#onLoad", map);
+                    super.onLoaded(walkthrough);
+                });
             }
 
             @Override
             public void onPresented() {
-                Map<String, Object> map = new HashMap<>();
-                SyneriseMethodChannel.methodChannel.invokeMethod("Injector#InjectorWalkthroughListener#onPresent", map);
-                super.onPresented();
+                SyneriseModule.executeCallbackOnMainHandler(() -> {
+                    Map<String, Object> map = new HashMap<>();
+                    SyneriseMethodChannel.methodChannel.invokeMethod("Injector#InjectorWalkthroughListener#onPresent", map);
+                    super.onPresented();
+                });
             }
 
             @Override
             public void onClosed() {
-                Map<String, Object> map = new HashMap<>();
-                SyneriseMethodChannel.methodChannel.invokeMethod("Injector#InjectorWalkthroughListener#onHide", map);
-                super.onClosed();
+                SyneriseModule.executeCallbackOnMainHandler(() -> {
+                    Map<String, Object> map = new HashMap<>();
+                    SyneriseMethodChannel.methodChannel.invokeMethod("Injector#InjectorWalkthroughListener#onHide", map);
+                    super.onClosed();
+                });
             }
         });
     }
 
     private static Map<String, Object> createMapFromInAppMessageData(InAppMessageData inAppMessageData) {
-        Map<String, Object> map = new HashMap<>();
-        map.put("campaignHash", inAppMessageData.getCampaignHash());
-        map.put("variantIdentifier", inAppMessageData.getVariantId());
-        map.put("additionalParameters", inAppMessageData.getAdditionalParameters());
-        map.put("isTest", inAppMessageData.getTest());
-        return map;
+        Map<String, Object> dataMap = new HashMap<>();
+        dataMap.put("campaignHash", inAppMessageData.getCampaignHash());
+        dataMap.put("variantIdentifier", inAppMessageData.getVariantId());
+        dataMap.put("additionalParameters", inAppMessageData.getAdditionalParameters());
+        dataMap.put("isTest", inAppMessageData.getTest());
+        return dataMap;
     }
 }

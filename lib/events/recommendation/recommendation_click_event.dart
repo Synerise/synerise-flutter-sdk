@@ -13,7 +13,7 @@ abstract class RecommendationClickEventParameters {
 }
 
 /// The class represents a recommendation click event with specific parameters.
-abstract class RecommendationClickEvent extends RecommendationEvent {
+class RecommendationClickEvent extends RecommendationEvent {
   RecommendationClickEvent(String label, String action, String productId, String productName, String campaignId, String campaignHash,
       Map<String, Object>? parameters)
       : super(label, 'recommendation.click', parameters) {

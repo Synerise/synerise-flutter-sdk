@@ -26,6 +26,16 @@ NS_ASSUME_NONNULL_BEGIN
         [self handleNotification:call result:result];
     } else if ([calledMethod isEqualToString:@"handleNotificationClick"]) {
         [self handleNotificationClick:call result:result];
+    } else if ([calledMethod isEqualToString:@"isSyneriseNotification"]) {
+        [self isSyneriseNotification:call result:result];
+    } else if ([calledMethod isEqualToString:@"isSyneriseSimplePush"]) {
+        [self isSyneriseSimplePush:call result:result];
+    } else if ([calledMethod isEqualToString:@"isSyneriseBanner"]) {
+        [self isSyneriseBanner:call result:result];
+    } else if ([calledMethod isEqualToString:@"isSilentCommand"]) {
+        [self isSilentCommand:call result:result];
+    } else if ([calledMethod isEqualToString:@"isSilentSDKCommand"]) {
+        [self isSilentSDKCommand:call result:result];
     }
 }
 
@@ -40,12 +50,20 @@ NS_ASSUME_NONNULL_BEGIN
     
     NSString *registrationToken = [dictionary getStringForKey:@"registrationToken"];
     NSNumber *mobileAgreement = [dictionary getNumberForKey:@"mobileAgreement"];
-
-    [SNRClient registerForPush:registrationToken mobilePushAgreement:[mobileAgreement boolValue] success:^(BOOL isSuccess) {
-        result(nil);
-    } failure:^(NSError *error) {
-        result([self makeFlutterErrorWithError:error]);
-    }];
+    
+    if (mobileAgreement != nil) {
+        [SNRClient registerForPush:registrationToken mobilePushAgreement:[mobileAgreement boolValue] success:^(BOOL isSuccess) {
+            result([NSNumber numberWithBool:YES]);
+        } failure:^(NSError *error) {
+            result([self makeFlutterErrorWithError:error]);
+        }];
+    } else {
+        [SNRClient registerForPush:registrationToken success:^(BOOL isSuccess) {
+            result([NSNumber numberWithBool:YES]);
+        } failure:^(SNRApiError * _Nonnull error) {
+            result([self makeFlutterErrorWithError:error]);
+        }];
+    }
 }
 
 - (void)handleNotification:(FlutterMethodCall *)call result:(FlutterResult)result {
@@ -57,10 +75,12 @@ NS_ASSUME_NONNULL_BEGIN
     if (payload != nil) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [SNRSynerise handleNotification:payload actionIdentifier:actionIdentifier];
+            result([NSNumber numberWithBool:YES]);
         });
+    } else {
+        result([self makeFlutterErrorWithMessage:@"payload mapping failure"]);
+        return;
     }
-    
-    result([NSNumber numberWithBool:YES]);
 }
 
 - (void)handleNotificationClick:(FlutterMethodCall *)call result:(FlutterResult)result {
@@ -71,10 +91,82 @@ NS_ASSUME_NONNULL_BEGIN
     if (payload != nil) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [SNRSynerise handleNotification:payload actionIdentifier:UNNotificationDefaultActionIdentifier];
+            result([NSNumber numberWithBool:YES]);
         });
+    } else {
+        result([self makeFlutterErrorWithMessage:@"payload mapping failure"]);
+        return;
     }
+}
+
+- (void)isSyneriseNotification:(FlutterMethodCall *)call result:(FlutterResult)result {
+    NSDictionary *userInfo = call.arguments;
     
-    result([NSNumber numberWithBool:YES]);
+    NSDictionary *notification = [userInfo getDictionaryForKey:@"notification"];
+    NSDictionary *payload = [self payloadDictionaryWithDictionary:notification];
+    if (payload != nil) {
+        NSNumber *isSyneriseNotification = [NSNumber numberWithBool:[SNRSynerise isSyneriseNotification:payload]];
+        result(isSyneriseNotification);
+    } else {
+        result([self makeFlutterErrorWithMessage:@"payload mapping failure"]);
+        return;
+    }
+}
+
+- (void)isSyneriseSimplePush:(FlutterMethodCall *)call result:(FlutterResult)result {
+    NSDictionary *userInfo = call.arguments;
+    
+    NSDictionary *notification = [userInfo getDictionaryForKey:@"notification"];
+    NSDictionary *payload = [self payloadDictionaryWithDictionary:notification];
+    if (payload != nil) {
+        NSNumber *isSyneriseSimplePush = [NSNumber numberWithBool:[SNRSynerise isSyneriseSimplePush:payload]];
+        result(isSyneriseSimplePush);
+    } else {
+        result([self makeFlutterErrorWithMessage:@"payload mapping failure"]);
+        return;
+    }
+}
+
+- (void)isSyneriseBanner:(FlutterMethodCall *)call result:(FlutterResult)result {
+    NSDictionary *userInfo = call.arguments;
+    
+    NSDictionary *notification = [userInfo getDictionaryForKey:@"notification"];
+    NSDictionary *payload = [self payloadDictionaryWithDictionary:notification];
+    if (payload != nil) {
+        NSNumber *isSyneriseBanner = [NSNumber numberWithBool:[SNRSynerise isSyneriseBanner:payload]];
+        result(isSyneriseBanner);
+    } else {
+        result([self makeFlutterErrorWithMessage:@"payload mapping failure"]);
+        return;
+    }
+}
+
+- (void)isSilentCommand:(FlutterMethodCall *)call result:(FlutterResult)result {
+    NSDictionary *userInfo = call.arguments;
+    
+    NSDictionary *notification = [userInfo getDictionaryForKey:@"notification"];
+    NSDictionary *payload = [self payloadDictionaryWithDictionary:notification];
+    if (payload != nil) {
+        NSNumber *isSilentCommand = [NSNumber numberWithBool:[SNRSynerise isSyneriseSilentCommand:payload]];
+        result(isSilentCommand);
+    } else {
+        result([self makeFlutterErrorWithMessage:@"payload mapping failure"]);
+        return;
+    }
+}
+
+- (void)isSilentSDKCommand:(FlutterMethodCall *)call result:(FlutterResult)result {
+    NSDictionary *userInfo = call.arguments;
+    
+    NSDictionary *notification = [userInfo getDictionaryForKey:@"notification"];
+    NSDictionary *payload = [self payloadDictionaryWithDictionary:notification];
+    if (payload != nil) {
+        NSNumber *isSilentSDKCommand = [NSNumber numberWithBool:[SNRSynerise isSyneriseSilentSDKCommand:payload]];
+        result(isSilentSDKCommand);
+    } else {
+        result([self makeFlutterErrorWithMessage:@"payload mapping failure"]);
+        return;
+    }
 }
 
 #pragma mark - SDK Mapping
@@ -97,7 +189,7 @@ NS_ASSUME_NONNULL_BEGIN
                     } forKey:@"aps"];
                 }
             }
-
+            
             [payload addEntriesFromDictionary:dictionary[@"data"]];
             
             return payload;

@@ -23,8 +23,23 @@ class ClientMethods extends BaseMethodChannel {
     await methodChannel.invokeMethod('Client/activateAccount', {"email": email});
   }
 
+  Future<void> confirmAccountActivationByPin(String email, String pinCode) async {
+    await methodChannel.invokeMethod('Client/confirmAccountActivationByPin', {"email": email, "pinCode": pinCode});
+  }
+
+  Future<void> requestAccountActivationByPin(String email) async {
+    await methodChannel.invokeMethod('Client/requestAccountActivationByPin', {"email": email});
+  }
+
   Future<void> signIn(String email, String password) async {
     await methodChannel.invokeMethod('Client/signIn', {"email": email, "password": password});
+  }
+
+  Future<ClientConditionalAuthResult> signInConditionally(String email, String password) async {
+    var clientConditionalAuthResultMap =
+        await methodChannel.invokeMethod('Client/signInConditionally', {"email": email, "password": password});
+    ClientConditionalAuthResult clientConditionalAuthResult = ClientConditionalAuthResult.fromMap(clientConditionalAuthResultMap);
+    return clientConditionalAuthResult;
   }
 
   Future<bool> authenticate(ClientAuthContext clientAuthContext, IdentityProvider identityProvider, String tokenString) async {
@@ -37,28 +52,52 @@ class ClientMethods extends BaseMethodChannel {
     return isAuthenticated;
   }
 
+  Future<ClientConditionalAuthResult> authenticateConditionally(IdentityProvider identityProvider, String tokenString,
+      ClientCondtitionalAuthContext? clientCondtitionalAuthContext, String? authID) async {
+    var authenticateMap = <String, dynamic>{
+      'identityProvider': identityProvider.getIdentityProviderAsString(),
+      'tokenString': tokenString,
+      'clientAuthContext': clientCondtitionalAuthContext ?? clientCondtitionalAuthContext?.asMap(),
+      'authID': authID ?? authID
+    };
+    var clientConditionalAuthResultMap = await methodChannel.invokeMethod('Client/authenticateConditionally', authenticateMap);
+    ClientConditionalAuthResult clientConditionalAuthResult = ClientConditionalAuthResult.fromMap(clientConditionalAuthResultMap);
+    return clientConditionalAuthResult;
+  }
+
+  Future<void> simpleAuthentication(ClientSimpleAuthenticationData clientSimpleAuthenticationData, String authID) async {
+    await methodChannel.invokeMethod(
+        "Client/simpleAuthentication", {"clientSimpleAuthenticationData": clientSimpleAuthenticationData.asMap(), "authID": authID});
+  }
+
   Future<bool> isSignedIn() async {
     bool isSignedIn = await methodChannel.invokeMethod('Client/isSignedIn');
     return isSignedIn;
+  }
+
+  Future<bool> isSignedInViaSimpleAuthentication() async {
+    bool result = await methodChannel.invokeMethod("Client/isSignedInViaSimpleAuthentication");
+    return result;
   }
 
   Future<void> signOut() async {
     await methodChannel.invokeMethod("Client/signOut");
   }
 
-  Future<void> destroySession() async {
-    await methodChannel.invokeMethod('Client/destroySession');
+  Future<void> signOutWithMode(ClientSignOutMode mode, bool fromAllDevices) async {
+    await methodChannel
+        .invokeMethod("Client/signOutWithMode", {"mode": mode.clientSignOutModeAsString(), "fromAllDevices": fromAllDevices});
+  }
+
+  Future<bool> refreshToken() async {
+    bool result = await methodChannel.invokeMethod("Client/refreshToken");
+    return result;
   }
 
   Future<Token> retrieveToken() async {
     var tokenMap = await methodChannel.invokeMethod('Client/retrieveToken');
     Token token = Token.fromMap(tokenMap);
     return token;
-  }
-
-  Future<bool> refreshToken() async {
-    bool result = await methodChannel.invokeMethod("Client/refreshToken");
-    return result;
   }
 
   Future<String> getUUID() async {
@@ -69,6 +108,15 @@ class ClientMethods extends BaseMethodChannel {
   Future<bool> regenerateUUID() async {
     bool result = await methodChannel.invokeMethod("Client/regenerateUUID");
     return result;
+  }
+
+  Future<bool> regenerateUUIDWithClientIdentifier(String clientIdentifier) async {
+    bool result = await methodChannel.invokeMethod("Client/regenerateUUIDWithClientIdentifier", {"clientIdentifier": clientIdentifier});
+    return result;
+  }
+
+  Future<void> destroySession() async {
+    await methodChannel.invokeMethod('Client/destroySession');
   }
 
   Future<ClientAccountInformation> getAccount() async {
@@ -93,39 +141,6 @@ class ClientMethods extends BaseMethodChannel {
     await methodChannel.invokeMethod('Client/changePassword', {"oldPassword": oldPassword, "password": password});
   }
 
-  Future<void> deleteAccount(String clientAuthFactor, IdentityProvider identityProvider, String? authId) async {
-    await methodChannel.invokeMethod('Client/deleteAccount',
-        {"clientAuthFactor": clientAuthFactor, "identityProvider": identityProvider.getIdentityProviderAsString(), "authId": authId});
-  }
-
-  Future<void> confirmAccountActivationByPin(String email, String pinCode) async {
-    await methodChannel.invokeMethod('Client/confirmAccountActivationByPin', {"email": email, "pinCode": pinCode});
-  }
-
-  Future<void> requestAccountActivationByPin(String email) async {
-    await methodChannel.invokeMethod('Client/requestAccountActivationByPin', {"email": email});
-  }
-
-  Future<ClientConditionalAuthResult> signInConditionally(String email, String password) async {
-    var clientConditionalAuthResultMap =
-        await methodChannel.invokeMethod('Client/signInConditionally', {"email": email, "password": password});
-    ClientConditionalAuthResult clientConditionalAuthResult = ClientConditionalAuthResult.fromMap(clientConditionalAuthResultMap);
-    return clientConditionalAuthResult;
-  }
-
-  Future<ClientConditionalAuthResult> authenticateConditionally(IdentityProvider identityProvider, String tokenString,
-      ClientCondtitionalAuthContext? clientCondtitionalAuthContext, String? authID) async {
-    var authenticateMap = <String, dynamic>{
-      'identityProvider': identityProvider.getIdentityProviderAsString(),
-      'tokenString': tokenString,
-      'clientAuthContext': clientCondtitionalAuthContext ?? clientCondtitionalAuthContext?.asMap(),
-      'authID': authID ?? authID
-    };
-    var clientConditionalAuthResultMap = await methodChannel.invokeMethod('Client/authenticateConditionally', authenticateMap);
-    ClientConditionalAuthResult clientConditionalAuthResult = ClientConditionalAuthResult.fromMap(clientConditionalAuthResultMap);
-    return clientConditionalAuthResult;
-  }
-
   Future<void> requestEmailChange(String email, String password, String? externalToken, String? authID) async {
     var requestEmailChangeMap = <String, dynamic>{'email': email, 'password': password, 'externalToken': externalToken, 'authID': authID};
     await methodChannel.invokeMethod('Client/requestEmailChange', requestEmailChangeMap);
@@ -144,23 +159,8 @@ class ClientMethods extends BaseMethodChannel {
         .invokeMethod('Client/confirmPhoneUpdate', {"phone": phone, "confirmationCode": confirmationCode, "smsAgreement": smsAgreement});
   }
 
-  Future<bool> regenerateUUIDWithClientIdentifier(String clientIdentifier) async {
-    bool result = await methodChannel.invokeMethod("Client/regenerateUUIDWithClientIdentifier", {"clientIdentifier": clientIdentifier});
-    return result;
-  }
-
-  Future<void> signOutWithMode(ClientSignOutMode mode, bool fromAllDevices) async {
-    await methodChannel
-        .invokeMethod("Client/signOutWithMode", {"mode": mode.clientSignOutModeAsString(), "fromAllDevices": fromAllDevices});
-  }
-
-  Future<void> simpleAuthentication(ClientSimpleAuthenticationData clientSimpleAuthenticationData, String authID) async {
-    await methodChannel.invokeMethod(
-        "Client/simpleAuthentication", {"clientSimpleAuthenticationData": clientSimpleAuthenticationData.asMap(), "authID": authID});
-  }
-
-  Future<bool> isSignedInViaSimpleAuthentication() async {
-    bool result = await methodChannel.invokeMethod("Client/isSignedInViaSimpleAuthentication");
-    return result;
+  Future<void> deleteAccount(String clientAuthFactor, IdentityProvider identityProvider, String? authId) async {
+    await methodChannel.invokeMethod('Client/deleteAccount',
+        {"clientAuthFactor": clientAuthFactor, "identityProvider": identityProvider.getIdentityProviderAsString(), "authId": authId});
   }
 }

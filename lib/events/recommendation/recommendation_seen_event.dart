@@ -14,7 +14,7 @@ abstract class RecommendationSeenEventParameters {
 
 /// This is a recommendation seen event with parameters such as product ID,
 /// product name, campaign ID, and campaign hash.
-abstract class RecommendationSeenEvent extends RecommendationEvent {
+class RecommendationSeenEvent extends RecommendationEvent {
   RecommendationSeenEvent(String label, String action, String productId, String productName, String campaignId, String campaignHash,
       Map<String, Object>? parameters)
       : super(label, 'recommendation.seen', parameters) {

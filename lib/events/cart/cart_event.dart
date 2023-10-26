@@ -18,8 +18,8 @@ abstract class CartEventParameters {
   CartEventParameters._();
 }
 
-/// The abstract class CartEvent defines a custom event with parameters for a shopping cart action.
-abstract class CartEvent extends CustomEvent {
+/// The class CartEvent defines a custom event with parameters for a shopping cart action.
+class CartEvent extends CustomEvent {
   CartEvent(String label, String action, String sku, UnitPrice finalPrice, int quantity, Map<String, Object>? parameters)
       : super(label, action, parameters) {
     this.parameters[CartEventParameters.sku] = sku;

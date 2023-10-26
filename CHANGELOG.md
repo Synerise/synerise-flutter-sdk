@@ -1,88 +1,112 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [0.7.0] - 2023-08-04
+## [0.7.1] - 2023-10-26
 ### Added
-- `Simple Authentication` feature
-- `Client` methods: pinCodeMethods(request, confirm), conditional authenticate/sign in, changeApiKey, phone/EmailChange, regenerateWithUUID, signOut with mode 
-- apple to identityProvider enum
+- **Notifications Methods**: Introduced new methods for notification payload verification, including `isSyneriseNotification`, `isSyneriseSimplePush`, `isSyneriseBanner`, `isSilentCommand`, and `isSilentSDKCommand`.
 
 ### Fixed
-- minor fixes in channel method result handling
+- Addressed issues with inApp listeners handling in the Android platform.
+- Improved the handling of the `activateAccount` method in the Android portion.
+- Enhanced the architecture of the `events` classes in the Dart part.
+- Corrected the field name in the `IdentityProvider` class.
+
+### Changed
+- Improvements to stability.
+
+## [0.7.0] - 2023-08-04
+### Added
+- New authentication mechanism - **Simple Authentication**. It allows identification of customers without implementing more complicated processes such as RaaS, OAuth, or authenticating by third party services, for example Facebook or Apple. Simple Authentication needs only two methods - `client.simpleAuthentication` to recognize a customer and `client.isSignedInViaSimpleAuthentication` to check if the customer is signed in and uses the Simple Authentication feature. The `client.signOut` method and similar methods are a common way to sign out and clear the user context.
+- **Client Methods**: Added several client methods, including `pinCodeMethods` (request and confirm), conditional authentication and sign-in, `changeApiKey`, `phone/EmailChange`, `regenerateWithUUID`, and `signOutWithMode`.
+- Added the `Apple` value to the `identityProvider` enum.
+
+### Fixed
+- Implemented minor fixes to improve the handling of channel method results.
+
+### Changed
+- Improvements to stability.
 
 ## [0.6.3] - 2023-07-13
 ### Added
-- ios native push extensions to example app
+- Included iOS native push extensions to the example app.
 
 ### Fixed
-- ios tracker params mapping
-- channel methods result handling
+- Resolved issues with iOS tracker params mapping.
+- Enhanced the handling of channel methods result.
 
 ## [0.6.2] - 2023-06-28
 ### Fixed
-- removed redundant code from example app
-- fixed parameters mapping for custom events in ios native part
+- Removed redundant code from the example app.
+- Fixed parameter mapping for custom events in the iOS native part.
 
 ## [0.6.1] - 2023-06-28
 ### Fixed
-- android push notifications banner related bug
+- Addressed a bug related to Android push notifications banners.
+
+### Changed
+- Improvements to stability.
 
 ## [0.6.0] - 2023-06-16
 ### Added
-- new methods for `Content` module
-- added predefined `Events`
+- We added a new `content.generateDocument` method. It's analogous to `Content.getDocument``. The old method is deprecated. The new method generates the document that is defined for the provided slug.
+- We added a new `content.getRecommendationsV2` method. It's analogous to `content.getRecommendations`. The old method is deprecated. The new method gets recommendations that are defined for the options provided.
+- We added a new `content.generateScreenView` method. It's analogous to `content.getScreenView`. The old method is deprecated. The new method generates a customer's highest-priority screen view campaign that is defined for the provided slug.
+- We added models correlating with new methods: `ScreenView`, `Document`.
+- Introduced predefined `Events`. Full list is available in the documentation.
 
 ### Fixed
-- apiKey terminology
+- Clarified the terminology related to the API key.
 
 ### Removed
-- old `Content` module methods got deprecated
+- Deprecated old methods in the `Content` module.
 
 ## [0.5.0] - 2023-05-10
 ### Added
-- `Promotions` module
+- Introduced the `Promotions` module.
 
 ### Fixed
-- minor mapping fixes
+- Made minor fixes to improve mapping.
+
+### Changed
+- Improvements to stability.
 
 ## [0.4.1] - 2023-04-21
 ### Added
-- update of ssl pins for all domains.
+- Updated SSL pins for all domains.
 
 ### Removed
-- `QUERY_ALL_PACKAGES` permission in android.
+- Removed the `QUERY_ALL_PACKAGES` permission in Android.
 
 ## [0.4.0] - 2023-03-28
-
 ### Added 
-- extended and polished example app
+- Extended and polished the example app.
 
 ### Fixed
-- `Content` methods object mappings
-- project structure fixes and adjustmets to match the pub.dev preferred pattern
+- Enhanced object mappings for `Content` methods.
+- Adjusted project structure to align with the preferred pattern on pub.dev.
 
 ## [0.3.0] - 2023-03-15
-
 ### Added 
-- `Inapp` and `Push` notifications handling
-- native listeners handling
-- several `Client` module methods for client account management
+- Implemented `Inapp` and `Push` notifications handling.
+- Enhanced native listeners handling.
+- Introduced several methods in the `Client` module for client account management.
 
 ### Fixed
-- improved project structure
+- Improved the project structure.
+
+### Changed
+- Improvements to stability.
 
 ## [0.2.0] - 2023-02-03
-
 ### Added
-- `Settings` module
-- `Tracker` module with custom events
-- `Content` module with several methods
+- Added the `Settings` module.
+- Introduced the `Tracker` module with custom events.
+- Implemented the `Content` module with several methods.
 
 ### Fixed
-- improved project structure 
+- Enhanced the project structure.
 
 ## [0.1.0] - 2023-01-24
-
 ### Added
-- Initialization of sdk with basic configuration options. 
-- `Client` module with several methods to authorize the user and check his session.
+- Initiated the SDK with basic configuration options.
+- Introduced the `Client` module with several methods for user authorization and session management.

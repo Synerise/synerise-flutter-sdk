@@ -1,5 +1,5 @@
 group 'com.synerise.synerise_flutter_sdk'
-version '0.7.0'
+version '0.7.1'
 
 buildscript {
     repositories {
@@ -25,8 +25,8 @@ android {
     compileSdkVersion 33
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 
     defaultConfig {
@@ -41,5 +41,5 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.synerise.sdk:synerise-mobile-sdk:5.7.1'
+    implementation 'com.synerise.sdk:synerise-mobile-sdk:5.11.0'
 }

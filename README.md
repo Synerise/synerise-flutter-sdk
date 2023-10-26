@@ -1,4 +1,4 @@
-# Synerise Flutter SDK (synerise-flutter-sdk) (0.7.0)
+# Synerise Flutter SDK (synerise-flutter-sdk) (0.7.1)
 
 [![Platform](https://img.shields.io/badge/platform-iOS-orange.svg)](https://github.com/synerise/ios-sdk)
 [![Platform](https://img.shields.io/badge/platform-Android-orange.svg)](https://github.com/synerise/android-sdk)
@@ -40,7 +40,7 @@ This will add a line like this to your package's pubspec.yaml (and run an implic
 
 ```
 dependencies:
-  synerise_flutter_sdk: ^0.7.0
+  synerise_flutter_sdk: ^0.7.1
 ```
 
 Alternatively, your editor might support flutter pub get. Check the docs for your editor to learn more.
@@ -107,7 +107,9 @@ Synerise.initializer()
 -  Open project folder in selected IDE
 - `flutter pub get` in the terminal (dependencies pull)
 - select the device/emulator in your IDE (for ios part it is required to run `pod update` in example/ios directory)
-- `cd example` and  `flutter run`
+- fill the file `api_key.txt` located in `example/lib` with your profile api key
+- make sure the firebase related files `example/ios/Runner/GoogleService-Info.plist` and `example/android/app/google-services.json` are filled with your firebase project configuration data
+- run the example app via selected sdk or execute `cd example` and `flutter run` in the terminal
 
 ## Author
 Synerise, developer@synerise.com. If you need support please feel free to contact us.

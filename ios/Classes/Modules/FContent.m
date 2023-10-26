@@ -21,16 +21,16 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)handleMethodCall:(FlutterMethodCall*)call result:(FlutterResult)result calledMethod:(NSString *)calledMethod {
     if ([calledMethod isEqualToString:@"getDocument"]) {
         [self getDocument:call result:result];
+    } else if ([calledMethod isEqualToString:@"generateDocument"]) {
+        [self generateDocument:call result:result];
     } else if ([calledMethod isEqualToString:@"getDocuments"]) {
         [self getDocuments:call result:result];
     } else if ([calledMethod isEqualToString:@"getRecommendations"]) {
         [self getRecommendations:call result:result];
-    } else if ([calledMethod isEqualToString:@"getScreenView"]) {
-        [self getScreenView:call result:result];
     } else if ([calledMethod isEqualToString:@"getRecommendationsV2"]) {
         [self getRecommendationsV2:call result:result];
-    } else if ([calledMethod isEqualToString:@"generateDocument"]) {
-        [self generateDocument:call result:result];
+    } else if ([calledMethod isEqualToString:@"getScreenView"]) {
+        [self getScreenView:call result:result];
     } else if ([calledMethod isEqualToString:@"generateScreenView"]) {
         [self generateScreenView:call result:result];
     }
@@ -43,6 +43,17 @@ NS_ASSUME_NONNULL_BEGIN
     
     [SNRContent getDocument:slug success:^(NSDictionary *document) {
         result (document);
+    } failure:^(NSError *error) {
+        result([self makeFlutterErrorWithError:error]);
+    }];
+}
+
+- (void)generateDocument:(FlutterMethodCall *)call result:(FlutterResult)result {
+    NSString *slug = call.arguments;
+    
+    [SNRContent generateDocument:slug success:^(SNRDocument *document) {
+        NSDictionary *documentDictionary = [self dictionaryWithDocument:document];
+        result (documentDictionary);
     } failure:^(NSError *error) {
         result([self makeFlutterErrorWithError:error]);
     }];
@@ -85,19 +96,6 @@ NS_ASSUME_NONNULL_BEGIN
     }];
 }
 
-- (void)getScreenView:(FlutterMethodCall *)call result:(FlutterResult)result {
-    [SNRContent getScreenViewWithSuccess:^(SNRScreenViewResponse *screenViewResponse) {
-        NSDictionary *screenViewResponseDictionary = [self dictionaryWithScreenViewResponse:screenViewResponse];
-        if (screenViewResponseDictionary != nil) {
-            result(screenViewResponseDictionary);
-        } else {
-            result([self defaultFlutterError]);
-        }
-    } failure:^(NSError *error) {
-        result([self makeFlutterErrorWithError:error]);
-    }];
-}
-
 - (void)getRecommendationsV2:(FlutterMethodCall *)call result:(FlutterResult)result {
     NSDictionary *dictionary = call.arguments;
     
@@ -119,12 +117,14 @@ NS_ASSUME_NONNULL_BEGIN
     }];
 }
 
-- (void)generateDocument:(FlutterMethodCall *)call result:(FlutterResult)result {
-    NSString *slug = call.arguments;
-    
-    [SNRContent generateDocument:slug success:^(SNRDocument *document) {
-        NSDictionary *documentDictionary = [self dictionaryWithDocument:document];
-        result (documentDictionary);
+- (void)getScreenView:(FlutterMethodCall *)call result:(FlutterResult)result {
+    [SNRContent getScreenViewWithSuccess:^(SNRScreenViewResponse *screenViewResponse) {
+        NSDictionary *screenViewResponseDictionary = [self dictionaryWithScreenViewResponse:screenViewResponse];
+        if (screenViewResponseDictionary != nil) {
+            result(screenViewResponseDictionary);
+        } else {
+            result([self defaultFlutterError]);
+        }
     } failure:^(NSError *error) {
         result([self makeFlutterErrorWithError:error]);
     }];
@@ -162,19 +162,22 @@ NS_ASSUME_NONNULL_BEGIN
 - (SNRRecommendationOptions *)modelRecommendationOptionsWithDictionary:(NSDictionary *)dictionary {
     NSString *slug = [dictionary getStringForKey:@"slug"];
     SNRRecommendationOptions *model = [[SNRRecommendationOptions alloc] initWithSlug:slug];
-
+    
     if (dictionary != nil) {
         model.productID = [dictionary getStringForKey:@"productID"];
         model.productIDs = [dictionary getArrayForKey:@"productIDs"];
         model.itemsExcluded = [dictionary getArrayForKey:@"itemsExcluded"];
+        
         model.additionalFilters = [dictionary getStringForKey:@"additionalFilters"];
         if (dictionary[@"filtersJoiner"] != nil) {
             model.filtersJoiner =  ([self modelFiltersJoiner:[dictionary getStringForKey:@"filtersJoiner"]]);
         }
+        
         model.additionalElasticFilters = [dictionary getStringForKey:@"additionalElasticFilters"];
         if (dictionary[@"elasticFiltersJoiner"] != nil) {
             model.elasticFiltersJoiner = ([self modelFiltersJoiner:[dictionary getStringForKey:@"elasticFiltersJoiner"]]);
         }
+        
         model.displayAttribute = [dictionary getArrayForKey:@"displayAttribute"];
         model.includeContextItems = [dictionary getBoolForKey:@"includeContextItems"];
     }

@@ -1,5 +1,8 @@
 package com.synerise.synerise_flutter_sdk;
 
+import android.os.Handler;
+import android.os.Looper;
+
 import com.synerise.sdk.error.ApiError;
 
 import io.flutter.plugin.common.MethodCall;
@@ -32,5 +35,10 @@ public interface SyneriseModule {
     static Result executeSuccessResult(Object data, Result result) {
         result.success(data);
         return result;
+    }
+
+    static void executeCallbackOnMainHandler(Runnable runnable) {
+        Handler mainHandler = new Handler(Looper.getMainLooper());
+        mainHandler.post(runnable);
     }
 }

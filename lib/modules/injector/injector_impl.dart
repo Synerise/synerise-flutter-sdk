@@ -1,6 +1,4 @@
 // ignore_for_file: unused_local_variable
-
-import 'dart:collection';
 import 'package:flutter/services.dart';
 
 import '../base/base_module.dart';
@@ -43,7 +41,7 @@ class InjectorInAppMessageListener {
   void Function(InAppMessageData data)? onHide;
   void Function(InAppMessageData data, String url)? onOpenUrl;
   void Function(InAppMessageData data, String deepLink)? onDeepLink;
-  void Function(InAppMessageData data, String name, HashMap<String, String> parameters)? onCustomAction;
+  void Function(InAppMessageData data, String name, Map<String, String> parameters)? onCustomAction;
 
   InjectorInAppMessageListener();
 }
@@ -242,7 +240,7 @@ class InjectorImpl extends BaseModule {
     if (listenerMethodName == 'onCustomAction') {
       if (_inAppMessageListener.onCustomAction != null) {
         String name = call.arguments['name'];
-        HashMap<String, String> parameters = call.arguments['parameters'];
+        Map<String, String> parameters = Map<String, String>.from(call.arguments['parameters']);
         _inAppMessageListener.onCustomAction!(data, name, parameters);
       }
       return;

@@ -25,24 +25,40 @@ NS_ASSUME_NONNULL_BEGIN
         [self confirmAccount:call result:result];
     } else if ([calledMethod isEqualToString:@"activateAccount"]) {
         [self activateAccount:call result:result];
+    } else if ([calledMethod isEqualToString:@"requestAccountActivationByPin"]) {
+        [self requestAccountActivationByPin:call result:result];
+    } else if ([calledMethod isEqualToString:@"confirmAccountActivationByPin"]) {
+        [self confirmAccountActivationByPin:call result:result];
     } else if ([calledMethod isEqualToString:@"signIn"]) {
         [self signIn:call result:result];
+    } else if ([calledMethod isEqualToString:@"signInConditionally"]) {
+        [self signInConditionally:call result:result];
     } else if ([calledMethod isEqualToString:@"authenticate"]) {
         [self authenticate:call result:result];
+    } else if ([calledMethod isEqualToString:@"authenticateConditionally"]) {
+        [self authenticateConditionally:call result:result];
+    } else if ([calledMethod isEqualToString:@"simpleAuthentication"]) {
+        [self simpleAuthentication:call result:result];
     } else if ([calledMethod isEqualToString:@"isSignedIn"]) {
         [self isSignedIn:call result:result];
+    } else if ([calledMethod isEqualToString:@"isSignedInViaSimpleAuthentication"]) {
+        [self isSignedInViaSimpleAuthentication:call result:result];
     } else if ([calledMethod isEqualToString:@"signOut"]) {
         [self signOut:call result:result];
-    } else if ([calledMethod isEqualToString:@"destroySession"]) {
-        [self destroySession:call result:result];
-    } else if ([calledMethod isEqualToString:@"retrieveToken"]) {
-        [self retrieveToken:call result:result];
+    } else if ([calledMethod isEqualToString:@"signOutWithMode"]) {
+        [self signOutWithMode:call result:result];
     } else if ([calledMethod isEqualToString:@"refreshToken"]) {
         [self refreshToken:call result:result];
+    } else if ([calledMethod isEqualToString:@"retrieveToken"]) {
+        [self retrieveToken:call result:result];
     } else if ([calledMethod isEqualToString:@"getUUID"]) {
         [self getUUID:call result:result];
     } else if ([calledMethod isEqualToString:@"regenerateUUID"]) {
         [self regenerateUUID:call result:result];
+    } else if ([calledMethod isEqualToString:@"regenerateUUIDWithClientIdentifier"]) {
+        [self regenerateUUIDWithClientIdentifier:call result:result];
+    } else if ([calledMethod isEqualToString:@"destroySession"]) {
+        [self destroySession:call result:result];
     } else if ([calledMethod isEqualToString:@"getAccount"]) {
         [self getAccount:call result:result];
     } else if ([calledMethod isEqualToString:@"updateAccount"]) {
@@ -53,16 +69,6 @@ NS_ASSUME_NONNULL_BEGIN
         [self confirmPasswordReset:call result:result];
     } else if ([calledMethod isEqualToString:@"changePassword"]) {
         [self changePassword:call result:result];
-    } else if ([calledMethod isEqualToString:@"deleteAccount"]) {
-        [self deleteAccount:call result:result];
-    } else if ([calledMethod isEqualToString:@"confirmAccountActivationByPin"]) {
-        [self confirmAccountActivationByPin:call result:result];
-    } else if ([calledMethod isEqualToString:@"requestAccountActivationByPin"]) {
-        [self requestAccountActivationByPin:call result:result];
-    } else if ([calledMethod isEqualToString:@"authenticateConditionally"]) {
-        [self authenticateConditionally:call result:result];
-    } else if ([calledMethod isEqualToString:@"signInConditionally"]) {
-        [self signInConditionally:call result:result];
     } else if ([calledMethod isEqualToString:@"requestEmailChange"]) {
         [self requestEmailChange:call result:result];
     } else if ([calledMethod isEqualToString:@"confirmEmailChange"]) {
@@ -71,14 +77,8 @@ NS_ASSUME_NONNULL_BEGIN
         [self requestPhoneUpdate:call result:result];
     } else if ([calledMethod isEqualToString:@"confirmPhoneUpdate"]) {
         [self confirmPhoneUpdate:call result:result];
-    } else if ([calledMethod isEqualToString:@"regenerateUUIDWithClientIdentifier"]) {
-        [self regenerateUUIDWithClientIdentifier:call result:result];
-    } else if ([calledMethod isEqualToString:@"signOutWithMode"]) {
-        [self signOutWithMode:call result:result];
-    } else if ([calledMethod isEqualToString:@"simpleAuthentication"]) {
-        [self simpleAuthentication:call result:result];
-    } else if ([calledMethod isEqualToString:@"isSignedInViaSimpleAuthentication"]) {
-        [self isSignedInViaSimpleAuthentication:call result:result];
+    } else if ([calledMethod isEqualToString:@"deleteAccount"]) {
+        [self deleteAccount:call result:result];
     }
 }
 
@@ -101,7 +101,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)confirmAccount:(FlutterMethodCall *)call result:(FlutterResult)result {
-    NSString *token = call.arguments;
+    NSDictionary *dictionary = call.arguments;
+    NSString *token = [dictionary getStringForKey:@"token"];
     
     [SNRClient confirmAccount:token success:^(BOOL isSuccess) {
         result([NSNumber numberWithBool:YES]);
@@ -111,173 +112,10 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)activateAccount:(FlutterMethodCall *)call result:(FlutterResult)result {
-    NSString *email = call.arguments;
+    NSDictionary *dictionary = call.arguments;
+    NSString *email = [dictionary getStringForKey:@"email"];
     
     [SNRClient activateAccount:email success:^(BOOL isSuccess) {
-        result([NSNumber numberWithBool:YES]);
-    } failure:^(NSError *error) {
-        result([self makeFlutterErrorWithError:error]);
-    }];
-}
-
-- (void)signIn:(FlutterMethodCall *)call result:(FlutterResult)result {
-    NSDictionary *dictionary = call.arguments;
-    
-    NSString *email = [dictionary getStringForKey:@"email"];
-    NSString *password = [dictionary getStringForKey:@"password"];
-    
-    if (email == nil || password == nil) {
-        result([self defaultFlutterError]);
-        return;
-    }
-    
-    [SNRClient signInWithEmail:email password:password success:^(BOOL isSuccess) {
-        result([NSNumber numberWithBool:YES]);
-    } failure:^(NSError *error) {
-        result([self makeFlutterErrorWithError:error]);
-    }];
-}
-
-- (void)authenticate:(FlutterMethodCall *)call result:(FlutterResult)result {
-    NSDictionary *dictionary = call.arguments;
-    
-    id token = [dictionary getStringForKey:@"tokenString"];
-    
-    NSString *clientIdentityProviderString = [dictionary getStringForKey:@"identityProvider"];
-    SNRClientIdentityProvider clientIdentityProvider = SNR_StringToClientIdentityProvider(clientIdentityProviderString);
-    
-    NSDictionary *contextDictionary = dictionary[@"context"];
-    NSString *authId = contextDictionary[@"authId"];
-    SNRClientAuthenticationContext *context = [self modelClientAuthenticationContextWithDictionary:contextDictionary];
-    
-    [SNRClient authenticateWithToken:token clientIdentityProvider:clientIdentityProvider authID:authId context:context success:^(BOOL isSuccess) {
-        result([NSNumber numberWithBool:YES]);
-    } failure:^(NSError *error) {
-        result([self makeFlutterErrorWithError:error]);
-    }];
-}
-
-- (void)isSignedIn:(FlutterMethodCall *)call result:(FlutterResult)result {
-    result([NSNumber numberWithBool:[SNRClient isSignedIn]]);
-}
-
-- (void)signOut:(FlutterMethodCall *)call result:(FlutterResult)result {
-    [SNRClient signOut];
-    result([NSNumber numberWithBool:YES]);
-}
-
-- (void)destroySession:(FlutterMethodCall *)call result:(FlutterResult)result {
-    [SNRClient destroySession];
-    result([NSNumber numberWithBool:YES]);
-}
-
-- (void)retrieveToken:(FlutterMethodCall *)call result:(FlutterResult)result {
-    [SNRClient retrieveTokenWithSuccess:^(SNRToken *token) {
-        NSDictionary *tokenDictionary = [self dictionaryWithToken:token];
-        if (tokenDictionary != nil) {
-            result(tokenDictionary);
-        } else {
-            result([self defaultFlutterError]);
-        }
-    } failure:^(NSError *error) {
-        result([self makeFlutterErrorWithError:error]);
-    }];
-}
-
-- (void)refreshToken:(FlutterMethodCall *)call result:(FlutterResult)result {
-    [SNRClient refreshTokenWithSuccess:^() {
-        result([NSNumber numberWithBool:YES]);
-    } failure:^(NSError *error) {
-        result([self makeFlutterErrorWithError:error]);
-    }];
-}
-
-- (void)getUUID:(FlutterMethodCall *)call result:(FlutterResult)result {
-    NSString *uuid = [SNRClient getUUID];
-    result(uuid);
-}
-
-- (void)regenerateUUID:(FlutterMethodCall *)call result:(FlutterResult)result {
-    result([NSNumber numberWithBool:[SNRClient regenerateUUID]]);
-}
-
-- (void)getAccount:(FlutterMethodCall *)call result:(FlutterResult)result {
-    [SNRClient getAccountWithSuccess:^(SNRClientAccountInformation *clientAccountInformation) {
-        NSDictionary *clientAccountInformationDictionary = [self dictionaryWithClientAccountInformation:clientAccountInformation];
-        if (clientAccountInformationDictionary != nil) {
-            result(clientAccountInformationDictionary);
-        } else {
-            result([self makeFlutterErrorWithMessage:@"clientAccountInformationDictionary is nil"]);
-        }
-    } failure:^(NSError *error) {
-        result([self makeFlutterErrorWithError:error]);
-    }];
-}
-
-- (void)updateAccount:(FlutterMethodCall *)call result:(FlutterResult)result {
-    NSDictionary *dictionary = call.arguments;
-    
-    SNRClientUpdateAccountContext *clientUpdateAccountContext = [self modelClientUpdateAccountContextWithDictionary:dictionary];
-    if (clientUpdateAccountContext == nil) {
-        result([self defaultFlutterError]);
-        return;
-    }
-    
-    [SNRClient updateAccount:clientUpdateAccountContext success:^(BOOL isSuccess) {
-        result([NSNumber numberWithBool:YES]);
-    } failure:^(NSError *error) {
-        result([self makeFlutterErrorWithError:error]);
-    }];
-}
-
-- (void)requestPasswordReset:(FlutterMethodCall *)call result:(FlutterResult)result {
-    NSString *email = call.arguments;
-    SNRClientPasswordResetRequestContext *clientPasswordResetRequestContext = [[SNRClientPasswordResetRequestContext alloc] initWithEmail:email];
-    
-    [SNRClient requestPasswordReset:clientPasswordResetRequestContext success:^(BOOL isSuccess) {
-        result([NSNumber numberWithBool:YES]);
-    } failure:^(NSError *error) {
-        result([self makeFlutterErrorWithError:error]);
-    }];
-}
-
-- (void)confirmPasswordReset:(FlutterMethodCall *)call result:(FlutterResult)result {
-    NSDictionary *dictionary = call.arguments;
-    
-    NSString *password = [dictionary getStringForKey:@"password"];
-    NSString *token = [dictionary getStringForKey:@"token"];
-    
-    SNRClientPasswordResetConfirmationContext *clientPasswordResetConfirmationContext = [[SNRClientPasswordResetConfirmationContext alloc] initWithPassword:password andToken:token];
-    
-    [SNRClient confirmResetPassword:clientPasswordResetConfirmationContext success:^(BOOL isSuccess) {
-        result([NSNumber numberWithBool:YES]);
-    } failure:^(NSError *error) {
-        result([self makeFlutterErrorWithError:error]);
-    }];
-}
-
-- (void)changePassword:(FlutterMethodCall *)call result:(FlutterResult)result {
-    NSDictionary *dictionary = call.arguments;
-    
-    NSString *newPassword = [dictionary getStringForKey:@"newPassword"];
-    NSString *oldPassword = [dictionary getStringForKey:@"oldPassword"];
-    
-    [SNRClient changePassword:newPassword oldPassword:oldPassword success:^(BOOL isSuccess) {
-        result([NSNumber numberWithBool:YES]);
-    } failure:^(NSError *error) {
-        result([self makeFlutterErrorWithError:error]);
-    }];
-}
-
-- (void)deleteAccount:(FlutterMethodCall *)call result:(FlutterResult)result {
-    NSDictionary *dictionary = call.arguments;
-    
-    id clientAuthFactor = dictionary[@"clientAuthFactor"];
-    NSString *clientIdentityProviderString = dictionary[@"clientIdentityProviderString"];
-    SNRClientIdentityProvider clientIdentityProvider = SNR_StringToClientIdentityProvider(clientIdentityProviderString);
-    NSString *authId = dictionary[@"authId"];
-    
-    [SNRClient deleteAccount:clientAuthFactor clientIdentityProvider:clientIdentityProvider authID:authId success:^(BOOL isSuccess) {
         result([NSNumber numberWithBool:YES]);
     } failure:^(NSError *error) {
         result([self makeFlutterErrorWithError:error]);
@@ -315,6 +153,23 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
+- (void)signIn:(FlutterMethodCall *)call result:(FlutterResult)result {
+    NSDictionary *dictionary = call.arguments;
+    
+    NSString *email = [dictionary getStringForKey:@"email"];
+    NSString *password = [dictionary getStringForKey:@"password"];
+    
+    if (email == nil || password == nil) {
+        result([self defaultFlutterError]);
+        return;
+    }
+    
+    [SNRClient signInWithEmail:email password:password success:^(BOOL isSuccess) {
+        result([NSNumber numberWithBool:YES]);
+    } failure:^(NSError *error) {
+        result([self makeFlutterErrorWithError:error]);
+    }];
+}
 
 - (void)signInConditionally:(FlutterMethodCall *)call result:(FlutterResult)result {
     NSDictionary *dictionary = call.arguments;
@@ -334,6 +189,25 @@ NS_ASSUME_NONNULL_BEGIN
         } else {
             result([self makeFlutterErrorWithMessage:@"signInResult is nil"]);
         }
+    } failure:^(NSError *error) {
+        result([self makeFlutterErrorWithError:error]);
+    }];
+}
+
+- (void)authenticate:(FlutterMethodCall *)call result:(FlutterResult)result {
+    NSDictionary *dictionary = call.arguments;
+    
+    id token = [dictionary getStringForKey:@"tokenString"];
+    
+    NSString *clientIdentityProviderString = [dictionary getStringForKey:@"identityProvider"];
+    SNRClientIdentityProvider clientIdentityProvider = SNR_StringToClientIdentityProvider(clientIdentityProviderString);
+    
+    NSDictionary *contextDictionary = dictionary[@"context"];
+    NSString *authId = contextDictionary[@"authId"];
+    SNRClientAuthenticationContext *context = [self modelClientAuthenticationContextWithDictionary:contextDictionary];
+    
+    [SNRClient authenticateWithToken:token clientIdentityProvider:clientIdentityProvider authID:authId context:context success:^(BOOL isSuccess) {
+        result([NSNumber numberWithBool:YES]);
     } failure:^(NSError *error) {
         result([self makeFlutterErrorWithError:error]);
     }];
@@ -374,6 +248,169 @@ NS_ASSUME_NONNULL_BEGIN
             result([self makeFlutterErrorWithMessage:@"authResult is nil"]);
         }
         
+        result([NSNumber numberWithBool:YES]);
+    } failure:^(NSError *error) {
+        result([self makeFlutterErrorWithError:error]);
+    }];
+}
+
+- (void)simpleAuthentication:(FlutterMethodCall *)call result:(FlutterResult)result {
+    NSDictionary *dictionary = call.arguments;
+    
+    NSString *authID = [dictionary getStringForKey:@"authID"];
+    SNRClientSimpleAuthenticationData *clientSimpleAuthenticationData = [self modelClientSimpleAuthenticationDataWithDictionary:[dictionary getDictionaryForKey:@"clientSimpleAuthenticationData"]];
+    
+    if (clientSimpleAuthenticationData == nil) {
+        result([self makeFlutterErrorWithMessage:@"clientAuthenticationData is missing"]);
+        return;
+    }
+    
+    [SNRClient simpleAuthentication:clientSimpleAuthenticationData authID:authID success:^(void) {
+        result([NSNumber numberWithBool:YES]);
+    } failure:^(NSError *error) {
+        result([self makeFlutterErrorWithError:error]);
+    }];
+}
+
+- (void)isSignedIn:(FlutterMethodCall *)call result:(FlutterResult)result {
+    result([NSNumber numberWithBool:[SNRClient isSignedIn]]);
+}
+
+- (void)isSignedInViaSimpleAuthentication:(FlutterMethodCall *)call result:(FlutterResult)result {
+    result([NSNumber numberWithBool:[SNRClient isSignedInViaSimpleAuthentication]]);
+}
+
+- (void)signOut:(FlutterMethodCall *)call result:(FlutterResult)result {
+    [SNRClient signOut];
+    result([NSNumber numberWithBool:YES]);
+}
+
+- (void)signOutWithMode:(FlutterMethodCall *)call result:(FlutterResult)result {
+    NSDictionary *dictionary = call.arguments;
+    
+    NSString *modeString = [dictionary getStringForKey:@"mode"];
+    BOOL fromAllDevices;
+    fromAllDevices = [dictionary getBoolForKey:@"fromAllDevices"];
+    
+    SNRClientSignOutMode mode = [self enumClientSignOutModeWithString:modeString];
+    
+    [SNRClient signOutWithMode:mode fromAllDevices:fromAllDevices success:^() {
+        result([NSNumber numberWithBool:YES]);
+    } failure:^(NSError *error) {
+        result([self makeFlutterErrorWithError:error]);
+    }];
+}
+
+- (void)refreshToken:(FlutterMethodCall *)call result:(FlutterResult)result {
+    [SNRClient refreshTokenWithSuccess:^() {
+        result([NSNumber numberWithBool:YES]);
+    } failure:^(NSError *error) {
+        result([self makeFlutterErrorWithError:error]);
+    }];
+}
+
+- (void)retrieveToken:(FlutterMethodCall *)call result:(FlutterResult)result {
+    [SNRClient retrieveTokenWithSuccess:^(SNRToken *token) {
+        NSDictionary *tokenDictionary = [self dictionaryWithToken:token];
+        if (tokenDictionary != nil) {
+            result(tokenDictionary);
+        } else {
+            result([self defaultFlutterError]);
+        }
+    } failure:^(NSError *error) {
+        result([self makeFlutterErrorWithError:error]);
+    }];
+}
+
+- (void)getUUID:(FlutterMethodCall *)call result:(FlutterResult)result {
+    NSString *uuid = [SNRClient getUUID];
+    result(uuid);
+}
+
+- (void)regenerateUUID:(FlutterMethodCall *)call result:(FlutterResult)result {
+    result([NSNumber numberWithBool:[SNRClient regenerateUUID]]);
+}
+
+- (void)regenerateUUIDWithClientIdentifier:(FlutterMethodCall *)call result:(FlutterResult)result  {
+    NSDictionary *dictionary = call.arguments;
+    NSString *clientIdentifier = [dictionary getStringForKey:@"clientIdentifier"];
+    
+    if (clientIdentifier != nil) {
+        result([NSNumber numberWithBool:[SNRClient regenerateUUIDWithClientIdentifier:clientIdentifier]]);
+    } else {
+        result([self makeFlutterErrorWithMessage:@"clientIdentifier missing"]);
+    }
+}
+
+- (void)destroySession:(FlutterMethodCall *)call result:(FlutterResult)result {
+    [SNRClient destroySession];
+    result([NSNumber numberWithBool:YES]);
+}
+
+- (void)getAccount:(FlutterMethodCall *)call result:(FlutterResult)result {
+    [SNRClient getAccountWithSuccess:^(SNRClientAccountInformation *clientAccountInformation) {
+        NSDictionary *clientAccountInformationDictionary = [self dictionaryWithClientAccountInformation:clientAccountInformation];
+        if (clientAccountInformationDictionary != nil) {
+            result(clientAccountInformationDictionary);
+        } else {
+            result([self makeFlutterErrorWithMessage:@"clientAccountInformationDictionary is nil"]);
+        }
+    } failure:^(NSError *error) {
+        result([self makeFlutterErrorWithError:error]);
+    }];
+}
+
+- (void)updateAccount:(FlutterMethodCall *)call result:(FlutterResult)result {
+    NSDictionary *dictionary = call.arguments;
+    
+    SNRClientUpdateAccountContext *clientUpdateAccountContext = [self modelClientUpdateAccountContextWithDictionary:dictionary];
+    if (clientUpdateAccountContext == nil) {
+        result([self defaultFlutterError]);
+        return;
+    }
+    
+    [SNRClient updateAccount:clientUpdateAccountContext success:^(BOOL isSuccess) {
+        result([NSNumber numberWithBool:YES]);
+    } failure:^(NSError *error) {
+        result([self makeFlutterErrorWithError:error]);
+    }];
+}
+
+- (void)requestPasswordReset:(FlutterMethodCall *)call result:(FlutterResult)result {
+    NSDictionary *dictionary = call.arguments;
+    
+    NSString *email = [dictionary getStringForKey:@"email"];
+    SNRClientPasswordResetRequestContext *clientPasswordResetRequestContext = [[SNRClientPasswordResetRequestContext alloc] initWithEmail:email];
+    
+    [SNRClient requestPasswordReset:clientPasswordResetRequestContext success:^(BOOL isSuccess) {
+        result([NSNumber numberWithBool:YES]);
+    } failure:^(NSError *error) {
+        result([self makeFlutterErrorWithError:error]);
+    }];
+}
+
+- (void)confirmPasswordReset:(FlutterMethodCall *)call result:(FlutterResult)result {
+    NSDictionary *dictionary = call.arguments;
+    
+    NSString *password = [dictionary getStringForKey:@"password"];
+    NSString *token = [dictionary getStringForKey:@"token"];
+    
+    SNRClientPasswordResetConfirmationContext *clientPasswordResetConfirmationContext = [[SNRClientPasswordResetConfirmationContext alloc] initWithPassword:password andToken:token];
+    
+    [SNRClient confirmResetPassword:clientPasswordResetConfirmationContext success:^(BOOL isSuccess) {
+        result([NSNumber numberWithBool:YES]);
+    } failure:^(NSError *error) {
+        result([self makeFlutterErrorWithError:error]);
+    }];
+}
+
+- (void)changePassword:(FlutterMethodCall *)call result:(FlutterResult)result {
+    NSDictionary *dictionary = call.arguments;
+    
+    NSString *newPassword = [dictionary getStringForKey:@"newPassword"];
+    NSString *oldPassword = [dictionary getStringForKey:@"oldPassword"];
+    
+    [SNRClient changePassword:newPassword oldPassword:oldPassword success:^(BOOL isSuccess) {
         result([NSNumber numberWithBool:YES]);
     } failure:^(NSError *error) {
         result([self makeFlutterErrorWithError:error]);
@@ -464,53 +501,19 @@ NS_ASSUME_NONNULL_BEGIN
     }];
 }
 
-- (void)regenerateUUIDWithClientIdentifier:(FlutterMethodCall *)call result:(FlutterResult)result  {
+- (void)deleteAccount:(FlutterMethodCall *)call result:(FlutterResult)result {
     NSDictionary *dictionary = call.arguments;
-    NSString *clientIdentifier = [dictionary getStringForKey:@"clientIdentifier"];
     
-    if (clientIdentifier != nil) {
-        result([NSNumber numberWithBool:[SNRClient regenerateUUIDWithClientIdentifier:clientIdentifier]]);
-    } else {
-        result([self makeFlutterErrorWithMessage:@"clientIdentifier missing"]);
-    }
-}
-
-- (void)signOutWithMode:(FlutterMethodCall *)call result:(FlutterResult)result {
-    NSDictionary *dictionary = call.arguments;
-        
-    NSString *modeString = [dictionary getStringForKey:@"mode"];
-    BOOL fromAllDevices;
-    fromAllDevices = [dictionary getBoolForKey:@"fromAllDevices"];
+    id clientAuthFactor = dictionary[@"clientAuthFactor"];
+    NSString *clientIdentityProviderString = dictionary[@"clientIdentityProviderString"];
+    SNRClientIdentityProvider clientIdentityProvider = SNR_StringToClientIdentityProvider(clientIdentityProviderString);
+    NSString *authId = dictionary[@"authId"];
     
-    SNRClientSignOutMode mode = [self enumClientSignOutModeWithString:modeString];
-    
-    [SNRClient signOutWithMode:mode fromAllDevices:fromAllDevices success:^() {
+    [SNRClient deleteAccount:clientAuthFactor clientIdentityProvider:clientIdentityProvider authID:authId success:^(BOOL isSuccess) {
         result([NSNumber numberWithBool:YES]);
     } failure:^(NSError *error) {
         result([self makeFlutterErrorWithError:error]);
     }];
-}
-
-- (void)simpleAuthentication:(FlutterMethodCall *)call result:(FlutterResult)result {
-    NSDictionary *dictionary = call.arguments;
-    
-    NSString *authID = [dictionary getStringForKey:@"authID"];
-    SNRClientSimpleAuthenticationData *clientSimpleAuthenticationData = [self modelClientSimpleAuthenticationDataWithDictionary:[dictionary getDictionaryForKey:@"clientSimpleAuthenticationData"]];
-    
-    if (clientSimpleAuthenticationData == nil) {
-        result([self makeFlutterErrorWithMessage:@"clientAuthenticationData is missing"]);
-        return;
-    }
-    
-    [SNRClient simpleAuthentication:clientSimpleAuthenticationData authID:authID success:^(void) {
-            result([NSNumber numberWithBool:YES]);
-        } failure:^(NSError *error) {
-            result([self makeFlutterErrorWithError:error]);
-    }];
-}
-
-- (void)isSignedInViaSimpleAuthentication:(FlutterMethodCall *)call result:(FlutterResult)result {
-    result([NSNumber numberWithBool:[SNRClient isSignedInViaSimpleAuthentication]]);
 }
 
 #pragma mark - SDK Mapping
@@ -644,14 +647,14 @@ NS_ASSUME_NONNULL_BEGIN
         model.phone = [dictionary getStringForKey:@"phone"];
         model.customId = [dictionary getStringForKey:@"customId"];
         model.uuid = [dictionary getStringForKey:@"uuid"];
-                                                
+        
         model.firstName = [dictionary getStringForKey:@"firstName"];
         model.lastName = [dictionary getStringForKey:@"lastName"];
         model.displayName = [dictionary getStringForKey:@"displayName"];
         model.sex = SNR_StringToClientSex([dictionary getStringForKey:@"sex"]);
         model.birthDate = [dictionary getStringForKey:@"birthDate"];
         model.avatarUrl = [dictionary getStringForKey:@"avatarUrl"];
-                                                
+        
         model.company = [dictionary getStringForKey:@"company"];
         model.address = [dictionary getStringForKey:@"address"];
         model.city = [dictionary getStringForKey:@"city"];
@@ -660,7 +663,7 @@ NS_ASSUME_NONNULL_BEGIN
         model.countryCode = [dictionary getStringForKey:@"countryCode"];
         
         model.agreements = [self modelClientAgreementsWithDictionary:[dictionary getDictionaryForKey:@"agreements"]];
-
+        
         model.attributes = [dictionary getDictionaryForKey:@"attributes"];
         
         return model;

@@ -8,12 +8,12 @@ enum IdentityProvider {
   apple('APPLE'),
   unknown('UNKNOWN');
 
-  const IdentityProvider(this.identityPrvovider);
+  const IdentityProvider(this.identityProvider);
 
-  final String identityPrvovider;
+  final String identityProvider;
 
   /// This function returns the identity provider as a string.
   String getIdentityProviderAsString() {
-    return identityPrvovider;
+    return identityProvider;
   }
 }
