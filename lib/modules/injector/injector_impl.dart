@@ -1,4 +1,5 @@
 // ignore_for_file: unused_local_variable
+
 import 'package:flutter/services.dart';
 
 import '../base/base_module.dart';
@@ -14,7 +15,8 @@ class InjectorListener {
   InjectorListener();
 }
 
-typedef InjectorBannerListenerFunction = void Function(InjectorBannerListener listener);
+typedef InjectorBannerListenerFunction = void Function(
+    InjectorBannerListener listener);
 
 class InjectorBannerListener {
   void Function()? onPresent;
@@ -23,7 +25,8 @@ class InjectorBannerListener {
   InjectorBannerListener();
 }
 
-typedef InjectorWalkthroughListenerFunction = void Function(InjectorWalkthroughListener listener);
+typedef InjectorWalkthroughListenerFunction = void Function(
+    InjectorWalkthroughListener listener);
 
 class InjectorWalkthroughListener {
   void Function()? onLoad;
@@ -34,14 +37,17 @@ class InjectorWalkthroughListener {
   InjectorWalkthroughListener();
 }
 
-typedef InjectorInAppMessageListenerFunction = void Function(InjectorInAppMessageListener listener);
+typedef InjectorInAppMessageListenerFunction = void Function(
+    InjectorInAppMessageListener listener);
 
 class InjectorInAppMessageListener {
   void Function(InAppMessageData data)? onPresent;
   void Function(InAppMessageData data)? onHide;
   void Function(InAppMessageData data, String url)? onOpenUrl;
   void Function(InAppMessageData data, String deepLink)? onDeepLink;
-  void Function(InAppMessageData data, String name, Map<String, String> parameters)? onCustomAction;
+  void Function(
+          InAppMessageData data, String name, Map<String, String> parameters)?
+      onCustomAction;
 
   InjectorInAppMessageListener();
 }
@@ -52,8 +58,10 @@ class InjectorImpl extends BaseModule {
 
   final InjectorListener _listener = InjectorListener();
   final InjectorBannerListener _bannerListener = InjectorBannerListener();
-  final InjectorWalkthroughListener _walkthroughListener = InjectorWalkthroughListener();
-  final InjectorInAppMessageListener _inAppMessageListener = InjectorInAppMessageListener();
+  final InjectorWalkthroughListener _walkthroughListener =
+      InjectorWalkthroughListener();
+  final InjectorInAppMessageListener _inAppMessageListener =
+      InjectorInAppMessageListener();
 
   /// This function handles method calls for listeners related to opening URLs and deep links.
   void listener(InjectorListenerFunction listenerFunction) {
@@ -67,12 +75,14 @@ class InjectorImpl extends BaseModule {
   }
 
   /// This function handles different listener methods for a walkthrough feature in a Dart application.
-  void walkthroughListener(InjectorWalkthroughListenerFunction listenerFunction) {
+  void walkthroughListener(
+      InjectorWalkthroughListenerFunction listenerFunction) {
     listenerFunction(_walkthroughListener);
   }
 
   /// This function handles different listener methods for in-app messages in Dart.
-  void inAppMessageListener(InjectorInAppMessageListenerFunction listenerFunction) {
+  void inAppMessageListener(
+      InjectorInAppMessageListenerFunction listenerFunction) {
     listenerFunction(_inAppMessageListener);
   }
 
@@ -106,7 +116,9 @@ class InjectorImpl extends BaseModule {
     var methodPath = call.method.split('#');
     var listenerName = methodPath[1];
     var listenerMethodName = methodPath[2];
-    Map<String, dynamic> arguments = call.arguments != null ? Map<String, dynamic>.from(call.arguments) : <String, dynamic>{};
+    Map<String, dynamic> arguments = call.arguments != null
+        ? Map<String, dynamic>.from(call.arguments)
+        : <String, dynamic>{};
 
     if (listenerMethodName == 'onOpenUrl') {
       if (_listener.onOpenUrl != null) {
@@ -191,21 +203,27 @@ class InjectorImpl extends BaseModule {
     var listenerName = methodPath[1];
     var listenerMethodName = methodPath[2];
 
-    Map<String, dynamic>? arguments = call.arguments != null ? Map<String, dynamic>.from(call.arguments) : null;
+    Map<String, dynamic>? arguments = call.arguments != null
+        ? Map<String, dynamic>.from(call.arguments)
+        : null;
     if (arguments == null) {
       return;
     }
 
-    Map<String, dynamic>? inAppMessageDataArguments = arguments['data'] != null ? Map<String, dynamic>.from(arguments['data']) : null;
+    Map<String, dynamic>? inAppMessageDataArguments = arguments['data'] != null
+        ? Map<String, dynamic>.from(arguments['data'])
+        : null;
     if (inAppMessageDataArguments == null) {
       return;
     }
 
     String campaignHash = inAppMessageDataArguments['campaignHash'];
     String variantIdentifier = inAppMessageDataArguments['variantIdentifier'];
-    Map<String, String> additionalParamaters = Map<String, String>.from(inAppMessageDataArguments['additionalParameters']);
+    Map<String, String> additionalParamaters = Map<String, String>.from(
+        inAppMessageDataArguments['additionalParameters']);
     bool isTest = inAppMessageDataArguments['isTest'];
-    InAppMessageData data = InAppMessageData(campaignHash, variantIdentifier, additionalParamaters, isTest);
+    InAppMessageData data = InAppMessageData(
+        campaignHash, variantIdentifier, additionalParamaters, isTest);
 
     if (listenerMethodName == 'onPresent') {
       if (_inAppMessageListener.onPresent != null) {
@@ -240,7 +258,8 @@ class InjectorImpl extends BaseModule {
     if (listenerMethodName == 'onCustomAction') {
       if (_inAppMessageListener.onCustomAction != null) {
         String name = call.arguments['name'];
-        Map<String, String> parameters = Map<String, String>.from(call.arguments['parameters']);
+        Map<String, String> parameters =
+            Map<String, String>.from(call.arguments['parameters']);
         _inAppMessageListener.onCustomAction!(data, name, parameters);
       }
       return;

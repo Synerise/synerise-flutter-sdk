@@ -23,7 +23,8 @@ enum ClientConditionalAuthStatus {
 
   /// The function `getClientConditionalAuthStatusFromString` converts a string representation of a
   /// client conditional authentication status into the corresponding enum value.
-  static ClientConditionalAuthStatus? getClientConditionalAuthStatusFromString(String string) {
+  static ClientConditionalAuthStatus? getClientConditionalAuthStatusFromString(
+      String string) {
     if (string == 'SUCCESS') {
       return ClientConditionalAuthStatus.success;
     } else if (string == 'UNAUTHORIZED') {

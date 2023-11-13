@@ -11,7 +11,9 @@ class ScreenViewAudienceInfo {
   /// new instance of `ScreenViewAudienceInfo` based on the values in the `Map`.
   ScreenViewAudienceInfo.fromMap(Map map)
       : this._(
-            segments: map['segments'] != null ? List<String>.from(map['segments']) : null,
+            segments: map['segments'] != null
+                ? List<String>.from(map['segments'])
+                : null,
             query: map['query'],
             targetType: map['targetType']);
 }

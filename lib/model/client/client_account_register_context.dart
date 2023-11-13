@@ -47,7 +47,9 @@ class ClientAccountRegisterContext {
           password: map['password'],
           firstName: map['firstName'],
           lastName: map['lastName'],
-          sex: map['sex'] != null ? ClientSex.getClientSexFromString(map['sex']) : null,
+          sex: map['sex'] != null
+              ? ClientSex.getClientSexFromString(map['sex'])
+              : null,
           phone: map['phone'],
           company: map['company'],
           address: map['address'],
@@ -57,8 +59,12 @@ class ClientAccountRegisterContext {
           province: map['province'],
           uuid: map['uuid'],
           customId: map['customId'],
-          agreements: map['agreements'] != null ? ClientAgreements.fromMap(map['agreements']) : null,
-          attributes: map['attributes'] != null ? Map<String, Object>.from(map['attributes']) : null,
+          agreements: map['agreements'] != null
+              ? ClientAgreements.fromMap(map['agreements'])
+              : null,
+          attributes: map['attributes'] != null
+              ? Map<String, Object>.from(map['attributes'])
+              : null,
         );
 
   /// `Map asMap()` is a method that returns a `Map` representation of the

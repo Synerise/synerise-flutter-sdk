@@ -10,7 +10,9 @@ class PromotionDetails {
   /// `PromotionDetails.fromMap(Map map)` is a constructor that takes a `Map` as input and creates a new
   /// `PromotionDetails` object from it.
   PromotionDetails.fromMap(Map map)
-      : discountType = map['discountType'] != null ? PromotionDiscountTypeDetails.fromMap(map['discountType']) : null;
+      : discountType = map['discountType'] != null
+            ? PromotionDiscountTypeDetails.fromMap(map['discountType'])
+            : null;
 
   /// The function returns a map with the value of 'discountType' converted to a map using the 'asMap'
   /// function.

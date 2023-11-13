@@ -39,14 +39,19 @@ class _SignInState extends State<SignIn> with AutomaticKeepAliveClientMixin {
               alignment: MainAxisAlignment.center,
               children: <Widget>[
                 ElevatedButton.icon(
-                    onPressed: () => _signInCall(emailController.text, passController.text),
+                    onPressed: () =>
+                        _signInCall(emailController.text, passController.text),
                     icon: const Icon(Icons.arrow_forward),
                     label: const Text('Sign in')),
                 ElevatedButton.icon(
-                    onPressed: () => _signInConditionallyCall(emailController.text, passController.text),
+                    onPressed: () => _signInConditionallyCall(
+                        emailController.text, passController.text),
                     icon: const Icon(Icons.arrow_forward_ios_rounded),
                     label: const Text('Sign in conditionally')),
-                ElevatedButton.icon(onPressed: () => _signOutCall(), icon: const Icon(Icons.logout), label: const Text('Sign out')),
+                ElevatedButton.icon(
+                    onPressed: () => _signOutCall(),
+                    icon: const Icon(Icons.logout),
+                    label: const Text('Sign out')),
                 ElevatedButton.icon(
                     onPressed: () => _signOutWithModeCall(),
                     icon: const Icon(Icons.arrow_back_ios),
@@ -56,7 +61,8 @@ class _SignInState extends State<SignIn> with AutomaticKeepAliveClientMixin {
                           _isSignedInCall().whenComplete(() => {
                                 if (_isSignedInBool)
                                   {
-                                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(SnackBar(
                                       content: const Text('Signed In!'),
                                       action: SnackBarAction(
                                         label: 'signedIn',
@@ -68,7 +74,8 @@ class _SignInState extends State<SignIn> with AutomaticKeepAliveClientMixin {
                                   }
                                 else
                                   {
-                                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(SnackBar(
                                       content: const Text('Not signed In!'),
                                       action: SnackBarAction(
                                         label: 'notSignedIn',
@@ -91,7 +98,9 @@ class _SignInState extends State<SignIn> with AutomaticKeepAliveClientMixin {
                     icon: const Icon(Icons.generating_tokens_sharp),
                     label: const Text('RefreshToken Client Test')),
                 ElevatedButton.icon(
-                    onPressed: () => _getAccountCall(), icon: const Icon(Icons.generating_tokens_sharp), label: const Text('Get Account')),
+                    onPressed: () => _getAccountCall(),
+                    icon: const Icon(Icons.generating_tokens_sharp),
+                    label: const Text('Get Account')),
                 ElevatedButton.icon(
                     onPressed: () => _authenticateCall(),
                     icon: const Icon(Icons.person_search_outlined),
@@ -99,19 +108,25 @@ class _SignInState extends State<SignIn> with AutomaticKeepAliveClientMixin {
                 ElevatedButton.icon(
                     onPressed: () => _authenticateConditionallyCall(),
                     icon: const Icon(Icons.person_search_sharp),
-                    label: const Text('Authenticate Conditionally Client Test')),
+                    label:
+                        const Text('Authenticate Conditionally Client Test')),
                 ElevatedButton.icon(
-                    onPressed: () => _getUUIDCall(), icon: const Icon(Icons.person_search_outlined), label: const Text('GetUuid Test')),
+                    onPressed: () => _getUUIDCall(),
+                    icon: const Icon(Icons.person_search_outlined),
+                    label: const Text('GetUuid Test')),
                 ElevatedButton.icon(
                     onPressed: () => _regenerateUUIDCall(),
                     icon: const Icon(Icons.person_search_outlined),
                     label: const Text('RegenerateUuid Client Test')),
                 ElevatedButton.icon(
-                    onPressed: () => _requestPasswordResetCall(emailController.text),
+                    onPressed: () =>
+                        _requestPasswordResetCall(emailController.text),
                     icon: const Icon(Icons.password_outlined),
                     label: const Text('RequestPasswordReset Test')),
                 ElevatedButton.icon(
-                    onPressed: () => _destroySessionCall(), icon: const Icon(Icons.cancel), label: const Text('DestroySessionCall Test')),
+                    onPressed: () => _destroySessionCall(),
+                    icon: const Icon(Icons.cancel),
+                    label: const Text('DestroySessionCall Test')),
                 ElevatedButton.icon(
                     onPressed: () => _activateAccountCall(emailController.text),
                     icon: const Icon(Icons.arrow_forward),
@@ -127,7 +142,8 @@ class _SignInState extends State<SignIn> with AutomaticKeepAliveClientMixin {
   Future<void> _signInCall(email, password) async {
     await Synerise.client.signIn(email, password).catchError((error) {
       String errorMessage = Utils.handlePlatformException(error);
-      Utils.displaySimpleAlert("error on handling api call \n $errorMessage", context);
+      Utils.displaySimpleAlert(
+          "error on handling api call \n $errorMessage", context);
       throw Exception(errorMessage);
     });
     if (!mounted) return;
@@ -137,7 +153,8 @@ class _SignInState extends State<SignIn> with AutomaticKeepAliveClientMixin {
   Future<void> _signOutCall() async {
     await Synerise.client.signOut().catchError((error) {
       String errorMessage = Utils.handlePlatformException(error);
-      Utils.displaySimpleAlert("error on handling api call \n $errorMessage", context);
+      Utils.displaySimpleAlert(
+          "error on handling api call \n $errorMessage", context);
       throw Exception(errorMessage);
     });
     if (!mounted) return;
@@ -145,20 +162,27 @@ class _SignInState extends State<SignIn> with AutomaticKeepAliveClientMixin {
   }
 
   Future<void> _authenticateCall() async {
-    ClientAgreements? agreements = ClientAgreements(push: false, rfid: false, wifi: false);
+    ClientAgreements? agreements =
+        ClientAgreements(push: false, rfid: false, wifi: false);
     Map<String, Object>? attributes;
-    ClientAuthContext clientAuthContext = ClientAuthContext(authId: 'AUTH_ID', agreements: agreements, attributes: attributes);
+    ClientAuthContext clientAuthContext = ClientAuthContext(
+        authId: 'AUTH_ID', agreements: agreements, attributes: attributes);
     Token token = await Synerise.client.retrieveToken().catchError((error) {
       String errorMessage = Utils.handlePlatformException(error);
-      Utils.displaySimpleAlert("error on handling api call \n $errorMessage", context);
+      Utils.displaySimpleAlert(
+          "error on handling api call \n $errorMessage", context);
       throw Exception(errorMessage);
     });
     String tokenString = token.tokenString;
     IdentityProvider identityProvider = IdentityProvider.oauth;
 
-    final bool result = await Synerise.client.authenticate(clientAuthContext, identityProvider, tokenString).catchError((error) {
+    final bool result = await Synerise.client
+        .authenticate(clientAuthContext, identityProvider, tokenString)
+        .catchError((error) {
       String errorMessage = Utils.handlePlatformException(error);
-      Utils.displaySimpleAlert("error on handling api call: you need to be signed in to authenticate \n $errorMessage", context);
+      Utils.displaySimpleAlert(
+          "error on handling api call: you need to be signed in to authenticate \n $errorMessage",
+          context);
       throw Exception(errorMessage);
     });
     if (result == true) {
@@ -171,7 +195,8 @@ class _SignInState extends State<SignIn> with AutomaticKeepAliveClientMixin {
     _isSignedInBool = await Synerise.client.isSignedIn().catchError((error) {
       _isSignedInBool = false;
       String errorMessage = Utils.handlePlatformException(error);
-      Utils.displaySimpleAlert("error on handling api call \n $errorMessage", context);
+      Utils.displaySimpleAlert(
+          "error on handling api call \n $errorMessage", context);
       throw Exception(errorMessage);
     });
   }
@@ -179,7 +204,8 @@ class _SignInState extends State<SignIn> with AutomaticKeepAliveClientMixin {
   Future<void> _retrieveTokenCall() async {
     Token token = await Synerise.client.retrieveToken().catchError((error) {
       String errorMessage = Utils.handlePlatformException(error);
-      Utils.displaySimpleAlert("error on handling api call \n $errorMessage", context);
+      Utils.displaySimpleAlert(
+          "error on handling api call \n $errorMessage", context);
       throw Exception(errorMessage);
     });
     String tokenString = token.tokenString;
@@ -200,7 +226,8 @@ class _SignInState extends State<SignIn> with AutomaticKeepAliveClientMixin {
                 width: double.infinity,
                 margin: const EdgeInsets.all(5.0),
                 padding: const EdgeInsets.all(5.0),
-                decoration: BoxDecoration(border: Border.all(width: 0.5, color: Colors.black)),
+                decoration: BoxDecoration(
+                    border: Border.all(width: 0.5, color: Colors.black)),
                 child: Text(tokenString, textScaleFactor: 0.5)),
             const Text(
               'TokenExpirationDate',
@@ -210,7 +237,8 @@ class _SignInState extends State<SignIn> with AutomaticKeepAliveClientMixin {
                 width: double.infinity,
                 margin: const EdgeInsets.all(5.0),
                 padding: const EdgeInsets.all(5),
-                decoration: BoxDecoration(border: Border.all(width: 0.5, color: Colors.black)),
+                decoration: BoxDecoration(
+                    border: Border.all(width: 0.5, color: Colors.black)),
                 child: Text(expirationDate.toString(), textScaleFactor: 0.5)),
             const Text(
               'TokenOrigin',
@@ -220,7 +248,8 @@ class _SignInState extends State<SignIn> with AutomaticKeepAliveClientMixin {
                 width: double.infinity,
                 margin: const EdgeInsets.all(5.0),
                 padding: const EdgeInsets.all(5),
-                decoration: BoxDecoration(border: Border.all(width: 0.5, color: Colors.black)),
+                decoration: BoxDecoration(
+                    border: Border.all(width: 0.5, color: Colors.black)),
                 child: Text(origin.tokenOrigin, textScaleFactor: 0.5)),
           ])),
         );
@@ -231,7 +260,8 @@ class _SignInState extends State<SignIn> with AutomaticKeepAliveClientMixin {
   Future<void> _refreshTokenCall() async {
     await Synerise.client.refreshToken().catchError((error) {
       String errorMessage = Utils.handlePlatformException(error);
-      Utils.displaySimpleAlert("error on handling api call \n $errorMessage", context);
+      Utils.displaySimpleAlert(
+          "error on handling api call \n $errorMessage", context);
       throw Exception(errorMessage);
     });
     if (!mounted) return;
@@ -239,9 +269,11 @@ class _SignInState extends State<SignIn> with AutomaticKeepAliveClientMixin {
   }
 
   Future<void> _getAccountCall() async {
-    ClientAccountInformation info = await Synerise.client.getAccount().catchError((error) {
+    ClientAccountInformation info =
+        await Synerise.client.getAccount().catchError((error) {
       String errorMessage = Utils.handlePlatformException(error);
-      Utils.displaySimpleAlert("error on handling api call \n $errorMessage", context);
+      Utils.displaySimpleAlert(
+          "error on handling api call \n $errorMessage", context);
       throw Exception(errorMessage);
     });
     if (!mounted) return;
@@ -249,13 +281,16 @@ class _SignInState extends State<SignIn> with AutomaticKeepAliveClientMixin {
     var uuid = info.uuid;
     var clientId = info.clientId;
     var lastActivity = info.lastActivityDate;
-    Utils.displaySimpleAlert("email: $email uuid: $uuid clientId: $clientId lastActivity: $lastActivity", context);
+    Utils.displaySimpleAlert(
+        "email: $email uuid: $uuid clientId: $clientId lastActivity: $lastActivity",
+        context);
   }
 
   Future<void> _getUUIDCall() async {
     String uuid = await Synerise.client.getUUID().catchError((error) {
       String errorMessage = Utils.handlePlatformException(error);
-      Utils.displaySimpleAlert("error on handling api call \n $errorMessage", context);
+      Utils.displaySimpleAlert(
+          "error on handling api call \n $errorMessage", context);
       throw Exception(errorMessage);
     });
     if (!mounted) return;
@@ -265,7 +300,8 @@ class _SignInState extends State<SignIn> with AutomaticKeepAliveClientMixin {
   Future<void> _regenerateUUIDCall() async {
     await Synerise.client.regenerateUUID().catchError((error) {
       String errorMessage = Utils.handlePlatformException(error);
-      Utils.displaySimpleAlert("error on handling api call \n $errorMessage", context);
+      Utils.displaySimpleAlert(
+          "error on handling api call \n $errorMessage", context);
       throw Exception(errorMessage);
     });
     if (!mounted) return;
@@ -275,7 +311,8 @@ class _SignInState extends State<SignIn> with AutomaticKeepAliveClientMixin {
   Future<void> _requestPasswordResetCall(email) async {
     await Synerise.client.requestPasswordReset(email).catchError((error) {
       String errorMessage = Utils.handlePlatformException(error);
-      Utils.displaySimpleAlert("error on handling api call \n $errorMessage", context);
+      Utils.displaySimpleAlert(
+          "error on handling api call \n $errorMessage", context);
       throw Exception(errorMessage);
     });
     if (!mounted) return;
@@ -285,7 +322,8 @@ class _SignInState extends State<SignIn> with AutomaticKeepAliveClientMixin {
   Future<void> _destroySessionCall() async {
     await Synerise.client.destroySession().catchError((error) {
       String errorMessage = Utils.handlePlatformException(error);
-      Utils.displaySimpleAlert("error on handling api call \n $errorMessage", context);
+      Utils.displaySimpleAlert(
+          "error on handling api call \n $errorMessage", context);
       throw Exception(errorMessage);
     });
     if (!mounted) return;
@@ -295,7 +333,8 @@ class _SignInState extends State<SignIn> with AutomaticKeepAliveClientMixin {
   Future<void> _activateAccountCall(email) async {
     await Synerise.client.activateAccount(email).catchError((error) {
       String errorMessage = Utils.handlePlatformException(error);
-      Utils.displaySimpleAlert("error on handling api call \n $errorMessage", context);
+      Utils.displaySimpleAlert(
+          "error on handling api call \n $errorMessage", context);
       throw Exception(errorMessage);
     });
     if (!mounted) return;
@@ -305,15 +344,19 @@ class _SignInState extends State<SignIn> with AutomaticKeepAliveClientMixin {
   Future<void> _authenticateConditionallyCall() async {
     Token token = await Synerise.client.retrieveToken().catchError((error) {
       String errorMessage = Utils.handlePlatformException(error);
-      Utils.displaySimpleAlert("error on handling api call \n $errorMessage", context);
+      Utils.displaySimpleAlert(
+          "error on handling api call \n $errorMessage", context);
       throw Exception(errorMessage);
     });
     String tokenString = token.tokenString;
     IdentityProvider identityProvider = IdentityProvider.oauth;
 
-    ClientConditionalAuthResult result = await Synerise.client.authenticateConditionally(identityProvider, tokenString).catchError((error) {
+    ClientConditionalAuthResult result = await Synerise.client
+        .authenticateConditionally(identityProvider, tokenString)
+        .catchError((error) {
       String errorMessage = Utils.handlePlatformException(error);
-      Utils.displaySimpleAlert("error on handling api call \n $errorMessage", context);
+      Utils.displaySimpleAlert(
+          "error on handling api call \n $errorMessage", context);
       throw Exception(errorMessage);
     });
     if (!mounted) return;
@@ -321,9 +364,12 @@ class _SignInState extends State<SignIn> with AutomaticKeepAliveClientMixin {
   }
 
   Future<void> _signInConditionallyCall(email, password) async {
-    ClientConditionalAuthResult result = await Synerise.client.signInConditionally(email, password).catchError((error) {
+    ClientConditionalAuthResult result = await Synerise.client
+        .signInConditionally(email, password)
+        .catchError((error) {
       String errorMessage = Utils.handlePlatformException(error);
-      Utils.displaySimpleAlert("error on handling api call \n $errorMessage", context);
+      Utils.displaySimpleAlert(
+          "error on handling api call \n $errorMessage", context);
       throw Exception(errorMessage);
     });
     if (!mounted) return;
@@ -333,9 +379,12 @@ class _SignInState extends State<SignIn> with AutomaticKeepAliveClientMixin {
   Future<void> _signOutWithModeCall() async {
     ClientSignOutMode mode = ClientSignOutMode.signOutWithSessionDestroy;
     bool fromAllDevices = true;
-    await Synerise.client.signOutWithMode(mode, fromAllDevices).catchError((error) {
+    await Synerise.client
+        .signOutWithMode(mode, fromAllDevices)
+        .catchError((error) {
       String errorMessage = Utils.handlePlatformException(error);
-      Utils.displaySimpleAlert("error on handling api call \n $errorMessage", context);
+      Utils.displaySimpleAlert(
+          "error on handling api call \n $errorMessage", context);
       throw Exception(errorMessage);
     });
     if (!mounted) return;

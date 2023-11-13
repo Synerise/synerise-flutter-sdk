@@ -9,7 +9,8 @@ class ClientAgreements {
   bool? rfid;
   bool? wifi;
 
-  ClientAgreements({this.email, this.sms, this.push, this.bluetooth, this.rfid, this.wifi});
+  ClientAgreements(
+      {this.email, this.sms, this.push, this.bluetooth, this.rfid, this.wifi});
 
   void setEmail(bool email) {
     this.email = email;
@@ -62,9 +63,22 @@ class ClientAgreements {
   /// `ClientAgreements.fromMap(Map map)` is a constructor that takes a `Map` as an argument and
   /// initializes a new `ClientAgreements` object with the values from the `Map`.
   ClientAgreements.fromMap(Map map)
-      : this(email: map['email'], sms: map['sms'], push: map['push'], bluetooth: map['bluetooth'], rfid: map['rfid'], wifi: map['wifi']);
+      : this(
+            email: map['email'],
+            sms: map['sms'],
+            push: map['push'],
+            bluetooth: map['bluetooth'],
+            rfid: map['rfid'],
+            wifi: map['wifi']);
 
   /// This function returns a map containing email, sms, push, bluetooth, rfid, and wifi as keys and
   /// their corresponding values.
-  Map asMap() => {'email': email, 'sms': sms, 'push': push, 'bluetooth': bluetooth, 'rfid': rfid, 'wifi': wifi};
+  Map asMap() => {
+        'email': email,
+        'sms': sms,
+        'push': push,
+        'bluetooth': bluetooth,
+        'rfid': rfid,
+        'wifi': wifi
+      };
 }

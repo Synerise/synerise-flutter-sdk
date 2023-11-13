@@ -14,13 +14,20 @@ abstract class RecommendationClickEventParameters {
 
 /// The class represents a recommendation click event with specific parameters.
 class RecommendationClickEvent extends RecommendationEvent {
-  RecommendationClickEvent(String label, String action, String productId, String productName, String campaignId, String campaignHash,
+  RecommendationClickEvent(
+      String label,
+      String action,
+      String productId,
+      String productName,
+      String campaignId,
+      String campaignHash,
       Map<String, Object>? parameters)
       : super(label, 'recommendation.click', parameters) {
     this.parameters[RecommendationClickEventParameters.productId] = productId;
     this.parameters[RecommendationClickEventParameters.name] = productName;
     this.parameters[RecommendationClickEventParameters.campaignId] = campaignId;
-    this.parameters[RecommendationClickEventParameters.campaignHash] = campaignHash;
+    this.parameters[RecommendationClickEventParameters.campaignHash] =
+        campaignHash;
   }
 
   /// This function sets the category parameter for a recommendation click event.

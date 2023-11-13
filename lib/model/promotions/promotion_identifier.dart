@@ -12,7 +12,8 @@ class PromotionIdentifier {
   /// creates a new `PromotionIdentifier` object from it.
   PromotionIdentifier.fromMap(Map map)
       : this(
-          key: PromotionIdentifierKey.getPromotionIdentifierKeyFromString(map['key']),
+          key: PromotionIdentifierKey.getPromotionIdentifierKeyFromString(
+              map['key']),
           value: map['value'],
         );
 

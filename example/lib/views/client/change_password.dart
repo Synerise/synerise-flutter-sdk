@@ -9,7 +9,8 @@ class ChangePassword extends StatefulWidget {
   State<ChangePassword> createState() => _ChangePasswordState();
 }
 
-class _ChangePasswordState extends State<ChangePassword> with AutomaticKeepAliveClientMixin {
+class _ChangePasswordState extends State<ChangePassword>
+    with AutomaticKeepAliveClientMixin {
   final oldPasswordController = TextEditingController();
   final passwordController = TextEditingController();
 
@@ -38,7 +39,8 @@ class _ChangePasswordState extends State<ChangePassword> with AutomaticKeepAlive
               ButtonBar(
                 children: <Widget>[
                   ElevatedButton.icon(
-                      onPressed: () => _changePasswordCall(oldPasswordController.text, passwordController.text),
+                      onPressed: () => _changePasswordCall(
+                          oldPasswordController.text, passwordController.text),
                       icon: const Icon(Icons.arrow_forward),
                       label: const Text('Change Password')),
                 ],
@@ -49,7 +51,9 @@ class _ChangePasswordState extends State<ChangePassword> with AutomaticKeepAlive
   }
 
   Future<void> _changePasswordCall(oldPassword, password) async {
-    await Synerise.client.changePassword(oldPassword, password).catchError((error) {
+    await Synerise.client
+        .changePassword(oldPassword, password)
+        .catchError((error) {
       showDialog(
         context: context,
         builder: (context) {

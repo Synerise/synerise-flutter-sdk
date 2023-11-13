@@ -15,7 +15,13 @@ abstract class RecommendationViewParameters {
 /// The class RecommendationViewEvent is used to create an event with specific parameters for tracking
 /// recommendation views.
 class RecommendationViewEvent extends RecommendationEvent {
-  RecommendationViewEvent(String label, String action, List<String>? items, String campaignId, String campaignHash, String correlationId,
+  RecommendationViewEvent(
+      String label,
+      String action,
+      List<String>? items,
+      String campaignId,
+      String campaignHash,
+      String correlationId,
       Map<String, Object>? parameters)
       : super(label, 'recommendation.view', parameters) {
     if (items != null) {

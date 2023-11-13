@@ -10,7 +10,8 @@ class RegisterAccount extends StatefulWidget {
   State<RegisterAccount> createState() => _RegisterAccountState();
 }
 
-class _RegisterAccountState extends State<RegisterAccount> with AutomaticKeepAliveClientMixin {
+class _RegisterAccountState extends State<RegisterAccount>
+    with AutomaticKeepAliveClientMixin {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
@@ -39,7 +40,8 @@ class _RegisterAccountState extends State<RegisterAccount> with AutomaticKeepAli
               ButtonBar(
                 children: <Widget>[
                   ElevatedButton.icon(
-                      onPressed: () => _registerAccountCall(emailController.text, passwordController.text),
+                      onPressed: () => _registerAccountCall(
+                          emailController.text, passwordController.text),
                       icon: const Icon(Icons.arrow_forward),
                       label: const Text('Register')),
                 ],
@@ -50,9 +52,12 @@ class _RegisterAccountState extends State<RegisterAccount> with AutomaticKeepAli
   }
 
   Future<void> _registerAccountCall(email, password) async {
-    ClientAccountRegisterContext clientAccountRegisterContext = ClientAccountRegisterContext(email: email, password: password);
+    ClientAccountRegisterContext clientAccountRegisterContext =
+        ClientAccountRegisterContext(email: email, password: password);
 
-    await Synerise.client.registerAccount(clientAccountRegisterContext).catchError((error) {
+    await Synerise.client
+        .registerAccount(clientAccountRegisterContext)
+        .catchError((error) {
       showDialog(
         context: context,
         builder: (context) {

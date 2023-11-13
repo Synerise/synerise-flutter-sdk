@@ -2,7 +2,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 
 class Utils {
-  static Future<void> displaySimpleAlert(String text, BuildContext context) async {
+  static Future<void> displaySimpleAlert(
+      String text, BuildContext context) async {
     showDialog(
       context: context,
       builder: (context) {

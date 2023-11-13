@@ -79,8 +79,14 @@ class ClientAccountInformation {
             zipCode: map['zipCode'],
             countryCode: map['countryCode'],
             anonymous: map['anonymous'],
-            lastActivityDate: map['lastActivityDate'] != null ? SyneriseUtils.formatIntToDateTime(map['lastActivityDate']) : null,
-            agreements: map['agreements'] != null ? ClientAgreements.fromMap(map['agreements']) : null,
-            attributes: map['attributes'] != null ? Map<String, Object>.from(map['attributes']) : null,
+            lastActivityDate: map['lastActivityDate'] != null
+                ? SyneriseUtils.formatIntToDateTime(map['lastActivityDate'])
+                : null,
+            agreements: map['agreements'] != null
+                ? ClientAgreements.fromMap(map['agreements'])
+                : null,
+            attributes: map['attributes'] != null
+                ? Map<String, Object>.from(map['attributes'])
+                : null,
             tags: List<String>.from(map['tags']));
 }

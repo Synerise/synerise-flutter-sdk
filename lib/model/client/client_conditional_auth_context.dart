@@ -12,8 +12,12 @@ class ClientCondtitionalAuthContext {
   /// creates a new instance of `ClientCondtitionalAuthContext` using the values from the `Map`.
   ClientCondtitionalAuthContext.fromMap(Map map)
       : this(
-            agreements: map['agreements'] != null ? ClientAgreements.fromMap(map['agreements']) : null,
-            attributes: map['attributes'] != null ? Map<String, Object>.from(map['attributes']) : null);
+            agreements: map['agreements'] != null
+                ? ClientAgreements.fromMap(map['agreements'])
+                : null,
+            attributes: map['attributes'] != null
+                ? Map<String, Object>.from(map['attributes'])
+                : null);
 
   Map asMap() => {'agreements': agreements?.asMap(), 'attributes': attributes};
 }

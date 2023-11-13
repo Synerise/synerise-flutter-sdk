@@ -36,8 +36,12 @@ class ScreenView {
           hashString: map['hashString'],
           path: map['path'],
           priority: map['priority'],
-          audience: map['audience'] != null ? ScreenViewAudienceInfo.fromMap(map['audience']) : null,
-          data: map['data'] != null ? Map<String, Object>.from(map['data']) : null,
+          audience: map['audience'] != null
+              ? ScreenViewAudienceInfo.fromMap(map['audience'])
+              : null,
+          data: map['data'] != null
+              ? Map<String, Object>.from(map['data'])
+              : null,
           updatedAt: SyneriseUtils.formatIntToDateTime(map['updatedAt']),
           createdAt: SyneriseUtils.formatIntToDateTime(map['createdAt']),
         );

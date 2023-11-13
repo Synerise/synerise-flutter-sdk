@@ -302,14 +302,14 @@
 			buildConfigurationList = 97C147051CF9000F007C117D /* Build configuration list for PBXNativeTarget "SampleAppFlutter" */;
 			buildPhases = (
 				57B9607E5354A4CB32F8D126 /* [CP] Check Pods Manifest.lock */,
+				9705A1C41CF9048500538489 /* Embed Frameworks */,
+				7D69196E3A5310D4DF479890 /* [CP] Embed Pods Frameworks */,
+				C1921F5B2A4D8C480010BC77 /* Embed Foundation Extensions */,
 				9740EEB61CF901F6004384FC /* Run Script */,
 				97C146EA1CF9000F007C117D /* Sources */,
 				97C146EB1CF9000F007C117D /* Frameworks */,
 				97C146EC1CF9000F007C117D /* Resources */,
-				9705A1C41CF9048500538489 /* Embed Frameworks */,
 				3B06AD1E1E4923F5004D2608 /* Thin Binary */,
-				C1921F5B2A4D8C480010BC77 /* Embed Foundation Extensions */,
-				7D69196E3A5310D4DF479890 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -731,7 +731,7 @@
 				CODE_SIGN_ENTITLEMENTS = SampleAppFlutter.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 34N2Z22TKH;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -861,7 +861,7 @@
 				CODE_SIGN_ENTITLEMENTS = SampleAppFlutter.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 34N2Z22TKH;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -886,7 +886,7 @@
 				CODE_SIGN_ENTITLEMENTS = SampleAppFlutter.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 34N2Z22TKH;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;

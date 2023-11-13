@@ -22,7 +22,8 @@ enum PromotionDiscountUsageTrigger {
   /// returned depends on the input string parameter. If the string is equal to 'TRANSACTION', the
   /// method returns the enum value `transaction`. If the string is equal to 'REDEEM', the method
   /// returns the enum value `redeem`. If the string is anything else, the method returns the enum value
-  static PromotionDiscountUsageTrigger getPromotionDiscountUsageTriggerFromString(String string) {
+  static PromotionDiscountUsageTrigger
+      getPromotionDiscountUsageTriggerFromString(String string) {
     if (string == 'TRANSACTION') {
       return PromotionDiscountUsageTrigger.transaction;
     } else if (string == 'REDEEM') {

@@ -10,7 +10,13 @@ class PromotionResponse {
   final int? code;
   final List<Promotion> items;
 
-  PromotionResponse._({this.totalCount, this.totalPages, this.page, this.limit, this.code, required this.items});
+  PromotionResponse._(
+      {this.totalCount,
+      this.totalPages,
+      this.page,
+      this.limit,
+      this.code,
+      required this.items});
 
   /// `PromotionResponse.fromMap(Map map)` is a factory constructor that takes in a `Map` object and
   /// returns a new instance of the `PromotionResponse` class.

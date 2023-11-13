@@ -44,7 +44,8 @@ List<VoucherCodesData> _convertDataListToVoucherCodesData(List<Object?> list) {
   List<VoucherCodesData> voucherCodesDataList = [];
   for (var voucherCodesDataMap in list) {
     voucherCodesDataMap as Map<Object?, Object?>;
-    VoucherCodesData voucherCodesData = VoucherCodesData.fromMap(voucherCodesDataMap);
+    VoucherCodesData voucherCodesData =
+        VoucherCodesData.fromMap(voucherCodesDataMap);
     voucherCodesDataList.add(voucherCodesData);
   }
   return voucherCodesDataList;

@@ -19,5 +19,8 @@ class AssignVoucherResponse {
   /// `AssignVoucherResponse` object by calling the `AssignVoucherData.fromMap` constructor with the
   /// value associated with the `data` key. The `fromMap` constructor is a common pattern in Dart for
   /// initializing objects from maps, which is often used when parsing JSON data.
-  AssignVoucherResponse.fromMap(Map map) : this(message: map['message'], data: AssignVoucherData.fromMap(map['data']));
+  AssignVoucherResponse.fromMap(Map map)
+      : this(
+            message: map['message'],
+            data: AssignVoucherData.fromMap(map['data']));
 }

@@ -38,13 +38,20 @@ class VoucherCodesData {
   VoucherCodesData.fromMap(Map map)
       : this(
           code: map['code'],
-          status: VoucherCodeStatus.getVoucherCodeStatusFromString(map['status']),
+          status:
+              VoucherCodeStatus.getVoucherCodeStatusFromString(map['status']),
           clientId: map['clientId'],
           clientUuid: map['clientUuid'],
           poolUuid: map['poolUuid'],
-          expireIn: map['expireIn'] != null ? SyneriseUtils.formatIntToDateTime(map['expireIn'] * 1000) : null,
-          redeemAt: map['redeemAt'] != null ? SyneriseUtils.formatIntToDateTime(map['redeemAt'] * 1000) : null,
-          assignedAt: map['assignedAt'] != null ? SyneriseUtils.formatIntToDateTime(map['assignedAt'] * 1000) : null,
+          expireIn: map['expireIn'] != null
+              ? SyneriseUtils.formatIntToDateTime(map['expireIn'] * 1000)
+              : null,
+          redeemAt: map['redeemAt'] != null
+              ? SyneriseUtils.formatIntToDateTime(map['redeemAt'] * 1000)
+              : null,
+          assignedAt: map['assignedAt'] != null
+              ? SyneriseUtils.formatIntToDateTime(map['assignedAt'] * 1000)
+              : null,
           createdAt: SyneriseUtils.formatIntToDateTime(map['createdAt'] * 1000),
           updatedAt: SyneriseUtils.formatIntToDateTime(map['updatedAt'] * 1000),
         );

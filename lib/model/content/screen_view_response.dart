@@ -53,7 +53,9 @@ class ScreenViewResponse {
             data: Map<String, Object>.from(map['data']),
             parentVersion: map['parentVersion'],
             descriptionText: map['descriptionText'],
-            deletedAt: map['deletedAt'] != null ? SyneriseUtils.formatIntToDateTime(map['deletedAt']) : null);
+            deletedAt: map['deletedAt'] != null
+                ? SyneriseUtils.formatIntToDateTime(map['deletedAt'])
+                : null);
 
   /// The function returns a map containing various properties of an object.
   Map asMap() => {

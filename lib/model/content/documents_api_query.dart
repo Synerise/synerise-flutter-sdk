@@ -15,8 +15,16 @@ class DocumentsApiQuery {
 
   /// This is a constructor that creates a new instance of the `DocumentsApiQuery` class from a `Map`
   /// object.
-  DocumentsApiQuery.fromMap(Map map) : this(type: map['type'], typeValue: map['typeValue'], version: map['version']);
+  DocumentsApiQuery.fromMap(Map map)
+      : this(
+            type: map['type'],
+            typeValue: map['typeValue'],
+            version: map['version']);
 
   /// The function returns a map with the type, type value, and version as key-value pairs.
-  Map asMap() => {'type': type.getDocumentsApiQueryTypeAsString(), 'typeValue': typeValue, 'version': version};
+  Map asMap() => {
+        'type': type.getDocumentsApiQueryTypeAsString(),
+        'typeValue': typeValue,
+        'version': version
+      };
 }

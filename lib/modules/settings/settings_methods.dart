@@ -8,7 +8,8 @@ class SettingsMethods extends BaseMethodChannel {
   }
 
   Future<void> setOne(String key, dynamic value) async {
-    await methodChannel.invokeMethod("Settings/setOne", {'key': key, 'value': value});
+    await methodChannel
+        .invokeMethod("Settings/setOne", {'key': key, 'value': value});
   }
 
   Future<void> setMany(Map<String, dynamic> settings) async {

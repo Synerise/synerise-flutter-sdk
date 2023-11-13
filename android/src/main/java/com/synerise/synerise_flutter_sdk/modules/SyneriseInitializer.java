@@ -16,10 +16,9 @@ import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 
 public class SyneriseInitializer implements SyneriseModule {
-
+    private static String sdkPluginVersion = "0.7.2";
     private static SyneriseInitializer instance;
     protected static volatile boolean isInitialized = false;
-
     public SyneriseInitializer() {
     }
 
@@ -47,6 +46,7 @@ public class SyneriseInitializer implements SyneriseModule {
                     .syneriseDebugMode(data.containsKey("debugModeEnabled") ? (boolean) data.get("debugModeEnabled") : false)
                     .crashHandlingEnabled(data.containsKey("crashHandlingEnabled") ? (boolean) data.get("crashHandlingEnabled") : false)
                     .hostApplicationType(HostApplicationType.FLUTTER)
+                    .hostApplicationSDKPluginVersion(sdkPluginVersion)
                     .pushRegistrationRequired(SyneriseNotifications.getPushNotificationsListener());
             if (requestValidationSalt != null) {
                 builder.setRequestValidationSalt(requestValidationSalt);

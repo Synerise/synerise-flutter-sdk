@@ -14,8 +14,16 @@ class ClientAuthContext {
   ClientAuthContext.fromMap(Map map)
       : this(
             authId: map['authID'],
-            agreements: map['agreements'] != null ? ClientAgreements.fromMap(map['agreements']) : null,
-            attributes: map['attributes'] != null ? Map<String, Object>.from(map['attributes']) : null);
+            agreements: map['agreements'] != null
+                ? ClientAgreements.fromMap(map['agreements'])
+                : null,
+            attributes: map['attributes'] != null
+                ? Map<String, Object>.from(map['attributes'])
+                : null);
 
-  Map asMap() => {'authID': authId, 'agreements': agreements?.asMap(), 'attributes': attributes};
+  Map asMap() => {
+        'authID': authId,
+        'agreements': agreements?.asMap(),
+        'attributes': attributes
+      };
 }

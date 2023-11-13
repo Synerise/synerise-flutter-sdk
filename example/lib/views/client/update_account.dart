@@ -9,7 +9,8 @@ class UpdateAccount extends StatefulWidget {
   State<UpdateAccount> createState() => _UpdateAccountState();
 }
 
-class _UpdateAccountState extends State<UpdateAccount> with AutomaticKeepAliveClientMixin {
+class _UpdateAccountState extends State<UpdateAccount>
+    with AutomaticKeepAliveClientMixin {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final firstNameController = TextEditingController();
@@ -110,23 +111,26 @@ class _UpdateAccountState extends State<UpdateAccount> with AutomaticKeepAliveCl
         ));
   }
 
-  Future<void> _updateAccountCall(
-      email, password, firstName, lastName, sex, phone, company, address, city, zipcode, countrycode, province) async {
-    ClientAccountUpdateContext clientAccountUpdateContext = ClientAccountUpdateContext(
-        email: email,
-        password: password,
-        firstName: firstName,
-        lastName: lastName,
-        sex: ClientSex.getClientSexFromString(sex),
-        phone: null,
-        company: null,
-        address: null,
-        city: null,
-        zipcode: null,
-        countrycode: null,
-        province: null);
+  Future<void> _updateAccountCall(email, password, firstName, lastName, sex,
+      phone, company, address, city, zipcode, countrycode, province) async {
+    ClientAccountUpdateContext clientAccountUpdateContext =
+        ClientAccountUpdateContext(
+            email: email,
+            password: password,
+            firstName: firstName,
+            lastName: lastName,
+            sex: ClientSex.getClientSexFromString(sex),
+            phone: null,
+            company: null,
+            address: null,
+            city: null,
+            zipcode: null,
+            countrycode: null,
+            province: null);
 
-    await Synerise.client.updateAccount(clientAccountUpdateContext).catchError((error) {
+    await Synerise.client
+        .updateAccount(clientAccountUpdateContext)
+        .catchError((error) {
       showDialog(
         context: context,
         builder: (context) {

@@ -4,5 +4,6 @@ import 'package:flutter/services.dart';
 /// Flutter SDK and its background operations.
 class Dependencies {
   static const methodChannel = MethodChannel('synerise_flutter_sdk');
-  static const backgroundMethodChannel = MethodChannel('synerise_flutter_sdk_background');
+  static const backgroundMethodChannel =
+      MethodChannel('synerise_flutter_sdk_background');
 }

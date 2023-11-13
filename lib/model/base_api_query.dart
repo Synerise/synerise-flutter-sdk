@@ -27,7 +27,8 @@ class ApiQuerySorting {
   });
 
   /// This function returns a map with the property and order values as key-value pairs.
-  Map asMap() => {'property': property, 'order': order.apiQuerySortingOrderAsString()};
+  Map asMap() =>
+      {'property': property, 'order': order.apiQuerySortingOrderAsString()};
 }
 
 /// The class represents a base API query with properties for limit, page, sorting, and includeMeta.
@@ -39,5 +40,9 @@ class BaseApiQuery {
 
   bool includeMeta = false;
 
-  BaseApiQuery({required this.limit, required this.page, required this.sorting, required this.includeMeta});
+  BaseApiQuery(
+      {required this.limit,
+      required this.page,
+      required this.sorting,
+      required this.includeMeta});
 }

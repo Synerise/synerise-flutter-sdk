@@ -20,9 +20,11 @@ public class SyneriseSettings implements SyneriseModule {
     public static final String F_SETTINGS_TRACKER_AUTO_FLUSH_TIMEOUT = "TRACKER_AUTO_FLUSH_TIMEOUT";
     public static final String F_SETTINGS_NOTIFICATIONS_ENABLED = "NOTIFICATIONS_ENABLED";
     public static final String F_SETTINGS_NOTIFICATIONS_ENCRYPTION = "NOTIFICATIONS_ENCRYPTION";
+    public static final String F_SETTINGS_INJECTOR_AUTOMATIC = "INJECTOR_AUTOMATIC";
     public static final String F_SETTINGS_IN_APP_MESSAGING_MAX_DEFINITION_UPDATE_INTERVAL_LIMIT = "IN_APP_MAX_DEFINITION_UPDATE_INTERVAL_LIMIT";
     public static final String F_SETTINGS_IN_APP_MESSAGING_RENDERING_TIMEOUT = "IN_APP_MESSAGING_RENDERING_TIMEOUT";
-    public static final String F_SETTINGS_INJECTOR_AUTOMATIC = "INJECTOR_AUTOMATIC";
+    public static final String F_SETTINGS_IN_APP_MESSAGING_SHOULD_SEND_IN_APP_CAPPING_EVENT = "IN_APP_MESSAGING_SHOULD_SEND_IN_APP_CAPPING_EVENT";
+
 
     private static SyneriseSettings instance;
 
@@ -81,6 +83,11 @@ public class SyneriseSettings implements SyneriseModule {
                     Settings.getInstance().sdk.setMinTokenRefreshInterval((int) value);
                 }
                 break;
+            case F_SETTINGS_SHOULD_DESTROY_SESSION_ON_API_KEY_CHANGE:
+                if (value instanceof Boolean) {
+                    Settings.getInstance().sdk.shouldDestroySessionOnApiKeyChange = (Boolean) value;
+                }
+                break;
             case F_SETTINGS_TRACKER_IS_BACKEND_TIME_SYNC_REQUIRED:
                 if (value instanceof Boolean) {
                     Settings.getInstance().tracker.isBackendTimeSyncRequired = (Boolean) value;
@@ -89,7 +96,6 @@ public class SyneriseSettings implements SyneriseModule {
                 if (value instanceof Double) {
                     int autoFlushTimeout = ((Double) value).intValue() * 1000;
                     Settings.getInstance().tracker.setAutoFlushTimeout(autoFlushTimeout);
-
                 }
                 break;
             case F_SETTINGS_TRACKER_MAX_BATCH_SIZE:
@@ -102,11 +108,6 @@ public class SyneriseSettings implements SyneriseModule {
                     Settings.getInstance().tracker.setMinimumBatchSize((int) value);
                 }
                 break;
-            case F_SETTINGS_INJECTOR_AUTOMATIC:
-                if (value instanceof Boolean) {
-                    Settings.getInstance().injector.automatic = (Boolean) value;
-                }
-                break;
             case F_SETTINGS_NOTIFICATIONS_ENABLED:
                 if (value instanceof Boolean) {
                     Settings.getInstance().notifications.enabled = (boolean) value;
@@ -117,22 +118,25 @@ public class SyneriseSettings implements SyneriseModule {
                     Settings.getInstance().notifications.setEncryption((Boolean) value);
                 }
                 break;
-            case F_SETTINGS_SHOULD_DESTROY_SESSION_ON_API_KEY_CHANGE:
+            case F_SETTINGS_INJECTOR_AUTOMATIC:
                 if (value instanceof Boolean) {
-                    Settings.getInstance().sdk.shouldDestroySessionOnApiKeyChange = (Boolean) value;
+                    Settings.getInstance().injector.automatic = (Boolean) value;
                 }
                 break;
-
             case F_SETTINGS_IN_APP_MESSAGING_MAX_DEFINITION_UPDATE_INTERVAL_LIMIT:
                 if (value instanceof Double) {
                     Settings.getInstance().inAppMessaging.setMaxDefinitionUpdateIntervalLimit((int) value);
                 }
                 break;
-
             case F_SETTINGS_IN_APP_MESSAGING_RENDERING_TIMEOUT:
                 if (value instanceof Double) {
                     int renderingTimeout = ((Double) value).intValue();
                     Settings.getInstance().inAppMessaging.renderingTimeout = renderingTimeout;
+                }
+                break;
+            case F_SETTINGS_IN_APP_MESSAGING_SHOULD_SEND_IN_APP_CAPPING_EVENT:
+                if (value instanceof Boolean) {
+                    Settings.getInstance().inAppMessaging.shouldSendInAppCappingEvent = (Boolean) value;
                 }
                 break;
         }
@@ -146,12 +150,14 @@ public class SyneriseSettings implements SyneriseModule {
         settings.put(F_SETTINGS_TRACKER_MIN_BATCH_SIZE, Synerise.settings.tracker.minBatchSize);
         settings.put(F_SETTINGS_TRACKER_MAX_BATCH_SIZE, Synerise.settings.tracker.maxBatchSize);
         settings.put(F_SETTINGS_TRACKER_AUTO_FLUSH_TIMEOUT, (Synerise.settings.tracker.autoFlushTimeout / 1000));
-        settings.put(F_SETTINGS_INJECTOR_AUTOMATIC, Synerise.settings.injector.automatic);
         settings.put(F_SETTINGS_NOTIFICATIONS_ENABLED, Synerise.settings.notifications.enabled);
         settings.put(F_SETTINGS_NOTIFICATIONS_ENCRYPTION, Synerise.settings.notifications.getEncryption());
         settings.put(F_SETTINGS_SHOULD_DESTROY_SESSION_ON_API_KEY_CHANGE, Synerise.settings.sdk.shouldDestroySessionOnApiKeyChange);
+        settings.put(F_SETTINGS_INJECTOR_AUTOMATIC, Synerise.settings.injector.automatic);
         settings.put(F_SETTINGS_IN_APP_MESSAGING_MAX_DEFINITION_UPDATE_INTERVAL_LIMIT, Synerise.settings.inAppMessaging.getMaxDefinitionUpdateIntervalLimit());
         settings.put(F_SETTINGS_IN_APP_MESSAGING_RENDERING_TIMEOUT, Synerise.settings.inAppMessaging.renderingTimeout);
+        settings.put(F_SETTINGS_IN_APP_MESSAGING_SHOULD_SEND_IN_APP_CAPPING_EVENT, Synerise.settings.inAppMessaging.shouldSendInAppCappingEvent);
+
         return settings;
     }
 }

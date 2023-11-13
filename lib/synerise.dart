@@ -35,6 +35,7 @@ class Synerise {
   ///   apiKey (String): The `apiKey` parameter is a string that represents the new Profile API key that you
   /// want to set.
   static Future<void> changeApiKey(String apiKey) async {
-    await Dependencies.methodChannel.invokeMethod('Synerise/changeApiKey', {"apiKey": apiKey});
+    await Dependencies.methodChannel
+        .invokeMethod('Synerise/changeApiKey', {"apiKey": apiKey});
   }
 }

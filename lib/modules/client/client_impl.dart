@@ -20,7 +20,8 @@ class ClientImpl extends BaseModule {
   /// Args:
   ///   clientAccountRegisterContext (ClientAccountRegisterContext): It is an object of type
   /// ClientAccountRegisterContext that contains the necessary information to register a client account.
-  Future<void> registerAccount(ClientAccountRegisterContext clientAccountRegisterContext) async {
+  Future<void> registerAccount(
+      ClientAccountRegisterContext clientAccountRegisterContext) async {
     return _methods.registerAccount(clientAccountRegisterContext);
   }
 
@@ -49,7 +50,8 @@ class ClientImpl extends BaseModule {
   ///   email (String): A string representing the email address of the user.
   ///   pinCode (String): The pinCode parameter is a string that represents the PIN code sent to email of
   ///   the user that account needs to be activated.
-  Future<void> confirmAccountActivationByPin(String email, String pinCode) async {
+  Future<void> confirmAccountActivationByPin(
+      String email, String pinCode) async {
     return _methods.confirmAccountActivationByPin(email, pinCode);
   }
 
@@ -82,7 +84,8 @@ class ClientImpl extends BaseModule {
   ///
   /// Returns:
   ///   The method `signInConditionally` is returning a `ClientConditionalAuthResult`.
-  Future<ClientConditionalAuthResult> signInConditionally(String email, String password) async {
+  Future<ClientConditionalAuthResult> signInConditionally(
+      String email, String password) async {
     return _methods.signInConditionally(email, password);
   }
 
@@ -95,8 +98,10 @@ class ClientImpl extends BaseModule {
   /// represents the identity provider used for authentication.
   ///   tokenString (String): The `tokenString` parameter is a string that represents an authentication
   /// token.
-  Future<bool> authenticate(ClientAuthContext clientAuthContext, IdentityProvider identityProvider, String tokenString) async {
-    return _methods.authenticate(clientAuthContext, identityProvider, tokenString);
+  Future<bool> authenticate(ClientAuthContext clientAuthContext,
+      IdentityProvider identityProvider, String tokenString) async {
+    return _methods.authenticate(
+        clientAuthContext, identityProvider, tokenString);
   }
 
   /// The function `authenticateConditionally` authenticates a user conditionally based on the provided
@@ -117,9 +122,12 @@ class ClientImpl extends BaseModule {
   /// Returns:
   ///   The method is returning a `Future` object that resolves to a `ClientConditionalAuthResult`
   /// object.
-  Future<ClientConditionalAuthResult> authenticateConditionally(IdentityProvider identityProvider, String tokenString,
-      [ClientCondtitionalAuthContext? clientAuthContext, String? authID]) async {
-    return _methods.authenticateConditionally(identityProvider, tokenString, clientAuthContext, authID);
+  Future<ClientConditionalAuthResult> authenticateConditionally(
+      IdentityProvider identityProvider, String tokenString,
+      [ClientCondtitionalAuthContext? clientAuthContext,
+      String? authID]) async {
+    return _methods.authenticateConditionally(
+        identityProvider, tokenString, clientAuthContext, authID);
   }
 
   /// This method signs in a customer with Simple Authentication.
@@ -129,8 +137,11 @@ class ClientImpl extends BaseModule {
   /// contains the necessary data for client authentication.
   ///   authID (String): The authID parameter is a string that represents the authentication ID. It is
   /// used as a unique identifier for the authentication process.
-  Future<void> simpleAuthentication(ClientSimpleAuthenticationData clientSimpleAuthenticationData, String authID) async {
-    return _methods.simpleAuthentication(clientSimpleAuthenticationData, authID);
+  Future<void> simpleAuthentication(
+      ClientSimpleAuthenticationData clientSimpleAuthenticationData,
+      String authID) async {
+    return _methods.simpleAuthentication(
+        clientSimpleAuthenticationData, authID);
   }
 
   /// This function returns a boolean value indicating whether the user is signed in or not.
@@ -159,7 +170,8 @@ class ClientImpl extends BaseModule {
   /// represents the sign out mode.
   ///   fromAllDevices (bool): A boolean value indicating whether the sign out should be applied to all
   /// devices or just the current device.
-  Future<void> signOutWithMode(ClientSignOutMode mode, bool fromAllDevices) async {
+  Future<void> signOutWithMode(
+      ClientSignOutMode mode, bool fromAllDevices) async {
     return _methods.signOutWithMode(mode, fromAllDevices);
   }
 
@@ -188,7 +200,8 @@ class ClientImpl extends BaseModule {
   /// Args:
   ///   clientIdentifier (String): The clientIdentifier parameter is a string that represents the
   /// identifier of the client. It is used as input to regenerate a UUID associated with the client.
-  Future<bool> regenerateUUIDWithClientIdentifier(String clientIdentifier) async {
+  Future<bool> regenerateUUIDWithClientIdentifier(
+      String clientIdentifier) async {
     return _methods.regenerateUUIDWithClientIdentifier(clientIdentifier);
   }
 
@@ -209,7 +222,8 @@ class ClientImpl extends BaseModule {
   /// ClientAccountUpdateContext that contains the information needed to update a client's account. This
   /// object may include fields such as the client's name, email, phone number, address, and any other
   /// relevant information that needs to be updated.
-  Future<void> updateAccount(ClientAccountUpdateContext clientAccountUpdateContext) async {
+  Future<void> updateAccount(
+      ClientAccountUpdateContext clientAccountUpdateContext) async {
     return _methods.updateAccount(clientAccountUpdateContext);
   }
 
@@ -255,7 +269,8 @@ class ClientImpl extends BaseModule {
   /// external token used for authentication.
   ///   authID (String): The authID parameter is an optional parameter that represents the
   /// authentication ID of the user.
-  Future<void> requestEmailChange(String email, String password, [String? externalToken, String? authID]) async {
+  Future<void> requestEmailChange(String email, String password,
+      [String? externalToken, String? authID]) async {
     return _methods.requestEmailChange(email, password, externalToken, authID);
   }
 
@@ -267,7 +282,8 @@ class ClientImpl extends BaseModule {
   /// generated and sent to the user's email address when they request to change their email.
   ///   newsletterAgreement (bool): A boolean value indicating whether the user has agreed to receive
   /// newsletters or not.
-  Future<void> confirmEmailChange(String token, bool newsletterAgreement) async {
+  Future<void> confirmEmailChange(
+      String token, bool newsletterAgreement) async {
     return _methods.confirmEmailChange(token, newsletterAgreement);
   }
 
@@ -288,7 +304,8 @@ class ClientImpl extends BaseModule {
   /// number update.
   ///   smsAgreement (bool): A boolean value indicating whether the user has agreed to receive SMS
   /// notifications or not.
-  Future<void> confirmPhoneUpdate(String phone, String confirmationCode, bool smsAgreement) async {
+  Future<void> confirmPhoneUpdate(
+      String phone, String confirmationCode, bool smsAgreement) async {
     return _methods.confirmPhoneUpdate(phone, confirmationCode, smsAgreement);
   }
 
@@ -302,7 +319,8 @@ class ClientImpl extends BaseModule {
   /// `IdentityProvider` which represents the identity provider used for authentication.
   ///   authId (String): The authId parameter is an optional string that represents the unique
   /// identifier of the authenticated user whose account is to be deleted.
-  Future<void> deleteAccount(String clientAuthFactor, IdentityProvider identityProvider, String? authId) async {
+  Future<void> deleteAccount(String clientAuthFactor,
+      IdentityProvider identityProvider, String? authId) async {
     return _methods.deleteAccount(clientAuthFactor, identityProvider, authId);
   }
 }

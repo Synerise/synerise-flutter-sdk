@@ -20,7 +20,8 @@ abstract class CartEventParameters {
 
 /// The class CartEvent defines a custom event with parameters for a shopping cart action.
 class CartEvent extends CustomEvent {
-  CartEvent(String label, String action, String sku, UnitPrice finalPrice, int quantity, Map<String, Object>? parameters)
+  CartEvent(String label, String action, String sku, UnitPrice finalPrice,
+      int quantity, Map<String, Object>? parameters)
       : super(label, action, parameters) {
     this.parameters[CartEventParameters.sku] = sku;
     this.parameters[CartEventParameters.quantity] = quantity;
@@ -54,7 +55,8 @@ class CartEvent extends CustomEvent {
 
   /// This function sets the discounted unit price for a cart event.
   void setDiscountedPrice(UnitPrice discountedPrice) {
-    parameters[CartEventParameters.discountedUnitPrice] = discountedPrice.asMap();
+    parameters[CartEventParameters.discountedUnitPrice] =
+        discountedPrice.asMap();
   }
 
   /// This function sets a URL parameter in a cart event.

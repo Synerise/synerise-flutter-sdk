@@ -16,19 +16,27 @@ class PromotionDiscountModeDetails {
   /// and initializes a `PromotionDiscountModeDetails` object with the values from the `Map`.
   PromotionDiscountModeDetails.fromMap(Map map)
       : this(
-            discountSteps: _convertObjectListToPromotionDiscountStep(map['discountSteps']),
-            discountUsageTrigger: PromotionDiscountUsageTrigger.getPromotionDiscountUsageTriggerFromString(map['discountUsageTrigger']));
+            discountSteps:
+                _convertObjectListToPromotionDiscountStep(map['discountSteps']),
+            discountUsageTrigger: PromotionDiscountUsageTrigger
+                .getPromotionDiscountUsageTriggerFromString(
+                    map['discountUsageTrigger']));
 
   /// The function returns a map with the values of 'discountSteps' and 'discountUsageTrigger'.
-  Map asMap() => {'discountSteps': discountSteps, 'discountUsageTrigger': discountUsageTrigger};
+  Map asMap() => {
+        'discountSteps': discountSteps,
+        'discountUsageTrigger': discountUsageTrigger
+      };
 }
 
 /// This function converts a list of objects to a list of PromotionDiscountStep objects.
-List<PromotionDiscountStep> _convertObjectListToPromotionDiscountStep(List<Object?> list) {
+List<PromotionDiscountStep> _convertObjectListToPromotionDiscountStep(
+    List<Object?> list) {
   List<PromotionDiscountStep> promotionDiscountStepList = [];
   for (var discountSteps in list) {
     discountSteps as Map<Object?, Object?>;
-    PromotionDiscountStep promotionDiscountStep = PromotionDiscountStep.fromMap(discountSteps);
+    PromotionDiscountStep promotionDiscountStep =
+        PromotionDiscountStep.fromMap(discountSteps);
     promotionDiscountStepList.add(promotionDiscountStep);
   }
   return promotionDiscountStepList;

@@ -20,7 +20,9 @@ class Document {
           identifier: map['identifier'],
           slug: map['slug'],
           schema: map['schema'],
-          content: map['content'] != null ? Map<String, Object>.from(map['content']) : null,
+          content: map['content'] != null
+              ? Map<String, Object>.from(map['content'])
+              : null,
         );
 
   /// The function returns a map containing the identifier, slug, schema, and content properties.

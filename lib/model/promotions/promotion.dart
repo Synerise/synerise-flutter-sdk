@@ -100,42 +100,66 @@ class Promotion {
             code: map['code'],
             status: PromotionStatus.getPromotionStatusFromString(map['status']),
             type: PromotionType.getPromotionTypeFromString(map['type']),
-            details: map['details'] != null ? PromotionDetails.fromMap(map['details']) : null,
+            details: map['details'] != null
+                ? PromotionDetails.fromMap(map['details'])
+                : null,
             redeemLimitPerClient: map['redeemLimitPerClient'],
             redeemQuantityPerActivation: map['redeemQuantityPerActivation'],
             currentRedeemedQuantity: map['currentRedeemedQuantity'],
             currentRedeemLimit: map['currentRedeemLimit'],
             activationCounter: map['activationCounter'],
             possibleRedeems: map['possibleRedeems'],
-            discountType: PromotionDiscountType.getPromotionDiscountTypeFromString(map['discountType']),
+            discountType:
+                PromotionDiscountType.getPromotionDiscountTypeFromString(
+                    map['discountType']),
             discountValue: map['discountValue'],
-            discountMode: PromotionDiscountMode.getPromotionDiscountModeFromString(map['discountMode']),
-            discountModeDetails:
-                map['discountModeDetails'] != null ? PromotionDiscountModeDetails.fromMap(map['discountModeDetails']) : null,
+            discountMode:
+                PromotionDiscountMode.getPromotionDiscountModeFromString(
+                    map['discountMode']),
+            discountModeDetails: map['discountModeDetails'] != null
+                ? PromotionDiscountModeDetails.fromMap(
+                    map['discountModeDetails'])
+                : null,
             requireRedeemedPoints: map['requireRedeemedPoints'],
             price: map['price'],
             priority: map['priority'],
-            itemScope: PromotionItemScope.getPromotionItemScopeFromString(map['itemScope']),
+            itemScope: PromotionItemScope.getPromotionItemScopeFromString(
+                map['itemScope']),
             minBasketValue: map['minBasketValue'],
             maxBasketValue: map['maxBasketValue'],
             name: map['name'],
             headline: map['headline'],
             descriptionText: map['descriptionText'],
-            images: map['images'] != null ? _convertObjectListToPromotionImageList(map['images']) : null,
-            assignedAt: map['assignedAt'] != null ? SyneriseUtils.formatIntToDateTime(map['assignedAt']) : null,
-            startAt: map['startAt'] != null ? SyneriseUtils.formatIntToDateTime(map['startAt']) : null,
-            expireAt: map['expireAt'] != null ? SyneriseUtils.formatIntToDateTime(map['expireAt']) : null,
-            lastingAt: map['lastingAt'] != null ? SyneriseUtils.formatIntToDateTime(map['lastingAt']) : null,
+            images: map['images'] != null
+                ? _convertObjectListToPromotionImageList(map['images'])
+                : null,
+            assignedAt: map['assignedAt'] != null
+                ? SyneriseUtils.formatIntToDateTime(map['assignedAt'])
+                : null,
+            startAt: map['startAt'] != null
+                ? SyneriseUtils.formatIntToDateTime(map['startAt'])
+                : null,
+            expireAt: map['expireAt'] != null
+                ? SyneriseUtils.formatIntToDateTime(map['expireAt'])
+                : null,
+            lastingAt: map['lastingAt'] != null
+                ? SyneriseUtils.formatIntToDateTime(map['lastingAt'])
+                : null,
             lastingTime: map['lastingTime'],
             displayFrom: map['displayFrom'],
             displayTo: map['displayTo'],
-            params: map['params'] != null ? Map<String, Object>.from(map['params']) : null,
-            catalogIndexItems: map['catalogIndexItems'] != null ? List<String>.from(map['catalogIndexItems']) : null,
+            params: map['params'] != null
+                ? Map<String, Object>.from(map['params'])
+                : null,
+            catalogIndexItems: map['catalogIndexItems'] != null
+                ? List<String>.from(map['catalogIndexItems'])
+                : null,
             tags: map['tags'] != null ? List<Object>.from(map['tags']) : null);
 }
 
 /// This function converts a list of objects to a list of PromotionImage objects.
-List<PromotionImage> _convertObjectListToPromotionImageList(List<Object?> list) {
+List<PromotionImage> _convertObjectListToPromotionImageList(
+    List<Object?> list) {
   List<PromotionImage> promotionImageList = [];
   for (var promotionImageMap in list) {
     promotionImageMap as Map<Object?, Object?>;

@@ -15,13 +15,20 @@ abstract class RecommendationSeenEventParameters {
 /// This is a recommendation seen event with parameters such as product ID,
 /// product name, campaign ID, and campaign hash.
 class RecommendationSeenEvent extends RecommendationEvent {
-  RecommendationSeenEvent(String label, String action, String productId, String productName, String campaignId, String campaignHash,
+  RecommendationSeenEvent(
+      String label,
+      String action,
+      String productId,
+      String productName,
+      String campaignId,
+      String campaignHash,
       Map<String, Object>? parameters)
       : super(label, 'recommendation.seen', parameters) {
     this.parameters[RecommendationSeenEventParameters.productId] = productId;
     this.parameters[RecommendationSeenEventParameters.name] = productName;
     this.parameters[RecommendationSeenEventParameters.campaignId] = campaignId;
-    this.parameters[RecommendationSeenEventParameters.campaignHash] = campaignHash;
+    this.parameters[RecommendationSeenEventParameters.campaignHash] =
+        campaignHash;
   }
 
   /// This function sets the category parameter for a recommendation seen event.

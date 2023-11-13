@@ -21,7 +21,8 @@ enum PromotionIdentifierKey {
   /// `PromotionIdentifierKey` enum type. The returned value depends on the input string: if the string
   /// is "UUID", the function returns the `uuid` value of the enum, if the string is "CODE", the
   /// function returns the `code` value of the enum, and if the string is anything else, the
-  static PromotionIdentifierKey getPromotionIdentifierKeyFromString(String string) {
+  static PromotionIdentifierKey getPromotionIdentifierKeyFromString(
+      String string) {
     if (string == 'UUID') {
       return PromotionIdentifierKey.uuid;
     } else if (string == 'CODE') {

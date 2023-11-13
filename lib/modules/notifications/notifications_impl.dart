@@ -3,7 +3,8 @@ import 'package:flutter/services.dart';
 import '../base/base_module.dart';
 import 'notifications_methods.dart';
 
-typedef NotificationsListenerFunction = void Function(NotificationsListener listener);
+typedef NotificationsListenerFunction = void Function(
+    NotificationsListener listener);
 
 class NotificationsListener {
   void Function()? onRegistrationRequired;
@@ -30,7 +31,8 @@ class NotificationsImpl extends BaseModule {
     var listenerName = methodPath[1];
     var listenerMethodName = methodPath[2];
 
-    if (listenerName == 'NotificationsListener' && listenerMethodName == 'onRegistrationRequired') {
+    if (listenerName == 'NotificationsListener' &&
+        listenerMethodName == 'onRegistrationRequired') {
       if (_listener.onRegistrationRequired != null) {
         _listener.onRegistrationRequired!();
       }
@@ -46,7 +48,8 @@ class NotificationsImpl extends BaseModule {
   /// notifications. This token is used to identify the device and send push notifications to it.
   ///   mobileAgreement (bool): mobileAgreement is a boolean parameter that indicates whether the user
   /// has agreed to receive notifications on their mobile device.
-  void registerForNotifications(String registrationToken, [bool? mobileAgreement]) {
+  void registerForNotifications(String registrationToken,
+      [bool? mobileAgreement]) {
     _methods.registerForNotifications(registrationToken, mobileAgreement);
   }
 

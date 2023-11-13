@@ -13,7 +13,6 @@ import 'views/promotions/promotions_methods_view.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
-
 String? firebaseToken;
 
 class InitialView extends StatefulWidget {
@@ -39,7 +38,6 @@ class _InitialViewState extends State<InitialView> {
     Synerise.initializer()
         .withClientApiKey(await rootBundle.loadString('lib/api_key.txt'))
         .withDebugModeEnabled(true)
-        .setRequestValidationSalt("YOUR_SALT_HERE")
         .init();
 
     Synerise.injector.listener((listener) {
@@ -67,13 +65,9 @@ class _InitialViewState extends State<InitialView> {
       listener.onOpenUrl = (data, url) {};
       listener.onDeepLink = (data, deepLink) {};
 
-      listener.onPresent = (data) {
-        
-      };
+      listener.onPresent = (data) {};
 
-      listener.onHide = (data) {
-        
-      };
+      listener.onHide = (data) {};
 
       listener.onCustomAction = (data, name, parameters) {};
     });
@@ -178,11 +172,10 @@ class _InitialViewState extends State<InitialView> {
                   final paramMap = <String, Object>{
                     "firstKeyCustomParam": "TEST",
                     "arraytest": [
-                      {
-                     "test1": "test2"
-                      }
-                   ]};
-                   
+                      {"test1": "test2"}
+                    ]
+                  };
+
                   CustomEvent event = CustomEvent("label", "flutter", paramMap);
                   Synerise.tracker.send(event);
                 },

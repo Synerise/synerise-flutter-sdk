@@ -23,10 +23,11 @@ static NSString * const FSettingsNotificationsEnabled = @"NOTIFICATIONS_ENABLED"
 static NSString * const FSettingsNotificationsEncryption = @"NOTIFICATIONS_ENCRYPTION";
 static NSString * const FSettingsNotificationsDisableInAppAlerts = @"NOTIFICATIONS_DISABLE_IN_APP_ALERTS";
 
+static NSString * const FSettingsInjectorAutomatic = @"INJECTOR_AUTOMATIC";
+
 static NSString * const FSettingsInAppMessagingMaxDefinitionUpdateIntervalLimit = @"IN_APP_MAX_DEFINITION_UPDATE_INTERVAL_LIMIT";
 static NSString * const FSettingsInAppMessagingRenderingTimeout = @"IN_APP_MESSAGING_RENDERING_TIMEOUT";
-
-static NSString * const FSettingsInjectorAutomatic = @"INJECTOR_AUTOMATIC";
+static NSString * const FSSettingsInAppMessagingShouldSendInAppCappingEvent = @"IN_APP_MESSAGING_SHOULD_SEND_IN_APP_CAPPING_EVENT";
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -66,10 +67,11 @@ NS_ASSUME_NONNULL_BEGIN
     [self updateSettingsKeyPath:@"notifications.encryption" expectedClass:[NSNumber class] object:dictionary[FSettingsNotificationsEncryption]];
     [self updateSettingsKeyPath:@"notifications.disableInAppAlerts" expectedClass:[NSNumber class] object:dictionary[FSettingsNotificationsDisableInAppAlerts]];
     
+    [self updateSettingsKeyPath:@"injector.automatic" expectedClass:[NSNumber class] object:dictionary[FSettingsInjectorAutomatic]];
+    
     [self updateSettingsKeyPath:@"inAppMessaging.maxDefinitionUpdateIntervalLimit" expectedClass:[NSNumber class] object:dictionary[FSettingsInAppMessagingMaxDefinitionUpdateIntervalLimit]];
     [self updateSettingsKeyPath:@"inAppMessaging.renderingTimeout" expectedClass:[NSNumber class] object:dictionary[FSettingsInAppMessagingRenderingTimeout]];
-    
-    [self updateSettingsKeyPath:@"injector.automatic" expectedClass:[NSNumber class] object:dictionary[FSettingsInjectorAutomatic]];
+    [self updateSettingsKeyPath:@"inAppMessaging.shouldSendInAppCappingEvent" expectedClass:[NSNumber class] object:dictionary[FSSettingsInAppMessagingShouldSendInAppCappingEvent]];
 }
 
 - (void)updateSettingsKeyPath:(NSString *)keyPath expectedClass:(Class)expectedClass object:(nullable id)object {
@@ -140,7 +142,7 @@ NS_ASSUME_NONNULL_BEGIN
     dictionary[FSettingsSDKAppGroupIdentifier] = SNRSynerise.settings.sdk.appGroupIdentifier ?: [NSNull null];
     dictionary[FSettingsSDKKeychainGroupIdentifier] = SNRSynerise.settings.sdk.keychainGroupIdentifier ?: [NSNull null];
     dictionary[FSettingsSDKMinTokenRefreshInterval] = [NSNumber numberWithDouble:SNRSynerise.settings.sdk.minTokenRefreshInterval];
-    dictionary[FSettingsSDKShouldDestroySessionOnApiKeyChange] = [NSNumber numberWithDouble:SNRSynerise.settings.sdk.shouldDestroySessionOnApiKeyChange];
+    dictionary[FSettingsSDKShouldDestroySessionOnApiKeyChange] = [NSNumber numberWithBool:SNRSynerise.settings.sdk.shouldDestroySessionOnApiKeyChange];
     
     dictionary[FSettingsTrackerIsBackendTimeSyncRequired] = [NSNumber numberWithBool:SNRSynerise.settings.tracker.isBackendTimeSyncRequired];
     dictionary[FSettingsTrackerMinBatchSize] = [NSNumber numberWithInteger:SNRSynerise.settings.tracker.minBatchSize];
@@ -151,11 +153,12 @@ NS_ASSUME_NONNULL_BEGIN
     dictionary[FSettingsNotificationsEncryption] = [NSNumber numberWithBool:SNRSynerise.settings.notifications.encryption];
     dictionary[FSettingsNotificationsDisableInAppAlerts] = [NSNumber numberWithBool:SNRSynerise.settings.notifications.disableInAppAlerts];
     
-    dictionary[FSettingsInAppMessagingMaxDefinitionUpdateIntervalLimit] = [NSNumber numberWithDouble:SNRSynerise.settings.inAppMessaging.maxDefinitionUpdateIntervalLimit];
-    dictionary[FSettingsInAppMessagingRenderingTimeout] = [NSNumber numberWithDouble:SNRSynerise.settings.inAppMessaging.renderingTimeout];
-    
     dictionary[FSettingsInjectorAutomatic] = [NSNumber numberWithBool:SNRSynerise.settings.injector.automatic];
     
+    dictionary[FSettingsInAppMessagingMaxDefinitionUpdateIntervalLimit] = [NSNumber numberWithDouble:SNRSynerise.settings.inAppMessaging.maxDefinitionUpdateIntervalLimit];
+    dictionary[FSettingsInAppMessagingRenderingTimeout] = [NSNumber numberWithDouble:SNRSynerise.settings.inAppMessaging.renderingTimeout];
+    dictionary[FSSettingsInAppMessagingShouldSendInAppCappingEvent] = [NSNumber numberWithBool:SNRSynerise.settings.inAppMessaging.shouldSendInAppCappingEvent];
+
     return dictionary;
 }
 

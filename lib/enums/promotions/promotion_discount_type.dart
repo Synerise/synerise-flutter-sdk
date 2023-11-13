@@ -23,7 +23,8 @@ enum PromotionDiscountType {
   ///
   /// Returns:
   ///   This method returns a value of the enum type `PromotionDiscountType`.
-  static PromotionDiscountType getPromotionDiscountTypeFromString(String string) {
+  static PromotionDiscountType getPromotionDiscountTypeFromString(
+      String string) {
     if (string == 'NONE') {
       return PromotionDiscountType.none;
     } else if (string == 'PERCENT') {

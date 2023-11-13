@@ -10,7 +10,8 @@ class SyneriseDartMethodChannel {
   static const channelName = "synerise_dart_channel";
   late MethodChannel methodChannel;
 
-  static final SyneriseDartMethodChannel instance = SyneriseDartMethodChannel._init();
+  static final SyneriseDartMethodChannel instance =
+      SyneriseDartMethodChannel._init();
   SyneriseDartMethodChannel._init();
 
   /// This function configures a method channel and sets a method call handler.

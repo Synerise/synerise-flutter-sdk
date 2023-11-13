@@ -7,7 +7,10 @@ class Token {
   final TokenOrigin origin;
   final DateTime expirationDate;
 
-  Token({required this.tokenString, required this.origin, required this.expirationDate});
+  Token(
+      {required this.tokenString,
+      required this.origin,
+      required this.expirationDate});
 
   /// `Token.fromMap(Map map)` is a named constructor that creates a new instance of the `Token` class
   /// from a `Map` object. It takes a `Map` object as an argument and uses its values to initialize the
@@ -16,5 +19,6 @@ class Token {
       : this(
             tokenString: map['tokenString'],
             origin: TokenOrigin.fromString(map['origin']),
-            expirationDate: SyneriseUtils.formatIntToDateTime(map['expirationDate']));
+            expirationDate:
+                SyneriseUtils.formatIntToDateTime(map['expirationDate']));
 }

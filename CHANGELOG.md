@@ -1,6 +1,17 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [0.7.2] - 2023-11-13
+### Added
+- `setRequestValidationSalt` is now optional. Salt is not required for simpleAuthentication, but we recommend using it for improved security (it needs to be enabled in the Synerise portal first).
+- `Synerise.settings.inAppMessaging.shouldSendInAppCappingEvent` option in settings to enable or disable sending `inApp.capping` event by the SDK.
+
+### Fixed
+- iOS example app project files refinements.
+
+### Changed
+- Stability improvements.
+
 ## [0.7.1] - 2023-10-26
 ### Added
 - **Notifications Methods**: Introduced new methods for notification payload verification, including `isSyneriseNotification`, `isSyneriseSimplePush`, `isSyneriseBanner`, `isSilentCommand`, and `isSilentSDKCommand`.
@@ -12,7 +23,7 @@ All notable changes to this project will be documented in this file.
 - Corrected the field name in the `IdentityProvider` class.
 
 ### Changed
-- Improvements to stability.
+- Stability improvements.
 
 ## [0.7.0] - 2023-08-04
 ### Added
@@ -24,7 +35,7 @@ All notable changes to this project will be documented in this file.
 - Implemented minor fixes to improve the handling of channel method results.
 
 ### Changed
-- Improvements to stability.
+- Stability improvements.
 
 ## [0.6.3] - 2023-07-13
 ### Added
@@ -44,7 +55,7 @@ All notable changes to this project will be documented in this file.
 - Addressed a bug related to Android push notifications banners.
 
 ### Changed
-- Improvements to stability.
+- Stability improvements.
 
 ## [0.6.0] - 2023-06-16
 ### Added
@@ -68,7 +79,7 @@ All notable changes to this project will be documented in this file.
 - Made minor fixes to improve mapping.
 
 ### Changed
-- Improvements to stability.
+- Stability improvements.
 
 ## [0.4.1] - 2023-04-21
 ### Added
@@ -95,7 +106,7 @@ All notable changes to this project will be documented in this file.
 - Improved the project structure.
 
 ### Changed
-- Improvements to stability.
+- Stability improvements.
 
 ## [0.2.0] - 2023-02-03
 ### Added

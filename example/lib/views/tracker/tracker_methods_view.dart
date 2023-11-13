@@ -10,7 +10,8 @@ class TrackerMethodsView extends StatefulWidget {
   State<TrackerMethodsView> createState() => _TrackerMethodsViewState();
 }
 
-class _TrackerMethodsViewState extends State<TrackerMethodsView> with AutomaticKeepAliveClientMixin {
+class _TrackerMethodsViewState extends State<TrackerMethodsView>
+    with AutomaticKeepAliveClientMixin {
   final trackerCustomEventForm = GlobalKey<FormState>();
   final labelController = TextEditingController();
   final actionController = TextEditingController();
@@ -23,60 +24,17 @@ class _TrackerMethodsViewState extends State<TrackerMethodsView> with AutomaticK
   _tempFormBody() {
     return SingleChildScrollView(
         scrollDirection: Axis.vertical,
-        child: Column(crossAxisAlignment: CrossAxisAlignment.center, mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
-          //getDocument
-          Form(
-              key: trackerCustomEventForm,
-              child: Column(children: [
-                const SizedBox(height: 20),
-                SizedBox(
-                    width: 350,
-                    child: TextFormField(
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter some text';
-                        }
-                        return null;
-                      },
-                      controller: labelController,
-                      decoration: const InputDecoration(border: OutlineInputBorder(), labelText: "label"),
-                      keyboardType: TextInputType.text,
-                    )),
-                const SizedBox(height: 20),
-                SizedBox(
-                    width: 350,
-                    child: TextFormField(
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter some text';
-                        }
-                        return null;
-                      },
-                      controller: actionController,
-                      decoration: const InputDecoration(border: OutlineInputBorder(), labelText: "action"),
-                      keyboardType: TextInputType.text,
-                    )),
-                const SizedBox(height: 20),
-                SizedBox(
-                    width: 350,
-                    child: TextFormField(
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter some text';
-                        }
-                        return null;
-                      },
-                      controller: customIdentifierController,
-                      decoration: const InputDecoration(border: OutlineInputBorder(), labelText: "customIdentifier"),
-                      keyboardType: TextInputType.text,
-                    )),
-                const SizedBox(height: 20),
-                SizedBox(
-                  width: 350,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Flexible(
+        child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              //getDocument
+              Form(
+                  key: trackerCustomEventForm,
+                  child: Column(children: [
+                    const SizedBox(height: 20),
+                    SizedBox(
+                        width: 350,
                         child: TextFormField(
                           validator: (value) {
                             if (value == null || value.isEmpty) {
@@ -84,15 +42,14 @@ class _TrackerMethodsViewState extends State<TrackerMethodsView> with AutomaticK
                             }
                             return null;
                           },
-                          controller: firstKeyCustomParamController,
-                          decoration: const InputDecoration(border: OutlineInputBorder(), labelText: "first param key"),
+                          controller: labelController,
+                          decoration: const InputDecoration(
+                              border: OutlineInputBorder(), labelText: "label"),
                           keyboardType: TextInputType.text,
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 20.0,
-                      ),
-                      Flexible(
+                        )),
+                    const SizedBox(height: 20),
+                    SizedBox(
+                        width: 350,
                         child: TextFormField(
                           validator: (value) {
                             if (value == null || value.isEmpty) {
@@ -100,21 +57,15 @@ class _TrackerMethodsViewState extends State<TrackerMethodsView> with AutomaticK
                             }
                             return null;
                           },
-                          controller: firstValueCustomParamController,
-                          decoration: const InputDecoration(border: OutlineInputBorder(), labelText: "first param value"),
+                          controller: actionController,
+                          decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText: "action"),
                           keyboardType: TextInputType.text,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 10),
-                SizedBox(
-                  width: 350,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Flexible(
+                        )),
+                    const SizedBox(height: 20),
+                    SizedBox(
+                        width: 350,
                         child: TextFormField(
                           validator: (value) {
                             if (value == null || value.isEmpty) {
@@ -122,54 +73,130 @@ class _TrackerMethodsViewState extends State<TrackerMethodsView> with AutomaticK
                             }
                             return null;
                           },
-                          controller: secondKeyCustomParamController,
-                          decoration: const InputDecoration(border: OutlineInputBorder(), labelText: "second param key"),
+                          controller: customIdentifierController,
+                          decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText: "customIdentifier"),
                           keyboardType: TextInputType.text,
-                        ),
+                        )),
+                    const SizedBox(height: 20),
+                    SizedBox(
+                      width: 350,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Flexible(
+                            child: TextFormField(
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Please enter some text';
+                                }
+                                return null;
+                              },
+                              controller: firstKeyCustomParamController,
+                              decoration: const InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  labelText: "first param key"),
+                              keyboardType: TextInputType.text,
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 20.0,
+                          ),
+                          Flexible(
+                            child: TextFormField(
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Please enter some text';
+                                }
+                                return null;
+                              },
+                              controller: firstValueCustomParamController,
+                              decoration: const InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  labelText: "first param value"),
+                              keyboardType: TextInputType.text,
+                            ),
+                          ),
+                        ],
                       ),
-                      const SizedBox(
-                        width: 20.0,
+                    ),
+                    const SizedBox(height: 10),
+                    SizedBox(
+                      width: 350,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Flexible(
+                            child: TextFormField(
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Please enter some text';
+                                }
+                                return null;
+                              },
+                              controller: secondKeyCustomParamController,
+                              decoration: const InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  labelText: "second param key"),
+                              keyboardType: TextInputType.text,
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 20.0,
+                          ),
+                          Flexible(
+                            child: TextFormField(
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Please enter some text';
+                                }
+                                return null;
+                              },
+                              controller: secondValueCustomParamController,
+                              decoration: const InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  labelText: "second param value"),
+                              keyboardType: TextInputType.text,
+                            ),
+                          ),
+                        ],
                       ),
-                      Flexible(
-                        child: TextFormField(
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter some text';
-                            }
-                            return null;
-                          },
-                          controller: secondValueCustomParamController,
-                          decoration: const InputDecoration(border: OutlineInputBorder(), labelText: "second param value"),
-                          keyboardType: TextInputType.text,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 40),
-                ElevatedButton.icon(
-                    onPressed: () {
-                      if (trackerCustomEventForm.currentState!.validate()) {
-                        _trackerCall(
-                            labelController.text,
-                            actionController.text,
-                            customIdentifierController.text,
-                            firstKeyCustomParamController.text,
-                            firstValueCustomParamController.text,
-                            secondKeyCustomParamController.text,
-                            secondValueCustomParamController.text);
-                      }
-                    },
-                    icon: const Icon(Icons.event),
-                    label: const Text('TrackerMethodsView Custom Event test')),
-                const SizedBox(height: 20),
-              ]))
-        ]));
+                    ),
+                    const SizedBox(height: 40),
+                    ElevatedButton.icon(
+                        onPressed: () {
+                          if (trackerCustomEventForm.currentState!.validate()) {
+                            _trackerCall(
+                                labelController.text,
+                                actionController.text,
+                                customIdentifierController.text,
+                                firstKeyCustomParamController.text,
+                                firstValueCustomParamController.text,
+                                secondKeyCustomParamController.text,
+                                secondValueCustomParamController.text);
+                          }
+                        },
+                        icon: const Icon(Icons.event),
+                        label:
+                            const Text('TrackerMethodsView Custom Event test')),
+                    const SizedBox(height: 20),
+                  ]))
+            ]));
   }
 
-  Future<void> _trackerCall(String label, String action, String customIdentifier, String firstKeyCustomParam, String firstValueCustomParam,
-      String secondKeyCustomParam, String secondValueCustomParam) async {
-    final paramMap = <String, String>{firstKeyCustomParam: firstValueCustomParam, secondKeyCustomParam: secondValueCustomParam};
+  Future<void> _trackerCall(
+      String label,
+      String action,
+      String customIdentifier,
+      String firstKeyCustomParam,
+      String firstValueCustomParam,
+      String secondKeyCustomParam,
+      String secondValueCustomParam) async {
+    final paramMap = <String, String>{
+      firstKeyCustomParam: firstValueCustomParam,
+      secondKeyCustomParam: secondValueCustomParam
+    };
     CustomEvent event = CustomEvent(label, action, paramMap);
     Synerise.tracker.send(event);
     Synerise.tracker.setCustomIdentifier(customIdentifier);

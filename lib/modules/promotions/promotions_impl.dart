@@ -21,7 +21,8 @@ class PromotionsImpl extends BaseModule {
   /// Args:
   ///   promotionsApiQuery (PromotionsApiQuery): It is an object of type PromotionsApiQuery which
   /// contains the query parameters for the promotions API.
-  Future<PromotionResponse> getPromotions(PromotionsApiQuery promotionsApiQuery) async {
+  Future<PromotionResponse> getPromotions(
+      PromotionsApiQuery promotionsApiQuery) async {
     return _methods.getPromotions(promotionsApiQuery);
   }
 
@@ -83,7 +84,8 @@ class PromotionsImpl extends BaseModule {
   /// Args:
   ///   promotionsToActivate (List<PromotionIdentifier>): A list of PromotionIdentifier objects
   /// representing the promotions that need to be activated.
-  Future<void> activatePromotionsBatch(List<PromotionIdentifier> promotionsToActivate) async {
+  Future<void> activatePromotionsBatch(
+      List<PromotionIdentifier> promotionsToActivate) async {
     return _methods.activatePromotionsBatch(promotionsToActivate);
   }
 
@@ -94,7 +96,8 @@ class PromotionsImpl extends BaseModule {
   /// PromotionIdentifier objects that contains the promotions that need to be deactivated. The method
   /// deactivatePromotionsBatch() takes this list as a parameter and deactivates all the promotions in
   /// the list.
-  Future<void> deactivatePromotionsBatch(List<PromotionIdentifier> promotionsToDeactivate) async {
+  Future<void> deactivatePromotionsBatch(
+      List<PromotionIdentifier> promotionsToDeactivate) async {
     return _methods.deactivatePromotionsBatch(promotionsToDeactivate);
   }
 

@@ -10,7 +10,8 @@ class SimpleAuthentication extends StatefulWidget {
   State<SimpleAuthentication> createState() => _SimpleAuthenticationState();
 }
 
-class _SimpleAuthenticationState extends State<SimpleAuthentication> with AutomaticKeepAliveClientMixin {
+class _SimpleAuthenticationState extends State<SimpleAuthentication>
+    with AutomaticKeepAliveClientMixin {
   final emailController = TextEditingController();
   final customIDController = TextEditingController();
   final firstNameController = TextEditingController();
@@ -32,22 +33,26 @@ class _SimpleAuthenticationState extends State<SimpleAuthentication> with Automa
             children: <Widget>[
               TextFormField(
                 controller: emailController,
-                decoration: const InputDecoration(border: OutlineInputBorder(), labelText: "email"),
+                decoration: const InputDecoration(
+                    border: OutlineInputBorder(), labelText: "email"),
                 keyboardType: TextInputType.text,
               ),
               TextFormField(
                 controller: customIDController,
-                decoration: const InputDecoration(border: OutlineInputBorder(), labelText: "customID"),
+                decoration: const InputDecoration(
+                    border: OutlineInputBorder(), labelText: "customID"),
                 keyboardType: TextInputType.text,
               ),
               TextFormField(
                 controller: firstNameController,
-                decoration: const InputDecoration(border: OutlineInputBorder(), labelText: "First Name"),
+                decoration: const InputDecoration(
+                    border: OutlineInputBorder(), labelText: "First Name"),
                 keyboardType: TextInputType.text,
               ),
               TextFormField(
                 controller: lastNameController,
-                decoration: const InputDecoration(border: OutlineInputBorder(), labelText: "Last Name"),
+                decoration: const InputDecoration(
+                    border: OutlineInputBorder(), labelText: "Last Name"),
                 keyboardType: TextInputType.text,
               ),
               TextFormField(
@@ -58,14 +63,19 @@ class _SimpleAuthenticationState extends State<SimpleAuthentication> with Automa
                   return null;
                 },
                 controller: authIDController,
-                decoration: const InputDecoration(border: OutlineInputBorder(), labelText: "authID"),
+                decoration: const InputDecoration(
+                    border: OutlineInputBorder(), labelText: "authID"),
                 keyboardType: TextInputType.text,
               ),
               ElevatedButton.icon(
                   onPressed: () {
                     if (simpleAuthenticationForm.currentState!.validate()) {
-                      _simpleAuthenticationCall(emailController.text, customIDController.text, firstNameController.text,
-                          lastNameController.text, authIDController.text);
+                      _simpleAuthenticationCall(
+                          emailController.text,
+                          customIDController.text,
+                          firstNameController.text,
+                          lastNameController.text,
+                          authIDController.text);
                     }
                   },
                   icon: const Icon(Icons.person_pin),
@@ -79,12 +89,19 @@ class _SimpleAuthenticationState extends State<SimpleAuthentication> with Automa
         )));
   }
 
-  Future<void> _simpleAuthenticationCall(String email, String customID, String firstName, String lastName, String authID) async {
-    ClientSimpleAuthenticationData data =
-        ClientSimpleAuthenticationData(firstName: firstName, lastName: lastName, email: email, customId: customID);
-    await Synerise.client.simpleAuthentication(data, authID).catchError((error) {
+  Future<void> _simpleAuthenticationCall(String email, String customID,
+      String firstName, String lastName, String authID) async {
+    ClientSimpleAuthenticationData data = ClientSimpleAuthenticationData(
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        customId: customID);
+    await Synerise.client
+        .simpleAuthentication(data, authID)
+        .catchError((error) {
       String errorMessage = Utils.handlePlatformException(error);
-      Utils.displaySimpleAlert("error on handling api call \n $errorMessage", context);
+      Utils.displaySimpleAlert(
+          "error on handling api call \n $errorMessage", context);
       throw Exception(errorMessage);
     });
     if (!mounted) return;
@@ -92,9 +109,12 @@ class _SimpleAuthenticationState extends State<SimpleAuthentication> with Automa
   }
 
   Future<void> _isSignedInViaSimpleAuthenticationCall() async {
-    bool result = await Synerise.client.isSignedInViaSimpleAuthentication().catchError((error) {
+    bool result = await Synerise.client
+        .isSignedInViaSimpleAuthentication()
+        .catchError((error) {
       String errorMessage = Utils.handlePlatformException(error);
-      Utils.displaySimpleAlert("error on handling api call \n $errorMessage", context);
+      Utils.displaySimpleAlert(
+          "error on handling api call \n $errorMessage", context);
       throw Exception(errorMessage);
     });
     if (result == true) {

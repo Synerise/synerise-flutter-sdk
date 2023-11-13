@@ -16,7 +16,8 @@ class ClientMethodsView extends StatefulWidget {
   State<ClientMethodsView> createState() => _ClientMethodsViewState();
 }
 
-class _ClientMethodsViewState extends State<ClientMethodsView> with AutomaticKeepAliveClientMixin {
+class _ClientMethodsViewState extends State<ClientMethodsView>
+    with AutomaticKeepAliveClientMixin {
   _tempFormBody() {
     return ButtonBar(
       alignment: MainAxisAlignment.center,
@@ -34,7 +35,8 @@ class _ClientMethodsViewState extends State<ClientMethodsView> with AutomaticKee
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const RegisterAccountView()),
+                MaterialPageRoute(
+                    builder: (context) => const RegisterAccountView()),
               );
             },
             icon: const Icon(Icons.logout),
@@ -43,7 +45,8 @@ class _ClientMethodsViewState extends State<ClientMethodsView> with AutomaticKee
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const UpdateAccountView()),
+                MaterialPageRoute(
+                    builder: (context) => const UpdateAccountView()),
               );
             },
             icon: const Icon(Icons.update_outlined),
@@ -52,7 +55,8 @@ class _ClientMethodsViewState extends State<ClientMethodsView> with AutomaticKee
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const ChangePasswordView()),
+                MaterialPageRoute(
+                    builder: (context) => const ChangePasswordView()),
               );
             },
             icon: const Icon(Icons.password_sharp),
@@ -61,7 +65,8 @@ class _ClientMethodsViewState extends State<ClientMethodsView> with AutomaticKee
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const ActivateAccountByPinView()),
+                MaterialPageRoute(
+                    builder: (context) => const ActivateAccountByPinView()),
               );
             },
             icon: const Icon(Icons.pin),
@@ -70,7 +75,8 @@ class _ClientMethodsViewState extends State<ClientMethodsView> with AutomaticKee
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const ChangeEmailAndPhoneView()),
+                MaterialPageRoute(
+                    builder: (context) => const ChangeEmailAndPhoneView()),
               );
             },
             icon: const Icon(Icons.email),
@@ -79,7 +85,9 @@ class _ClientMethodsViewState extends State<ClientMethodsView> with AutomaticKee
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const RegenerateUUIDWithClientIdentifierView()),
+                MaterialPageRoute(
+                    builder: (context) =>
+                        const RegenerateUUIDWithClientIdentifierView()),
               );
             },
             icon: const Icon(Icons.numbers_outlined),
@@ -88,7 +96,8 @@ class _ClientMethodsViewState extends State<ClientMethodsView> with AutomaticKee
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const SimpleAuthenticationView()),
+                MaterialPageRoute(
+                    builder: (context) => const SimpleAuthenticationView()),
               );
             },
             icon: const Icon(Icons.person_pin),
@@ -192,7 +201,6 @@ class ActivateAccountByPinView extends StatelessWidget {
   }
 }
 
-
 class ChangeEmailAndPhoneView extends StatelessWidget {
   const ChangeEmailAndPhoneView({super.key});
 
@@ -216,7 +224,8 @@ class RegenerateUUIDWithClientIdentifierView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('RegenerateUUIDWithClientIdentifier Native Method Test'),
+        title:
+            const Text('RegenerateUUIDWithClientIdentifier Native Method Test'),
       ),
       body: const Center(
         child: RegenerateUUIDWithClientIdentifier(),

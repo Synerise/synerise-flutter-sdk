@@ -13,6 +13,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+static NSString * const sdkPluginVersion = @"0.7.2";
+
 @interface FSynerise () <SNRSyneriseDelegate>
 
 @end
@@ -67,6 +69,7 @@ NS_ASSUME_NONNULL_BEGIN
     [SNRSynerise setDebugModeEnabled:debugModeEnabled];
     [SNRSynerise setCrashHandlingEnabled:crashHandlingEnabled];
     [SNRSynerise setHostApplicationType:SNRHostApplicationTypeFlutter];
+    [SNRSynerise setHostApplicationSDKPluginVersion:sdkPluginVersion];
     result([NSNumber numberWithBool:YES]);
 }
 

@@ -9,7 +9,8 @@ enum RecommendationFiltersJoinerRule {
 
   final String recommendationFiltersJoinerRule;
 
-  static RecommendationFiltersJoinerRule? getRecommendationFiltersJoinerRuleFromString(String string) {
+  static RecommendationFiltersJoinerRule?
+      getRecommendationFiltersJoinerRuleFromString(String string) {
     if (string == 'and') {
       return RecommendationFiltersJoinerRule.and;
     } else if (string == 'or') {
@@ -61,9 +62,11 @@ class RecommendationOptions {
         'productIDs': productIDs,
         'itemsExcluded': itemsExcluded,
         'additionalFilters': additionalFilters,
-        'filtersJoiner': filtersJoiner?.recommendationFiltersJoinerRuleAsString(),
+        'filtersJoiner':
+            filtersJoiner?.recommendationFiltersJoinerRuleAsString(),
         'additionalElasticFilters': additionalElasticFilters,
-        'elasticFiltersJoiner': elasticFiltersJoiner?.recommendationFiltersJoinerRuleAsString(),
+        'elasticFiltersJoiner':
+            elasticFiltersJoiner?.recommendationFiltersJoinerRuleAsString(),
         'displayAttribute': displayAttribute,
         'includeContextItems': includeContextItems,
       };

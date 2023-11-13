@@ -37,7 +37,8 @@ class ContentImpl extends BaseModule {
   /// Args:
   ///   documentsApiQueryModel (DocumentsApiQuery): An object for configuration of the query parameters
   @Deprecated('Deprecated in version 0.6.0')
-  Future<List<Map<String, Object>>> getDocuments(DocumentsApiQuery documentsApiQueryModel) async {
+  Future<List<Map<String, Object>>> getDocuments(
+      DocumentsApiQuery documentsApiQueryModel) async {
     return _methods.getDocuments(documentsApiQueryModel);
   }
 
@@ -47,7 +48,8 @@ class ContentImpl extends BaseModule {
   /// Args:
   ///   recommendationOptions (RecommendationOptions): Object for configuration of the options parameters.
   @Deprecated('Deprecated in version 0.6.0')
-  Future<RecommendationResponse> getRecommendations(RecommendationOptions recommendationOptions) async {
+  Future<RecommendationResponse> getRecommendations(
+      RecommendationOptions recommendationOptions) async {
     return _methods.getRecommendations(recommendationOptions);
   }
 
@@ -55,7 +57,8 @@ class ContentImpl extends BaseModule {
   ///
   /// Args:
   ///   recommendationOptions (RecommendationOptions): Object for configuration of the options parameters.
-  Future<RecommendationResponse> getRecommendationsV2(RecommendationOptions recommendationOptions) async {
+  Future<RecommendationResponse> getRecommendationsV2(
+      RecommendationOptions recommendationOptions) async {
     return _methods.getRecommendationsV2(recommendationOptions);
   }
 

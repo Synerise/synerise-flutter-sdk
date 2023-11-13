@@ -10,7 +10,8 @@ class SyneriseUtils {
   /// corresponding to the input `timestampInMiliseconds`.
   static DateTime formatIntToDateTime(int timestampInMiliseconds) {
     DateTime dateTime;
-    dateTime = DateTime.fromMillisecondsSinceEpoch(timestampInMiliseconds, isUtc: true);
+    dateTime = DateTime.fromMillisecondsSinceEpoch(timestampInMiliseconds,
+        isUtc: true);
     return dateTime;
   }
 }

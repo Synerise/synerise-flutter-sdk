@@ -7,10 +7,13 @@ class RegenerateUUIDWithClientIdentifier extends StatefulWidget {
   const RegenerateUUIDWithClientIdentifier({super.key});
 
   @override
-  State<RegenerateUUIDWithClientIdentifier> createState() => _RegenerateUUIDWithClientIdentifierState();
+  State<RegenerateUUIDWithClientIdentifier> createState() =>
+      _RegenerateUUIDWithClientIdentifierState();
 }
 
-class _RegenerateUUIDWithClientIdentifierState extends State<RegenerateUUIDWithClientIdentifier> with AutomaticKeepAliveClientMixin {
+class _RegenerateUUIDWithClientIdentifierState
+    extends State<RegenerateUUIDWithClientIdentifier>
+    with AutomaticKeepAliveClientMixin {
   final clientIdentifierController = TextEditingController();
 
   final regenerateUUIDWithClientIdentifierForm = GlobalKey<FormState>();
@@ -36,13 +39,17 @@ class _RegenerateUUIDWithClientIdentifierState extends State<RegenerateUUIDWithC
                           return null;
                         },
                         controller: clientIdentifierController,
-                        decoration: const InputDecoration(border: OutlineInputBorder(), labelText: "clientIdentifier"),
+                        decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            labelText: "clientIdentifier"),
                         keyboardType: TextInputType.text,
                       ))),
               ElevatedButton.icon(
                   onPressed: () {
-                    if (regenerateUUIDWithClientIdentifierForm.currentState!.validate()) {
-                      _regenerateUUIDWithClientIdentifierCall(clientIdentifierController.text);
+                    if (regenerateUUIDWithClientIdentifierForm.currentState!
+                        .validate()) {
+                      _regenerateUUIDWithClientIdentifierCall(
+                          clientIdentifierController.text);
                     }
                   },
                   icon: const Icon(Icons.pin),
@@ -52,18 +59,24 @@ class _RegenerateUUIDWithClientIdentifierState extends State<RegenerateUUIDWithC
         ));
   }
 
-  Future<void> _regenerateUUIDWithClientIdentifierCall(String clientIdentifier) async {
-    final bool result = await Synerise.client.regenerateUUIDWithClientIdentifier(clientIdentifier).catchError((error) {
+  Future<void> _regenerateUUIDWithClientIdentifierCall(
+      String clientIdentifier) async {
+    final bool result = await Synerise.client
+        .regenerateUUIDWithClientIdentifier(clientIdentifier)
+        .catchError((error) {
       String errorMessage = Utils.handlePlatformException(error);
-      Utils.displaySimpleAlert("error on handling api call \n $errorMessage", context);
+      Utils.displaySimpleAlert(
+          "error on handling api call \n $errorMessage", context);
       throw Exception(errorMessage);
     });
     if (result == true) {
       if (!mounted) return;
-      Utils.displaySimpleAlert("regenerateUUIDWithClientIdentifier succcesful", context);
+      Utils.displaySimpleAlert(
+          "regenerateUUIDWithClientIdentifier succcesful", context);
     } else {
       if (!mounted) return;
-      Utils.displaySimpleAlert("regenerateUUIDWithClientIdentifier failed, result false", context);
+      Utils.displaySimpleAlert(
+          "regenerateUUIDWithClientIdentifier failed, result false", context);
     }
   }
 

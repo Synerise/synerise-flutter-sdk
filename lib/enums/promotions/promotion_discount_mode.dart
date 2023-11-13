@@ -15,7 +15,8 @@ enum PromotionDiscountMode {
   /// value. It checks if the input string matches either `'STATIC'` or `'STEP'`, and returns the
   /// corresponding enum value (`staticMode` or `stepMode`). If the input string does not match either
   /// of these values, it returns the default value of `staticMode`.
-  static PromotionDiscountMode getPromotionDiscountModeFromString(String string) {
+  static PromotionDiscountMode getPromotionDiscountModeFromString(
+      String string) {
     if (string == 'STATIC') {
       return PromotionDiscountMode.staticMode;
     } else if (string == 'STEP') {

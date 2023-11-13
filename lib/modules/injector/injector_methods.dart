@@ -6,17 +6,21 @@ import '../base/base_module_method_channel.dart';
 class InjectorMethods extends BaseMethodChannel {
   Future<void> setBannerShouldPresentFlag(bool flag) async {
     WidgetsFlutterBinding.ensureInitialized();
-    backgroundMethodChannel.invokeMethod("Injector/setBannerShouldPresentFlag", flag);
+    backgroundMethodChannel.invokeMethod(
+        "Injector/setBannerShouldPresentFlag", flag);
   }
 
   Future<void> setInAppMessageShouldPresentFlag(bool flag) async {
     WidgetsFlutterBinding.ensureInitialized();
-    backgroundMethodChannel.invokeMethod("Injector/setInAppMessageShouldPresentFlag", flag);
+    backgroundMethodChannel.invokeMethod(
+        "Injector/setInAppMessageShouldPresentFlag", flag);
   }
 
-  Future<void> setInAppMessageContext(HashMap<dynamic, dynamic>? context) async {
+  Future<void> setInAppMessageContext(
+      HashMap<dynamic, dynamic>? context) async {
     WidgetsFlutterBinding.ensureInitialized();
-    backgroundMethodChannel.invokeMethod("Injector/setInAppMessageContext", context);
+    backgroundMethodChannel.invokeMethod(
+        "Injector/setInAppMessageContext", context);
   }
 
   void getWalkthrough() async {
@@ -28,12 +32,14 @@ class InjectorMethods extends BaseMethodChannel {
   }
 
   Future<bool> isWalkthroughLoaded() async {
-    bool isWalkthroughLoaded = await methodChannel.invokeMethod('Injector/isWalkthroughLoaded');
+    bool isWalkthroughLoaded =
+        await methodChannel.invokeMethod('Injector/isWalkthroughLoaded');
     return isWalkthroughLoaded;
   }
 
   Future<bool> isLoadedWalkthroughUnique() async {
-    bool isLoadedWalkthroughUnique = await methodChannel.invokeMethod('Injector/isLoadedWalkthroughUnique');
+    bool isLoadedWalkthroughUnique =
+        await methodChannel.invokeMethod('Injector/isLoadedWalkthroughUnique');
     return isLoadedWalkthroughUnique;
   }
 }
