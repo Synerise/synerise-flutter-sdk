@@ -3,18 +3,18 @@
 # Run `pod lib lint synerise_flutter_sdk.podspec` to validate before publishing.
 #
 
-SYNERISE_SDK_FRAMEWORK_VERSION = '4.14.7'
+SYNERISE_SDK_FRAMEWORK_VERSION = '4.14.9'
 
 Pod::Spec.new do |s|
   s.name             = 'synerise_flutter_sdk'
-  s.version          = '0.7.2'
+  s.version          = '0.7.3'
   s.summary          = 'Synerise Flutter SDK'
   s.description      = <<-DESC
 Synerise Flutter SDK
                        DESC
-  s.homepage         = 'http://example.com'
+  s.homepage         = 'http://synerise.com'
   s.license          = { :file => '../LICENSE' }
-  s.author           = { 'Your Company' => 'email@example.com' }
+  s.author           = { 'Synerise' => 'developer@synerise.com' }
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*'
   s.public_header_files = 'Classes/**/*.h'

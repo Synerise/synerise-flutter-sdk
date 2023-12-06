@@ -11,12 +11,6 @@ import UserNotificationsUI
 import SyneriseSDK
 
 class NotificationViewController: SingleMediaContentExtensionViewController, UNNotificationContentExtension {
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        view.backgroundColor = UIColor.red
-    }
     
     func didReceive(_ notification: UNNotification) {
         Synerise.settings.sdk.appGroupIdentifier = "group.com.synerise.sdk.flutter"

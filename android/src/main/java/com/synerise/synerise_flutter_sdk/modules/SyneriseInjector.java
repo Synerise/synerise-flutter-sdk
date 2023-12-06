@@ -1,8 +1,5 @@
 package com.synerise.synerise_flutter_sdk.modules;
 
-import android.os.Handler;
-import android.os.Looper;
-
 import com.synerise.sdk.error.ApiError;
 import com.synerise.sdk.injector.Injector;
 
@@ -27,7 +24,20 @@ import io.flutter.plugin.common.MethodChannel;
 public class SyneriseInjector implements SyneriseModule {
     @Override
     public void handleMethodCall(MethodCall call, MethodChannel.Result result, String calledMethod) {
-
+        switch (calledMethod) {
+            case "getWalkthrough":
+                getWalkthrough(result);
+                return;
+            case "showWalkthrough":
+                showWalkthrough(result);
+                return;
+            case "isWalkthroughLoaded":
+                isWalkthroughLoaded(result);
+                return;
+            case "isLoadedWalkthroughUnique":
+                isLoadedWalkthroughUnique(result);
+                return;
+        }
     }
 
     public static void registerListeners() {
@@ -201,5 +211,25 @@ public class SyneriseInjector implements SyneriseModule {
         dataMap.put("additionalParameters", inAppMessageData.getAdditionalParameters());
         dataMap.put("isTest", inAppMessageData.getTest());
         return dataMap;
+    }
+
+    private static void getWalkthrough(MethodChannel.Result result) {
+        Injector.getWalkthrough();
+        SyneriseModule.executeSuccessResult(null, result);
+    }
+
+    private static void showWalkthrough(MethodChannel.Result result) {
+        Injector.showWalkthrough();
+        SyneriseModule.executeSuccessResult(null, result);
+    }
+
+    private static void isWalkthroughLoaded(MethodChannel.Result result) {
+        boolean isWalkthroughLoaded =  Injector.isWalkthroughLoaded();
+        SyneriseModule.executeSuccessResult(isWalkthroughLoaded, result);
+    }
+
+    private static void isLoadedWalkthroughUnique(MethodChannel.Result result) {
+        boolean isLoadedWalkthroughUnique = Injector.isLoadedWalkthroughUnique();
+        SyneriseModule.executeSuccessResult(isLoadedWalkthroughUnique, result);
     }
 }

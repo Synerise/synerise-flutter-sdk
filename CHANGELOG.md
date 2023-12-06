@@ -1,6 +1,15 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [0.7.3] - 2023-12-05
+### Fixed
+- [iOS] Potential issues with Simple Authentication requests.
+- [iOS] Issue with location of some SDK files in the Documents directory. The old location caused the SDK files to be visible in the shared documents directory if the host application file sharing was enabled.
+- [iOS] Potential issue with native notification buttons when Simple Push campaign contained Rich Media (Single Media) or had a custom notification category identifier.
+
+### Changed
+- Update of native SDK's dependencies.
+
 ## [0.7.2] - 2023-11-13
 ### Added
 - `setRequestValidationSalt` is now optional. Salt is not required for simpleAuthentication, but we recommend using it for improved security (it needs to be enabled in the Synerise portal first).
