@@ -4,7 +4,7 @@
 [![Platform](https://img.shields.io/badge/platform-Android-orange.svg)](https://github.com/synerise/android-sdk)
 [![Languages](https://img.shields.io/badge/language-Dart%20%7C%20Java%20%7C%20Objective--C-orange.svg)](https://github.com/synerise/synerise-flutter-sdk)
 [![Synerise](https://img.shields.io/badge/www-synerise-green.svg)](https://synerise.com)
-[![Documentation](https://img.shields.io/badge/docs-latest-brightgreen.svg)](https://hub.synerise.com)
+[![Documentation](https://img.shields.io/badge/docs-mobile%20sdk-brightgreen.svg)](https://hub.synerise.com/developers/mobile-sdk/)
 
 ---
 
