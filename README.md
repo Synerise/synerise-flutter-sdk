@@ -4,7 +4,7 @@
 [![Platform](https://img.shields.io/badge/platform-Android-orange.svg)](https://github.com/synerise/android-sdk)
 [![Languages](https://img.shields.io/badge/language-Dart%20%7C%20Java%20%7C%20Objective--C-orange.svg)](https://github.com/synerise/synerise-flutter-sdk)
 [![Synerise](https://img.shields.io/badge/www-synerise-green.svg)](https://synerise.com)
-[![Documentation](https://img.shields.io/badge/docs-latest-brightgreen.svg)](https://help.synerise.com/developers/mobile-sdk/)
+[![Documentation](https://img.shields.io/badge/docs-latest-brightgreen.svg)](https://hub.synerise.com)
 
 ---
 
@@ -12,7 +12,7 @@
 [Synerise](https://www.synerise.com) SDK plugin for Flutter.
 
 ## Documentation
-Most up-to-date documentation is available at [Synerise Help Center - Mobile SDK](https://help.synerise.com/developers/mobile-sdk).
+Most up-to-date documentation is available at [Developer Guide - Mobile SDK](https://hub.synerise.com/developers/mobile-sdk).
 
 ## Requirements
 * Access to workspace
@@ -96,6 +96,11 @@ public void configureFlutterEngine(@NonNull FlutterEngine flutterEngine) {
 In iOS portion of your application (/ios) you will need to run `pod update`.
 
 ## Initialization
+
+First of all, you need to initialize Synerise Flutter SDK and provide `Profile API Key`.
+  
+To get `Profile API Key`, please sign in to your Synerise account and visit [https://app.synerise.com/settings/apikeys](https://app.synerise.com/settings/apikeys).
+Then, generate new `API Key` for `Profile` audience.
 
 ```
 Synerise.initializer()
