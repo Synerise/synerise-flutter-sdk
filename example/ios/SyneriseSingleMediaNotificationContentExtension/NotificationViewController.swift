@@ -13,7 +13,7 @@ import SyneriseSDK
 class NotificationViewController: SingleMediaContentExtensionViewController, UNNotificationContentExtension {
     
     func didReceive(_ notification: UNNotification) {
-        Synerise.settings.sdk.appGroupIdentifier = "group.com.synerise.sdk.flutter"
+        Synerise.settings.sdk.appGroupIdentifier = "group.com.synerise.sdk.sample-flutter"
         Synerise.settings.sdk.keychainGroupIdentifier = "34N2Z22TKH.FlutterKeychainGroup"
         
         setSyneriseNotification(notification)

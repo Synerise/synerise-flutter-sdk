@@ -26,20 +26,27 @@ class _InitialViewState extends State<InitialView> {
   @override
   void initState() {
     initializeSynerise();
-    initializeFirebase();
+    setupNotifications();
+    checkForInitialNotificationMessage();
+
     super.initState();
   }
 
   Future<void> initializeSynerise() async {
-    Synerise.settings.sdk.appGroupIdentifier = "group.com.synerise.sdk.flutter";
+    Synerise.settings.sdk.appGroupIdentifier = "group.com.synerise.sdk.sample-flutter";
     Synerise.settings.sdk.keychainGroupIdentifier =
         "34N2Z22TKH.FlutterKeychainGroup";
-    Synerise.settings.injector.automatic = true;
 
     Synerise.initializer()
         .withClientApiKey(await rootBundle.loadString('lib/api_key.txt'))
         .withDebugModeEnabled(true)
         .init();
+
+    Synerise.notifications.listener((listener) {
+      listener.onRegistrationRequired = () {
+        Synerise.notifications.registerForNotifications(firebaseToken!, true);
+      };
+    });
 
     Synerise.injector.listener((listener) {
       listener.onOpenUrl = (url) {
@@ -79,7 +86,10 @@ class _InitialViewState extends State<InitialView> {
     super.dispose();
   }
 
-  Future<void> initializeFirebase() async {
+  Future<void> setupNotifications() async {
+    await Firebase.initializeApp();
+    FirebaseMessaging.onBackgroundMessage(backgroundHandlerForFCM);
+
     await FirebaseMessaging.instance.requestPermission(
       alert: true,
       announcement: false,
@@ -90,55 +100,55 @@ class _InitialViewState extends State<InitialView> {
       sound: true,
     );
 
-    await FirebaseMessaging.instance
-        .setForegroundNotificationPresentationOptions(
+    await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
       alert: true,
       badge: true,
       sound: true,
     );
-    FirebaseMessaging.onBackgroundMessage(backgroundHandlerForFCM);
+
+    FirebaseMessaging.instance.getToken().then((token) {
+      if (token != null) {
+        Synerise.notifications.registerForNotifications(token, true);
+        firebaseToken = token;
+      }
+    });
 
     FirebaseMessaging.instance.onTokenRefresh.listen((event) {
-      FirebaseMessaging.instance.getToken().then((value) {
-        if (value != null) {
-          Synerise.notifications.registerForNotifications(value, true);
+      FirebaseMessaging.instance.getToken().then((token) {
+        if (token != null) {
+          Synerise.notifications.registerForNotifications(token, true);
+          firebaseToken = token;
         }
       });
     });
-    await FirebaseMessaging.instance.getToken().then((value) {
-      if (value != null) {
-        Synerise.notifications.registerForNotifications(value, true);
-        firebaseToken = value;
-      }
-    });
-    await FirebaseMessaging.instance.getInitialMessage().then((message) {
-      if (message != null) {
-        Synerise.notifications.handleNotificationClick(message.toMap());
-      }
+
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
+      Map messageMap = message.toMap();
+      bool isSyneriseNotification = await Synerise.notifications.isSyneriseNotification(messageMap);
+      if (isSyneriseNotification == true) {
+        Synerise.notifications.handleNotification(messageMap);
+      }      
     });
 
-    FirebaseMessaging.onMessage.listen((
-      RemoteMessage message,
-    ) async {
-      Map<String, dynamic> remoteMessageMap = message.toMap();
-      bool isSyneriseNotification =
-          await Synerise.notifications.isSyneriseNotification(remoteMessageMap);
-      if (isSyneriseNotification) {
-        Synerise.notifications.handleNotification(remoteMessageMap);
-      } else {
-        //custom notification handling
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) async {
+      Map messageMap = message.toMap();
+      bool isSyneriseNotification = await Synerise.notifications.isSyneriseNotification(messageMap);
+      if (isSyneriseNotification == true) {
+        Synerise.notifications.handleNotificationClick(messageMap);
       }
     });
+  }
 
-    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      Synerise.notifications.handleNotificationClick(message.toMap());
-    });
-
-    Synerise.notifications.listener((listener) {
-      listener.onRegistrationRequired = () {
-        Synerise.notifications.registerForNotifications(firebaseToken!, true);
-      };
-    });
+  Future<void> checkForInitialNotificationMessage() async {
+    await Firebase.initializeApp();
+    RemoteMessage? message = await FirebaseMessaging.instance.getInitialMessage();
+    if (message != null) {
+      Map messageMap = message.toMap();
+      bool isSyneriseNotification = await Synerise.notifications.isSyneriseNotification(messageMap);
+      if (isSyneriseNotification == true) {
+        Synerise.notifications.handleNotificationClick(messageMap);
+      }
+    }
   }
 
   @override
@@ -258,7 +268,6 @@ class PromotionsView extends StatelessWidget {
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
