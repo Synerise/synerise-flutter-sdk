@@ -1,16 +1,16 @@
 // ignore_for_file: unused_local_variable
 
 import 'package:flutter/services.dart';
+import 'package:synerise_flutter_sdk/synerise.dart';
 
 import '../base/base_module.dart';
 import 'injector_methods.dart';
-import '../../model/in_app/in_app_message_data.dart';
 
 typedef InjectorListenerFunction = void Function(InjectorListener listener);
 
 class InjectorListener {
-  void Function(String url)? onOpenUrl;
-  void Function(String deepLink)? onDeepLink;
+  void Function(String url, SyneriseSource source)? onOpenUrl;
+  void Function(String deepLink, SyneriseSource source)? onDeepLink;
 
   InjectorListener();
 }
@@ -62,6 +62,19 @@ class InjectorImpl extends BaseModule {
       InjectorWalkthroughListener();
   final InjectorInAppMessageListener _inAppMessageListener =
       InjectorInAppMessageListener();
+
+  @override
+  void beforeInitialization() async {
+    super.beforeInitialization();
+    listener((listener) {
+      listener.onOpenUrl = (url, source) {
+        handleOpenUrlBySDK(url);
+      };
+      listener.onDeepLink = (deepLink, source) {
+        handleDeepLinkBySDK(deepLink);
+      };
+    });
+  }
 
   /// This function handles method calls for listeners related to opening URLs and deep links.
   void listener(InjectorListenerFunction listenerFunction) {
@@ -120,6 +133,13 @@ class InjectorImpl extends BaseModule {
         ? Map<String, dynamic>.from(call.arguments)
         : <String, dynamic>{};
 
+    SyneriseSource? source = arguments['source'] != null
+        ? SyneriseSource.fromString(arguments['source'])
+        : null;
+    if (source == null) {
+      return;
+    }
+
     if (listenerMethodName == 'onOpenUrl') {
       if (_listener.onOpenUrl != null) {
         String? url = arguments['url'];
@@ -127,7 +147,7 @@ class InjectorImpl extends BaseModule {
           return;
         }
 
-        _listener.onOpenUrl!(url);
+        _listener.onOpenUrl!(url, source);
       }
       return;
     }
@@ -138,7 +158,8 @@ class InjectorImpl extends BaseModule {
         if (deepLink == null) {
           return;
         }
-        _listener.onDeepLink!(deepLink);
+
+        _listener.onDeepLink!(deepLink, source);
       }
       return;
     }
@@ -264,6 +285,14 @@ class InjectorImpl extends BaseModule {
       }
       return;
     }
+  }
+
+  void handleOpenUrlBySDK(String url) {
+    _methods.handleOpenUrlBySDK(url);
+  }
+
+  void handleDeepLinkBySDK(String deepLink) {
+    _methods.handleDeepLinkBySDK(deepLink);
   }
 
   void getWalkthrough() {

@@ -7,11 +7,11 @@ SYNERISE_SDK_FRAMEWORK_VERSION = '4.14.9'
 
 Pod::Spec.new do |s|
   s.name             = 'synerise_flutter_sdk'
-  s.version          = '0.7.4'
-  s.summary          = 'Synerise Flutter SDK'
+  s.version          = '0.8.0'
+  s.summary          = 'Synerise SDK plugin for Flutter'
   s.description      = 'Flutter plugin for Synerise SDK'
   s.homepage         = 'http://synerise.com'
-  s.license          = { :file => '../LICENSE' }
+  s.license          = { :type => "Apache License 2.0", :file => "../LICENSE" }
   s.author           = { 'Synerise' => 'developer@synerise.com' }
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*'

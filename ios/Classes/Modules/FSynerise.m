@@ -13,7 +13,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-static NSString * const sdkPluginVersion = @"0.7.4";
+static NSString * const sdkPluginVersion = @"0.8.0";
 
 @interface FSynerise () <SNRSyneriseDelegate>
 
@@ -99,22 +99,14 @@ static NSString * const sdkPluginVersion = @"0.7.4";
 }
 
 - (void)SNR_handledActionWithURL:(NSURL *)url activity:(SNRSyneriseActivity)activity completionHandler:(SNRSyneriseActivityCompletionHandler)completionHandler {
-    if (activity == SNRSyneriseActivityInAppMessage) {
-        return;
-    }
-    
     completionHandler(SNRSyneriseActivityActionHide, ^{
-        [[FSyneriseManager sharedInstance].injector executeURLAction:url];
+        [[FSyneriseManager sharedInstance].injector executeURLAction:url activity:activity];
     });
 }
 
 - (void)SNR_handledActionWithDeepLink:(NSString *)deepLink activity:(SNRSyneriseActivity)activity completionHandler:(SNRSyneriseActivityCompletionHandler)completionHandler {
-    if (activity == SNRSyneriseActivityInAppMessage) {
-        return;
-    }
-    
     completionHandler(SNRSyneriseActivityActionHide, ^{
-        [[FSyneriseManager sharedInstance].injector executeDeepLinkAction:deepLink];
+        [[FSyneriseManager sharedInstance].injector executeDeepLinkAction:deepLink activity:activity];
     });
 }
 
