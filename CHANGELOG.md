@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [0.8.1] - 2024-01-15
+
+### Fixed
+- [iOS] In-app message did not hide automatically after invoking `SRInapp.openUrl(url)` or `SRInapp.openDeeplink(deeplink)` the action as it should
+
+
 ## [0.8.0] - 2024-01-11
 
 IMPORTANT: 

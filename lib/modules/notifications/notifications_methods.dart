@@ -46,10 +46,13 @@ class NotificationsMethods extends BaseMethodChannel {
   }
 
   Future<bool> isNotificationEncrypted(Map notification) async {
-    return await backgroundMethodChannel.invokeMethod('Notifications/isNotificationEncrypted', {'notification': notification});
+    return await backgroundMethodChannel.invokeMethod(
+        'Notifications/isNotificationEncrypted',
+        {'notification': notification});
   }
 
   Future<Map> decryptNotification(Map notification) async {
-    return await backgroundMethodChannel.invokeMethod('Notifications/decryptNotification', {'notification': notification});
+    return await backgroundMethodChannel.invokeMethod(
+        'Notifications/decryptNotification', {'notification': notification});
   }
 }
