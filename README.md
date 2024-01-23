@@ -116,5 +116,8 @@ Synerise.initializer()
 - Make sure the firebase related files `example/ios/Runner/GoogleService-Info.plist` and `example/android/app/google-services.json` are filled with your firebase project configuration data
 - Run the example app via selected sdk or execute `cd example` and `flutter run` in the terminal
 
+## Changelog
+Changelog can be found [here](./CHANGELOG.md).
+
 ## Author
 Synerise, developer@synerise.com. If you need support please feel free to contact us.
