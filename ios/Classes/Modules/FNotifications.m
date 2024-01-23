@@ -36,6 +36,10 @@ NS_ASSUME_NONNULL_BEGIN
         [self isSilentCommand:call result:result];
     } else if ([calledMethod isEqualToString:@"isSilentSDKCommand"]) {
         [self isSilentSDKCommand:call result:result];
+    } else if ([calledMethod isEqualToString:@"isNotificationEncrypted"]) {
+        [self isNotificationEncrypted:call result:result];
+    } else if ([calledMethod isEqualToString:@"decryptNotification"]) {
+        [self decryptNotification:call result:result];
     }
 }
 
@@ -165,6 +169,29 @@ NS_ASSUME_NONNULL_BEGIN
         result(isSilentSDKCommand);
     } else {
         result([self makeFlutterErrorWithMessage:@"payload mapping failure"]);
+        return;
+    }
+}
+
+- (void)isNotificationEncrypted:(FlutterMethodCall *)call result:(FlutterResult)result {
+    NSDictionary *userInfo = call.arguments;
+    
+    NSDictionary *notification = [userInfo getDictionaryForKey:@"notification"];
+    NSDictionary *payload = [self payloadDictionaryWithDictionary:notification];
+    NSNumber *isNotificationEncrypted = [NSNumber numberWithBool:[SNRSynerise isNotificationEncrypted:payload]];
+    result(isNotificationEncrypted);
+}
+
+- (void)decryptNotification:(FlutterMethodCall *)call result:(FlutterResult)result {
+    NSDictionary *userInfo = call.arguments;
+    
+    NSDictionary *notification = [userInfo getDictionaryForKey:@"notification"];
+    NSDictionary *payload = [self payloadDictionaryWithDictionary:notification];
+    NSDictionary *decryptedUserInfo = [SNRSynerise decryptNotification:payload];
+    if (decryptedUserInfo != nil) {
+        result(decryptedUserInfo);
+    } else {
+        result([self makeFlutterErrorWithMessage:@"notification decryption failed"]);
         return;
     }
 }

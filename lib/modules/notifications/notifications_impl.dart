@@ -112,4 +112,20 @@ class NotificationsImpl extends BaseModule {
   Future<bool> isSilentSDKCommand(Map notification) async {
     return _methods.isSilentSDKCommand(notification);
   }
+
+  /// The function checks if a notification is encrypted.
+  ///
+  /// Args:
+  ///   notification (Map): A map containing the notification data.
+  Future<bool> isNotificationEncrypted(Map notification) async {
+    return _methods.isNotificationEncrypted(notification);
+  }
+
+  /// The function decrypts a notification and returns it.
+  ///
+  /// Args:
+  ///   notification (Map): A Map object representing a notification that needs to be decrypted.
+  Future<Map> decryptNotification(Map notification) async {
+    return _methods.decryptNotification(notification);
+  }
 }

@@ -4,6 +4,7 @@ import com.synerise.sdk.client.Client;
 import com.synerise.sdk.core.listeners.DataActionListener;
 import com.synerise.sdk.core.listeners.OnRegisterForPushListener;
 import com.synerise.sdk.core.net.IApiCall;
+import com.synerise.sdk.core.types.exceptions.DecryptionException;
 import com.synerise.sdk.error.ApiError;
 import com.synerise.sdk.injector.Injector;
 import com.synerise.synerise_flutter_sdk.SyneriseMethodChannel;
@@ -45,6 +46,12 @@ public class SyneriseNotifications implements SyneriseModule {
                 return;
             case "isSilentSDKCommand":
                 isSilentSDKCommand(call, result);
+                return;
+            case "isNotificationEncrypted":
+                isNotificationEncrypted(call, result);
+                return;
+            case "decryptNotification":
+                decryptNotification(call, result);
                 return;
         }
     }
@@ -115,6 +122,27 @@ public class SyneriseNotifications implements SyneriseModule {
         Map<String, String> dataMap = notificationMapper(notificationMap);
         boolean isSilentSDKCommand = Injector.isSilentCommandSdk(dataMap);
         SyneriseModule.executeSuccessResult(isSilentSDKCommand, result);
+    }
+
+    public void isNotificationEncrypted(MethodCall call, MethodChannel.Result result) {
+        Map notificationMap = (Map) call.arguments;
+        Map<String, String> dataMap = notificationMapper(notificationMap);
+        boolean isNotificationEncrypted = Injector.isPushEncrypted(dataMap);
+        SyneriseModule.executeSuccessResult(isNotificationEncrypted, result);
+    }
+
+    public void decryptNotification(MethodCall call, MethodChannel.Result result) {
+        Map notificationMap = (Map) call.arguments;
+        Map<String, String> dataMap = notificationMapper(notificationMap);
+        Map<String, String> decryptedDataMap;
+        try {
+            decryptedDataMap = Injector.decryptPushPayload(dataMap);
+        } catch (DecryptionException e) {
+            result.error("notification decryption failed", e.getMessage(), e.getStackTrace());
+            return;
+        }
+
+        SyneriseModule.executeSuccessResult(decryptedDataMap, result);
     }
 
     public static OnRegisterForPushListener getPushNotificationsListener() {

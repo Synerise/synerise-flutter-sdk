@@ -1,6 +1,8 @@
 import 'package:flutter/services.dart';
 import 'dependencies.dart';
 
+var syneriseInitialized = false;
+
 class SyneriseInitializer {
   MethodChannel methodChannel = Dependencies.methodChannel;
 
@@ -76,6 +78,10 @@ class SyneriseInitializer {
   /// This function initializes a Synerise SDK instance with specified parameters and invokes a
   /// completion handler.
   Future<void> init() async {
+    if (syneriseInitialized == true) {
+      return;
+    }
+
     if (completionHandler != null) {
       completionHandler!(false);
     }
@@ -93,6 +99,8 @@ class SyneriseInitializer {
     if (completionHandler != null) {
       completionHandler!(true);
     }
+
+    syneriseInitialized = true;
 
     return result;
   }

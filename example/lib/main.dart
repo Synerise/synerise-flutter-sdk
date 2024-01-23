@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_interpolation_to_compose_strings
+
 import 'package:flutter/material.dart';
 import 'dart:developer' as developer;
 import 'package:flutter/services.dart' show rootBundle;
@@ -26,27 +28,36 @@ class _InitialViewState extends State<InitialView> {
   @override
   void initState() {
     initializeSynerise();
-    initializeFirebase();
+    setupNotifications();
+    checkForInitialNotificationMessage();
+
     super.initState();
   }
 
   Future<void> initializeSynerise() async {
-    Synerise.settings.sdk.appGroupIdentifier = "group.com.synerise.sdk.flutter";
+    Synerise.settings.sdk.appGroupIdentifier =
+        "group.com.synerise.sdk.sample-flutter";
     Synerise.settings.sdk.keychainGroupIdentifier =
         "34N2Z22TKH.FlutterKeychainGroup";
-    Synerise.settings.injector.automatic = true;
 
     Synerise.initializer()
         .withClientApiKey(await rootBundle.loadString('lib/api_key.txt'))
+        .withBaseUrl("https://api.snrapi.com")
         .withDebugModeEnabled(true)
         .init();
 
-    Synerise.injector.listener((listener) {
-      listener.onOpenUrl = (url) {
-        Utils.displaySimpleAlert(url, context);
+    Synerise.notifications.listener((listener) {
+      listener.onRegistrationRequired = () {
+        Synerise.notifications.registerForNotifications(firebaseToken!, true);
       };
-      listener.onDeepLink = (deepLink) {
-        Utils.displaySimpleAlert(deepLink, context);
+    });
+
+    Synerise.injector.listener((listener) {
+      listener.onOpenUrl = (url, source) {
+        Utils.displaySimpleAlert(url + " " + source.toString(), context);
+      };
+      listener.onDeepLink = (deepLink, source) {
+        Utils.displaySimpleAlert(deepLink + " " + source.toString(), context);
       };
     });
 
@@ -79,7 +90,10 @@ class _InitialViewState extends State<InitialView> {
     super.dispose();
   }
 
-  Future<void> initializeFirebase() async {
+  Future<void> setupNotifications() async {
+    await Firebase.initializeApp();
+    FirebaseMessaging.onBackgroundMessage(backgroundHandlerForFCM);
+
     await FirebaseMessaging.instance.requestPermission(
       alert: true,
       announcement: false,
@@ -96,49 +110,61 @@ class _InitialViewState extends State<InitialView> {
       badge: true,
       sound: true,
     );
-    FirebaseMessaging.onBackgroundMessage(backgroundHandlerForFCM);
+
+    FirebaseMessaging.instance.getToken().then((token) {
+      if (token != null) {
+        Synerise.notifications.registerForNotifications(token, true);
+        firebaseToken = token;
+      }
+    });
 
     FirebaseMessaging.instance.onTokenRefresh.listen((event) {
-      FirebaseMessaging.instance.getToken().then((value) {
-        if (value != null) {
-          Synerise.notifications.registerForNotifications(value, true);
+      FirebaseMessaging.instance.getToken().then((token) {
+        if (token != null) {
+          Synerise.notifications.registerForNotifications(token, true);
+          firebaseToken = token;
         }
       });
     });
-    await FirebaseMessaging.instance.getToken().then((value) {
-      if (value != null) {
-        Synerise.notifications.registerForNotifications(value, true);
-        firebaseToken = value;
-      }
-    });
-    await FirebaseMessaging.instance.getInitialMessage().then((message) {
-      if (message != null) {
-        Synerise.notifications.handleNotificationClick(message.toMap());
-      }
-    });
 
-    FirebaseMessaging.onMessage.listen((
-      RemoteMessage message,
-    ) async {
-      Map<String, dynamic> remoteMessageMap = message.toMap();
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
+      Map remoteMessageMap = message.toMap();
       bool isSyneriseNotification =
           await Synerise.notifications.isSyneriseNotification(remoteMessageMap);
-      if (isSyneriseNotification) {
+      if (isSyneriseNotification == true) {
         Synerise.notifications.handleNotification(remoteMessageMap);
-      } else {
-        //custom notification handling
+        bool isSyneriseNotificationEncrypted = await Synerise.notifications
+            .isNotificationEncrypted(remoteMessageMap);
+        if (isSyneriseNotificationEncrypted) {
+          Map decryptedPayload = await Synerise.notifications
+              .decryptNotification(remoteMessageMap);
+          developer.log(decryptedPayload.toString());
+        }
       }
     });
 
-    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      Synerise.notifications.handleNotificationClick(message.toMap());
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) async {
+      Map messageMap = message.toMap();
+      bool isSyneriseNotification =
+          await Synerise.notifications.isSyneriseNotification(messageMap);
+      if (isSyneriseNotification == true) {
+        Synerise.notifications.handleNotificationClick(messageMap);
+      }
     });
+  }
 
-    Synerise.notifications.listener((listener) {
-      listener.onRegistrationRequired = () {
-        Synerise.notifications.registerForNotifications(firebaseToken!, true);
-      };
-    });
+  Future<void> checkForInitialNotificationMessage() async {
+    await Firebase.initializeApp();
+    RemoteMessage? message =
+        await FirebaseMessaging.instance.getInitialMessage();
+    if (message != null) {
+      Map messageMap = message.toMap();
+      bool isSyneriseNotification =
+          await Synerise.notifications.isSyneriseNotification(messageMap);
+      if (isSyneriseNotification == true) {
+        Synerise.notifications.handleNotificationClick(messageMap);
+      }
+    }
   }
 
   @override
@@ -258,7 +284,6 @@ class PromotionsView extends StatelessWidget {
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
@@ -282,6 +307,7 @@ Future<void> backgroundHandlerForFCM(RemoteMessage message) async {
   await Firebase.initializeApp();
   await Synerise.initializer()
       .withClientApiKey(await rootBundle.loadString('lib/api_key.txt'))
+      .withBaseUrl("https://api.snrapi.com")
       .withDebugModeEnabled(true)
       .init();
   // If you're going to use other Firebase services in the background, such as Firestore,
@@ -292,6 +318,15 @@ Future<void> backgroundHandlerForFCM(RemoteMessage message) async {
       await Synerise.notifications.isSyneriseNotification(remoteMessageMap);
   if (isSyneriseNotification) {
     Synerise.notifications.handleNotification(remoteMessageMap);
+    bool isSyneriseNotificationEncrypted =
+        await Synerise.notifications.isNotificationEncrypted(remoteMessageMap);
+    if (isSyneriseNotificationEncrypted) {
+      Map decryptedPayload =
+          await Synerise.notifications.decryptNotification(remoteMessageMap);
+      developer.log(decryptedPayload.toString());
+    } else {
+      //custom handling
+    }
   } else {
     developer.log('flutter', name: 'onMessage background');
     //custom notification handling

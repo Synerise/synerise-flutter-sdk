@@ -20,9 +20,11 @@ class Synerise {
     initializer.setCompletionHandler((initialized) {
       if (initialized == true) {
         Synerise.settings.afterInitialization();
+        Synerise.injector.afterInitialization();
         SyneriseDartMethodChannel.instance.configureChannel();
       } else {
         Synerise.settings.beforeInitialization();
+        Synerise.injector.beforeInitialization();
       }
     });
 

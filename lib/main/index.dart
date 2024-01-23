@@ -6,9 +6,6 @@ export 'package:synerise_flutter_sdk/main/dependencies.dart';
 // INITIALIZER
 export 'package:synerise_flutter_sdk/main/synerise_initializer.dart';
 
-// ENUMS
-export 'package:synerise_flutter_sdk/enums/client/client_sex.dart';
-
 // MODULES
 export 'package:synerise_flutter_sdk/modules/notifications/notifications_impl.dart';
 export 'package:synerise_flutter_sdk/modules/settings/settings_impl.dart';
@@ -23,6 +20,7 @@ export 'package:synerise_flutter_sdk/model/client/client_auth_context.dart';
 export 'package:synerise_flutter_sdk/model/client/client_account_information.dart';
 export 'package:synerise_flutter_sdk/model/client/client_account_register_context.dart';
 export 'package:synerise_flutter_sdk/model/client/client_account_update_context.dart';
+export 'package:synerise_flutter_sdk/enums/client/client_sex.dart';
 export 'package:synerise_flutter_sdk/model/client/client_agreements.dart';
 export 'package:synerise_flutter_sdk/model/client/token.dart';
 export 'package:synerise_flutter_sdk/model/client/client_conditional_auth_result.dart';
@@ -67,6 +65,7 @@ export 'package:synerise_flutter_sdk/model/vouchers/voucher_codes_response.dart'
 export 'package:synerise_flutter_sdk/enums/vouchers/voucher_code_status.dart';
 
 // INJECTOR
+export 'package:synerise_flutter_sdk/enums/injector/synerise_source.dart';
 export 'package:synerise_flutter_sdk/model/in_app/in_app_message_data.dart';
 
 // TRACKER

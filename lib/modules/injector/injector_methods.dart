@@ -23,6 +23,14 @@ class InjectorMethods extends BaseMethodChannel {
         "Injector/setInAppMessageContext", context);
   }
 
+  void handleOpenUrlBySDK(String url) async {
+    methodChannel.invokeMethod('Injector/handleOpenUrlBySDK', url);
+  }
+
+  void handleDeepLinkBySDK(String deepLink) async {
+    methodChannel.invokeMethod('Injector/handleDeepLinkBySDK', deepLink);
+  }
+
   void getWalkthrough() async {
     methodChannel.invokeMethod('Injector/getWalkthrough');
   }

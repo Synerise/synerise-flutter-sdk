@@ -20,7 +20,7 @@ class NotificationService: UNNotificationServiceExtension, NotificationServiceEx
         self.bestAttemptContent = (request.content.mutableCopy() as? UNMutableNotificationContent)
                 
         if let bestAttemptContent = self.bestAttemptContent {
-            Synerise.settings.sdk.appGroupIdentifier = "group.com.synerise.sdk.flutter"
+            Synerise.settings.sdk.appGroupIdentifier = "group.com.synerise.sdk.sample-flutter"
             Synerise.settings.sdk.keychainGroupIdentifier = "34N2Z22TKH.FlutterKeychainGroup"
             
             NotificationServiceExtension.setDelegate(self)

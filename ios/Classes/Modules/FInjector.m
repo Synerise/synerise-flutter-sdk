@@ -25,7 +25,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)handleMethodCall:(FlutterMethodCall*)call result:(FlutterResult)result calledMethod:(NSString *)calledMethod {
-    if ([calledMethod isEqualToString:@"getWalkthrough"]) {
+    if ([calledMethod isEqualToString:@"handleOpenUrlBySDK"]) {
+        [self handleOpenUrlBySDK:call result:result];
+    } else if ([calledMethod isEqualToString:@"handleDeepLinkBySDK"]) {
+        [self handleDeepLinkBySDK:call result:result];
+    } else if ([calledMethod isEqualToString:@"getWalkthrough"]) {
         [self getWalkthrough:call result:result];
     } else if ([calledMethod isEqualToString:@"showWalkthrough"]) {
         [self showWalkthrough:call result:result];
@@ -36,19 +40,51 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
-- (void)executeURLAction:(NSURL *)URL {
+- (void)executeURLAction:(NSURL *)URL activity:(SNRSyneriseActivity)activity {
     [[FSyneriseManager sharedInstance].reverseChannel invokeMethod:@"Injector#InjectorListener#onOpenUrl" arguments:@{
-        @"url": URL.absoluteString
+        @"url": URL.absoluteString,
+        @"source": [self stringWithSyneriseActivity:activity]
     }];
 }
 
-- (void)executeDeepLinkAction:(NSString *)deepLink {
+- (void)executeDeepLinkAction:(NSString *)deepLink activity:(SNRSyneriseActivity)activity {
     [[FSyneriseManager sharedInstance].reverseChannel invokeMethod:@"Injector#InjectorListener#onDeepLink" arguments:@{
-        @"deepLink": deepLink
+        @"deepLink": deepLink,
+        @"source": [self stringWithSyneriseActivity:activity]
     }];
 }
 
 #pragma mark - Methods
+
+- (void)handleOpenUrlBySDK:(FlutterMethodCall *)call result:(FlutterResult)result {
+    NSString *urlString = (NSString *)call.arguments;
+    NSURL *URL = [NSURL URLWithString:urlString];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if ([[UIApplication sharedApplication] canOpenURL:URL]) {
+            if (@available(iOS 10, *)) {
+                [[UIApplication sharedApplication] openURL:URL options:@{} completionHandler:nil];
+            } else {
+                [[UIApplication sharedApplication] openURL:URL];
+            }
+        }
+    });
+}
+
+- (void)handleDeepLinkBySDK:(FlutterMethodCall *)call result:(FlutterResult)result {
+    NSString *deepLink = (NSString *)call.arguments;
+    NSURL *deepLinkURL = [NSURL URLWithString:deepLink];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (@available(iOS 10, *)) {
+            [[UIApplication sharedApplication] openURL:deepLinkURL options:@{} completionHandler:^(BOOL success) {
+                
+            }];
+        } else {
+            [[UIApplication sharedApplication] openURL:deepLinkURL];
+        }
+    });
+}
 
 - (void)getWalkthrough:(FlutterMethodCall *)call result:(FlutterResult)result {
     [SNRInjector getWalkthrough];
@@ -69,6 +105,20 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 #pragma mark - Dart Mapping
+
+- (NSString *)stringWithSyneriseActivity:(SNRSyneriseActivity)activity {
+    if (activity == SNRSyneriseActivitySimplePush) {
+        return @"SIMPLE_PUSH";
+    } else if (activity == SNRSyneriseActivityBanner) {
+        return @"BANNER";
+    } else if (activity == SNRSyneriseActivityWalkthrough) {
+        return @"WALKTHROUGH";
+    } else if (activity == SNRSyneriseActivityInAppMessage) {
+        return @"IN_APP_MESSAGE";
+    } else {
+        return @"NOT_SPECIFIED";
+    }
+}
 
 - (nullable NSDictionary *)dictionaryWithInAppMessageData:(nullable SNRInAppMessageData *)model {
     if (model != nil) {
