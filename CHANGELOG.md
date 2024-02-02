@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [0.8.2] - 2024-02-02
+
+### Fixed
+- [android] Deeplink action when clicking on push notification will directly open in app instead of prompt between app/browser. We set packageName to intent.
+
+
 ## [0.8.1] - 2024-01-15
 
 ### Fixed
