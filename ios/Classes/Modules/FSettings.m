@@ -28,6 +28,7 @@ static NSString * const FSettingsInjectorAutomatic = @"INJECTOR_AUTOMATIC";
 static NSString * const FSettingsInAppMessagingMaxDefinitionUpdateIntervalLimit = @"IN_APP_MAX_DEFINITION_UPDATE_INTERVAL_LIMIT";
 static NSString * const FSettingsInAppMessagingRenderingTimeout = @"IN_APP_MESSAGING_RENDERING_TIMEOUT";
 static NSString * const FSSettingsInAppMessagingShouldSendInAppCappingEvent = @"IN_APP_MESSAGING_SHOULD_SEND_IN_APP_CAPPING_EVENT";
+static NSString * const FSSettingsInAppMessagingCheckGlobalControlGroupsOnDefinitionsFetch = @"IN_APP_MESSAGING_CHECK_GLOBAL_CONTROL_GROUPS_ON_DEFINITIONS_FETCH";
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -72,6 +73,7 @@ NS_ASSUME_NONNULL_BEGIN
     [self updateSettingsKeyPath:@"inAppMessaging.maxDefinitionUpdateIntervalLimit" expectedClass:[NSNumber class] object:dictionary[FSettingsInAppMessagingMaxDefinitionUpdateIntervalLimit]];
     [self updateSettingsKeyPath:@"inAppMessaging.renderingTimeout" expectedClass:[NSNumber class] object:dictionary[FSettingsInAppMessagingRenderingTimeout]];
     [self updateSettingsKeyPath:@"inAppMessaging.shouldSendInAppCappingEvent" expectedClass:[NSNumber class] object:dictionary[FSSettingsInAppMessagingShouldSendInAppCappingEvent]];
+    [self updateSettingsKeyPath:@"inAppMessaging.checkGlobalControlGroupsOnDefinitionsFetch" expectedClass:[NSNumber class] object:dictionary[FSSettingsInAppMessagingCheckGlobalControlGroupsOnDefinitionsFetch]];
 }
 
 - (void)updateSettingsKeyPath:(NSString *)keyPath expectedClass:(Class)expectedClass object:(nullable id)object {
@@ -158,6 +160,7 @@ NS_ASSUME_NONNULL_BEGIN
     dictionary[FSettingsInAppMessagingMaxDefinitionUpdateIntervalLimit] = [NSNumber numberWithDouble:SNRSynerise.settings.inAppMessaging.maxDefinitionUpdateIntervalLimit];
     dictionary[FSettingsInAppMessagingRenderingTimeout] = [NSNumber numberWithDouble:SNRSynerise.settings.inAppMessaging.renderingTimeout];
     dictionary[FSSettingsInAppMessagingShouldSendInAppCappingEvent] = [NSNumber numberWithBool:SNRSynerise.settings.inAppMessaging.shouldSendInAppCappingEvent];
+    dictionary[FSSettingsInAppMessagingCheckGlobalControlGroupsOnDefinitionsFetch] = [NSNumber numberWithBool:SNRSynerise.settings.inAppMessaging.checkGlobalControlGroupsOnDefinitionsFetch];
 
     return dictionary;
 }

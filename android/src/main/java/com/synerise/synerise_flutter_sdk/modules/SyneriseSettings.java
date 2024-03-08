@@ -24,6 +24,7 @@ public class SyneriseSettings implements SyneriseModule {
     public static final String F_SETTINGS_IN_APP_MESSAGING_MAX_DEFINITION_UPDATE_INTERVAL_LIMIT = "IN_APP_MAX_DEFINITION_UPDATE_INTERVAL_LIMIT";
     public static final String F_SETTINGS_IN_APP_MESSAGING_RENDERING_TIMEOUT = "IN_APP_MESSAGING_RENDERING_TIMEOUT";
     public static final String F_SETTINGS_IN_APP_MESSAGING_SHOULD_SEND_IN_APP_CAPPING_EVENT = "IN_APP_MESSAGING_SHOULD_SEND_IN_APP_CAPPING_EVENT";
+    public static final String F_SETTINGS_IN_APP_MESSAGING_CHECK_GLOBAL_CONTROL_GROUPS_ON_DEFINITIONS_FETCH = "IN_APP_MESSAGING_CHECK_GLOBAL_CONTROL_GROUPS_ON_DEFINITIONS_FETCH";
 
 
     private static SyneriseSettings instance;
@@ -139,6 +140,11 @@ public class SyneriseSettings implements SyneriseModule {
                     Settings.getInstance().inAppMessaging.shouldSendInAppCappingEvent = (Boolean) value;
                 }
                 break;
+            case F_SETTINGS_IN_APP_MESSAGING_CHECK_GLOBAL_CONTROL_GROUPS_ON_DEFINITIONS_FETCH:
+                if (value instanceof Boolean) {
+                    Settings.getInstance().inAppMessaging.checkGlobalControlGroupsOnDefinitionsFetch = (Boolean) value;
+                }
+                break;
         }
     }
 
@@ -157,6 +163,7 @@ public class SyneriseSettings implements SyneriseModule {
         settings.put(F_SETTINGS_IN_APP_MESSAGING_MAX_DEFINITION_UPDATE_INTERVAL_LIMIT, Synerise.settings.inAppMessaging.getMaxDefinitionUpdateIntervalLimit());
         settings.put(F_SETTINGS_IN_APP_MESSAGING_RENDERING_TIMEOUT, Synerise.settings.inAppMessaging.renderingTimeout);
         settings.put(F_SETTINGS_IN_APP_MESSAGING_SHOULD_SEND_IN_APP_CAPPING_EVENT, Synerise.settings.inAppMessaging.shouldSendInAppCappingEvent);
+        settings.put(F_SETTINGS_IN_APP_MESSAGING_CHECK_GLOBAL_CONTROL_GROUPS_ON_DEFINITIONS_FETCH, Synerise.settings.inAppMessaging.checkGlobalControlGroupsOnDefinitionsFetch);
 
         return settings;
     }

@@ -30,6 +30,8 @@ class SettingsKeys {
       "IN_APP_MESSAGING_RENDERING_TIMEOUT";
   static const inAppMessagingShouldSendInAppCappingEvent =
       "IN_APP_MESSAGING_SHOULD_SEND_IN_APP_CAPPING_EVENT";
+  static const inAppMessagingCheckGlobalControlGroupsOnDefinitionsFetch =
+      "IN_APP_MESSAGING_CHECK_GLOBAL_CONTROL_GROUPS_ON_DEFINITIONS_FETCH";
 
   static const injectorAutomatic = "INJECTOR_AUTOMATIC";
 }
@@ -148,6 +150,14 @@ class InAppMessagingSettings extends BaseSettings {
   set shouldSendInAppCappingEvent(bool shouldSendInAppCappingEvent) =>
       setFunction<bool>(SettingsKeys.inAppMessagingShouldSendInAppCappingEvent,
           shouldSendInAppCappingEvent);
+
+  bool get checkGlobalControlGroupsOnDefinitionsFetch => getFunction<bool>(
+      SettingsKeys.inAppMessagingCheckGlobalControlGroupsOnDefinitionsFetch);
+  set checkGlobalControlGroupsOnDefinitionsFetch(
+          bool checkGlobalControlGroupsOnDefinitionsFetch) =>
+      setFunction<bool>(
+          SettingsKeys.inAppMessagingCheckGlobalControlGroupsOnDefinitionsFetch,
+          checkGlobalControlGroupsOnDefinitionsFetch);
 
   InAppMessagingSettings(GetFunction getFunction, SetFunction setFunction)
       : super(getFunction, setFunction);
@@ -282,6 +292,10 @@ class SettingsImpl extends BaseModule {
           settings[SettingsKeys.inAppMessagingRenderingTimeout]);
       _overrideOne<bool>(SettingsKeys.inAppMessagingShouldSendInAppCappingEvent,
           settings[SettingsKeys.inAppMessagingShouldSendInAppCappingEvent]);
+      _overrideOne<bool>(
+          SettingsKeys.inAppMessagingCheckGlobalControlGroupsOnDefinitionsFetch,
+          settings[SettingsKeys
+              .inAppMessagingCheckGlobalControlGroupsOnDefinitionsFetch]);
 
       _overrideOne<bool>(SettingsKeys.injectorAutomatic,
           settings[SettingsKeys.injectorAutomatic]);

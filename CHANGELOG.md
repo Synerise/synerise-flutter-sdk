@@ -1,6 +1,18 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [0.8.3] - 2024-03-08
+
+### Added
+- Global Control Group support for in-app messages. From now on, you can use this feature in in-app messaging communication. This lets you take your marketing efforts to the next level and provides a solid foundation for accurate measurement of campaign effectiveness. Read more at https://hub.synerise.com/docs/settings/configuration/global-control-group/.
+
+### Fixed
+- [iOS] Issue with non-scrolling in-app messages.
+
+### Changed
+- Stability improvements.
+
+
 ## [0.8.2] - 2024-02-02
 
 ### Fixed
