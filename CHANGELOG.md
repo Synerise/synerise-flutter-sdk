@@ -1,7 +1,7 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [1.0.0] - 2024-04-03
+## [1.0.0] - 2024-04-04
 
 IMPORTANT: 
 We've introduced significant improvements to our method invocation patterns to enhance error handling and simplify success callbacks. This change requires updates to existing method calls in your applications.
