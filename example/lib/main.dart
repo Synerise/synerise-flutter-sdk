@@ -9,7 +9,6 @@ import 'package:synerise_flutter_sdk/synerise.dart';
 import 'classes/utils.dart';
 import 'views/client/client_methods_view.dart';
 import 'views/content/content_methods_view.dart';
-import 'views/tracker/tracker_methods_view.dart';
 import 'views/promotions/promotions_methods_view.dart';
 
 import 'package:firebase_core/firebase_core.dart';
@@ -35,6 +34,11 @@ class _InitialViewState extends State<InitialView> {
   }
 
   Future<void> initializeSynerise() async {
+    Synerise.settings.sdk.localizable = {
+      LocalizableKey.localizableStringKeyOk: "OK!",
+      LocalizableKey.localizableStringKeyCancel: "CANCEL!"
+    };
+
     Synerise.settings.sdk.appGroupIdentifier =
         "group.com.synerise.sdk.sample-flutter";
     Synerise.settings.sdk.keychainGroupIdentifier =
@@ -48,7 +52,12 @@ class _InitialViewState extends State<InitialView> {
 
     Synerise.notifications.listener((listener) {
       listener.onRegistrationRequired = () {
-        Synerise.notifications.registerForNotifications(firebaseToken!, true);
+        Synerise.notifications.registerForNotifications(
+          firebaseToken!,
+          mobileAgreement: true,
+          onSuccess: () {},
+          onError: (error) {},
+        );
       };
     });
 
@@ -113,16 +122,26 @@ class _InitialViewState extends State<InitialView> {
 
     FirebaseMessaging.instance.getToken().then((token) {
       if (token != null) {
-        Synerise.notifications.registerForNotifications(token, true);
         firebaseToken = token;
+        Synerise.notifications.registerForNotifications(
+          firebaseToken!,
+          mobileAgreement: true,
+          onSuccess: () {},
+          onError: (error) {},
+        );
       }
     });
 
     FirebaseMessaging.instance.onTokenRefresh.listen((event) {
       FirebaseMessaging.instance.getToken().then((token) {
         if (token != null) {
-          Synerise.notifications.registerForNotifications(token, true);
           firebaseToken = token;
+          Synerise.notifications.registerForNotifications(
+            firebaseToken!,
+            mobileAgreement: true,
+            onSuccess: () {},
+            onError: (error) {},
+          );
         }
       });
     });
@@ -250,20 +269,6 @@ class ContentView extends StatelessWidget {
         title: const Text('Content Module Method Test'),
       ),
       body: const ContentMethodsView(),
-    );
-  }
-}
-
-class TrackerView extends StatelessWidget {
-  const TrackerView({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Tracker Module Method Test'),
-      ),
-      body: const TrackerMethodsView(),
     );
   }
 }

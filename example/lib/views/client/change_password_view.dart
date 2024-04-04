@@ -2,6 +2,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:synerise_flutter_sdk/synerise.dart';
 
+import '../../classes/utils.dart';
+
 class ChangePassword extends StatefulWidget {
   const ChangePassword({super.key});
 
@@ -51,26 +53,11 @@ class _ChangePasswordState extends State<ChangePassword>
   }
 
   Future<void> _changePasswordCall(oldPassword, password) async {
-    await Synerise.client
-        .changePassword(oldPassword, password)
-        .catchError((error) {
-      showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            content: Text("password change call failed: $error"),
-          );
-        },
-      );
-      throw Exception('Failed to call native update method: $error');
-    }).then(showDialog(
-      context: context,
-      builder: (context) {
-        return const AlertDialog(
-          content: Text("password changed  succesfully"),
-        );
-      },
-    ) as FutureOr Function(void value));
+    await Synerise.client.changePassword(oldPassword, password, onSuccess: () {
+      Utils.displaySimpleAlert("Password changed succesfully", context);
+    }, onError: (SyneriseError error) {
+      Utils.displaySimpleAlert(error.message, context);
+    });
   }
 
   @override

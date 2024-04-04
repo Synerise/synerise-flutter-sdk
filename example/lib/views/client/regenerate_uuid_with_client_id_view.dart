@@ -61,23 +61,9 @@ class _RegenerateUUIDWithClientIdentifierState
 
   Future<void> _regenerateUUIDWithClientIdentifierCall(
       String clientIdentifier) async {
-    final bool result = await Synerise.client
+    await Synerise.client
         .regenerateUUIDWithClientIdentifier(clientIdentifier)
-        .catchError((error) {
-      String errorMessage = Utils.handlePlatformException(error);
-      Utils.displaySimpleAlert(
-          "error on handling api call \n $errorMessage", context);
-      throw Exception(errorMessage);
-    });
-    if (result == true) {
-      if (!mounted) return;
-      Utils.displaySimpleAlert(
-          "regenerateUUIDWithClientIdentifier succcesful", context);
-    } else {
-      if (!mounted) return;
-      Utils.displaySimpleAlert(
-          "regenerateUUIDWithClientIdentifier failed, result false", context);
-    }
+        .then((result) => {Utils.displaySimpleAlert("uuid: $result", context)});
   }
 
   @override

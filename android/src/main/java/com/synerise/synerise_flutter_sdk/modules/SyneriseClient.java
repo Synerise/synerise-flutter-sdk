@@ -543,6 +543,11 @@ public final class SyneriseClient implements SyneriseModule {
                     tokenMap.put("tokenString", token.getRawJwt());
                     tokenMap.put("origin", token.getOrigin().getOrigin());
                     tokenMap.put("expirationDate", token.getExpirationUnixTime() * 1000);
+                    tokenMap.put("rlm", token.getTokenRLM().getRlm());
+                    tokenMap.put("clientId", token.getClientId());
+                    if (token.getCustomId() != null) {
+                        tokenMap.put("customId", token.getCustomId());
+                    }
                     SyneriseModule.executeSuccessResult(tokenMap, result);
                 },
                 (DataActionListener<ApiError>) apiError -> SyneriseModule.executeFailureResult(apiError, result));

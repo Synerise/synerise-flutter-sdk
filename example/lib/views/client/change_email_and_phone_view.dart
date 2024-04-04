@@ -95,55 +95,40 @@ class _ChangeEmailAndPhoneState extends State<ChangeEmailAndPhone>
   }
 
   Future<void> _requestEmailChangeCall(email, password) async {
-    await Synerise.client
-        .requestEmailChange(email, password)
-        .catchError((error) {
-      String errorMessage = Utils.handlePlatformException(error);
+    await Synerise.client.requestEmailChange(email, password, onSuccess: () {
       Utils.displaySimpleAlert(
-          "error on handling api call \n $errorMessage", context);
-      throw Exception(errorMessage);
+          "request to change email has been sent succesfully, confirm the token to finish the process",
+          context);
+    }, onError: (SyneriseError error) {
+      Utils.displaySimpleAlert(error.message, context);
     });
-    if (!mounted) return;
-    Utils.displaySimpleAlert(
-        "request to change email has been sent succesfully, confirm the token to finish the process",
-        context);
   }
 
   Future<void> _confirmEmailChangeCall(token) async {
-    await Synerise.client.confirmEmailChange(token, true).catchError((error) {
-      String errorMessage = Utils.handlePlatformException(error);
-      Utils.displaySimpleAlert(
-          "error on handling api call \n $errorMessage", context);
-      throw Exception(errorMessage);
+    await Synerise.client.confirmEmailChange(token, true, onSuccess: () {
+      Utils.displaySimpleAlert("email changed succesfully", context);
+    }, onError: (SyneriseError error) {
+      Utils.displaySimpleAlert(error.message, context);
     });
-    if (!mounted) return;
-    Utils.displaySimpleAlert("email changed succesfully", context);
   }
 
   Future<void> _requestPhoneUpdateCall(phone) async {
-    await Synerise.client.requestPhoneUpdate(phone).catchError((error) {
-      String errorMessage = Utils.handlePlatformException(error);
+    await Synerise.client.requestPhoneUpdate(phone, onSuccess: () {
       Utils.displaySimpleAlert(
-          "error on handling api call \n $errorMessage", context);
-      throw Exception(errorMessage);
+          "request to change phone has been sent succesfully, use the confirmationCode to finish the process",
+          context);
+    }, onError: (SyneriseError error) {
+      Utils.displaySimpleAlert(error.message, context);
     });
-    if (!mounted) return;
-    Utils.displaySimpleAlert(
-        "request to change phone has been sent succesfully, use the confirmationCode to finish the process",
-        context);
   }
 
   Future<void> _confirmPhoneUpdateCall(phone, confirmationCode) async {
-    await Synerise.client
-        .confirmPhoneUpdate(phone, confirmationCode, true)
-        .catchError((error) {
-      String errorMessage = Utils.handlePlatformException(error);
-      Utils.displaySimpleAlert(
-          "error on handling api call \n $errorMessage", context);
-      throw Exception(errorMessage);
+    await Synerise.client.confirmPhoneUpdate(phone, confirmationCode, true,
+        onSuccess: () {
+      Utils.displaySimpleAlert("phone changed", context);
+    }, onError: (SyneriseError error) {
+      Utils.displaySimpleAlert(error.message, context);
     });
-    if (!mounted) return;
-    Utils.displaySimpleAlert("phone changed", context);
   }
 
   @override

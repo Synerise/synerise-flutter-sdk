@@ -1,53 +1,33 @@
-import 'dart:collection';
-import 'package:flutter/widgets.dart';
-
 import '../base/base_module_method_channel.dart';
 
 class InjectorMethods extends BaseMethodChannel {
-  Future<void> setBannerShouldPresentFlag(bool flag) async {
-    WidgetsFlutterBinding.ensureInitialized();
-    backgroundMethodChannel.invokeMethod(
-        "Injector/setBannerShouldPresentFlag", flag);
+  Future<void> handleOpenUrlBySDK(String url) async {
+    return await SyneriseInvocation(methodChannel)
+        .invokeSDKMethod<void>('Injector/handleOpenUrlBySDK', parameters: url);
   }
 
-  Future<void> setInAppMessageShouldPresentFlag(bool flag) async {
-    WidgetsFlutterBinding.ensureInitialized();
-    backgroundMethodChannel.invokeMethod(
-        "Injector/setInAppMessageShouldPresentFlag", flag);
+  Future<void> handleDeepLinkBySDK(String deepLink) async {
+    return await SyneriseInvocation(methodChannel)
+        .invokeSDKMethod('Injector/handleDeepLinkBySDK', parameters: deepLink);
   }
 
-  Future<void> setInAppMessageContext(
-      HashMap<dynamic, dynamic>? context) async {
-    WidgetsFlutterBinding.ensureInitialized();
-    backgroundMethodChannel.invokeMethod(
-        "Injector/setInAppMessageContext", context);
+  Future<void> getWalkthrough() async {
+    return await SyneriseInvocation(methodChannel)
+        .invokeSDKMethod('Injector/getWalkthrough');
   }
 
-  void handleOpenUrlBySDK(String url) async {
-    methodChannel.invokeMethod('Injector/handleOpenUrlBySDK', url);
-  }
-
-  void handleDeepLinkBySDK(String deepLink) async {
-    methodChannel.invokeMethod('Injector/handleDeepLinkBySDK', deepLink);
-  }
-
-  void getWalkthrough() async {
-    methodChannel.invokeMethod('Injector/getWalkthrough');
-  }
-
-  void showWalkthrough() async {
-    methodChannel.invokeMethod('Injector/showWalkthrough');
+  Future<void> showWalkthrough() async {
+    return await SyneriseInvocation(methodChannel)
+        .invokeSDKMethod('Injector/showWalkthrough');
   }
 
   Future<bool> isWalkthroughLoaded() async {
-    bool isWalkthroughLoaded =
-        await methodChannel.invokeMethod('Injector/isWalkthroughLoaded');
-    return isWalkthroughLoaded;
+    return await SyneriseInvocation(methodChannel)
+        .invokeSDKMethod<bool>('Injector/isWalkthroughLoaded');
   }
 
   Future<bool> isLoadedWalkthroughUnique() async {
-    bool isLoadedWalkthroughUnique =
-        await methodChannel.invokeMethod('Injector/isLoadedWalkthroughUnique');
-    return isLoadedWalkthroughUnique;
+    return await SyneriseInvocation(methodChannel)
+        .invokeSDKMethod<bool>('Injector/isLoadedWalkthroughUnique');
   }
 }

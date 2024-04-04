@@ -14,6 +14,8 @@ export 'package:synerise_flutter_sdk/modules/tracker/tracker_impl.dart';
 export 'package:synerise_flutter_sdk/modules/injector/injector_impl.dart';
 export 'package:synerise_flutter_sdk/modules/content/content_impl.dart';
 export 'package:synerise_flutter_sdk/modules/promotions/promotions_impl.dart';
+export 'package:synerise_flutter_sdk/modules/base/base_module.dart';
+export 'package:synerise_flutter_sdk/modules/base/base_module_method_channel.dart';
 
 // CLIENT
 export 'package:synerise_flutter_sdk/model/client/client_auth_context.dart';

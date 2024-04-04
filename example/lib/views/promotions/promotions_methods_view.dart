@@ -168,34 +168,31 @@ class _PromotionsMethodsViewState extends State<PromotionsMethodsView>
   }
 
   Future<void> _getAllPromotionsCall() async {
-    PromotionResponse promotionResponse =
-        await Synerise.promotions.getAllPromotions().catchError((error) {
-      String errorMessage = Utils.handlePlatformException(error);
-      Utils.displaySimpleAlert(
-          "error on handling api call \n $errorMessage", context);
-      throw Exception(errorMessage);
+    await Synerise.promotions.getAllPromotions(
+        onSuccess: (PromotionResponse promotionResponse) {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+                content: SingleChildScrollView(
+                    child: Column(children: [
+              const Text(
+                'Promotions Map',
+                style: TextStyle(fontStyle: FontStyle.italic),
+              ),
+              Container(
+                  width: double.infinity,
+                  margin: const EdgeInsets.all(5.0),
+                  padding: const EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                      border: Border.all(width: 0.5, color: Colors.black)),
+                  child: Text(promotionResponse.items.toString(),
+                      textScaleFactor: 0.5))
+            ])));
+          });
+    }, onError: (SyneriseError error) {
+      Utils.displaySimpleAlert(error.message, context);
     });
-    if (!mounted) return;
-    showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-              content: SingleChildScrollView(
-                  child: Column(children: [
-            const Text(
-              'Promotions Map',
-              style: TextStyle(fontStyle: FontStyle.italic),
-            ),
-            Container(
-                width: double.infinity,
-                margin: const EdgeInsets.all(5.0),
-                padding: const EdgeInsets.all(5),
-                decoration: BoxDecoration(
-                    border: Border.all(width: 0.5, color: Colors.black)),
-                child: Text(promotionResponse.items.toString(),
-                    textScaleFactor: 0.5))
-          ])));
-        });
   }
 
   Future<void> _getPromotionsCall() async {
@@ -217,144 +214,117 @@ class _PromotionsMethodsViewState extends State<PromotionsMethodsView>
         limit: 10,
         page: 10,
         includeMeta: true);
-    PromotionResponse promotionResponse = await Synerise.promotions
-        .getPromotions(promotionsApiQuery)
-        .catchError((error) {
-      String errorMessage = Utils.handlePlatformException(error);
-      Utils.displaySimpleAlert(
-          "error on handling api call \n $errorMessage", context);
-      throw Exception(errorMessage);
+    await Synerise.promotions.getPromotions(promotionsApiQuery,
+        onSuccess: (PromotionResponse promotionResponse) {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+                content: SingleChildScrollView(
+                    child: Column(children: [
+              const Text(
+                'Promotions Map',
+                style: TextStyle(fontStyle: FontStyle.italic),
+              ),
+              Container(
+                  width: double.infinity,
+                  margin: const EdgeInsets.all(5.0),
+                  padding: const EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                      border: Border.all(width: 0.5, color: Colors.black)),
+                  child: Text(promotionResponse.items.toString(),
+                      textScaleFactor: 0.5))
+            ])));
+          });
+    }, onError: (SyneriseError error) {
+      Utils.displaySimpleAlert(error.message, context);
     });
-    if (!mounted) return;
-    showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-              content: SingleChildScrollView(
-                  child: Column(children: [
-            const Text(
-              'Promotions Map',
-              style: TextStyle(fontStyle: FontStyle.italic),
-            ),
-            Container(
-                width: double.infinity,
-                margin: const EdgeInsets.all(5.0),
-                padding: const EdgeInsets.all(5),
-                decoration: BoxDecoration(
-                    border: Border.all(width: 0.5, color: Colors.black)),
-                child: Text(promotionResponse.items.toString(),
-                    textScaleFactor: 0.5))
-          ])));
-        });
   }
 
   Future<void> _getPromotionByUuidCall(String uuid) async {
-    Promotion promotion =
-        await Synerise.promotions.getPromotionByUUID(uuid).catchError((error) {
-      String errorMessage = Utils.handlePlatformException(error);
-      Utils.displaySimpleAlert(
-          "error on handling api call \n $errorMessage", context);
-      throw Exception(errorMessage);
+    await Synerise.promotions.getPromotionByUUID(uuid,
+        onSuccess: (Promotion promotion) {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+                content: SingleChildScrollView(
+                    child: Column(children: [
+              const Text(
+                'Promotion Map',
+                style: TextStyle(fontStyle: FontStyle.italic),
+              ),
+              Container(
+                  width: double.infinity,
+                  margin: const EdgeInsets.all(5.0),
+                  padding: const EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                      border: Border.all(width: 0.5, color: Colors.black)),
+                  child: Text(promotion.name.toString(), textScaleFactor: 0.5))
+            ])));
+          });
+    }, onError: (SyneriseError error) {
+      Utils.displaySimpleAlert(error.message, context);
     });
-    if (!mounted) return;
-    showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-              content: SingleChildScrollView(
-                  child: Column(children: [
-            const Text(
-              'Promotion Map',
-              style: TextStyle(fontStyle: FontStyle.italic),
-            ),
-            Container(
-                width: double.infinity,
-                margin: const EdgeInsets.all(5.0),
-                padding: const EdgeInsets.all(5),
-                decoration: BoxDecoration(
-                    border: Border.all(width: 0.5, color: Colors.black)),
-                child: Text(promotion.name.toString(), textScaleFactor: 0.5))
-          ])));
-        });
   }
 
   Future<void> _getPromotionByCodeCall(String code) async {
-    Promotion promotion =
-        await Synerise.promotions.getPromotionByCode(code).catchError((error) {
-      String errorMessage = Utils.handlePlatformException(error);
-      Utils.displaySimpleAlert(
-          "error on handling api call \n $errorMessage", context);
-      throw Exception(errorMessage);
+    await Synerise.promotions.getPromotionByCode(code,
+        onSuccess: (Promotion promotion) {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+                content: SingleChildScrollView(
+                    child: Column(children: [
+              const Text(
+                'Promotion Map',
+                style: TextStyle(fontStyle: FontStyle.italic),
+              ),
+              Container(
+                  width: double.infinity,
+                  margin: const EdgeInsets.all(5.0),
+                  padding: const EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                      border: Border.all(width: 0.5, color: Colors.black)),
+                  child: Text(promotion.name.toString(), textScaleFactor: 0.5))
+            ])));
+          });
+    }, onError: (SyneriseError error) {
+      Utils.displaySimpleAlert(error.message, context);
     });
-    if (!mounted) return;
-    showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-              content: SingleChildScrollView(
-                  child: Column(children: [
-            const Text(
-              'Promotion Map',
-              style: TextStyle(fontStyle: FontStyle.italic),
-            ),
-            Container(
-                width: double.infinity,
-                margin: const EdgeInsets.all(5.0),
-                padding: const EdgeInsets.all(5),
-                decoration: BoxDecoration(
-                    border: Border.all(width: 0.5, color: Colors.black)),
-                child: Text(promotion.name.toString(), textScaleFactor: 0.5))
-          ])));
-        });
   }
 
   Future<void> _activatePromotionByUUIDCall(String uuid) async {
-    await Synerise.promotions.activatePromotionByUUID(uuid).catchError((error) {
-      String errorMessage = Utils.handlePlatformException(error);
-      Utils.displaySimpleAlert(
-          "error on handling api call \n $errorMessage", context);
-      throw Exception(errorMessage);
+    await Synerise.promotions.activatePromotionByUUID(uuid, onSuccess: () {
+      Utils.displaySimpleAlert('$uuid activated succesfully', context);
+    }, onError: (SyneriseError error) {
+      Utils.displaySimpleAlert(error.message, context);
     });
-    if (!mounted) return;
-    Utils.displaySimpleAlert('$uuid activated succesfully', context);
   }
 
   Future<void> _activatePromotionByCodeCall(String code) async {
-    await Synerise.promotions.activatePromotionByCode(code).catchError((error) {
-      String errorMessage = Utils.handlePlatformException(error);
-      Utils.displaySimpleAlert(
-          "error on handling api call \n $errorMessage", context);
-      throw Exception(errorMessage);
+    await Synerise.promotions.activatePromotionByCode(code, onSuccess: () {
+      Utils.displaySimpleAlert('$code activated succesfully', context);
+    }, onError: (SyneriseError error) {
+      Utils.displaySimpleAlert(error.message, context);
     });
-    if (!mounted) return;
-    Utils.displaySimpleAlert('$code activated succesfully', context);
   }
 
   Future<void> _deactivatePromotionByUUIDCall(String uuid) async {
-    await Synerise.promotions
-        .deactivatePromotionByUUID(uuid)
-        .catchError((error) {
-      String errorMessage = Utils.handlePlatformException(error);
-      Utils.displaySimpleAlert(
-          "error on handling api call \n $errorMessage", context);
-      throw Exception(errorMessage);
+    await Synerise.promotions.deactivatePromotionByUUID(uuid, onSuccess: () {
+      Utils.displaySimpleAlert('$uuid deactivated succesfully', context);
+    }, onError: (SyneriseError error) {
+      Utils.displaySimpleAlert(error.message, context);
     });
-    if (!mounted) return;
-    Utils.displaySimpleAlert('$uuid activated succesfully', context);
   }
 
   Future<void> _deactivatePromotionByCodeCall(String code) async {
-    await Synerise.promotions
-        .deactivatePromotionByCode(code)
-        .catchError((error) {
-      String errorMessage = Utils.handlePlatformException(error);
-      Utils.displaySimpleAlert(
-          "error on handling api call \n $errorMessage", context);
-      throw Exception(errorMessage);
+    await Synerise.promotions.deactivatePromotionByCode(code, onSuccess: () {
+      Utils.displaySimpleAlert('$code deactivated succesfully', context);
+    }, onError: (SyneriseError error) {
+      Utils.displaySimpleAlert(error.message, context);
     });
-
-    if (!mounted) return;
-    Utils.displaySimpleAlert('$code activated succesfully', context);
   }
 
   Future<void> _activatePromotionsBatchCall() async {
@@ -366,16 +336,14 @@ class _PromotionsMethodsViewState extends State<PromotionsMethodsView>
       promotionIdentifier,
       promotionIdentifier2
     ];
-    await Synerise.promotions
-        .activatePromotionsBatch(promotionIdentifierList)
-        .catchError((error) {
-      String errorMessage = Utils.handlePlatformException(error);
+
+    await Synerise.promotions.activatePromotionsBatch(promotionIdentifierList,
+        onSuccess: () {
       Utils.displaySimpleAlert(
-          "error on handling api call \n $errorMessage", context);
-      throw Exception(errorMessage);
+          'promotion batch activated succesfully', context);
+    }, onError: (SyneriseError error) {
+      Utils.displaySimpleAlert(error.message, context);
     });
-    if (!mounted) return;
-    Utils.displaySimpleAlert('promotion batch activated succesfully', context);
   }
 
   Future<void> _deactivatePromotionsBatchCall() async {
@@ -387,112 +355,97 @@ class _PromotionsMethodsViewState extends State<PromotionsMethodsView>
       promotionIdentifier,
       promotionIdentifier2
     ];
-    await Synerise.promotions
-        .deactivatePromotionsBatch(promotionIdentifierList)
-        .catchError((error) {
-      String errorMessage = Utils.handlePlatformException(error);
+    await Synerise.promotions.deactivatePromotionsBatch(promotionIdentifierList,
+        onSuccess: () {
       Utils.displaySimpleAlert(
-          "error on handling api call \n $errorMessage", context);
-      throw Exception(errorMessage);
+          'promotion batch deactivated succesfully', context);
+    }, onError: (SyneriseError error) {
+      Utils.displaySimpleAlert(error.message, context);
     });
-    if (!mounted) return;
-    Utils.displaySimpleAlert(
-        'promotion batch deactivated succesfully', context);
   }
 
   Future<void> _getOrAssignVoucherCall(String poolUuid) async {
-    AssignVoucherResponse assignVoucherResponse = await Synerise.promotions
-        .getOrAssignVoucher(poolUuid)
-        .catchError((error) {
-      String errorMessage = Utils.handlePlatformException(error);
-      Utils.displaySimpleAlert(
-          "error on handling api call \n $errorMessage", context);
-      throw Exception(errorMessage);
+    await Synerise.promotions.getOrAssignVoucher(poolUuid,
+        onSuccess: (AssignVoucherResponse assignVoucherResponse) {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+                content: SingleChildScrollView(
+                    child: Column(children: [
+              const Text(
+                'AssignVoucherResponse Map',
+                style: TextStyle(fontStyle: FontStyle.italic),
+              ),
+              Container(
+                  width: double.infinity,
+                  margin: const EdgeInsets.all(5.0),
+                  padding: const EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                      border: Border.all(width: 0.5, color: Colors.black)),
+                  child:
+                      Text(assignVoucherResponse.message, textScaleFactor: 0.5))
+            ])));
+          });
+    }, onError: (SyneriseError error) {
+      Utils.displaySimpleAlert(error.message, context);
     });
-    if (!mounted) return;
-    showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-              content: SingleChildScrollView(
-                  child: Column(children: [
-            const Text(
-              'AssignVoucherResponse Map',
-              style: TextStyle(fontStyle: FontStyle.italic),
-            ),
-            Container(
-                width: double.infinity,
-                margin: const EdgeInsets.all(5.0),
-                padding: const EdgeInsets.all(5),
-                decoration: BoxDecoration(
-                    border: Border.all(width: 0.5, color: Colors.black)),
-                child:
-                    Text(assignVoucherResponse.message, textScaleFactor: 0.5))
-          ])));
-        });
   }
 
   Future<void> _assignVoucherCodeCall(String poolUuid) async {
-    AssignVoucherResponse assignVoucherResponse = await Synerise.promotions
-        .assignVoucherCode(poolUuid)
-        .catchError((error) {
-      String errorMessage = Utils.handlePlatformException(error);
-      Utils.displaySimpleAlert(
-          "error on handling api call \n $errorMessage", context);
-      throw Exception(errorMessage);
+    await Synerise.promotions.assignVoucherCode(poolUuid,
+        onSuccess: (AssignVoucherResponse assignVoucherResponse) {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+                content: SingleChildScrollView(
+                    child: Column(children: [
+              const Text(
+                'AssignVoucherResponse Map',
+                style: TextStyle(fontStyle: FontStyle.italic),
+              ),
+              Container(
+                  width: double.infinity,
+                  margin: const EdgeInsets.all(5.0),
+                  padding: const EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                      border: Border.all(width: 0.5, color: Colors.black)),
+                  child:
+                      Text(assignVoucherResponse.message, textScaleFactor: 0.5))
+            ])));
+          });
+    }, onError: (SyneriseError error) {
+      Utils.displaySimpleAlert(error.message, context);
     });
-    if (!mounted) return;
-    showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-              content: SingleChildScrollView(
-                  child: Column(children: [
-            const Text(
-              'AssignVoucherResponse Map',
-              style: TextStyle(fontStyle: FontStyle.italic),
-            ),
-            Container(
-                width: double.infinity,
-                margin: const EdgeInsets.all(5.0),
-                padding: const EdgeInsets.all(5),
-                decoration: BoxDecoration(
-                    border: Border.all(width: 0.5, color: Colors.black)),
-                child:
-                    Text(assignVoucherResponse.message, textScaleFactor: 0.5))
-          ])));
-        });
   }
 
   Future<void> _getAssignedVoucherCodesCall() async {
-    VoucherCodesResponse voucherCodesResponse =
-        await Synerise.promotions.getAssignedVoucherCodes().catchError((error) {
-      String errorMessage = Utils.handlePlatformException(error);
-      Utils.displaySimpleAlert(
-          "error on handling api call \n $errorMessage", context);
-      throw Exception(errorMessage);
+    await Synerise.promotions.getAssignedVoucherCodes(
+        onSuccess: (VoucherCodesResponse voucherCodesResponse) {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+                content: SingleChildScrollView(
+                    child: Column(children: [
+              const Text(
+                'VoucherCodesResponse Map',
+                style: TextStyle(fontStyle: FontStyle.italic),
+              ),
+              Container(
+                  width: double.infinity,
+                  margin: const EdgeInsets.all(5.0),
+                  padding: const EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                      border: Border.all(width: 0.5, color: Colors.black)),
+                  child: Text(voucherCodesResponse.data.toString(),
+                      textScaleFactor: 0.5))
+            ])));
+          });
+    }, onError: (SyneriseError error) {
+      Utils.displaySimpleAlert(error.message, context);
     });
-    if (!mounted) return;
-    showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-              content: SingleChildScrollView(
-                  child: Column(children: [
-            const Text(
-              'VoucherCodesResponse Map',
-              style: TextStyle(fontStyle: FontStyle.italic),
-            ),
-            Container(
-                width: double.infinity,
-                margin: const EdgeInsets.all(5.0),
-                padding: const EdgeInsets.all(5),
-                decoration: BoxDecoration(
-                    border: Border.all(width: 0.5, color: Colors.black)),
-                child: Text(voucherCodesResponse.data.toString(),
-                    textScaleFactor: 0.5))
-          ])));
-        });
   }
 
   @override

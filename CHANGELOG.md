@@ -1,6 +1,26 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.0.0] - 2024-04-03
+
+IMPORTANT: 
+We've introduced significant improvements to our method invocation patterns to enhance error handling and simplify success callbacks. This change requires updates to existing method calls in your applications.
+
+- **API Call Pattern Changes**: Previously, asynchronous API calls were structured to use await along with catchError for error handling. Now, we've shifted to a more structured callback approach using onSuccess and onError parameters, providing clearer control over success and error handling.
+
+- **Simplification of Data Retrieval Methods**: For methods that retrieve data from native SDKs, such as obtaining a UUID, the pattern has been simplified to use .then for handling successful outcomes. This change promotes cleaner code and more intuitive success handling. Now, the new pattern is more streamlined and focused on the success case.
+
+### Added
+- [iOS] `Synerise.settings.sdk.localizable` option in settings to let you localize some strings displayed by the SDK.
+- `clientId` property in the `Token` model.
+
+### Fixed
+- Improved mechanism for checking capping in in-app messages. The number of views no longer resets when the account's UUID changes.
+
+### Changed
+- Stability improvements.
+
+
 ## [0.8.3] - 2024-03-08
 
 ### Added

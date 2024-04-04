@@ -60,29 +60,21 @@ class _ActivateAccountByPinState extends State<ActivateAccountByPin>
   }
 
   Future<void> _confirmAccountActivationByPin(email, pinCode) async {
-    await Synerise.client
-        .confirmAccountActivationByPin(email, pinCode)
-        .catchError((error) {
-      String errorMessage = Utils.handlePlatformException(error);
-      Utils.displaySimpleAlert(
-          "error on handling api call \n $errorMessage", context);
-      throw Exception(errorMessage);
+    await Synerise.client.confirmAccountActivationByPin(email, pinCode,
+        onSuccess: () {
+      Utils.displaySimpleAlert("account activated successfully", context);
+    }, onError: (SyneriseError error) {
+      Utils.displaySimpleAlert(error.message, context);
     });
-    if (!mounted) return;
-    Utils.displaySimpleAlert("account activated succcesfully", context);
   }
 
   Future<void> _requestAccountActivationByPinCall(email) async {
-    await Synerise.client
-        .requestAccountActivationByPin(email)
-        .catchError((error) {
-      String errorMessage = Utils.handlePlatformException(error);
+    await Synerise.client.requestAccountActivationByPin(email, onSuccess: () {
       Utils.displaySimpleAlert(
-          "error on handling api call \n $errorMessage", context);
-      throw Exception(errorMessage);
+          "account activation by pin request sent", context);
+    }, onError: (SyneriseError error) {
+      Utils.displaySimpleAlert(error.message, context);
     });
-    if (!mounted) return;
-    Utils.displaySimpleAlert("account activation by pin request sent", context);
   }
 
   @override

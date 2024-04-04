@@ -3,7 +3,6 @@
 import 'package:flutter/services.dart';
 import 'package:synerise_flutter_sdk/synerise.dart';
 
-import '../base/base_module.dart';
 import 'injector_methods.dart';
 
 typedef InjectorListenerFunction = void Function(InjectorListener listener);
@@ -295,11 +294,11 @@ class InjectorImpl extends BaseModule {
     _methods.handleDeepLinkBySDK(deepLink);
   }
 
-  void getWalkthrough() {
+  Future<void> getWalkthrough() async {
     _methods.getWalkthrough();
   }
 
-  void showWalkthrough() {
+  Future<void> showWalkthrough() async {
     _methods.showWalkthrough();
   }
 

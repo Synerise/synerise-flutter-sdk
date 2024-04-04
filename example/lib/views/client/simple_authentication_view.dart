@@ -96,34 +96,23 @@ class _SimpleAuthenticationState extends State<SimpleAuthentication>
         lastName: lastName,
         email: email,
         customId: customID);
-    await Synerise.client
-        .simpleAuthentication(data, authID)
-        .catchError((error) {
-      String errorMessage = Utils.handlePlatformException(error);
-      Utils.displaySimpleAlert(
-          "error on handling api call \n $errorMessage", context);
-      throw Exception(errorMessage);
+    await Synerise.client.simpleAuthentication(data, authID, onSuccess: () {
+      Utils.displaySimpleAlert("simple authenticate complete", context);
+    }, onError: (SyneriseError error) {
+      Utils.displaySimpleAlert(error.message, context);
     });
-    if (!mounted) return;
-    Utils.displaySimpleAlert("simple authenticate complete", context);
   }
 
   Future<void> _isSignedInViaSimpleAuthenticationCall() async {
-    bool result = await Synerise.client
+    await Synerise.client
         .isSignedInViaSimpleAuthentication()
-        .catchError((error) {
-      String errorMessage = Utils.handlePlatformException(error);
-      Utils.displaySimpleAlert(
-          "error on handling api call \n $errorMessage", context);
-      throw Exception(errorMessage);
+        .then((bool result) {
+      if (result == true) {
+        Utils.displaySimpleAlert("simple authentication true", context);
+      } else {
+        Utils.displaySimpleAlert("simple authentication false", context);
+      }
     });
-    if (result == true) {
-      if (!mounted) return;
-      Utils.displaySimpleAlert("simple authentication true", context);
-    } else {
-      if (!mounted) return;
-      Utils.displaySimpleAlert("simple authentication false", context);
-    }
   }
 
   @override

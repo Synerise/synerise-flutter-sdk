@@ -7,91 +7,92 @@ import '../../model/vouchers/assign_voucher_response.dart';
 import '../base/base_module_method_channel.dart';
 
 class PromotionsMethods extends BaseMethodChannel {
-  Future<PromotionResponse> getAllPromotions() async {
-    var promotionResponse =
-        await methodChannel.invokeMethod("Promotions/getAllPromotions");
-    PromotionResponse promotionResponseMap =
-        PromotionResponse.fromMap(promotionResponse);
-    return promotionResponseMap;
+  Future<SyneriseResult<PromotionResponse>> getAllPromotions() async {
+    return await SyneriseInvocation(methodChannel)
+        .invokeSDKApiMethod<PromotionResponse>('Promotions/getAllPromotions',
+            isMappable: true);
   }
 
-  Future<PromotionResponse> getPromotions(
+  Future<SyneriseResult<PromotionResponse>> getPromotions(
       PromotionsApiQuery promotionsApiQuery) async {
-    var promotionResponse = await methodChannel.invokeMethod(
-        "Promotions/getPromotions", promotionsApiQuery.asMap());
-    PromotionResponse promotionResponseMap =
-        PromotionResponse.fromMap(promotionResponse);
-    return promotionResponseMap;
+    return await SyneriseInvocation(methodChannel)
+        .invokeSDKApiMethod<PromotionResponse>('Promotions/getPromotions',
+            parameters: promotionsApiQuery.asMap(), isMappable: true);
   }
 
-  Future<Promotion> getPromotionByUUID(String uuid) async {
-    var promotion =
-        await methodChannel.invokeMethod("Promotions/getPromotionByUUID", uuid);
-    Promotion promotionMap = Promotion.fromMap(promotion);
-    return promotionMap;
+  Future<SyneriseResult<Promotion>> getPromotionByUUID(String uuid) async {
+    return await SyneriseInvocation(methodChannel)
+        .invokeSDKApiMethod<Promotion>('Promotions/getPromotionByUUID',
+            parameters: uuid, isMappable: true);
   }
 
-  Future<Promotion> getPromotionByCode(String code) async {
-    var promotion =
-        await methodChannel.invokeMethod("Promotions/getPromotionByCode", code);
-    Promotion promotionMap = Promotion.fromMap(promotion);
-    return promotionMap;
+  Future<SyneriseResult<Promotion>> getPromotionByCode(String code) async {
+    return await SyneriseInvocation(methodChannel)
+        .invokeSDKApiMethod<Promotion>('Promotions/getPromotionByCode',
+            parameters: code, isMappable: true);
   }
 
-  Future<void> activatePromotionByUUID(String uuid) async {
-    await methodChannel.invokeMethod(
-        "Promotions/activatePromotionByUUID", uuid);
+  Future<SyneriseResult<void>> activatePromotionByUUID(String uuid) async {
+    return await SyneriseInvocation(methodChannel).invokeSDKApiMethod<void>(
+        'Promotions/activatePromotionByUUID',
+        parameters: uuid);
   }
 
-  Future<void> activatePromotionByCode(String code) async {
-    await methodChannel.invokeMethod(
-        "Promotions/activatePromotionByCode", code);
+  Future<SyneriseResult<void>> activatePromotionByCode(String code) async {
+    return await SyneriseInvocation(methodChannel).invokeSDKApiMethod<void>(
+        'Promotions/activatePromotionByCode',
+        parameters: code);
   }
 
-  Future<void> deactivatePromotionByUUID(String uuid) async {
-    await methodChannel.invokeMethod(
-        "Promotions/deactivatePromotionByUUID", uuid);
+  Future<SyneriseResult<void>> deactivatePromotionByUUID(String uuid) async {
+    return await SyneriseInvocation(methodChannel).invokeSDKApiMethod<void>(
+        'Promotions/deactivatePromotionByUUID',
+        parameters: uuid);
   }
 
-  Future<void> deactivatePromotionByCode(String code) async {
-    await methodChannel.invokeMethod(
-        "Promotions/deactivatePromotionByCode", code);
+  Future<SyneriseResult<void>> deactivatePromotionByCode(String code) async {
+    return await SyneriseInvocation(methodChannel).invokeSDKApiMethod<void>(
+        'Promotions/deactivatePromotionByCode',
+        parameters: code);
   }
 
-  Future<void> activatePromotionsBatch(
+  Future<SyneriseResult<void>> activatePromotionsBatch(
       List<PromotionIdentifier> promotionsToActivate) async {
-    await methodChannel.invokeMethod("Promotions/activatePromotionsBatch",
-        _serializePromotionIdentifierList(promotionsToActivate));
+    return await SyneriseInvocation(methodChannel).invokeSDKApiMethod<void>(
+        'Promotions/activatePromotionsBatch',
+        parameters: _serializePromotionIdentifierList(promotionsToActivate));
   }
 
-  Future<void> deactivatePromotionsBatch(
+  Future<SyneriseResult<void>> deactivatePromotionsBatch(
       List<PromotionIdentifier> promotionsToDeactivate) async {
-    await methodChannel.invokeMethod("Promotions/deactivatePromotionsBatch",
-        _serializePromotionIdentifierList(promotionsToDeactivate));
+    return await SyneriseInvocation(methodChannel).invokeSDKApiMethod<void>(
+        'Promotions/deactivatePromotionsBatch',
+        parameters: _serializePromotionIdentifierList(promotionsToDeactivate));
   }
 
-  Future<AssignVoucherResponse> getOrAssignVoucher(String poolUuid) async {
-    var assignVoucherResponse = await methodChannel.invokeMethod(
-        "Promotions/getOrAssignVoucher", poolUuid);
-    AssignVoucherResponse assignVoucherResponseMap =
-        AssignVoucherResponse.fromMap(assignVoucherResponse);
-    return assignVoucherResponseMap;
+  Future<SyneriseResult<AssignVoucherResponse>> getOrAssignVoucher(
+      String poolUuid) async {
+    return await SyneriseInvocation(methodChannel)
+        .invokeSDKApiMethod<AssignVoucherResponse>(
+            'Promotions/getOrAssignVoucher',
+            parameters: poolUuid,
+            isMappable: true);
   }
 
-  Future<AssignVoucherResponse> assignVoucherCode(String poolUuid) async {
-    var assignVoucherResponse = await methodChannel.invokeMethod(
-        "Promotions/assignVoucherCode", poolUuid);
-    AssignVoucherResponse assignVoucherResponseMap =
-        AssignVoucherResponse.fromMap(assignVoucherResponse);
-    return assignVoucherResponseMap;
+  Future<SyneriseResult<AssignVoucherResponse>> assignVoucherCode(
+      String poolUuid) async {
+    return await SyneriseInvocation(methodChannel)
+        .invokeSDKApiMethod<AssignVoucherResponse>(
+            'Promotions/assignVoucherCode',
+            parameters: poolUuid,
+            isMappable: true);
   }
 
-  Future<VoucherCodesResponse> getAssignedVoucherCodes() async {
-    var voucherCodesResponse =
-        await methodChannel.invokeMethod("Promotions/getAssignedVoucherCodes");
-    VoucherCodesResponse voucherCodesResponseMap =
-        VoucherCodesResponse.fromMap(voucherCodesResponse);
-    return voucherCodesResponseMap;
+  Future<SyneriseResult<VoucherCodesResponse>> getAssignedVoucherCodes() async {
+    return await SyneriseInvocation(methodChannel)
+        .invokeSDKApiMethod<VoucherCodesResponse>(
+            'Promotions/getAssignedVoucherCodes',
+            isMappable: true);
   }
 }
 

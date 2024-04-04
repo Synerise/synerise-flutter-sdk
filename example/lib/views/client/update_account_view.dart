@@ -2,6 +2,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:synerise_flutter_sdk/synerise.dart';
 
+import '../../classes/utils.dart';
+
 class UpdateAccount extends StatefulWidget {
   const UpdateAccount({super.key});
 
@@ -119,35 +121,14 @@ class _UpdateAccountState extends State<UpdateAccount>
             password: password,
             firstName: firstName,
             lastName: lastName,
-            sex: ClientSex.getClientSexFromString(sex),
-            phone: null,
-            company: null,
-            address: null,
-            city: null,
-            zipcode: null,
-            countrycode: null,
-            province: null);
+            sex: ClientSex.getClientSexFromString(sex));
 
-    await Synerise.client
-        .updateAccount(clientAccountUpdateContext)
-        .catchError((error) {
-      showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            content: Text("update call failed: $error"),
-          );
-        },
-      );
-      throw Exception('Failed to call native update method: $error');
-    }).then(showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          content: Text("$email account updated succesfully"),
-        );
-      },
-    ) as FutureOr Function(void value));
+    await Synerise.client.updateAccount(clientAccountUpdateContext,
+        onSuccess: () {
+      Utils.displaySimpleAlert("Account succesfully updated", context);
+    }, onError: (SyneriseError error) {
+      Utils.displaySimpleAlert(error.message, context);
+    });
   }
 
   @override

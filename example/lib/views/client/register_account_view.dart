@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:synerise_flutter_sdk/synerise.dart';
 
+import '../../classes/utils.dart';
+
 class RegisterAccount extends StatefulWidget {
   const RegisterAccount({super.key});
 
@@ -55,26 +57,12 @@ class _RegisterAccountState extends State<RegisterAccount>
     ClientAccountRegisterContext clientAccountRegisterContext =
         ClientAccountRegisterContext(email: email, password: password);
 
-    await Synerise.client
-        .registerAccount(clientAccountRegisterContext)
-        .catchError((error) {
-      showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            content: Text("register call failed: $error"),
-          );
-        },
-      );
-      throw Exception('Failed to call native register method: $error');
-    }).then(showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          content: Text("$email account created succesfully"),
-        );
-      },
-    ) as FutureOr Function(void value));
+    await Synerise.client.registerAccount(clientAccountRegisterContext,
+        onSuccess: () {
+      Utils.displaySimpleAlert("$email account created succesfully", context);
+    }, onError: (SyneriseError error) {
+      Utils.displaySimpleAlert(error.message, context);
+    });
   }
 
   @override

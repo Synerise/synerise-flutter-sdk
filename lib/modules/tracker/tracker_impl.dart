@@ -12,8 +12,8 @@ class TrackerImpl extends BaseModule {
   /// Args:
   ///   customIdentifier (String): customIdentifier is a String parameter that represents a unique
   /// customer's custom identifier.
-  void setCustomIdentifier(String customIdentifier) {
-    _methods.setCustomIdentifier(customIdentifier);
+  Future<void> setCustomIdentifier(String customIdentifier) async {
+    return await _methods.setCustomIdentifier(customIdentifier);
   }
 
   /// This method sets a custom email in the parameters of every event. You can pass a custom email to
@@ -22,20 +22,20 @@ class TrackerImpl extends BaseModule {
   /// Args:
   ///   customEmail (String): customEmail is a variable of type String that represents the email address
   /// that the user wants to set as their custom email.
-  void setCustomEmail(String customEmail) {
-    _methods.setCustomEmail(customEmail);
+  Future<void> setCustomEmail(String customEmail) async {
+    return await _methods.setCustomEmail(customEmail);
   }
 
   /// This method sends an event.
   ///
   /// Args:
   ///   event (Event): Event object
-  void send(Event event) {
-    _methods.send(event);
+  Future<void> send(Event event) async {
+    return await _methods.send(event);
   }
 
   /// This method forces sending the events from the queue to the server.
-  void flush() {
-    _methods.flush();
+  Future<void> flush() async {
+    return await _methods.flush();
   }
 }

@@ -749,6 +749,9 @@ NS_ASSUME_NONNULL_BEGIN
         [dictionary setString:model.tokenString forKey:@"tokenString"];
         [dictionary setString:SNR_TokenOriginToString(model.origin) forKey:@"origin"];
         [dictionary setDate:model.expirationDate forKey:@"expirationDate"];
+        [dictionary setString:model.rlm forKey:@"rlm"];
+        [dictionary setString:model.clientId forKey:@"clientId"];
+        [dictionary setString:model.customId forKey:@"customId"];
         
         return dictionary;
     }

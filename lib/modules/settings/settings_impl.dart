@@ -12,6 +12,7 @@ class SettingsKeys {
   static const sdkMinTokenRefreshInterval = "SDK_MIN_TOKEN_REFRESH_INTERVAL";
   static const sdkShouldDestroySessionOnApiKeyChange =
       "SDK_SHOULD_DESTROY_SESSION_ON_API_KEY_CHANGE";
+  static const sdkLocalizable = "SDK_LOCALIZABLE";
 
   static const trackerIsBackendTimeSyncRequired =
       "TRACKER_IS_BACKEND_TIME_SYNC_REQUIRED";
@@ -34,6 +35,13 @@ class SettingsKeys {
       "IN_APP_MESSAGING_CHECK_GLOBAL_CONTROL_GROUPS_ON_DEFINITIONS_FETCH";
 
   static const injectorAutomatic = "INJECTOR_AUTOMATIC";
+}
+
+class LocalizableKey {
+  static const localizableStringKeyOk = "LocalizableStringKeyOK";
+  static const localizableStringKeyCancel = "LocalizableStringKeyCancel";
+
+  LocalizableKey._();
 }
 
 Map settingsValues = <String, dynamic>{};
@@ -80,6 +88,12 @@ class GeneralSettings extends BaseSettings {
           bool shouldDestroySessionOnApiKeyChange) =>
       setFunction<bool>(SettingsKeys.sdkShouldDestroySessionOnApiKeyChange,
           shouldDestroySessionOnApiKeyChange);
+
+  Map<String, String>? get localizable => getFunction<Map<String, String>?>(
+      SettingsKeys.sdkLocalizable, Platform.isIOS == true);
+  set localizable(Map<String, String>? localizable) =>
+      setFunction<Map<String, String>?>(
+          SettingsKeys.sdkLocalizable, localizable, Platform.isIOS == true);
 
   GeneralSettings(GetFunction getFunction, SetFunction setFunction)
       : super(getFunction, setFunction);
@@ -269,6 +283,8 @@ class SettingsImpl extends BaseModule {
           settings[SettingsKeys.sdkMinTokenRefreshInterval]);
       _overrideOne<double>(SettingsKeys.sdkShouldDestroySessionOnApiKeyChange,
           settings[SettingsKeys.sdkShouldDestroySessionOnApiKeyChange]);
+      _overrideOne<Map<String, String>?>(
+          SettingsKeys.sdkLocalizable, settings[SettingsKeys.sdkLocalizable]);
 
       _overrideOne<bool>(SettingsKeys.trackerIsBackendTimeSyncRequired,
           settings[SettingsKeys.trackerIsBackendTimeSyncRequired]);

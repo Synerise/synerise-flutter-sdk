@@ -13,6 +13,7 @@ static NSString * const FSettingsSDKAppGroupIdentifier = @"SDK_APP_GROUP_IDENTIF
 static NSString * const FSettingsSDKKeychainGroupIdentifier = @"SDK_KEYCHAIN_GROUP_IDENTIFIER";
 static NSString * const FSettingsSDKMinTokenRefreshInterval = @"SDK_MIN_TOKEN_REFRESH_INTERVAL";
 static NSString * const FSettingsSDKShouldDestroySessionOnApiKeyChange = @"SDK_SHOULD_DESTROY_SESSION_ON_API_KEY_CHANGE";
+static NSString * const FSettingsSDKLocalizable = @"SDK_LOCALIZABLE";
 
 static NSString * const FSettingsTrackerIsBackendTimeSyncRequired = @"TRACKER_IS_BACKEND_TIME_SYNC_REQUIRED";
 static NSString * const FSettingsTrackerMinBatchSize = @"TRACKER_MIN_BATCH_SIZE";
@@ -58,6 +59,7 @@ NS_ASSUME_NONNULL_BEGIN
     [self updateSettingsKeyPath:@"sdk.keychainGroupIdentifier" expectedClass:[NSString class] object:dictionary[FSettingsSDKKeychainGroupIdentifier]];
     [self updateSettingsKeyPath:@"sdk.minTokenRefreshInterval" expectedClass:[NSNumber class] object:dictionary[FSettingsSDKMinTokenRefreshInterval]];
     [self updateSettingsKeyPath:@"sdk.shouldDestroySessionOnApiKeyChange" expectedClass:[NSNumber class] object:dictionary[FSettingsSDKShouldDestroySessionOnApiKeyChange]];
+    [self updateSettingsKeyPath:@"sdk.localizable" expectedClass:[NSDictionary class] object:[self normalizeSDKLocalizableDictionary:dictionary[FSettingsSDKLocalizable]]];
     
     [self updateSettingsKeyPath:@"tracker.isBackendTimeSyncRequired" expectedClass:[NSNumber class] object:dictionary[FSettingsTrackerIsBackendTimeSyncRequired]];
     [self updateSettingsKeyPath:@"tracker.minBatchSize" expectedClass:[NSNumber class] object:dictionary[FSettingsTrackerMinBatchSize]];
@@ -145,6 +147,7 @@ NS_ASSUME_NONNULL_BEGIN
     dictionary[FSettingsSDKKeychainGroupIdentifier] = SNRSynerise.settings.sdk.keychainGroupIdentifier ?: [NSNull null];
     dictionary[FSettingsSDKMinTokenRefreshInterval] = [NSNumber numberWithDouble:SNRSynerise.settings.sdk.minTokenRefreshInterval];
     dictionary[FSettingsSDKShouldDestroySessionOnApiKeyChange] = [NSNumber numberWithBool:SNRSynerise.settings.sdk.shouldDestroySessionOnApiKeyChange];
+    dictionary[FSettingsSDKLocalizable] = SNRSynerise.settings.sdk.localizable ?: [NSNull null];
     
     dictionary[FSettingsTrackerIsBackendTimeSyncRequired] = [NSNumber numberWithBool:SNRSynerise.settings.tracker.isBackendTimeSyncRequired];
     dictionary[FSettingsTrackerMinBatchSize] = [NSNumber numberWithInteger:SNRSynerise.settings.tracker.minBatchSize];
@@ -164,6 +167,34 @@ NS_ASSUME_NONNULL_BEGIN
 
     return dictionary;
 }
+
+- (NSDictionary *)normalizeSDKLocalizableDictionary:(nullable NSDictionary *)dictionary {
+    if ([dictionary isKindOfClass:NSNull.class] == YES || dictionary == nil) {
+        return nil;
+    }
+
+    static NSString *LocalizableKeyOK = @"LocalizableStringKeyOK";
+    static NSString *LocalizableKeyCancel = @"LocalizableStringKeyCancel";
+
+    NSMutableDictionary *newDictionary = [@{} mutableCopy];
+
+    NSString *localizableKeyOK = dictionary[LocalizableKeyOK];
+    if (localizableKeyOK != nil) {
+        newDictionary[SNR_LOCALIZABLE_STRING_KEY_OK] = localizableKeyOK;
+    }
+
+    NSString *localizableKeyCancel = dictionary[LocalizableKeyCancel];
+    if (localizableKeyCancel != nil) {
+        newDictionary[SNR_LOCALIZABLE_STRING_KEY_CANCEL] = localizableKeyCancel;
+    }
+
+    if ([newDictionary count] < 0 ){
+        return nil;
+    }
+
+    return [[NSDictionary alloc] initWithDictionary:newDictionary];
+}
+
 
 @end
 

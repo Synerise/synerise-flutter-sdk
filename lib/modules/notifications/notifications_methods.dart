@@ -1,58 +1,68 @@
 import '../base/base_module_method_channel.dart';
 
 class NotificationsMethods extends BaseMethodChannel {
-  void registerForNotifications(String registrationToken,
-      [bool? mobileAgreement]) {
-    methodChannel.invokeMethod('Notifications/registerForNotifications', {
-      "registrationToken": registrationToken,
-      "mobileAgreement": mobileAgreement
-    });
+  Future<SyneriseResult<void>> registerForNotifications(
+      String registrationToken,
+      [bool? mobileAgreement]) async {
+    return await SyneriseInvocation(methodChannel).invokeSDKApiMethod<void>(
+        'Notifications/registerForNotifications',
+        parameters: {
+          "registrationToken": registrationToken,
+          "mobileAgreement": mobileAgreement
+        });
   }
 
   Future<bool> handleNotification(Map notification) async {
-    return await backgroundMethodChannel.invokeMethod(
-        'Notifications/handleNotification', {'notification': notification});
+    return await SyneriseInvocation(backgroundMethodChannel)
+        .invokeSDKMethod<bool>('Notifications/handleNotification',
+            parameters: {'notification': notification});
   }
 
   Future<bool> handleNotificationClick(Map notification) async {
-    return await backgroundMethodChannel.invokeMethod(
-        'Notifications/handleNotificationClick',
-        {'notification': notification});
+    return await SyneriseInvocation(backgroundMethodChannel)
+        .invokeSDKMethod<bool>('Notifications/handleNotificationClick',
+            parameters: {'notification': notification});
   }
 
   Future<bool> isSyneriseNotification(Map notification) async {
-    return await backgroundMethodChannel.invokeMethod(
-        'Notifications/isSyneriseNotification', {'notification': notification});
+    return await SyneriseInvocation(backgroundMethodChannel)
+        .invokeSDKMethod<bool>('Notifications/isSyneriseNotification',
+            parameters: {'notification': notification});
   }
 
   Future<bool> isSyneriseSimplePush(Map notification) async {
-    return await backgroundMethodChannel.invokeMethod(
-        'Notifications/isSyneriseSimplePush', {'notification': notification});
+    return await SyneriseInvocation(backgroundMethodChannel)
+        .invokeSDKMethod<bool>('Notifications/isSyneriseSimplePush',
+            parameters: {'notification': notification});
   }
 
   Future<bool> isSyneriseBanner(Map notification) async {
-    return await backgroundMethodChannel.invokeMethod(
-        'Notifications/isSyneriseBanner', {'notification': notification});
+    return await SyneriseInvocation(backgroundMethodChannel)
+        .invokeSDKMethod<bool>('Notifications/isSyneriseBanner',
+            parameters: {'notification': notification});
   }
 
   Future<bool> isSilentCommand(Map notification) async {
-    return await backgroundMethodChannel.invokeMethod(
-        'Notifications/isSilentCommand', {'notification': notification});
+    return await SyneriseInvocation(backgroundMethodChannel)
+        .invokeSDKMethod<bool>('Notifications/isSilentCommand',
+            parameters: {'notification': notification});
   }
 
   Future<bool> isSilentSDKCommand(Map notification) async {
-    return await backgroundMethodChannel.invokeMethod(
-        'Notifications/isSilentSDKCommand', {'notification': notification});
+    return await SyneriseInvocation(backgroundMethodChannel)
+        .invokeSDKMethod<bool>('Notifications/isSilentSDKCommand',
+            parameters: {'notification': notification});
   }
 
   Future<bool> isNotificationEncrypted(Map notification) async {
-    return await backgroundMethodChannel.invokeMethod(
+    return await SyneriseInvocation(backgroundMethodChannel).invokeSDKMethod(
         'Notifications/isNotificationEncrypted',
-        {'notification': notification});
+        parameters: {'notification': notification});
   }
 
   Future<Map> decryptNotification(Map notification) async {
-    return await backgroundMethodChannel.invokeMethod(
-        'Notifications/decryptNotification', {'notification': notification});
+    return await SyneriseInvocation(backgroundMethodChannel).invokeSDKMethod(
+        'Notifications/decryptNotification',
+        parameters: {'notification': notification});
   }
 }

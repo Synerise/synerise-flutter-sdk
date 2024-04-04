@@ -1,6 +1,7 @@
 import 'package:flutter/services.dart';
 
 import '../base/base_module.dart';
+import '../base/base_module_method_channel.dart';
 import 'notifications_methods.dart';
 
 typedef NotificationsListenerFunction = void Function(
@@ -48,9 +49,17 @@ class NotificationsImpl extends BaseModule {
   /// notifications. This token is used to identify the device and send push notifications to it.
   ///   mobileAgreement (bool): mobileAgreement is a boolean parameter that indicates whether the user
   /// has agreed to receive notifications on their mobile device.
-  void registerForNotifications(String registrationToken,
-      [bool? mobileAgreement]) {
-    _methods.registerForNotifications(registrationToken, mobileAgreement);
+  Future<void> registerForNotifications(String registrationToken,
+      {bool? mobileAgreement,
+      required void Function() onSuccess,
+      required void Function(SyneriseError error) onError}) async {
+    SyneriseResult<void> result = await _methods.registerForNotifications(
+        registrationToken, mobileAgreement);
+    result.onSuccess((result) {
+      onSuccess();
+    }).onError((error) {
+      onError(error);
+    });
   }
 
   /// This function handles a notification and returns a boolean value indicating whether the
@@ -61,7 +70,7 @@ class NotificationsImpl extends BaseModule {
   /// notification. It could include information such as the title and body of the notification, the
   /// sender of the notification, and any additional data that was included with the notification.
   Future<bool> handleNotification(Map notification) async {
-    return _methods.handleNotification(notification);
+    return await _methods.handleNotification(notification);
   }
 
   /// This function handles a notification click and returns a boolean value.
@@ -70,7 +79,7 @@ class NotificationsImpl extends BaseModule {
   ///   notification (Map): The parameter "notification" is a Map object that contains the data of a
   /// notification that was received by the app.
   Future<bool> handleNotificationClick(Map notification) async {
-    return _methods.handleNotificationClick(notification);
+    return await _methods.handleNotificationClick(notification);
   }
 
   /// The function isSyneriseNotification checks if a given notification is a Synerise notification.
@@ -78,7 +87,7 @@ class NotificationsImpl extends BaseModule {
   /// Args:
   ///   notification (Map): A map containing the notification data.
   Future<bool> isSyneriseNotification(Map notification) async {
-    return _methods.isSyneriseNotification(notification);
+    return await _methods.isSyneriseNotification(notification);
   }
 
   /// The function checks if a given notification is a Synerise Simple Push notification.
@@ -86,7 +95,7 @@ class NotificationsImpl extends BaseModule {
   /// Args:
   ///   notification (Map): A map containing the notification data.
   Future<bool> isSyneriseSimplePush(Map notification) async {
-    return _methods.isSyneriseSimplePush(notification);
+    return await _methods.isSyneriseSimplePush(notification);
   }
 
   /// The function isSyneriseBanner checks if a given notification is a Synerise banner.
@@ -94,7 +103,7 @@ class NotificationsImpl extends BaseModule {
   /// Args:
   ///   notification (Map): A map containing the notification data.
   Future<bool> isSyneriseBanner(Map notification) async {
-    return _methods.isSyneriseBanner(notification);
+    return await _methods.isSyneriseBanner(notification);
   }
 
   /// The function isSilentCommand checks if a notification is a silent command.
@@ -102,7 +111,7 @@ class NotificationsImpl extends BaseModule {
   /// Args:
   ///   notification (Map): A map containing the notification data.
   Future<bool> isSilentCommand(Map notification) async {
-    return _methods.isSilentCommand(notification);
+    return await _methods.isSilentCommand(notification);
   }
 
   /// The function checks if a given notification is a silent SDK command.
@@ -110,7 +119,7 @@ class NotificationsImpl extends BaseModule {
   /// Args:
   ///   notification (Map): A map containing the notification data.
   Future<bool> isSilentSDKCommand(Map notification) async {
-    return _methods.isSilentSDKCommand(notification);
+    return await _methods.isSilentSDKCommand(notification);
   }
 
   /// The function checks if a notification is encrypted.

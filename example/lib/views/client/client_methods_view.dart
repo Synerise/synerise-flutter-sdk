@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-import 'simple_authentication.dart.dart';
-import 'change_email_and_phone.dart';
-import 'change_password.dart';
-import 'regenerate_uuid_with_client_identifier.dart';
-import 'register_account.dart';
-import 'signin.dart';
-import 'update_account.dart';
-import 'activate_account_by_pin.dart';
+import 'simple_authentication_view.dart';
+import 'change_email_and_phone_view.dart';
+import 'change_password_view.dart';
+import 'regenerate_uuid_with_client_id_view.dart';
+import 'register_account_view.dart';
+import 'signin_view.dart';
+import 'update_account_view.dart';
+import 'activate_account_by_pin_view.dart';
 
 class ClientMethodsView extends StatefulWidget {
   const ClientMethodsView({super.key});

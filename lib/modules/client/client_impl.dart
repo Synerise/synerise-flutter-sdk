@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_null_comparison
+
 import '../../model/client/client_simple_authentication_data.dart';
 import '../../model/client/client_conditional_auth_context.dart';
 import '../../enums/client/client_sign_out_mode.dart';
@@ -8,6 +10,7 @@ import '../../model/client/client_account_update_context.dart';
 import '../../model/client/client_auth_context.dart';
 import '../../model/client/client_conditional_auth_result.dart';
 import '../../model/client/token.dart';
+import '../base/base_module_method_channel.dart';
 import '../base/base_module.dart';
 import 'client_methods.dart';
 
@@ -21,8 +24,17 @@ class ClientImpl extends BaseModule {
   ///   clientAccountRegisterContext (ClientAccountRegisterContext): It is an object of type
   /// ClientAccountRegisterContext that contains the necessary information to register a client account.
   Future<void> registerAccount(
-      ClientAccountRegisterContext clientAccountRegisterContext) async {
-    return _methods.registerAccount(clientAccountRegisterContext);
+      ClientAccountRegisterContext clientAccountRegisterContext,
+      {required void Function() onSuccess,
+      required void Function(SyneriseError error) onError}) async {
+    SyneriseResult<void> result =
+        await _methods.registerAccount(clientAccountRegisterContext);
+
+    result.onSuccess((result) {
+      onSuccess();
+    }).onError((error) {
+      onError(error);
+    });
   }
 
   /// This function confirms a user's account using a token.
@@ -30,8 +42,16 @@ class ClientImpl extends BaseModule {
   /// Args:
   ///   token (String): The "token" parameter is a string that represents a unique identifier for a user
   /// account confirmation.
-  Future<void> confirmAccount(String token) async {
-    return _methods.confirmAccount(token);
+  Future<void> confirmAccount(String token,
+      {required void Function() onSuccess,
+      required void Function(SyneriseError error) onError}) async {
+    SyneriseResult<void> result = await _methods.confirmAccount(token);
+
+    result.onSuccess((result) {
+      onSuccess();
+    }).onError((error) {
+      onError(error);
+    });
   }
 
   /// This function activates a user account using their email address.
@@ -39,8 +59,16 @@ class ClientImpl extends BaseModule {
   /// Args:
   ///   email (String): The email parameter is a string that represents the email address of the user
   /// whose account needs to be activated.
-  Future<void> activateAccount(String email) async {
-    return _methods.activateAccount(email);
+  Future<void> activateAccount(String email,
+      {required void Function() onSuccess,
+      required void Function(SyneriseError error) onError}) async {
+    SyneriseResult<void> result = await _methods.activateAccount(email);
+
+    result.onSuccess((result) {
+      onSuccess();
+    }).onError((error) {
+      onError(error);
+    });
   }
 
   /// The function `confirmAccountActivationByPin` takes an email and a pin code as parameters and confirms
@@ -50,9 +78,17 @@ class ClientImpl extends BaseModule {
   ///   email (String): A string representing the email address of the user.
   ///   pinCode (String): The pinCode parameter is a string that represents the PIN code sent to email of
   ///   the user that account needs to be activated.
-  Future<void> confirmAccountActivationByPin(
-      String email, String pinCode) async {
-    return _methods.confirmAccountActivationByPin(email, pinCode);
+  Future<void> confirmAccountActivationByPin(String email, String pinCode,
+      {required void Function() onSuccess,
+      required void Function(SyneriseError error) onError}) async {
+    SyneriseResult<void> result =
+        await _methods.confirmAccountActivationByPin(email, pinCode);
+
+    result.onSuccess((result) {
+      onSuccess();
+    }).onError((error) {
+      onError(error);
+    });
   }
 
   /// The function `requestAccountActivationByPin` sends a request to activate an account using a PIN
@@ -61,8 +97,17 @@ class ClientImpl extends BaseModule {
   /// Args:
   ///   email (String): The email parameter is a string that represents the email address of the user
   /// who wants to request account activation.
-  Future<void> requestAccountActivationByPin(String email) async {
-    return _methods.requestAccountActivationByPin(email);
+  Future<void> requestAccountActivationByPin(String email,
+      {required void Function() onSuccess,
+      required void Function(SyneriseError error) onError}) async {
+    SyneriseResult<void> result =
+        await _methods.requestAccountActivationByPin(email);
+
+    result.onSuccess((result) {
+      onSuccess();
+    }).onError((error) {
+      onError(error);
+    });
   }
 
   /// This function takes an email and password as parameters and signs in the
@@ -71,8 +116,16 @@ class ClientImpl extends BaseModule {
   /// Args:
   ///   email (String): A string representing the email address of the user trying to sign in.
   ///   password (String): The password parameter is a string that represents the user's password.
-  Future<void> signIn(String email, String password) async {
-    return _methods.signIn(email, password);
+  Future<void> signIn(String email, String password,
+      {required void Function() onSuccess,
+      required void Function(SyneriseError error) onError}) async {
+    SyneriseResult<void> result = await _methods.signIn(email, password);
+
+    result.onSuccess((result) {
+      onSuccess();
+    }).onError((error) {
+      onError(error);
+    });
   }
 
   /// `signInConditionally` returns a 'ClientConditionalAuthResult' that represents the result of a conditional
@@ -84,9 +137,17 @@ class ClientImpl extends BaseModule {
   ///
   /// Returns:
   ///   The method `signInConditionally` is returning a `ClientConditionalAuthResult`.
-  Future<ClientConditionalAuthResult> signInConditionally(
-      String email, String password) async {
-    return _methods.signInConditionally(email, password);
+  Future<void> signInConditionally(String email, String password,
+      {required void Function(ClientConditionalAuthResult) onSuccess,
+      required void Function(SyneriseError error) onError}) async {
+    SyneriseResult<ClientConditionalAuthResult> result =
+        await _methods.signInConditionally(email, password);
+
+    result.onSuccess((result) {
+      onSuccess(result);
+    }).onError((error) {
+      onError(error);
+    });
   }
 
   /// This function authenticates a client using an identity provider, clientAuthContext and a token string.
@@ -98,10 +159,18 @@ class ClientImpl extends BaseModule {
   /// represents the identity provider used for authentication.
   ///   tokenString (String): The `tokenString` parameter is a string that represents an authentication
   /// token.
-  Future<bool> authenticate(ClientAuthContext clientAuthContext,
-      IdentityProvider identityProvider, String tokenString) async {
-    return _methods.authenticate(
+  Future<void> authenticate(ClientAuthContext clientAuthContext,
+      IdentityProvider identityProvider, String tokenString,
+      {required void Function(bool) onSuccess,
+      required void Function(SyneriseError error) onError}) async {
+    SyneriseResult<bool> result = await _methods.authenticate(
         clientAuthContext, identityProvider, tokenString);
+
+    result.onSuccess((result) {
+      onSuccess(result);
+    }).onError((error) {
+      onError(error);
+    });
   }
 
   /// The function `authenticateConditionally` authenticates a user conditionally based on the provided
@@ -122,12 +191,21 @@ class ClientImpl extends BaseModule {
   /// Returns:
   ///   The method is returning a `Future` object that resolves to a `ClientConditionalAuthResult`
   /// object.
-  Future<ClientConditionalAuthResult> authenticateConditionally(
+  Future<void> authenticateConditionally(
       IdentityProvider identityProvider, String tokenString,
-      [ClientCondtitionalAuthContext? clientAuthContext,
-      String? authID]) async {
-    return _methods.authenticateConditionally(
-        identityProvider, tokenString, clientAuthContext, authID);
+      {required void Function(ClientConditionalAuthResult) onSuccess,
+      required void Function(SyneriseError error) onError,
+      ClientCondtitionalAuthContext? clientAuthContext,
+      String? authID}) async {
+    SyneriseResult<ClientConditionalAuthResult> result =
+        await _methods.authenticateConditionally(
+            identityProvider, tokenString, clientAuthContext, authID);
+
+    result.onSuccess((result) {
+      onSuccess(result);
+    }).onError((error) {
+      onError(error);
+    });
   }
 
   /// This method signs in a customer with Simple Authentication.
@@ -139,9 +217,17 @@ class ClientImpl extends BaseModule {
   /// used as a unique identifier for the authentication process.
   Future<void> simpleAuthentication(
       ClientSimpleAuthenticationData clientSimpleAuthenticationData,
-      String authID) async {
-    return _methods.simpleAuthentication(
+      String authID,
+      {required void Function() onSuccess,
+      required void Function(SyneriseError error) onError}) async {
+    SyneriseResult<void> result = await _methods.simpleAuthentication(
         clientSimpleAuthenticationData, authID);
+
+    result.onSuccess((result) {
+      onSuccess();
+    }).onError((error) {
+      onError(error);
+    });
   }
 
   /// This function returns a boolean value indicating whether the user is signed in or not.
@@ -159,7 +245,7 @@ class ClientImpl extends BaseModule {
 
   /// This function signs the user out of the current session.
   Future<void> signOut() async {
-    return _methods.signOut();
+    return await _methods.signOut();
   }
 
   /// The function signOutWithMode signs out the client with the specified mode and from all devices if
@@ -170,29 +256,53 @@ class ClientImpl extends BaseModule {
   /// represents the sign out mode.
   ///   fromAllDevices (bool): A boolean value indicating whether the sign out should be applied to all
   /// devices or just the current device.
-  Future<void> signOutWithMode(
-      ClientSignOutMode mode, bool fromAllDevices) async {
-    return _methods.signOutWithMode(mode, fromAllDevices);
+  Future<void> signOutWithMode(ClientSignOutMode mode, bool fromAllDevices,
+      {required void Function() onSuccess,
+      required void Function(SyneriseError error) onError}) async {
+    SyneriseResult<void> result =
+        await _methods.signOutWithMode(mode, fromAllDevices);
+
+    result.onSuccess((result) {
+      onSuccess();
+    }).onError((error) {
+      onError(error);
+    });
   }
 
   /// This function refreshes user token.
-  Future<bool> refreshToken() async {
-    return _methods.refreshToken();
+  Future<void> refreshToken(
+      {required void Function() onSuccess,
+      required void Function(SyneriseError error) onError}) async {
+    SyneriseResult<void> result = await _methods.refreshToken();
+
+    result.onSuccess((result) {
+      onSuccess();
+    }).onError((error) {
+      onError(error);
+    });
   }
 
   /// This function retrieves a token.
-  Future<Token> retrieveToken() async {
-    return _methods.retrieveToken();
+  Future<void> retrieveToken(
+      {required void Function(Token) onSuccess,
+      required void Function(SyneriseError error) onError}) async {
+    SyneriseResult<Token> result = await _methods.retrieveToken();
+
+    result.onSuccess((result) {
+      onSuccess(result);
+    }).onError((error) {
+      onError(error);
+    });
   }
 
   /// This function returns a user's UUID string.
   Future<String> getUUID() async {
-    return _methods.getUUID();
+    return await _methods.getUUID();
   }
 
   /// This function regenerates a UUID.
   Future<bool> regenerateUUID() async {
-    return _methods.regenerateUUID();
+    return await _methods.regenerateUUID();
   }
 
   /// The function regenerates a UUID using a client identifier.
@@ -202,17 +312,34 @@ class ClientImpl extends BaseModule {
   /// identifier of the client. It is used as input to regenerate a UUID associated with the client.
   Future<bool> regenerateUUIDWithClientIdentifier(
       String clientIdentifier) async {
-    return _methods.regenerateUUIDWithClientIdentifier(clientIdentifier);
+    return await _methods.regenerateUUIDWithClientIdentifier(clientIdentifier);
   }
 
   /// This function destroys a session asynchronously.
-  Future<void> destroySession() async {
-    return _methods.destroySession();
+  Future<void> destroySession(
+      {required void Function() onSuccess,
+      required void Function(SyneriseError error) onError}) async {
+    SyneriseResult<void> result = await _methods.destroySession();
+
+    result.onSuccess((result) {
+      onSuccess();
+    }).onError((error) {
+      onError(error);
+    });
   }
 
   /// This function returns a Future object containing the client account information.
-  Future<ClientAccountInformation> getAccount() async {
-    return _methods.getAccount();
+  Future<void> getAccount(
+      {required void Function(ClientAccountInformation) onSuccess,
+      required void Function(SyneriseError error) onError}) async {
+    SyneriseResult<ClientAccountInformation> result =
+        await _methods.getAccount();
+
+    result.onSuccess((result) {
+      onSuccess(result);
+    }).onError((error) {
+      onError(error);
+    });
   }
 
   /// This function updates a client account using the provided context.
@@ -223,8 +350,17 @@ class ClientImpl extends BaseModule {
   /// object may include fields such as the client's name, email, phone number, address, and any other
   /// relevant information that needs to be updated.
   Future<void> updateAccount(
-      ClientAccountUpdateContext clientAccountUpdateContext) async {
-    return _methods.updateAccount(clientAccountUpdateContext);
+      ClientAccountUpdateContext clientAccountUpdateContext,
+      {required void Function() onSuccess,
+      required void Function(SyneriseError error) onError}) async {
+    SyneriseResult<void> result =
+        await _methods.updateAccount(clientAccountUpdateContext);
+
+    result.onSuccess((result) {
+      onSuccess();
+    }).onError((error) {
+      onError(error);
+    });
   }
 
   /// This function requests a password reset for a given email address.
@@ -232,8 +368,16 @@ class ClientImpl extends BaseModule {
   /// Args:
   ///   email (String): The email parameter is a string that represents the email address of the user
   /// who wants to reset their password.
-  Future<void> requestPasswordReset(String email) async {
-    return _methods.requestPasswordReset(email);
+  Future<void> requestPasswordReset(String email,
+      {required void Function() onSuccess,
+      required void Function(SyneriseError error) onError}) async {
+    SyneriseResult<void> result = await _methods.requestPasswordReset(email);
+
+    result.onSuccess((result) {
+      onSuccess();
+    }).onError((error) {
+      onError(error);
+    });
   }
 
   /// This function confirms a password reset using a token and a new password.
@@ -243,8 +387,17 @@ class ClientImpl extends BaseModule {
   /// password. This token is used to verify the user's identity when they reset their password.
   ///   password (String): The password parameter is a string that represents the new password that the
   /// user wants to set for their account after resetting their password.
-  Future<void> confirmPasswordReset(String token, String password) async {
-    return _methods.confirmPasswordReset(token, password);
+  Future<void> confirmPasswordReset(String token, String password,
+      {required void Function() onSuccess,
+      required void Function(SyneriseError error) onError}) async {
+    SyneriseResult<void> result =
+        await _methods.confirmPasswordReset(token, password);
+
+    result.onSuccess((result) {
+      onSuccess();
+    }).onError((error) {
+      onError(error);
+    });
   }
 
   /// This function changes the user's password by calling a private method with the old and new
@@ -254,8 +407,17 @@ class ClientImpl extends BaseModule {
   ///   oldPassword (String): The old password is a string parameter that represents the user's current
   /// password. It is used to verify the user's identity before allowing them to change their password.
   ///   password (String): The new password that the user wants to set.
-  Future<void> changePassword(String oldPassword, String password) async {
-    return _methods.changePassword(oldPassword, password);
+  Future<void> changePassword(String oldPassword, String password,
+      {required void Function() onSuccess,
+      required void Function(SyneriseError error) onError}) async {
+    SyneriseResult<void> result =
+        await _methods.changePassword(oldPassword, password);
+
+    result.onSuccess((result) {
+      onSuccess();
+    }).onError((error) {
+      onError(error);
+    });
   }
 
   /// The function `requestEmailChange` sends a request to change the user's email address.
@@ -270,8 +432,18 @@ class ClientImpl extends BaseModule {
   ///   authID (String): The authID parameter is an optional parameter that represents the
   /// authentication ID of the user.
   Future<void> requestEmailChange(String email, String password,
-      [String? externalToken, String? authID]) async {
-    return _methods.requestEmailChange(email, password, externalToken, authID);
+      {String? externalToken,
+      String? authID,
+      required void Function() onSuccess,
+      required void Function(SyneriseError error) onError}) async {
+    SyneriseResult<void> result = await _methods.requestEmailChange(
+        email, password, externalToken, authID);
+
+    result.onSuccess((result) {
+      onSuccess();
+    }).onError((error) {
+      onError(error);
+    });
   }
 
   /// The function `confirmEmailChange` in Dart confirms the change of email with a token and updates the
@@ -282,17 +454,33 @@ class ClientImpl extends BaseModule {
   /// generated and sent to the user's email address when they request to change their email.
   ///   newsletterAgreement (bool): A boolean value indicating whether the user has agreed to receive
   /// newsletters or not.
-  Future<void> confirmEmailChange(
-      String token, bool newsletterAgreement) async {
-    return _methods.confirmEmailChange(token, newsletterAgreement);
+  Future<void> confirmEmailChange(String token, bool newsletterAgreement,
+      {required void Function() onSuccess,
+      required void Function(SyneriseError error) onError}) async {
+    SyneriseResult<void> result =
+        await _methods.confirmEmailChange(token, newsletterAgreement);
+
+    result.onSuccess((result) {
+      onSuccess();
+    }).onError((error) {
+      onError(error);
+    });
   }
 
   /// The function `requestPhoneUpdate` sends a request to update the phone number.
   ///
   /// Args:
   ///   phone (String): A string representing the new phone number that needs to be updated.
-  Future<void> requestPhoneUpdate(String phone) async {
-    return _methods.requestPhoneUpdate(phone);
+  Future<void> requestPhoneUpdate(String phone,
+      {required void Function() onSuccess,
+      required void Function(SyneriseError error) onError}) async {
+    SyneriseResult<void> result = await _methods.requestPhoneUpdate(phone);
+
+    result.onSuccess((result) {
+      onSuccess();
+    }).onError((error) {
+      onError(error);
+    });
   }
 
   /// The function `confirmPhoneUpdate` takes in a phone number, confirmation code, and SMS agreement,
@@ -305,8 +493,17 @@ class ClientImpl extends BaseModule {
   ///   smsAgreement (bool): A boolean value indicating whether the user has agreed to receive SMS
   /// notifications or not.
   Future<void> confirmPhoneUpdate(
-      String phone, String confirmationCode, bool smsAgreement) async {
-    return _methods.confirmPhoneUpdate(phone, confirmationCode, smsAgreement);
+      String phone, String confirmationCode, bool smsAgreement,
+      {required void Function() onSuccess,
+      required void Function(SyneriseError error) onError}) async {
+    SyneriseResult<void> result = await _methods.confirmPhoneUpdate(
+        phone, confirmationCode, smsAgreement);
+
+    result.onSuccess((result) {
+      onSuccess();
+    }).onError((error) {
+      onError(error);
+    });
   }
 
   /// This function deletes an account using client authentication factor, identity provider, and
@@ -320,7 +517,16 @@ class ClientImpl extends BaseModule {
   ///   authId (String): The authId parameter is an optional string that represents the unique
   /// identifier of the authenticated user whose account is to be deleted.
   Future<void> deleteAccount(String clientAuthFactor,
-      IdentityProvider identityProvider, String? authId) async {
-    return _methods.deleteAccount(clientAuthFactor, identityProvider, authId);
+      IdentityProvider identityProvider, String? authId,
+      {required void Function() onSuccess,
+      required void Function(SyneriseError error) onError}) async {
+    SyneriseResult<void> result = await _methods.deleteAccount(
+        clientAuthFactor, identityProvider, authId);
+
+    result.onSuccess((result) {
+      onSuccess();
+    }).onError((error) {
+      onError(error);
+    });
   }
 }

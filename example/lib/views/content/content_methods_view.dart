@@ -127,34 +127,31 @@ class _ContentMethodsViewState extends State<ContentMethodsView>
   Future<void> _generateDocumentCall(String slug) async {
     String slugName = slug;
 
-    Document document =
-        await Synerise.content.generateDocument(slugName).catchError((error) {
-      String errorMessage = Utils.handlePlatformException(error);
-      Utils.displaySimpleAlert(
-          "error on handling api call \n $errorMessage", context);
-      throw Exception(errorMessage);
+    await Synerise.content.generateDocument(slugName,
+        onSuccess: (Document document) {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+                content: SingleChildScrollView(
+                    child: Column(children: [
+              const Text(
+                'Document Identifier',
+                style: TextStyle(fontStyle: FontStyle.italic),
+              ),
+              Container(
+                  width: double.infinity,
+                  margin: const EdgeInsets.all(5.0),
+                  padding: const EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                      border: Border.all(width: 0.5, color: Colors.black)),
+                  child: Text(document.identifier.toString(),
+                      textScaleFactor: 0.5))
+            ])));
+          });
+    }, onError: (SyneriseError error) {
+      Utils.displaySimpleAlert(error.message, context);
     });
-    if (!mounted) return;
-    showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-              content: SingleChildScrollView(
-                  child: Column(children: [
-            const Text(
-              'Document Identifier',
-              style: TextStyle(fontStyle: FontStyle.italic),
-            ),
-            Container(
-                width: double.infinity,
-                margin: const EdgeInsets.all(5.0),
-                padding: const EdgeInsets.all(5),
-                decoration: BoxDecoration(
-                    border: Border.all(width: 0.5, color: Colors.black)),
-                child:
-                    Text(document.identifier.toString(), textScaleFactor: 0.5))
-          ])));
-        });
   }
 
   Future<void> _getRecommendationsV2Call(
@@ -164,67 +161,60 @@ class _ContentMethodsViewState extends State<ContentMethodsView>
     RecommendationOptions recommendationOptions =
         RecommendationOptions(slug: slug, productID: productId);
 
-    RecommendationResponse recommendationResponse = await Synerise.content
-        .getRecommendationsV2(recommendationOptions)
-        .catchError((error) {
-      String errorMessage = Utils.handlePlatformException(error);
-      Utils.displaySimpleAlert(
-          "error on handling api call \n $errorMessage", context);
-      throw Exception(errorMessage);
+    await Synerise.content.getRecommendationsV2(recommendationOptions,
+        onSuccess: (RecommendationResponse recommendationResponse) {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+                content: SingleChildScrollView(
+                    child: Column(children: [
+              const Text(
+                'Recommendation List',
+                style: TextStyle(fontStyle: FontStyle.italic),
+              ),
+              Container(
+                  width: double.infinity,
+                  margin: const EdgeInsets.all(5.0),
+                  padding: const EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                      border: Border.all(width: 0.5, color: Colors.black)),
+                  child: Text(recommendationResponse.items.toString(),
+                      textScaleFactor: 0.5))
+            ])));
+          });
+    }, onError: (SyneriseError error) {
+      Utils.displaySimpleAlert(error.message, context);
     });
-    if (!mounted) return;
-    showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-              content: SingleChildScrollView(
-                  child: Column(children: [
-            const Text(
-              'Recommendation List',
-              style: TextStyle(fontStyle: FontStyle.italic),
-            ),
-            Container(
-                width: double.infinity,
-                margin: const EdgeInsets.all(5.0),
-                padding: const EdgeInsets.all(5),
-                decoration: BoxDecoration(
-                    border: Border.all(width: 0.5, color: Colors.black)),
-                child: Text(recommendationResponse.items.toString(),
-                    textScaleFactor: 0.5))
-          ])));
-        });
   }
 
   Future<void> _generateScreenViewCall(String feedSlug) async {
     String slug = feedSlug;
-    ScreenView screenViewResponse =
-        await Synerise.content.generateScreenView(slug).catchError((error) {
-      String errorMessage = Utils.handlePlatformException(error);
-      Utils.displaySimpleAlert(
-          "error on handling api call \n $errorMessage", context);
-      throw Exception(errorMessage);
+    await Synerise.content.generateScreenView(slug,
+        onSuccess: (ScreenView screenViewResponse) {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+                content: SingleChildScrollView(
+                    child: Column(children: [
+              const Text(
+                'ScreenView Data',
+                style: TextStyle(fontStyle: FontStyle.italic),
+              ),
+              Container(
+                  width: double.infinity,
+                  margin: const EdgeInsets.all(5.0),
+                  padding: const EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                      border: Border.all(width: 0.5, color: Colors.black)),
+                  child: Text(screenViewResponse.data.toString(),
+                      textScaleFactor: 0.5))
+            ])));
+          });
+    }, onError: (SyneriseError error) {
+      Utils.displaySimpleAlert(error.message, context);
     });
-    if (!mounted) return;
-    showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-              content: SingleChildScrollView(
-                  child: Column(children: [
-            const Text(
-              'ScreenView Data',
-              style: TextStyle(fontStyle: FontStyle.italic),
-            ),
-            Container(
-                width: double.infinity,
-                margin: const EdgeInsets.all(5.0),
-                padding: const EdgeInsets.all(5),
-                decoration: BoxDecoration(
-                    border: Border.all(width: 0.5, color: Colors.black)),
-                child: Text(screenViewResponse.data.toString(),
-                    textScaleFactor: 0.5))
-          ])));
-        });
   }
 
   @override

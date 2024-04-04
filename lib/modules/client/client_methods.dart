@@ -11,59 +11,68 @@ import '../../model/client/token.dart';
 import '../base/base_module_method_channel.dart';
 
 class ClientMethods extends BaseMethodChannel {
-  Future<void> registerAccount(
+  Future<SyneriseResult<void>> registerAccount(
       ClientAccountRegisterContext clientAccountRegisterContext) async {
-    await methodChannel.invokeMethod(
-        'Client/registerAccount', clientAccountRegisterContext.asMap());
+    return await SyneriseInvocation(methodChannel).invokeSDKApiMethod<void>(
+        'Client/registerAccount',
+        parameters: clientAccountRegisterContext.asMap());
   }
 
-  Future<void> confirmAccount(String token) async {
-    await methodChannel.invokeMethod('Client/confirmAccount', {"token": token});
+  Future<SyneriseResult<void>> confirmAccount(String token) async {
+    return await SyneriseInvocation(methodChannel).invokeSDKApiMethod<void>(
+        'Client/confirmAccount',
+        parameters: {"token": token});
   }
 
-  Future<void> activateAccount(String email) async {
-    await methodChannel
-        .invokeMethod('Client/activateAccount', {"email": email});
+  Future<SyneriseResult<void>> activateAccount(String email) async {
+    return await SyneriseInvocation(methodChannel).invokeSDKApiMethod<void>(
+        'Client/activateAccount',
+        parameters: {"email": email});
   }
 
-  Future<void> confirmAccountActivationByPin(
+  Future<SyneriseResult<void>> confirmAccountActivationByPin(
       String email, String pinCode) async {
-    await methodChannel.invokeMethod('Client/confirmAccountActivationByPin',
-        {"email": email, "pinCode": pinCode});
+    return await SyneriseInvocation(methodChannel).invokeSDKApiMethod<void>(
+        'Client/confirmAccountActivationByPin',
+        parameters: {"email": email, "pinCode": pinCode});
   }
 
-  Future<void> requestAccountActivationByPin(String email) async {
-    await methodChannel
-        .invokeMethod('Client/requestAccountActivationByPin', {"email": email});
+  Future<SyneriseResult<void>> requestAccountActivationByPin(
+      String email) async {
+    return await SyneriseInvocation(methodChannel).invokeSDKApiMethod<void>(
+        'Client/requestAccountActivationByPin',
+        parameters: {"email": email});
   }
 
-  Future<void> signIn(String email, String password) async {
-    await methodChannel
-        .invokeMethod('Client/signIn', {"email": email, "password": password});
+  Future<SyneriseResult<void>> signIn(String email, String password) async {
+    return await SyneriseInvocation(methodChannel).invokeSDKApiMethod<void>(
+        'Client/signIn',
+        parameters: {"email": email, "password": password});
   }
 
-  Future<ClientConditionalAuthResult> signInConditionally(
+  Future<SyneriseResult<ClientConditionalAuthResult>> signInConditionally(
       String email, String password) async {
-    var clientConditionalAuthResultMap = await methodChannel.invokeMethod(
-        'Client/signInConditionally', {"email": email, "password": password});
-    ClientConditionalAuthResult clientConditionalAuthResult =
-        ClientConditionalAuthResult.fromMap(clientConditionalAuthResultMap);
-    return clientConditionalAuthResult;
+    return await SyneriseInvocation(methodChannel)
+        .invokeSDKApiMethod<ClientConditionalAuthResult>(
+            'Client/signInConditionally',
+            parameters: {"email": email, "password": password},
+            isMappable: true);
   }
 
-  Future<bool> authenticate(ClientAuthContext clientAuthContext,
+  Future<SyneriseResult<bool>> authenticate(ClientAuthContext clientAuthContext,
       IdentityProvider identityProvider, String tokenString) async {
     var authenticateMap = <String, dynamic>{
       'clientAuthContext': clientAuthContext.asMap(),
       'identityProvider': identityProvider.getIdentityProviderAsString(),
       'tokenString': tokenString
     };
-    bool isAuthenticated = await methodChannel.invokeMethod(
-        'Client/authenticate', authenticateMap);
-    return isAuthenticated;
+
+    return await SyneriseInvocation(methodChannel).invokeSDKApiMethod<bool>(
+        'Client/authenticate',
+        parameters: authenticateMap);
   }
 
-  Future<ClientConditionalAuthResult> authenticateConditionally(
+  Future<SyneriseResult<ClientConditionalAuthResult>> authenticateConditionally(
       IdentityProvider identityProvider,
       String tokenString,
       ClientCondtitionalAuthContext? clientCondtitionalAuthContext,
@@ -75,108 +84,114 @@ class ClientMethods extends BaseMethodChannel {
           clientCondtitionalAuthContext?.asMap(),
       'authID': authID ?? authID
     };
-    var clientConditionalAuthResultMap = await methodChannel.invokeMethod(
-        'Client/authenticateConditionally', authenticateMap);
-    ClientConditionalAuthResult clientConditionalAuthResult =
-        ClientConditionalAuthResult.fromMap(clientConditionalAuthResultMap);
-    return clientConditionalAuthResult;
+
+    return await SyneriseInvocation(methodChannel)
+        .invokeSDKApiMethod<ClientConditionalAuthResult>(
+            'Client/authenticateConditionally',
+            parameters: authenticateMap,
+            isMappable: true);
   }
 
-  Future<void> simpleAuthentication(
+  Future<SyneriseResult<void>> simpleAuthentication(
       ClientSimpleAuthenticationData clientSimpleAuthenticationData,
       String authID) async {
-    await methodChannel.invokeMethod("Client/simpleAuthentication", {
+    return await SyneriseInvocation(methodChannel)
+        .invokeSDKApiMethod<void>("Client/simpleAuthentication", parameters: {
       "clientSimpleAuthenticationData": clientSimpleAuthenticationData.asMap(),
       "authID": authID
     });
   }
 
   Future<bool> isSignedIn() async {
-    bool isSignedIn = await methodChannel.invokeMethod('Client/isSignedIn');
-    return isSignedIn;
+    return await SyneriseInvocation(methodChannel)
+        .invokeSDKMethod<bool>('Client/isSignedIn');
   }
 
   Future<bool> isSignedInViaSimpleAuthentication() async {
-    bool result = await methodChannel
-        .invokeMethod("Client/isSignedInViaSimpleAuthentication");
-    return result;
+    return await SyneriseInvocation(methodChannel)
+        .invokeSDKMethod<bool>("Client/isSignedInViaSimpleAuthentication");
   }
 
   Future<void> signOut() async {
-    await methodChannel.invokeMethod("Client/signOut");
+    return SyneriseInvocation(methodChannel)
+        .invokeSDKMethod<void>("Client/signOut");
   }
 
-  Future<void> signOutWithMode(
+  Future<SyneriseResult<void>> signOutWithMode(
       ClientSignOutMode mode, bool fromAllDevices) async {
-    await methodChannel.invokeMethod("Client/signOutWithMode", {
+    return await SyneriseInvocation(methodChannel)
+        .invokeSDKApiMethod<void>("Client/signOutWithMode", parameters: {
       "mode": mode.clientSignOutModeAsString(),
       "fromAllDevices": fromAllDevices
     });
   }
 
-  Future<bool> refreshToken() async {
-    bool result = await methodChannel.invokeMethod("Client/refreshToken");
-    return result;
+  Future<SyneriseResult<void>> refreshToken() async {
+    return await SyneriseInvocation(methodChannel)
+        .invokeSDKApiMethod<void>("Client/refreshToken");
   }
 
-  Future<Token> retrieveToken() async {
-    var tokenMap = await methodChannel.invokeMethod('Client/retrieveToken');
-    Token token = Token.fromMap(tokenMap);
-    return token;
+  Future<SyneriseResult<Token>> retrieveToken() async {
+    return await SyneriseInvocation(methodChannel)
+        .invokeSDKApiMethod<Token>('Client/retrieveToken', isMappable: true);
   }
 
   Future<String> getUUID() async {
-    String uuid = await methodChannel.invokeMethod('Client/getUUID');
-    return uuid;
+    return await SyneriseInvocation(methodChannel)
+        .invokeSDKMethod<String>('Client/getUUID');
   }
 
   Future<bool> regenerateUUID() async {
-    bool result = await methodChannel.invokeMethod("Client/regenerateUUID");
-    return result;
+    return await SyneriseInvocation(methodChannel)
+        .invokeSDKMethod<bool>('Client/regenerateUUID');
   }
 
   Future<bool> regenerateUUIDWithClientIdentifier(
       String clientIdentifier) async {
-    bool result = await methodChannel.invokeMethod(
-        "Client/regenerateUUIDWithClientIdentifier",
-        {"clientIdentifier": clientIdentifier});
-    return result;
+    return await SyneriseInvocation(methodChannel).invokeSDKMethod<bool>(
+        'Client/regenerateUUIDWithClientIdentifier',
+        parameters: {"clientIdentifier": clientIdentifier});
   }
 
-  Future<void> destroySession() async {
-    await methodChannel.invokeMethod('Client/destroySession');
+  Future<SyneriseResult<void>> destroySession() async {
+    return await SyneriseInvocation(methodChannel)
+        .invokeSDKApiMethod<void>('Client/destroySession');
   }
 
-  Future<ClientAccountInformation> getAccount() async {
-    var clientAccountMap =
-        await methodChannel.invokeMethod('Client/getAccount');
-    ClientAccountInformation clientAccountInformation =
-        ClientAccountInformation.fromMap(clientAccountMap);
-    return clientAccountInformation;
+  Future<SyneriseResult<ClientAccountInformation>> getAccount() async {
+    return await SyneriseInvocation(methodChannel)
+        .invokeSDKApiMethod<ClientAccountInformation>('Client/getAccount',
+            isMappable: true);
   }
 
-  Future<void> updateAccount(
+  Future<SyneriseResult<void>> updateAccount(
       ClientAccountUpdateContext clientAccountUpdateContext) async {
-    await methodChannel.invokeMethod(
-        'Client/updateAccount', clientAccountUpdateContext.asMap());
+    return await SyneriseInvocation(methodChannel).invokeSDKApiMethod<void>(
+        'Client/updateAccount',
+        parameters: clientAccountUpdateContext.asMap());
   }
 
-  Future<void> requestPasswordReset(String email) async {
-    await methodChannel
-        .invokeMethod('Client/requestPasswordReset', {"email": email});
+  Future<SyneriseResult<void>> requestPasswordReset(String email) async {
+    return await SyneriseInvocation(methodChannel).invokeSDKApiMethod<void>(
+        'Client/requestPasswordReset',
+        parameters: {"email": email});
   }
 
-  Future<void> confirmPasswordReset(String token, String password) async {
-    await methodChannel.invokeMethod(
-        'Client/confirmPasswordReset', {"token": token, "password": password});
+  Future<SyneriseResult<void>> confirmPasswordReset(
+      String token, String password) async {
+    return await SyneriseInvocation(methodChannel).invokeSDKApiMethod<void>(
+        'Client/confirmPasswordReset',
+        parameters: {"token": token, "password": password});
   }
 
-  Future<void> changePassword(String oldPassword, String password) async {
-    await methodChannel.invokeMethod('Client/changePassword',
-        {"oldPassword": oldPassword, "password": password});
+  Future<SyneriseResult<void>> changePassword(
+      String oldPassword, String password) async {
+    return await SyneriseInvocation(methodChannel).invokeSDKApiMethod<void>(
+        'Client/changePassword',
+        parameters: {"oldPassword": oldPassword, "password": password});
   }
 
-  Future<void> requestEmailChange(String email, String password,
+  Future<SyneriseResult<void>> requestEmailChange(String email, String password,
       String? externalToken, String? authID) async {
     var requestEmailChangeMap = <String, dynamic>{
       'email': email,
@@ -184,33 +199,41 @@ class ClientMethods extends BaseMethodChannel {
       'externalToken': externalToken,
       'authID': authID
     };
-    await methodChannel.invokeMethod(
-        'Client/requestEmailChange', requestEmailChangeMap);
+
+    return await SyneriseInvocation(methodChannel).invokeSDKApiMethod<void>(
+        'Client/requestEmailChange',
+        parameters: requestEmailChangeMap);
   }
 
-  Future<void> confirmEmailChange(
+  Future<SyneriseResult<void>> confirmEmailChange(
       String token, bool newsletterAgreement) async {
-    await methodChannel.invokeMethod('Client/confirmEmailChange',
-        {"token": token, "newsletterAgreement": newsletterAgreement});
+    return await SyneriseInvocation(methodChannel)
+        .invokeSDKApiMethod<void>('Client/confirmEmailChange', parameters: {
+      "token": token,
+      "newsletterAgreement": newsletterAgreement
+    });
   }
 
-  Future<void> requestPhoneUpdate(String phone) async {
-    await methodChannel
-        .invokeMethod('Client/requestPhoneUpdate', {"phone": phone});
+  Future<SyneriseResult<void>> requestPhoneUpdate(String phone) async {
+    return await SyneriseInvocation(methodChannel).invokeSDKApiMethod<void>(
+        'Client/requestPhoneUpdate',
+        parameters: {"phone": phone});
   }
 
-  Future<void> confirmPhoneUpdate(
+  Future<SyneriseResult<void>> confirmPhoneUpdate(
       String phone, String confirmationCode, bool smsAgreement) async {
-    await methodChannel.invokeMethod('Client/confirmPhoneUpdate', {
+    return await SyneriseInvocation(methodChannel)
+        .invokeSDKApiMethod<void>('Client/confirmPhoneUpdate', parameters: {
       "phone": phone,
       "confirmationCode": confirmationCode,
       "smsAgreement": smsAgreement
     });
   }
 
-  Future<void> deleteAccount(String clientAuthFactor,
+  Future<SyneriseResult<void>> deleteAccount(String clientAuthFactor,
       IdentityProvider identityProvider, String? authId) async {
-    await methodChannel.invokeMethod('Client/deleteAccount', {
+    return await SyneriseInvocation(methodChannel)
+        .invokeSDKApiMethod<void>('Client/deleteAccount', parameters: {
       "clientAuthFactor": clientAuthFactor,
       "identityProvider": identityProvider.getIdentityProviderAsString(),
       "authId": authId
