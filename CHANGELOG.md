@@ -1,6 +1,16 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.0.1] - 2024-04-05
+
+### Fixed
+- [android] NPE on getClientId after apiKey changes.
+- [android] registerForPushCache was not passing request after client context change within 24h.
+
+### Changed
+- Stability improvements.
+
+
 ## [1.0.0] - 2024-04-04
 
 IMPORTANT: 

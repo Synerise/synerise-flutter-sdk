@@ -1,5 +1,5 @@
-/// This code exports various classes and enums from the Synerise Flutter SDK. It allows the application developer
-/// to access the objects from the Synerise SDK without the importing them.
+// This code exports various classes and enums from the Synerise Flutter SDK. It allows the application developer
+// to access the objects from the Synerise SDK without the importing them.
 // CONFIG
 export 'package:synerise_flutter_sdk/main/dependencies.dart';
 

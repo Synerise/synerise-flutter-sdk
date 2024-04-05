@@ -188,7 +188,7 @@ NS_ASSUME_NONNULL_BEGIN
         newDictionary[SNR_LOCALIZABLE_STRING_KEY_CANCEL] = localizableKeyCancel;
     }
 
-    if ([newDictionary count] < 0 ){
+    if ([newDictionary count] == 0){
         return nil;
     }
 
