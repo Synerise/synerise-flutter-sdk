@@ -13,6 +13,8 @@ class Synerise {
   static InjectorImpl injector = InjectorImpl();
   static PromotionsImpl promotions = PromotionsImpl();
 
+  static Function()? _ready;
+
   /// This function returns a SyneriseInitializer object with a completion handler that initializes
   /// Synerise and configures the SyneriseDartMethodChannel instance.
   static SyneriseInitializer initializer() {
@@ -22,6 +24,9 @@ class Synerise {
         Synerise.settings.afterInitialization();
         Synerise.injector.afterInitialization();
         SyneriseDartMethodChannel.instance.configureChannel();
+          if (_ready != null) {
+              _ready!();
+              }
       } else {
         Synerise.settings.beforeInitialization();
         Synerise.injector.beforeInitialization();
@@ -39,5 +44,9 @@ class Synerise {
   static Future<void> changeApiKey(String apiKey) async {
     await Dependencies.methodChannel
         .invokeMethod('Synerise/changeApiKey', {"apiKey": apiKey});
+  }
+
+  static void onReady(Function() ready) {
+    _ready = ready;
   }
 }

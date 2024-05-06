@@ -1,5 +1,7 @@
 package com.synerise.synerise_flutter_sdk.modules;
 
+import android.util.Log;
+
 import com.synerise.sdk.client.Client;
 import com.synerise.sdk.core.listeners.DataActionListener;
 import com.synerise.sdk.core.listeners.OnRegisterForPushListener;
@@ -7,11 +9,10 @@ import com.synerise.sdk.core.net.IApiCall;
 import com.synerise.sdk.core.types.exceptions.DecryptionException;
 import com.synerise.sdk.error.ApiError;
 import com.synerise.sdk.injector.Injector;
-import com.synerise.synerise_flutter_sdk.SyneriseMethodChannel;
 import com.synerise.synerise_flutter_sdk.SyneriseModule;
+import com.synerise.synerise_flutter_sdk.modules.listeners.OnRegisterPushListener;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 import io.flutter.plugin.common.MethodCall;
@@ -22,6 +23,8 @@ public class SyneriseNotifications implements SyneriseModule {
     private static ArrayList<Map<String, String>> dataToSend = new ArrayList<>();
     private static ArrayList<String> tokensToSend = new ArrayList<>();
     protected static OnRegisterForPushListener registerNativeForPushListener;
+    private static OnRegisterPushListener pushListener = OnRegisterPushListener.INTERNAL_CALLBACK;
+
 
     @Override
     public void handleMethodCall(MethodCall call, MethodChannel.Result result, String calledMethod) {
@@ -89,6 +92,10 @@ public class SyneriseNotifications implements SyneriseModule {
         SyneriseModule.executeSuccessResult(handlePushPayload, result);
     }
 
+    public static OnRegisterForPushListener registerListeners() {
+        return registerNativeForPushListener();
+    }
+
     public void isSyneriseNotification(MethodCall call, MethodChannel.Result result) {
         Map<String, Object> notificationMap = (Map) call.arguments;
         Map<String, String> dataMap = notificationMapper(notificationMap);
@@ -145,9 +152,13 @@ public class SyneriseNotifications implements SyneriseModule {
         SyneriseModule.executeSuccessResult(decryptedDataMap, result);
     }
 
-    public static OnRegisterForPushListener getPushNotificationsListener() {
-        Map<String, Object> map = new HashMap<>();
-        registerNativeForPushListener = () -> SyneriseMethodChannel.methodChannel.invokeMethod("Notifications#NotificationsListener#onRegistrationRequired", map);
+    public static OnRegisterForPushListener registerNativeForPushListener() {
+        registerNativeForPushListener = new OnRegisterForPushListener() {
+            @Override
+            public void onRegisterForPushRequired() {
+                pushListener.onRegisterPushRequired();
+            }
+        };
         return registerNativeForPushListener;
     }
 

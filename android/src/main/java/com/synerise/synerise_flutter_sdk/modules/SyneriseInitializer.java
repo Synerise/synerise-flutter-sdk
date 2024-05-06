@@ -4,6 +4,7 @@ import static com.synerise.synerise_flutter_sdk.SyneriseConnector.app;
 import static com.synerise.synerise_flutter_sdk.modules.SyneriseInjector.initializeActionInjectorListener;
 
 import android.app.Application;
+import android.util.Log;
 
 import com.synerise.sdk.client.Client;
 import com.synerise.sdk.core.Synerise;
@@ -17,7 +18,7 @@ import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 
 public class SyneriseInitializer implements SyneriseModule {
-    private static String sdkPluginVersion = "1.0.1";
+    private static String sdkPluginVersion = "1.0.2";
     private static SyneriseInitializer instance;
     protected static volatile boolean isInitialized = false;
     public SyneriseInitializer() {
@@ -48,7 +49,7 @@ public class SyneriseInitializer implements SyneriseModule {
                     .crashHandlingEnabled(data.containsKey("crashHandlingEnabled") ? (boolean) data.get("crashHandlingEnabled") : false)
                     .hostApplicationType(HostApplicationType.FLUTTER)
                     .hostApplicationSDKPluginVersion(sdkPluginVersion)
-                    .pushRegistrationRequired(SyneriseNotifications.getPushNotificationsListener());
+                    .pushRegistrationRequired(SyneriseNotifications.registerListeners());
             if (requestValidationSalt != null) {
                 builder.setRequestValidationSalt(requestValidationSalt);
             }

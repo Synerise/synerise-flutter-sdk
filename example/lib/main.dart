@@ -50,6 +50,11 @@ class _InitialViewState extends State<InitialView> {
         .withDebugModeEnabled(true)
         .init();
 
+
+    Synerise.onReady(() {
+      
+    });
+
     Synerise.notifications.listener((listener) {
       listener.onRegistrationRequired = () {
         Synerise.notifications.registerForNotifications(
@@ -309,12 +314,16 @@ class MyApp extends StatelessWidget {
 
 @pragma('vm:entry-point')
 Future<void> backgroundHandlerForFCM(RemoteMessage message) async {
+  Synerise.onReady(() {
+    });
   await Firebase.initializeApp();
   await Synerise.initializer()
       .withClientApiKey(await rootBundle.loadString('lib/api_key.txt'))
       .withBaseUrl("https://api.snrapi.com")
       .withDebugModeEnabled(true)
       .init();
+
+      
   // If you're going to use other Firebase services in the background, such as Firestore,
   // make sure you call `initializeApp` before using other Firebase services.
   // ignore: unused_local_variable

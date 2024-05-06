@@ -1,6 +1,18 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.0.2] - 2024-05-06
+
+### Fixed
+- [android] NPE on registerForPush while SDK was not initialized yet.
+
+### Added
+- `Synerise.onReady` callback to properly handle Synerise SDK initialization state.
+
+### Changed
+- Stability improvements.
+
+
 ## [1.0.1] - 2024-04-05
 
 ### Fixed
