@@ -43,17 +43,15 @@ class _InitialViewState extends State<InitialView> {
         "group.com.synerise.sdk.sample-flutter";
     Synerise.settings.sdk.keychainGroupIdentifier =
         "34N2Z22TKH.FlutterKeychainGroup";
+    Synerise.settings.tracker.minBatchSize = 30;
+    Synerise.settings.tracker.autoFlushTimeout = 20.0;
+    Synerise.settings.tracker.eventsTriggeringFlush = ["flutter.test"];
 
     Synerise.initializer()
         .withClientApiKey(await rootBundle.loadString('lib/api_key.txt'))
         .withBaseUrl("https://api.snrapi.com")
         .withDebugModeEnabled(true)
         .init();
-
-
-    Synerise.onReady(() {
-      
-    });
 
     Synerise.notifications.listener((listener) {
       listener.onRegistrationRequired = () {
@@ -230,7 +228,8 @@ class _InitialViewState extends State<InitialView> {
                     ]
                   };
 
-                  CustomEvent event = CustomEvent("label", "flutter", paramMap);
+                  CustomEvent event =
+                      CustomEvent("label", "flutter.test", paramMap);
                   Synerise.tracker.send(event);
                 },
               ),
@@ -314,16 +313,12 @@ class MyApp extends StatelessWidget {
 
 @pragma('vm:entry-point')
 Future<void> backgroundHandlerForFCM(RemoteMessage message) async {
-  Synerise.onReady(() {
-    });
   await Firebase.initializeApp();
-  await Synerise.initializer()
-      .withClientApiKey(await rootBundle.loadString('lib/api_key.txt'))
-      .withBaseUrl("https://api.snrapi.com")
-      .withDebugModeEnabled(true)
-      .init();
-
-      
+    await Synerise.initializer()
+        .withClientApiKey(await rootBundle.loadString('lib/api_key.txt'))
+        .withBaseUrl("https://api.snrapi.com")
+        .withDebugModeEnabled(true)
+        .init();
   // If you're going to use other Firebase services in the background, such as Firestore,
   // make sure you call `initializeApp` before using other Firebase services.
   // ignore: unused_local_variable

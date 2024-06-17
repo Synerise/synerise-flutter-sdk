@@ -1,3 +1,4 @@
+import 'dart:ffi';
 import 'dart:io' show Platform;
 
 import 'package:flutter/services.dart';
@@ -19,6 +20,7 @@ class SettingsKeys {
   static const trackerMinBatchSize = "TRACKER_MIN_BATCH_SIZE";
   static const trackerMaxBatchSize = "TRACKER_MAX_BATCH_SIZE";
   static const trackerAutoFlushTimeout = "TRACKER_AUTO_FLUSH_TIMEOUT";
+  static const trackerEventsTriggeringFlush = "TRACKER_EVENTS_TRIGGERING_FLUSH";
 
   static const notificationsEnabled = "NOTIFICATIONS_ENABLED";
   static const notificationsEncryption = "NOTIFICATIONS_ENCRYPTION";
@@ -118,6 +120,11 @@ class TrackerSettings extends BaseSettings {
       getFunction<double>(SettingsKeys.trackerAutoFlushTimeout);
   set autoFlushTimeout(double autoFlushTimeout) => setFunction<double>(
       SettingsKeys.trackerAutoFlushTimeout, autoFlushTimeout);
+
+  List<String> get eventsTriggeringFlush =>
+      getFunction<List<String>>(SettingsKeys.trackerEventsTriggeringFlush);
+  set eventsTriggeringFlush(List<String> eventsTriggeringFlush) => setFunction<List<String>>(
+      SettingsKeys.trackerEventsTriggeringFlush, eventsTriggeringFlush);
 
   TrackerSettings(GetFunction getFunction, SetFunction setFunction)
       : super(getFunction, setFunction);
@@ -294,6 +301,8 @@ class SettingsImpl extends BaseModule {
           settings[SettingsKeys.trackerMaxBatchSize]);
       _overrideOne<double>(SettingsKeys.trackerAutoFlushTimeout,
           settings[SettingsKeys.trackerAutoFlushTimeout]);
+      _overrideOne<Array>(SettingsKeys.trackerEventsTriggeringFlush,
+          settings[SettingsKeys.trackerEventsTriggeringFlush]);
 
       _overrideOne<bool>(SettingsKeys.notificationsEnabled,
           settings[SettingsKeys.notificationsEnabled]);
