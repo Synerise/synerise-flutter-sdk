@@ -1,10 +1,15 @@
 package com.synerise.synerise_flutter_sdk.modules;
 
+import android.util.Log;
+
 import com.synerise.sdk.core.Synerise;
 import com.synerise.sdk.core.settings.Settings;
 import com.synerise.synerise_flutter_sdk.SyneriseModule;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import io.flutter.plugin.common.MethodCall;
@@ -18,6 +23,7 @@ public class SyneriseSettings implements SyneriseModule {
     public static final String F_SETTINGS_TRACKER_MIN_BATCH_SIZE = "TRACKER_MIN_BATCH_SIZE";
     public static final String F_SETTINGS_TRACKER_MAX_BATCH_SIZE = "TRACKER_MAX_BATCH_SIZE";
     public static final String F_SETTINGS_TRACKER_AUTO_FLUSH_TIMEOUT = "TRACKER_AUTO_FLUSH_TIMEOUT";
+    public static final String F_SETTINGS_TRACKER_EVENTS_TRIGGERING_FLUSH = "TRACKER_EVENTS_TRIGGERING_FLUSH";
     public static final String F_SETTINGS_NOTIFICATIONS_ENABLED = "NOTIFICATIONS_ENABLED";
     public static final String F_SETTINGS_NOTIFICATIONS_ENCRYPTION = "NOTIFICATIONS_ENCRYPTION";
     public static final String F_SETTINGS_INJECTOR_AUTOMATIC = "INJECTOR_AUTOMATIC";
@@ -99,6 +105,15 @@ public class SyneriseSettings implements SyneriseModule {
                     Settings.getInstance().tracker.setAutoFlushTimeout(autoFlushTimeout);
                 }
                 break;
+            case F_SETTINGS_TRACKER_EVENTS_TRIGGERING_FLUSH:
+                if (value instanceof ArrayList<?>) {
+                    List<String> eventsFromFlutter = new ArrayList<>();
+                    for (int i = 0; i < ((ArrayList<?>) value).size(); i++) {
+                       eventsFromFlutter.add((String) ((ArrayList<?>) value).get(i));
+                    }
+                    Settings.getInstance().tracker.eventsTriggeringFlush = eventsFromFlutter;
+                }
+                break;
             case F_SETTINGS_TRACKER_MAX_BATCH_SIZE:
                 if (value instanceof Integer) {
                     Settings.getInstance().tracker.setMaximumBatchSize((int) value);
@@ -156,6 +171,7 @@ public class SyneriseSettings implements SyneriseModule {
         settings.put(F_SETTINGS_TRACKER_MIN_BATCH_SIZE, Synerise.settings.tracker.minBatchSize);
         settings.put(F_SETTINGS_TRACKER_MAX_BATCH_SIZE, Synerise.settings.tracker.maxBatchSize);
         settings.put(F_SETTINGS_TRACKER_AUTO_FLUSH_TIMEOUT, (Synerise.settings.tracker.autoFlushTimeout / 1000));
+        settings.put(F_SETTINGS_TRACKER_EVENTS_TRIGGERING_FLUSH, Synerise.settings.tracker.eventsTriggeringFlush);
         settings.put(F_SETTINGS_NOTIFICATIONS_ENABLED, Synerise.settings.notifications.enabled);
         settings.put(F_SETTINGS_NOTIFICATIONS_ENCRYPTION, Synerise.settings.notifications.getEncryption());
         settings.put(F_SETTINGS_SHOULD_DESTROY_SESSION_ON_API_KEY_CHANGE, Synerise.settings.sdk.shouldDestroySessionOnApiKeyChange);

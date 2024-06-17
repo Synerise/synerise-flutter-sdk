@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -36,10 +37,12 @@ public class SyneriseConnector implements FlutterPlugin, MethodCallHandler, Acti
     public Context context;
     public static Application app;
     private Activity activity;
+    private static int engineHashCode;
     private static volatile boolean isCalled = false;
 
     @Override
     public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) {
+        engineHashCode = flutterPluginBinding.hashCode();
         channel = new MethodChannel(flutterPluginBinding.getBinaryMessenger(), "synerise_flutter_sdk");
         channel.setMethodCallHandler(this);
         context = flutterPluginBinding.getApplicationContext();
@@ -59,7 +62,9 @@ public class SyneriseConnector implements FlutterPlugin, MethodCallHandler, Acti
 
     @Override
     public void onDetachedFromEngine(@NonNull FlutterPluginBinding binding) {
-        channel.setMethodCallHandler(null);
+        if (engineHashCode == binding.hashCode()) {
+            channel.setMethodCallHandler(null);
+        }
     }
 
     @Override

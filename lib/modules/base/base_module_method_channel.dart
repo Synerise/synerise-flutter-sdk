@@ -82,7 +82,6 @@ class SyneriseInvocation {
       bool isMappable = false,
       GenericTypeKey? genericTypeKey}) async {
     T? result;
-
     await methodChannel
         .invokeMethod(invokeMethodName, parameters)
         .then((dynamic value) {
@@ -115,8 +114,7 @@ class SyneriseInvocation {
       bool isMappable = false,
       GenericTypeKey? genericTypeKey}) async {
     SyneriseResult<T>? result;
-
-    await Dependencies.methodChannel
+    await Dependencies.backgroundMethodChannel
         .invokeMethod(invokeMethodName, parameters)
         .then((dynamic value) {
       if (!isMappable) {
