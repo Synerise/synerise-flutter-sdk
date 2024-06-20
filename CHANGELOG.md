@@ -1,6 +1,26 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.1.1] - 2024-06-17
+
+### Changed
+- Stability improvements.
+
+
+## [1.1.0] - 2024-06-17
+
+### Fixed
+- [iOS] Some potential issues with retrieving system push consent by the SDK.
+
+### Added
+- `Synerise.settings.tracker.eventsTriggeringFlush` option in settings to let you set the list of event actions which will trigger instant sending of all events in the queue. The default array contains only push event's actions.
+
+### Changed
+- All events connected with push campaigns will flush the queue and send events immediately.
+- Improvements to push notifications registration.
+- Stability improvements.
+
+
 ## [1.0.2] - 2024-05-06
 
 ### Fixed

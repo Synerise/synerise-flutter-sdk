@@ -19,6 +19,7 @@ static NSString * const FSettingsTrackerIsBackendTimeSyncRequired = @"TRACKER_IS
 static NSString * const FSettingsTrackerMinBatchSize = @"TRACKER_MIN_BATCH_SIZE";
 static NSString * const FSettingsTrackerMaxBatchSize = @"TRACKER_MAX_BATCH_SIZE";
 static NSString * const FSettingsTrackerAutoFlushTimeout = @"TRACKER_AUTO_FLUSH_TIMEOUT";
+static NSString * const FSettingsTrackerEventsTriggeringFlush = @"TRACKER_EVENTS_TRIGGERING_FLUSH";
 
 static NSString * const FSettingsNotificationsEnabled = @"NOTIFICATIONS_ENABLED";
 static NSString * const FSettingsNotificationsEncryption = @"NOTIFICATIONS_ENCRYPTION";
@@ -65,6 +66,7 @@ NS_ASSUME_NONNULL_BEGIN
     [self updateSettingsKeyPath:@"tracker.minBatchSize" expectedClass:[NSNumber class] object:dictionary[FSettingsTrackerMinBatchSize]];
     [self updateSettingsKeyPath:@"tracker.maxBatchSize" expectedClass:[NSNumber class] object:dictionary[FSettingsTrackerMaxBatchSize]];
     [self updateSettingsKeyPath:@"tracker.autoFlushTimeout" expectedClass:[NSNumber class] object:dictionary[FSettingsTrackerAutoFlushTimeout]];
+    [self updateSettingsKeyPath:@"tracker.eventsTriggeringFlush" expectedClass:[NSArray class] object:dictionary[FSettingsTrackerEventsTriggeringFlush]];
     
     [self updateSettingsKeyPath:@"notifications.enabled" expectedClass:[NSNumber class] object:dictionary[FSettingsNotificationsEnabled]];
     [self updateSettingsKeyPath:@"notifications.encryption" expectedClass:[NSNumber class] object:dictionary[FSettingsNotificationsEncryption]];
@@ -153,6 +155,7 @@ NS_ASSUME_NONNULL_BEGIN
     dictionary[FSettingsTrackerMinBatchSize] = [NSNumber numberWithInteger:SNRSynerise.settings.tracker.minBatchSize];
     dictionary[FSettingsTrackerMaxBatchSize] = [NSNumber numberWithInteger:SNRSynerise.settings.tracker.maxBatchSize];
     dictionary[FSettingsTrackerAutoFlushTimeout] = [NSNumber numberWithDouble:SNRSynerise.settings.tracker.autoFlushTimeout];
+    dictionary[FSettingsTrackerEventsTriggeringFlush] = SNRSynerise.settings.tracker.eventsTriggeringFlush ?: [NSNull null];
 
     dictionary[FSettingsNotificationsEnabled] = [NSNumber numberWithBool:SNRSynerise.settings.notifications.enabled];
     dictionary[FSettingsNotificationsEncryption] = [NSNumber numberWithBool:SNRSynerise.settings.notifications.encryption];
