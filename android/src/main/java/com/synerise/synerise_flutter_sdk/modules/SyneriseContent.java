@@ -7,10 +7,12 @@ import com.synerise.sdk.content.model.DocumentsApiQuery;
 import com.synerise.sdk.content.model.DocumentsApiQueryType;
 import com.synerise.sdk.content.model.ScreenViewResponse;
 import com.synerise.sdk.content.model.document.Document;
+import com.synerise.sdk.content.model.document.DocumentApiQuery;
 import com.synerise.sdk.content.model.recommendation.FiltersJoinerRule;
 import com.synerise.sdk.content.model.recommendation.RecommendationRequestBody;
 import com.synerise.sdk.content.model.recommendation.RecommendationResponse;
 import com.synerise.sdk.content.model.screenview.ScreenView;
+import com.synerise.sdk.content.model.screenview.ScreenViewApiQuery;
 import com.synerise.sdk.content.widgets.dataModel.Recommendation;
 import com.synerise.sdk.core.net.IDataApiCall;
 import com.synerise.synerise_flutter_sdk.SyneriseModule;
@@ -54,6 +56,9 @@ public class SyneriseContent implements SyneriseModule {
             case "generateDocument":
                 generateDocument(call, result);
                 return;
+            case "generateDocumentWithApiQuery":
+                generateDocumentWithApiQuery(call, result);
+                return;
             case "getDocuments":
                 getDocuments(call, result);
                 return;
@@ -68,6 +73,9 @@ public class SyneriseContent implements SyneriseModule {
                 return;
             case "generateScreenView":
                 generateScreenView(call, result);
+                return;
+            case "generateScreenViewWithApiQuery":
+                generateScreenViewWithApiQuery(call, result);
                 return;
         }
     }
@@ -88,6 +96,52 @@ public class SyneriseContent implements SyneriseModule {
         Map<String, Object> documentMap = new HashMap<>();
         if (generateDocumentApiCall != null) generateDocumentApiCall.cancel();
         generateDocumentApiCall = Content.generateDocument(slug);
+        generateDocumentApiCall.execute(document -> {
+            if (document.getContent() instanceof String) {
+                try {
+                    HashMap<String, Object> contentMap = new Gson().fromJson((String) document.getContent(), HashMap.class);
+                    documentMap.put("content", contentMap);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else {
+                documentMap.put("content", document.getContent());
+            }
+            documentMap.put("identifier", document.getUuid());
+            documentMap.put("slug", document.getSlug());
+            documentMap.put("schema", document.getSchema());
+            SyneriseModule.executeSuccessResult(documentMap, result);
+        }, apiError -> SyneriseModule.executeFailureResult(apiError, result));
+    }
+
+    public void generateDocumentWithApiQuery(MethodCall call, MethodChannel.Result result) {
+        Map documentApiQueryMap = (Map) call.arguments;
+        String productID = null;
+        String slugName = null;
+        if (call.arguments != null) {
+            productID = (String) documentApiQueryMap.get("productId");
+            slugName = (String) documentApiQueryMap.get("slug");
+        }
+
+        DocumentApiQuery documentApiQuery = new DocumentApiQuery(slugName);
+        documentApiQuery.setProductId(productID);
+        documentApiQuery.setItemsIds(documentApiQueryMap.get("itemsIds") != null ? (ArrayList<String>) documentApiQueryMap.get("itemsIds") : null);
+        documentApiQuery.setItemsExcluded((ArrayList<String>) documentApiQueryMap.get("itemsExcluded"));
+        documentApiQuery.setAdditionalFilters((String) documentApiQueryMap.get("additionalFilters"));
+        if (documentApiQueryMap.get("filtersJoiner") != null) {
+            documentApiQuery.setFiltersJoiner(getFiltersJoinerRuleFromString((String) documentApiQueryMap.get("filtersJoiner")));
+        }
+        if (documentApiQueryMap.get("elasticFiltersJoiner") != null) {
+            documentApiQuery.setElasticFiltersJoiner(getFiltersJoinerRuleFromString((String) documentApiQueryMap.get("elasticFiltersJoiner")));
+        }
+        documentApiQuery.setAdditionalElasticFilters((String) documentApiQueryMap.get("additionalElasticFilters"));
+        documentApiQuery.setDisplayAttributes((ArrayList<String>) documentApiQueryMap.get("displayAttributes"));
+        documentApiQuery.setIncludeContextItems((boolean) documentApiQueryMap.get("includeContextItems"));
+
+
+        Map<String, Object> documentMap = new HashMap<>();
+        if (generateDocumentApiCall != null) generateDocumentApiCall.cancel();
+        generateDocumentApiCall = Content.generateDocument(documentApiQuery);
         generateDocumentApiCall.execute(document -> {
             if (document.getContent() instanceof String) {
                 try {
@@ -170,7 +224,7 @@ public class SyneriseContent implements SyneriseModule {
 
         RecommendationRequestBody recommendationRequestBody = new RecommendationRequestBody();
         recommendationRequestBody.setProductId(productID);
-        recommendationRequestBody.setItemsIds(recommendationOptions.get("productIDs") != null ? (ArrayList<String>) recommendationOptions.get("productIDs") : null);
+        recommendationRequestBody.setItemsIds(recommendationOptions.get("itemsIds") != null ? (ArrayList<String>) recommendationOptions.get("itemsIds") : null);
         recommendationRequestBody.setItemsExcluded((ArrayList<String>) recommendationOptions.get("itemsExcluded"));
         recommendationRequestBody.setAdditionalFilters((String) recommendationOptions.get("additionalFilters"));
         if (recommendationOptions.get("filtersJoiner") != null) {
@@ -233,6 +287,42 @@ public class SyneriseContent implements SyneriseModule {
         Map<String, Object> screenViewMap = new HashMap<>();
         if (generateScreenViewApiCall != null) generateScreenViewApiCall.cancel();
         generateScreenViewApiCall = Content.generateScreenView(slug);
+        generateScreenViewApiCall.execute(screenView -> {
+            screenViewMap.put("audience", screenViewAudienceToWritableMap(screenView.getAudience()));
+            screenViewMap.put("identifier", screenView.getId());
+            screenViewMap.put("hashString", screenView.getHash());
+            screenViewMap.put("path", screenView.getPath());
+            screenViewMap.put("name", screenView.getName());
+            screenViewMap.put("priority", screenView.getPriority());
+            screenViewMap.put("data", screenViewDataMapper(screenView.getData()));
+            try {
+                Date createdAtDate = new SimpleDateFormat(ISO8601_FORMAT, Locale.getDefault()).parse(screenView.getCreatedAt());
+                Date updatedAtDate = new SimpleDateFormat(ISO8601_FORMAT, Locale.getDefault()).parse(screenView.getUpdatedAt());
+                if (createdAtDate != null) {
+                    screenViewMap.put("createdAt", createdAtDate.getTime());
+                }
+                if (updatedAtDate != null) {
+                    screenViewMap.put("updatedAt", updatedAtDate.getTime());
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            SyneriseModule.executeSuccessResult(screenViewMap, result);
+        }, apiError -> SyneriseModule.executeFailureResult(apiError, result));
+    }
+
+    public void generateScreenViewWithApiQuery(MethodCall call, MethodChannel.Result result) {
+        Map screenViewApiQueryMap = (Map) call.arguments;
+        String productID = null;
+        String slugName = null;
+        if (call.arguments != null) {
+            productID = (String) screenViewApiQueryMap.get("productId");
+            slugName = (String) screenViewApiQueryMap.get("feedSlug");
+        }
+        ScreenViewApiQuery screenViewApiQuery = new ScreenViewApiQuery(slugName, productID);
+        Map<String, Object> screenViewMap = new HashMap<>();
+        if (generateScreenViewApiCall != null) generateScreenViewApiCall.cancel();
+        generateScreenViewApiCall = Content.generateScreenView(screenViewApiQuery);
         generateScreenViewApiCall.execute(screenView -> {
             screenViewMap.put("audience", screenViewAudienceToWritableMap(screenView.getAudience()));
             screenViewMap.put("identifier", screenView.getId());

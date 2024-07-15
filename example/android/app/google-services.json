@@ -1,2 +1,231 @@
-{}
-  
+{
+  "project_info": {
+    "project_number": "237038761983",
+    "firebase_url": "https://synerise-sample-apps.firebaseio.com",
+    "project_id": "synerise-sample-apps",
+    "storage_bucket": "synerise-sample-apps.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:237038761983:android:415439934cce39658f59ca",
+        "android_client_info": {
+          "package_name": "com.dexterous.flutter_local_notifications_example"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "237038761983-pl04rnssjh3pvc73k92allgm2c3cict9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCs06HV6cva8pBdj7enHIySzNY6-fOHjvo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "237038761983-08jo1kk6rtlu3puqf69fcbrainahdn1t.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "237038761983-02qphn6t7aqtm6efps45hjbd8nu4djqv.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.dexterous.flutterLocalNotificationsExample.RunnerTests"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:237038761983:android:c97696b5a749d30f8f59ca",
+        "android_client_info": {
+          "package_name": "com.synerise.sample"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "237038761983-drfb8a2b9jqk72c47mph25m83hr2i7tu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.synerise.sample",
+            "certificate_hash": "73420a17f8fc44410f645c4236d816f633d322fc"
+          }
+        },
+        {
+          "client_id": "237038761983-vdii6kcsv9l37bfj88ac70ola6juoa42.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.synerise.sample",
+            "certificate_hash": "3a9e8b725c11b957cb54ecbd46ce9ff6bcb82df1"
+          }
+        },
+        {
+          "client_id": "237038761983-pl04rnssjh3pvc73k92allgm2c3cict9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCs06HV6cva8pBdj7enHIySzNY6-fOHjvo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "237038761983-08jo1kk6rtlu3puqf69fcbrainahdn1t.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "237038761983-02qphn6t7aqtm6efps45hjbd8nu4djqv.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.dexterous.flutterLocalNotificationsExample.RunnerTests"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:237038761983:android:f9147a0263240a17",
+        "android_client_info": {
+          "package_name": "com.synerise.sdk.sample"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "237038761983-pl04rnssjh3pvc73k92allgm2c3cict9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCs06HV6cva8pBdj7enHIySzNY6-fOHjvo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "237038761983-08jo1kk6rtlu3puqf69fcbrainahdn1t.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "237038761983-02qphn6t7aqtm6efps45hjbd8nu4djqv.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.dexterous.flutterLocalNotificationsExample.RunnerTests"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:237038761983:android:f0d1e12cbfeb43ca",
+        "android_client_info": {
+          "package_name": "com.synerise.sdk.sample.dev"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "237038761983-183jgo0upr4gait4t316ehgosbeccvgk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.synerise.sdk.sample.dev",
+            "certificate_hash": "b63fde3354f3faa98556773c22ec5bd418ecfc9a"
+          }
+        },
+        {
+          "client_id": "237038761983-3esbm51clpkg714nan1mja2e37v7vmd7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.synerise.sdk.sample.dev",
+            "certificate_hash": "73420a17f8fc44410f645c4236d816f633d322fc"
+          }
+        },
+        {
+          "client_id": "237038761983-lbg8o0l4subvmp3bcac396c2gtl7m1kd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.synerise.sdk.sample.dev",
+            "certificate_hash": "3a9e8b725c11b957cb54ecbd46ce9ff6bcb82df1"
+          }
+        },
+        {
+          "client_id": "237038761983-pl04rnssjh3pvc73k92allgm2c3cict9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCs06HV6cva8pBdj7enHIySzNY6-fOHjvo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "237038761983-08jo1kk6rtlu3puqf69fcbrainahdn1t.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "237038761983-02qphn6t7aqtm6efps45hjbd8nu4djqv.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.dexterous.flutterLocalNotificationsExample.RunnerTests"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:237038761983:android:9a2dba22e185ec7a8f59ca",
+        "android_client_info": {
+          "package_name": "com.synerise.synerise_flutter_sdk_example"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "237038761983-pl04rnssjh3pvc73k92allgm2c3cict9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCs06HV6cva8pBdj7enHIySzNY6-fOHjvo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "237038761983-08jo1kk6rtlu3puqf69fcbrainahdn1t.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "237038761983-02qphn6t7aqtm6efps45hjbd8nu4djqv.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.dexterous.flutterLocalNotificationsExample.RunnerTests"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

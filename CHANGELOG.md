@@ -1,6 +1,22 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.2.0] - 2024-07-15
+
+### Added
+- We added a`testDelivery` and `journeyId` parameters to tracked notification events (`push.view`, `push.click`, and so on). It describes if the notification was sent as a test notification from a campaign.
+- We added a new `Synerise.content.generateDocumentWithApiQuery(apiQuery, onSuccess, onError)` method. It is analogous to `Synerise.content.generateDocument(slug, onSuccess, onError)`, but can contain more context parameters provided in a query object.
+- We added a new `Synerise.content.generateScreenViewWithApiQuery(apiQuery, onSuccess, onError)` method. It is analogous to `Synerise.content.generateScreenView(feedSlug, onSuccess, onError)`, but can contain more context parameters provided in a query object.
+- Anchors from Drag & Drop Builder in the In-App editor are interpreted as URL or as deeplink depending on the value.
+
+### Changed
+- We added validation of reserved parameters in events. Now, if a parameter is forbidden, it is removed from the parameters and a log is printed.
+- Improvements to stability.
+
+### Changed
+- Stability improvements.
+
+
 ## [1.1.1] - 2024-06-17
 
 ### Changed

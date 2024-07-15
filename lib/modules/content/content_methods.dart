@@ -1,4 +1,6 @@
 import 'package:synerise_flutter_sdk/model/base/mappings.dart';
+import 'package:synerise_flutter_sdk/model/content/document_api_query.dart';
+import 'package:synerise_flutter_sdk/model/content/screen_view_api_query.dart';
 
 import '../../model/content/document.dart';
 import '../../model/content/documents_api_query.dart';
@@ -22,6 +24,13 @@ class ContentMethods extends BaseMethodChannel {
     return await SyneriseInvocation(methodChannel).invokeSDKApiMethod<Document>(
         "Content/generateDocument",
         parameters: slug,
+        isMappable: true);
+  }
+
+  Future<SyneriseResult<Document>> generateDocumentWithApiQuery(DocumentApiQuery documentApiQuery) async {
+    return await SyneriseInvocation(methodChannel).invokeSDKApiMethod<Document>(
+        "Content/generateDocumentWithApiQuery",
+        parameters: documentApiQuery.asMap(),
         isMappable: true);
   }
 
@@ -62,5 +71,11 @@ class ContentMethods extends BaseMethodChannel {
     return await SyneriseInvocation(methodChannel)
         .invokeSDKApiMethod<ScreenView>("Content/generateScreenView",
             parameters: feedSlug, isMappable: true);
+  }
+
+  Future<SyneriseResult<ScreenView>> generateScreenViewWithApiQuery(ScreenViewApiQuery screenViewApiQuery) async {
+    return await SyneriseInvocation(methodChannel)
+        .invokeSDKApiMethod<ScreenView>("Content/generateScreenViewWithApiQuery",
+        parameters: screenViewApiQuery.asMap(), isMappable: true);
   }
 }

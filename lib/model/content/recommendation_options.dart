@@ -32,7 +32,7 @@ enum RecommendationFiltersJoinerRule {
 class RecommendationOptions {
   String slug;
   String? productID;
-  List<String>? productIDs;
+  List<String>? itemsIds;
   List<String>? itemsExcluded;
   String? additionalFilters;
   RecommendationFiltersJoinerRule? filtersJoiner;
@@ -44,7 +44,7 @@ class RecommendationOptions {
   RecommendationOptions({
     required this.slug,
     this.productID,
-    this.productIDs,
+    this.itemsIds,
     this.itemsExcluded,
     this.additionalFilters,
     this.filtersJoiner,
@@ -59,7 +59,7 @@ class RecommendationOptions {
   Map asMap() => {
         'slug': slug,
         'productID': productID,
-        'productIDs': productIDs,
+        'itemsIds': itemsIds,
         'itemsExcluded': itemsExcluded,
         'additionalFilters': additionalFilters,
         'filtersJoiner':

@@ -8,7 +8,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.1.2'
+        classpath 'com.android.tools.build:gradle:8.3.0'
     }
 }
 
@@ -32,6 +32,8 @@ android {
     defaultConfig {
         minSdkVersion 21
     }
+
+    namespace 'com.synerise.synerise_flutter_sdk'
 }
 
 repositories {
@@ -41,5 +43,5 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.synerise.sdk:synerise-mobile-sdk:5.17.0'
+    implementation 'com.synerise.sdk:synerise-mobile-sdk:5.19.0'
 }
