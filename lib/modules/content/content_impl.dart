@@ -1,5 +1,8 @@
 // ignore_for_file: unnecessary_null_comparison
 
+import 'package:synerise_flutter_sdk/model/content/document_api_query.dart';
+import 'package:synerise_flutter_sdk/model/content/screen_view_api_query.dart';
+
 import '../../model/content/document.dart';
 import '../../model/content/documents_api_query.dart';
 import '../../model/content/recommendation_options.dart';
@@ -43,6 +46,23 @@ class ContentImpl extends BaseModule {
       {required void Function(Document) onSuccess,
       required void Function(SyneriseError error) onError}) async {
     SyneriseResult<Document> result = await _methods.generateDocument(slug);
+
+    result.onSuccess((result) {
+      onSuccess(result);
+    }).onError((error) {
+      onError(error);
+    });
+  }
+
+  /// This function generates a document based on a given slug and context.
+  ///
+  /// Args:
+  ///   slug (DocumentApiQuery): The parameter "documentApiQuery" is an Object for configuration of the query parameters
+  /// for a specific document.
+  Future<void> generateDocumentWithApiQuery(DocumentApiQuery documentApiQuery,
+      {required void Function(Document) onSuccess,
+        required void Function(SyneriseError error) onError}) async {
+    SyneriseResult<Document> result = await _methods.generateDocumentWithApiQuery(documentApiQuery);
 
     result.onSuccess((result) {
       onSuccess(result);
@@ -127,6 +147,19 @@ class ContentImpl extends BaseModule {
       required void Function(SyneriseError error) onError}) async {
     SyneriseResult<ScreenView> result =
         await _methods.generateScreenView(feedSlug);
+
+    result.onSuccess((result) {
+      onSuccess(result);
+    }).onError((error) {
+      onError(error);
+    });
+  }
+
+  Future<void> generateScreenViewWithApiQuery(ScreenViewApiQuery screenViewApiQuery,
+      {required void Function(ScreenView) onSuccess,
+        required void Function(SyneriseError error) onError}) async {
+    SyneriseResult<ScreenView> result =
+    await _methods.generateScreenViewWithApiQuery(screenViewApiQuery);
 
     result.onSuccess((result) {
       onSuccess(result);

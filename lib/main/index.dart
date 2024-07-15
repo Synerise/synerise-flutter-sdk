@@ -34,10 +34,14 @@ export 'package:synerise_flutter_sdk/enums/client/client_conditional_auth_status
 export 'package:synerise_flutter_sdk/enums/client/client_sign_out_mode.dart';
 
 // CONTENT
-export 'package:synerise_flutter_sdk/model/content/recommendation_options.dart';
-export 'package:synerise_flutter_sdk/model/content/recommendation.dart';
-export 'package:synerise_flutter_sdk/model/content/recommendation_response.dart';
+export 'package:synerise_flutter_sdk/model/content/document_api_query.dart';
+export 'package:synerise_flutter_sdk/model/content/documents_api_query.dart';
 export 'package:synerise_flutter_sdk/model/content/document.dart';
+export 'package:synerise_flutter_sdk/model/content/recommendation_options.dart';
+export 'package:synerise_flutter_sdk/model/content/recommendation_response.dart';
+export 'package:synerise_flutter_sdk/model/content/recommendation.dart';
+export 'package:synerise_flutter_sdk/model/content/screen_view_response.dart';
+export 'package:synerise_flutter_sdk/model/content/screen_view_audience.dart';
 export 'package:synerise_flutter_sdk/model/content/screen_view_audience_info.dart';
 export 'package:synerise_flutter_sdk/model/content/screen_view.dart';
 
