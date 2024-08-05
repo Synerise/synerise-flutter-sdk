@@ -13,7 +13,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-static NSString * const sdkPluginVersion = @"1.2.0";
+static NSString * const sdkPluginVersion = @"1.3.0";
 
 @interface FSynerise () <SNRSyneriseDelegate>
 
@@ -80,7 +80,17 @@ static NSString * const sdkPluginVersion = @"1.2.0";
         result([self defaultFlutterError]);
         return;
     }
-    [SNRSynerise changeClientApiKey:apiKey];
+
+    SNRInitializationConfig *initializationConfig = [SNRInitializationConfig new];
+    NSDictionary *initializationConfigDictionary = [dictionary getDictionaryForKey:@"config"];
+    if (initializationConfigDictionary != nil) {
+        NSString *requestValidationSalt = [initializationConfigDictionary getStringForKey:@"requestValidationSalt"];
+        if (requestValidationSalt != nil) {
+            initializationConfig.requestValidationSalt = requestValidationSalt;
+        }
+    }
+
+    [SNRSynerise changeClientApiKey:apiKey config:initializationConfig];
     result([NSNumber numberWithBool:YES]);
 }
 

@@ -5,6 +5,10 @@ export 'package:synerise_flutter_sdk/main/dependencies.dart';
 
 // INITIALIZER
 export 'package:synerise_flutter_sdk/main/synerise_initializer.dart';
+export 'package:synerise_flutter_sdk/main/initialization_config.dart';
+
+//BASE API QUERY
+export 'package:synerise_flutter_sdk/model/base_api_query.dart';
 
 // MODULES
 export 'package:synerise_flutter_sdk/modules/notifications/notifications_impl.dart';
@@ -98,6 +102,3 @@ export 'package:synerise_flutter_sdk/events/recommendation/recommendation_click_
 export 'package:synerise_flutter_sdk/events/recommendation/recommendation_event.dart';
 export 'package:synerise_flutter_sdk/events/recommendation/recommendation_seen_event.dart';
 export 'package:synerise_flutter_sdk/events/recommendation/recommendation_view_event.dart';
-
-//BASE API QUERY
-export 'package:synerise_flutter_sdk/model/base_api_query.dart';

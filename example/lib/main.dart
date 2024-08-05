@@ -243,6 +243,13 @@ class _InitialViewState extends State<InitialView> {
                   );
                 },
               ),
+              ElevatedButton(
+                child: const Text('Custom Method Test'),
+                onPressed: () {
+                  final config = InitializationConfig(requestValidationSalt: "qlksldii");
+                  Synerise.changeApiKey("6f5b279f-b148-a663-ea89-dab880e1a7ef");
+                },
+              ),
             ])))));
   }
 }
