@@ -1,6 +1,21 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.3.0] - 2024-08-05
+
+### Fixed
+- [iOS] Potential issue with slow SDK initialization.
+- [iOS] Potential issues with Simple Authentication requests.
+
+### Added
+- We extended a `Synerise.changeClientApiKey(apiKey, config)` method and added new parameter (`config`) that allows adding some initialization parameters.
+- We added new parameters to the push.click event: `clickSource`, `actionType`, `url` and `actionButtonTitle`.
+
+### Changed
+- `requestValidationSalt` (Simple Auth) is cleared when  `Synerise.changeClientApiKey(apiKey, config)` is invoked without suitable config.
+- Update of native SDK's dependencies.
+- Improvements to stability.
+
 ## [1.2.0] - 2024-07-15
 
 ### Added

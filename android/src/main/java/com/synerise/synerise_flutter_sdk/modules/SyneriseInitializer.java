@@ -7,8 +7,10 @@ import android.app.Application;
 import android.util.Log;
 
 import com.synerise.sdk.client.Client;
+import com.synerise.sdk.client.model.client.Agreements;
 import com.synerise.sdk.core.Synerise;
 import com.synerise.sdk.core.types.enums.HostApplicationType;
+import com.synerise.sdk.core.types.model.InitializationConfig;
 import com.synerise.synerise_flutter_sdk.SyneriseConnector;
 import com.synerise.synerise_flutter_sdk.SyneriseModule;
 
@@ -18,9 +20,10 @@ import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 
 public class SyneriseInitializer implements SyneriseModule {
-    private static String sdkPluginVersion = "1.2.0";
+    private static String sdkPluginVersion = "1.3.0";
     private static SyneriseInitializer instance;
     protected static volatile boolean isInitialized = false;
+
     public SyneriseInitializer() {
     }
 
@@ -63,7 +66,7 @@ public class SyneriseInitializer implements SyneriseModule {
     public void changeApiKey(MethodCall call, MethodChannel.Result result) {
         Map data = (Map) call.arguments;
         String apiKey = null;
-
+        InitializationConfig initializationConfig = null;
         if (data != null && data.containsKey("apiKey")) {
             apiKey = (String) data.get("apiKey");
         } else {
@@ -71,8 +74,12 @@ public class SyneriseInitializer implements SyneriseModule {
             return;
         }
 
-        Client.changeApiKey(apiKey);
-        SyneriseModule.executeSuccessResult(true,result);
+        if (data != null && data.containsKey("config")) {
+            initializationConfig = configMapper((Map) data.get("config"));
+        }
+
+        Client.changeApiKey(apiKey, initializationConfig);
+        SyneriseModule.executeSuccessResult(true, result);
     }
 
     private static void prepareDefaultSettings() {
@@ -84,5 +91,17 @@ public class SyneriseInitializer implements SyneriseModule {
             instance = new SyneriseInitializer();
         }
         return instance;
+    }
+
+    private static InitializationConfig configMapper(Map map) {
+        if (map != null) {
+            InitializationConfig initializationConfig = new InitializationConfig();
+            if (map.containsKey("requestValidationSalt") && map.get("requestValidationSalt") != null) {
+                initializationConfig.setSalt((String) map.get("requestValidationSalt"));
+            }
+            return initializationConfig;
+        } else {
+            return null;
+        }
     }
 }
