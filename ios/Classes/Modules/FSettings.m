@@ -28,6 +28,7 @@ static NSString * const FSettingsNotificationsDisableInAppAlerts = @"NOTIFICATIO
 static NSString * const FSettingsInjectorAutomatic = @"INJECTOR_AUTOMATIC";
 
 static NSString * const FSettingsInAppMessagingMaxDefinitionUpdateIntervalLimit = @"IN_APP_MAX_DEFINITION_UPDATE_INTERVAL_LIMIT";
+static NSString * const FSettingsInAppMessagingContentBaseUrl = @"IN_APP_MESSAGING_CONTENT_BASE_URL";
 static NSString * const FSettingsInAppMessagingRenderingTimeout = @"IN_APP_MESSAGING_RENDERING_TIMEOUT";
 static NSString * const FSSettingsInAppMessagingShouldSendInAppCappingEvent = @"IN_APP_MESSAGING_SHOULD_SEND_IN_APP_CAPPING_EVENT";
 static NSString * const FSSettingsInAppMessagingCheckGlobalControlGroupsOnDefinitionsFetch = @"IN_APP_MESSAGING_CHECK_GLOBAL_CONTROL_GROUPS_ON_DEFINITIONS_FETCH";
@@ -75,6 +76,7 @@ NS_ASSUME_NONNULL_BEGIN
     [self updateSettingsKeyPath:@"injector.automatic" expectedClass:[NSNumber class] object:dictionary[FSettingsInjectorAutomatic]];
     
     [self updateSettingsKeyPath:@"inAppMessaging.maxDefinitionUpdateIntervalLimit" expectedClass:[NSNumber class] object:dictionary[FSettingsInAppMessagingMaxDefinitionUpdateIntervalLimit]];
+    [self updateSettingsKeyPath:@"inAppMessaging.contentBaseUrl" expectedClass:[NSString class] object:dictionary[FSettingsInAppMessagingContentBaseUrl]];
     [self updateSettingsKeyPath:@"inAppMessaging.renderingTimeout" expectedClass:[NSNumber class] object:dictionary[FSettingsInAppMessagingRenderingTimeout]];
     [self updateSettingsKeyPath:@"inAppMessaging.shouldSendInAppCappingEvent" expectedClass:[NSNumber class] object:dictionary[FSSettingsInAppMessagingShouldSendInAppCappingEvent]];
     [self updateSettingsKeyPath:@"inAppMessaging.checkGlobalControlGroupsOnDefinitionsFetch" expectedClass:[NSNumber class] object:dictionary[FSSettingsInAppMessagingCheckGlobalControlGroupsOnDefinitionsFetch]];
@@ -164,6 +166,7 @@ NS_ASSUME_NONNULL_BEGIN
     dictionary[FSettingsInjectorAutomatic] = [NSNumber numberWithBool:SNRSynerise.settings.injector.automatic];
     
     dictionary[FSettingsInAppMessagingMaxDefinitionUpdateIntervalLimit] = [NSNumber numberWithDouble:SNRSynerise.settings.inAppMessaging.maxDefinitionUpdateIntervalLimit];
+    dictionary[FSettingsInAppMessagingContentBaseUrl] = SNRSynerise.settings.inAppMessaging.contentBaseUrl ?: [NSNull null];
     dictionary[FSettingsInAppMessagingRenderingTimeout] = [NSNumber numberWithDouble:SNRSynerise.settings.inAppMessaging.renderingTimeout];
     dictionary[FSSettingsInAppMessagingShouldSendInAppCappingEvent] = [NSNumber numberWithBool:SNRSynerise.settings.inAppMessaging.shouldSendInAppCappingEvent];
     dictionary[FSSettingsInAppMessagingCheckGlobalControlGroupsOnDefinitionsFetch] = [NSNumber numberWithBool:SNRSynerise.settings.inAppMessaging.checkGlobalControlGroupsOnDefinitionsFetch];
@@ -183,12 +186,12 @@ NS_ASSUME_NONNULL_BEGIN
 
     NSString *localizableKeyOK = dictionary[LocalizableKeyOK];
     if (localizableKeyOK != nil) {
-        newDictionary[SNR_LOCALIZABLE_STRING_KEY_OK] = localizableKeyOK;
+        newDictionary[_SNR_Constants.LOCALIZABLE_STRING_KEY_OK] = localizableKeyOK;
     }
 
     NSString *localizableKeyCancel = dictionary[LocalizableKeyCancel];
     if (localizableKeyCancel != nil) {
-        newDictionary[SNR_LOCALIZABLE_STRING_KEY_CANCEL] = localizableKeyCancel;
+        newDictionary[_SNR_Constants.LOCALIZABLE_STRING_KEY_CANCEL] = localizableKeyCancel;
     }
 
     if ([newDictionary count] == 0){

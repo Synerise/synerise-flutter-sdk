@@ -118,9 +118,8 @@ class _UpdateAccountState extends State<UpdateAccount>
     ClientAccountUpdateContext clientAccountUpdateContext =
         ClientAccountUpdateContext(
             email: email,
-            password: password,
-            firstName: firstName,
             lastName: lastName,
+            firstName: firstName,
             sex: ClientSex.getClientSexFromString(sex));
 
     await Synerise.client.updateAccount(clientAccountUpdateContext,

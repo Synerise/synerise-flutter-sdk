@@ -4,6 +4,7 @@ import '../../enums/client/client_sign_out_mode.dart';
 import '../../enums/client/identity_provider.dart';
 import '../../model/client/client_account_information.dart';
 import '../../model/client/client_account_register_context.dart';
+import '../../model/client/client_account_update_basic_information_context.dart';
 import '../../model/client/client_account_update_context.dart';
 import '../../model/client/client_auth_context.dart';
 import '../../model/client/client_conditional_auth_result.dart';
@@ -164,6 +165,12 @@ class ClientMethods extends BaseMethodChannel {
             isMappable: true);
   }
 
+  Future<SyneriseResult<void>> updateAccountBasicInformation(ClientAccountUpdateBasicInformationContext clientAccountUpdateBasicInformationContext) async {
+    return await SyneriseInvocation(methodChannel).invokeSDKApiMethod<void>(
+        'Client/updateAccountBasicInformation',
+        parameters: clientAccountUpdateBasicInformationContext.asMap());
+  }
+  
   Future<SyneriseResult<void>> updateAccount(
       ClientAccountUpdateContext clientAccountUpdateContext) async {
     return await SyneriseInvocation(methodChannel).invokeSDKApiMethod<void>(

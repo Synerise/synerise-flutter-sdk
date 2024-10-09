@@ -61,6 +61,8 @@ NS_ASSUME_NONNULL_BEGIN
         [self destroySession:call result:result];
     } else if ([calledMethod isEqualToString:@"getAccount"]) {
         [self getAccount:call result:result];
+    } else if ([calledMethod isEqualToString:@"updateAccountBasicInformation"]) {
+        [self updateAccountBasicInformation:call result:result];
     } else if ([calledMethod isEqualToString:@"updateAccount"]) {
         [self updateAccount:call result:result];
     } else if ([calledMethod isEqualToString:@"requestPasswordReset"]) {
@@ -360,6 +362,21 @@ NS_ASSUME_NONNULL_BEGIN
     }];
 }
 
+- (void)updateAccountBasicInformation:(FlutterMethodCall *)call result:(FlutterResult)result {
+    NSDictionary *dictionary = call.arguments;
+    
+    SNRClientUpdateAccountBasicInformationContext *context = [self modelClientUpdateAccountBasicInformationContextWithDictionary:dictionary];
+    if (context != nil) {
+        [SNRClient updateAccountBasicInformation:context success:^(BOOL isSuccess) {
+                result([NSNumber numberWithBool:YES]);
+        } failure:^(NSError *error) {
+            [self makeFlutterErrorWithError:error];
+        }];
+    } else {
+        [self defaultFlutterError];
+    }
+}
+
 - (void)updateAccount:(FlutterMethodCall *)call result:(FlutterResult)result {
     NSDictionary *dictionary = call.arguments;
     
@@ -545,6 +562,34 @@ NS_ASSUME_NONNULL_BEGIN
             
             return model;
         }
+    }
+    
+    return nil;
+}
+
+- (nullable SNRClientUpdateAccountBasicInformationContext *)modelClientUpdateAccountBasicInformationContextWithDictionary:(nullable NSDictionary *)dictionary {
+    if (dictionary != nil) {
+        SNRClientUpdateAccountBasicInformationContext *model = [SNRClientUpdateAccountContext new];
+        model.firstName = [dictionary getStringForKey:@"firstName"];
+        model.lastName = [dictionary getStringForKey:@"lastName"];
+        model.displayName = [dictionary getStringForKey:@"displayName"];
+        model.sex = SNR_StringToClientSex([dictionary getStringForKey:@"sex"]);
+        model.phone = [dictionary getStringForKey:@"phone"];
+        model.birthDate = [dictionary getStringForKey:@"birthDate"];
+        model.avatarUrl = [dictionary getStringForKey:@"avatarUrl"];
+                                                
+        model.company = [dictionary getStringForKey:@"company"];
+        model.address = [dictionary getStringForKey:@"address"];
+        model.city = [dictionary getStringForKey:@"city"];
+        model.province = [dictionary getStringForKey:@"province"];
+        model.zipCode = [dictionary getStringForKey:@"zipCode"];
+        model.countryCode = [dictionary getStringForKey:@"countryCode"];
+        
+        model.agreements = [self modelClientAgreementsWithDictionary:[dictionary getDictionaryForKey:@"agreements"]];
+
+        model.attributes = [dictionary getDictionaryForKey:@"attributes"];
+        
+        return model;
     }
     
     return nil;

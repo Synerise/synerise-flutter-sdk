@@ -7,6 +7,7 @@ import com.synerise.sdk.client.Client;
 import com.synerise.sdk.client.model.AuthConditions;
 import com.synerise.sdk.client.model.ClientIdentityProvider;
 import com.synerise.sdk.client.model.GetAccountInformation;
+import com.synerise.sdk.client.model.UpdateAccountBasicInformation;
 import com.synerise.sdk.client.model.UpdateAccountInformation;
 import com.synerise.sdk.client.model.client.Agreements;
 import com.synerise.sdk.client.model.client.Attributes;
@@ -36,7 +37,7 @@ import io.flutter.plugin.common.MethodChannel;
 public final class SyneriseClient implements SyneriseModule {
 
     private static SyneriseClient instance;
-    public static IApiCall signInCall, signUpCall, signOutCall, updateAccountCall, passwordResetCall;
+    public static IApiCall signInCall, signUpCall, signOutCall, updateAccountCall, passwordResetCall, updateAccountBasicInformationCall;
     public static IApiCall activateCall, confirmCall, refreshTokenCall, simpleAuthenticationCall;
     private static IDataApiCall<Token> retrieveTokenCall;
     private static final String TAG = "FlutterSyneriseSdk.Cli";
@@ -114,6 +115,9 @@ public final class SyneriseClient implements SyneriseModule {
                 return;
             case "updateAccount":
                 updateAccount(call, result);
+                return;
+            case "updateAccountBasicInformation":
+                updateAccountBasicInformation(call, result);
                 return;
             case "requestPasswordReset":
                 requestPasswordReset(call, result);
@@ -613,7 +617,6 @@ public final class SyneriseClient implements SyneriseModule {
                     accountMap.put("anonymous", getAccountInformation.getAnonymous());
                     accountMap.put("agreements", agreements);
                     accountMap.put("attributes", (getAccountInformation.getAttributes()));
-                    accountMap.put("tags", mapTags(getAccountInformation.getTags()));
                     if (getAccountInformation.getLastActivityDate() != null) {
                         accountMap.put("lastActivityDate", getAccountInformation.getLastActivityDate().getTime());
                     }
@@ -665,6 +668,42 @@ public final class SyneriseClient implements SyneriseModule {
                 (DataActionListener<ApiError>) apiError ->
                         SyneriseModule.executeFailureResult(apiError, result));
 
+    }
+
+    public void updateAccountBasicInformation(MethodCall call, MethodChannel.Result result) {
+        Map data = (Map) call.arguments;
+        UpdateAccountBasicInformation updateAccountBasicInformation = new UpdateAccountBasicInformation();
+        updateAccountBasicInformation.setPhoneNumber(data.containsKey("phone") ? (String) data.get("phone") : null);
+        updateAccountBasicInformation.setFirstName(data.containsKey("firstName") ? (String) data.get("firstName") : null);
+        updateAccountBasicInformation.setLastName(data.containsKey("lastName") ? (String) data.get("lastName") : null);
+        updateAccountBasicInformation.setDisplayName(data.containsKey("displayName") ? (String) data.get("displayName") : null);
+        if (data.containsKey("sex")) {
+            updateAccountBasicInformation.setSex(Sex.getSex((String) data.get("sex")));
+        }
+        updateAccountBasicInformation.setBirthDate(data.containsKey("birthDate") ? (String) data.get("birthDate") : null);
+        updateAccountBasicInformation.setAvatarUrl(data.containsKey("avatarUrl") ? (String) data.get("avatarUrl") : null);
+        updateAccountBasicInformation.setCompany(data.containsKey("company") ? (String) data.get("company") : null);
+        updateAccountBasicInformation.setAddress(data.containsKey("address") ? (String) data.get("address") : null);
+        updateAccountBasicInformation.setCity(data.containsKey("city") ? (String) data.get("city") : null);
+        updateAccountBasicInformation.setProvince(data.containsKey("province") ? (String) data.get("province") : null);
+        updateAccountBasicInformation.setZipCode(data.containsKey("zipCode") ? (String) data.get("zipCode") : null);
+        updateAccountBasicInformation.setCountryCode(data.containsKey("countryCode") ? (String) data.get("countryCode") : null);
+
+        if (data.containsKey("attributes")) {
+            Attributes attributes = attributesMapper((HashMap<String, Object>) data.get("attributes"));
+            updateAccountBasicInformation.setAttributes(attributes);
+        }
+
+        if (data.containsKey("agreements")) {
+            Agreements agreements = agreementsMapper((Map) data.get("agreements"));
+            updateAccountBasicInformation.setAgreements(agreements);
+        }
+
+        if (updateAccountBasicInformationCall != null) updateAccountBasicInformationCall.cancel();
+        updateAccountBasicInformationCall = Client.updateAccountBasicInformation(updateAccountBasicInformation);
+        updateAccountBasicInformationCall.execute(() -> SyneriseModule.executeSuccessResult(true, result),
+                (DataActionListener<ApiError>) apiError ->
+                        SyneriseModule.executeFailureResult(apiError, result));
     }
 
     public void requestPasswordReset(MethodCall call, MethodChannel.Result result) {

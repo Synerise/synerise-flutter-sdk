@@ -31,7 +31,7 @@ public class SyneriseSettings implements SyneriseModule {
     public static final String F_SETTINGS_IN_APP_MESSAGING_RENDERING_TIMEOUT = "IN_APP_MESSAGING_RENDERING_TIMEOUT";
     public static final String F_SETTINGS_IN_APP_MESSAGING_SHOULD_SEND_IN_APP_CAPPING_EVENT = "IN_APP_MESSAGING_SHOULD_SEND_IN_APP_CAPPING_EVENT";
     public static final String F_SETTINGS_IN_APP_MESSAGING_CHECK_GLOBAL_CONTROL_GROUPS_ON_DEFINITIONS_FETCH = "IN_APP_MESSAGING_CHECK_GLOBAL_CONTROL_GROUPS_ON_DEFINITIONS_FETCH";
-
+    public static final String F_SETTINGS_IN_APP_MESSAGING_CONTENT_BASE_URL = "IN_APP_MESSAGING_CONTENT_BASE_URL";
 
     private static SyneriseSettings instance;
 
@@ -160,6 +160,11 @@ public class SyneriseSettings implements SyneriseModule {
                     Settings.getInstance().inAppMessaging.checkGlobalControlGroupsOnDefinitionsFetch = (Boolean) value;
                 }
                 break;
+            case F_SETTINGS_IN_APP_MESSAGING_CONTENT_BASE_URL:
+                if (value instanceof String) {
+                    Settings.getInstance().inAppMessaging.setContentBaseUrl((String) value);
+                }
+                break;
         }
     }
 
@@ -180,6 +185,7 @@ public class SyneriseSettings implements SyneriseModule {
         settings.put(F_SETTINGS_IN_APP_MESSAGING_RENDERING_TIMEOUT, Synerise.settings.inAppMessaging.renderingTimeout);
         settings.put(F_SETTINGS_IN_APP_MESSAGING_SHOULD_SEND_IN_APP_CAPPING_EVENT, Synerise.settings.inAppMessaging.shouldSendInAppCappingEvent);
         settings.put(F_SETTINGS_IN_APP_MESSAGING_CHECK_GLOBAL_CONTROL_GROUPS_ON_DEFINITIONS_FETCH, Synerise.settings.inAppMessaging.checkGlobalControlGroupsOnDefinitionsFetch);
+        settings.put(F_SETTINGS_IN_APP_MESSAGING_CONTENT_BASE_URL, Synerise.settings.inAppMessaging.getContentBaseUrl());
 
         return settings;
     }
