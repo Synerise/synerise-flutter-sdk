@@ -1,4 +1,4 @@
-import '../../enums/client/client_sex.dart';
+import 'client_sex.dart';
 import 'client_agreements.dart';
 
 /// The `ClientAccountRegisterContext` class represents the context for registering a client account,

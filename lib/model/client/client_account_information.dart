@@ -1,4 +1,4 @@
-import '../../enums/client/client_sex.dart';
+import 'client_sex.dart';
 import '../../utils/synerise_utils.dart';
 import 'client_agreements.dart';
 

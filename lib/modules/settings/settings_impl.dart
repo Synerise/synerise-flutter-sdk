@@ -35,6 +35,8 @@ class SettingsKeys {
       "IN_APP_MESSAGING_SHOULD_SEND_IN_APP_CAPPING_EVENT";
   static const inAppMessagingCheckGlobalControlGroupsOnDefinitionsFetch =
       "IN_APP_MESSAGING_CHECK_GLOBAL_CONTROL_GROUPS_ON_DEFINITIONS_FETCH";
+  static const inAppMessagingContentBaseUrl =
+      "IN_APP_MESSAGING_CONTENT_BASE_URL";
 
   static const injectorAutomatic = "INJECTOR_AUTOMATIC";
 }
@@ -62,11 +64,13 @@ class BaseSettings {
 
 class GeneralSettings extends BaseSettings {
   bool get enabled => getFunction<bool>(SettingsKeys.sdkEnabled);
+
   set enabled(bool enabled) =>
       setFunction<bool>(SettingsKeys.sdkEnabled, enabled);
 
   String? get appGroupIdentifier => getFunction<String>(
       SettingsKeys.sdkAppGroupIdentifier, Platform.isIOS == true, null);
+
   set appGroupIdentifier(String? appGroupIdentifier) => setFunction<String>(
       SettingsKeys.sdkAppGroupIdentifier,
       appGroupIdentifier,
@@ -74,18 +78,21 @@ class GeneralSettings extends BaseSettings {
 
   String? get keychainGroupIdentifier => getFunction<String>(
       SettingsKeys.sdkKeychainGroupIdentifier, Platform.isIOS == true, null);
+
   set keychainGroupIdentifier(String? keychainGroupIdentifier) =>
       setFunction<String>(SettingsKeys.sdkKeychainGroupIdentifier,
           keychainGroupIdentifier, Platform.isIOS == true);
 
   double get minTokenRefreshInterval =>
       getFunction<double>(SettingsKeys.sdkMinTokenRefreshInterval);
+
   set minTokenRefreshInterval(double minTokenRefreshInterval) =>
       setFunction<double>(
           SettingsKeys.sdkMinTokenRefreshInterval, minTokenRefreshInterval);
 
   bool get shouldDestroySessionOnApiKeyChange =>
       getFunction<bool>(SettingsKeys.sdkShouldDestroySessionOnApiKeyChange);
+
   set shouldDestroySessionOnApiKeyChange(
           bool shouldDestroySessionOnApiKeyChange) =>
       setFunction<bool>(SettingsKeys.sdkShouldDestroySessionOnApiKeyChange,
@@ -93,6 +100,7 @@ class GeneralSettings extends BaseSettings {
 
   Map<String, String>? get localizable => getFunction<Map<String, String>?>(
       SettingsKeys.sdkLocalizable, Platform.isIOS == true);
+
   set localizable(Map<String, String>? localizable) =>
       setFunction<Map<String, String>?>(
           SettingsKeys.sdkLocalizable, localizable, Platform.isIOS == true);
@@ -104,27 +112,33 @@ class GeneralSettings extends BaseSettings {
 class TrackerSettings extends BaseSettings {
   bool get isBackendTimeSyncRequired =>
       getFunction<bool>(SettingsKeys.trackerIsBackendTimeSyncRequired);
+
   set isBackendTimeSyncRequired(bool isBackendTimeSyncRequired) =>
       setFunction<bool>(SettingsKeys.trackerIsBackendTimeSyncRequired,
           isBackendTimeSyncRequired);
 
   int get minBatchSize => getFunction<int>(SettingsKeys.trackerMinBatchSize);
+
   set minBatchSize(int minBatchSize) =>
       setFunction<int>(SettingsKeys.trackerMinBatchSize, minBatchSize);
 
   int get maxBatchSize => getFunction<int>(SettingsKeys.trackerMaxBatchSize);
+
   set maxBatchSize(int maxBatchSize) =>
       setFunction<int>(SettingsKeys.trackerMaxBatchSize, maxBatchSize);
 
   double get autoFlushTimeout =>
       getFunction<double>(SettingsKeys.trackerAutoFlushTimeout);
+
   set autoFlushTimeout(double autoFlushTimeout) => setFunction<double>(
       SettingsKeys.trackerAutoFlushTimeout, autoFlushTimeout);
 
   List<String> get eventsTriggeringFlush =>
       getFunction<List<String>>(SettingsKeys.trackerEventsTriggeringFlush);
-  set eventsTriggeringFlush(List<String> eventsTriggeringFlush) => setFunction<List<String>>(
-      SettingsKeys.trackerEventsTriggeringFlush, eventsTriggeringFlush);
+
+  set eventsTriggeringFlush(List<String> eventsTriggeringFlush) =>
+      setFunction<List<String>>(
+          SettingsKeys.trackerEventsTriggeringFlush, eventsTriggeringFlush);
 
   TrackerSettings(GetFunction getFunction, SetFunction setFunction)
       : super(getFunction, setFunction);
@@ -132,11 +146,13 @@ class TrackerSettings extends BaseSettings {
 
 class NotificationsSettings extends BaseSettings {
   bool get enabled => getFunction<bool>(SettingsKeys.notificationsEnabled);
+
   set enabled(bool enabled) =>
       setFunction<bool>(SettingsKeys.notificationsEnabled, enabled);
 
   bool get encryption =>
       getFunction<bool>(SettingsKeys.notificationsEncryption);
+
   set encryption(bool encryption) =>
       setFunction<bool>(SettingsKeys.notificationsEncryption, encryption);
 
@@ -144,6 +160,7 @@ class NotificationsSettings extends BaseSettings {
       SettingsKeys.notificationsDisableInAppAlerts,
       Platform.isIOS == true,
       true);
+
   set disableInAppAlerts(bool disableInAppAlerts) => setFunction<bool>(
       SettingsKeys.notificationsDisableInAppAlerts,
       disableInAppAlerts,
@@ -156,6 +173,7 @@ class NotificationsSettings extends BaseSettings {
 class InAppMessagingSettings extends BaseSettings {
   double get maxDefinitionUpdateIntervalLimit =>
       getFunction<double>(SettingsKeys.inAppMaxDefinitionUpdateIntervalLimit);
+
   set maxDefinitionUpdateIntervalLimit(
           double maxDefinitionUpdateIntervalLimit) =>
       setFunction<double>(SettingsKeys.inAppMaxDefinitionUpdateIntervalLimit,
@@ -163,22 +181,31 @@ class InAppMessagingSettings extends BaseSettings {
 
   double get renderingTimeout =>
       getFunction<double>(SettingsKeys.inAppMessagingRenderingTimeout);
+
   set renderingTimeout(double renderingTimeout) => setFunction<double>(
       SettingsKeys.inAppMessagingRenderingTimeout, renderingTimeout);
 
   bool get shouldSendInAppCappingEvent =>
       getFunction<bool>(SettingsKeys.inAppMessagingShouldSendInAppCappingEvent);
+
   set shouldSendInAppCappingEvent(bool shouldSendInAppCappingEvent) =>
       setFunction<bool>(SettingsKeys.inAppMessagingShouldSendInAppCappingEvent,
           shouldSendInAppCappingEvent);
 
   bool get checkGlobalControlGroupsOnDefinitionsFetch => getFunction<bool>(
       SettingsKeys.inAppMessagingCheckGlobalControlGroupsOnDefinitionsFetch);
+
   set checkGlobalControlGroupsOnDefinitionsFetch(
           bool checkGlobalControlGroupsOnDefinitionsFetch) =>
       setFunction<bool>(
           SettingsKeys.inAppMessagingCheckGlobalControlGroupsOnDefinitionsFetch,
           checkGlobalControlGroupsOnDefinitionsFetch);
+
+  String get contentBaseUrl =>
+      getFunction<String>(SettingsKeys.inAppMessagingContentBaseUrl);
+
+  set contentBaseUrl(String contentBaseUrl) => setFunction<String>(
+      SettingsKeys.inAppMessagingContentBaseUrl, contentBaseUrl);
 
   InAppMessagingSettings(GetFunction getFunction, SetFunction setFunction)
       : super(getFunction, setFunction);
@@ -186,6 +213,7 @@ class InAppMessagingSettings extends BaseSettings {
 
 class InjectorSettings extends BaseSettings {
   bool get automatic => getFunction<bool>(SettingsKeys.injectorAutomatic);
+
   set automatic(bool automatic) =>
       setFunction<bool>(SettingsKeys.injectorAutomatic, automatic);
 

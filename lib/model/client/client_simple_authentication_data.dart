@@ -1,4 +1,4 @@
-import '../../enums/client/client_sex.dart';
+import 'client_sex.dart';
 import 'client_agreements.dart';
 
 /// The `ClientSimpleAuthenticationData` class is a data model that represents the simple authentication data

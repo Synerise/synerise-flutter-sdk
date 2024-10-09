@@ -25,8 +25,9 @@ export 'package:synerise_flutter_sdk/modules/base/base_module_method_channel.dar
 export 'package:synerise_flutter_sdk/model/client/client_auth_context.dart';
 export 'package:synerise_flutter_sdk/model/client/client_account_information.dart';
 export 'package:synerise_flutter_sdk/model/client/client_account_register_context.dart';
+export 'package:synerise_flutter_sdk/model/client/client_account_update_basic_information_context.dart';
 export 'package:synerise_flutter_sdk/model/client/client_account_update_context.dart';
-export 'package:synerise_flutter_sdk/enums/client/client_sex.dart';
+export 'package:synerise_flutter_sdk/model/client/client_sex.dart';
 export 'package:synerise_flutter_sdk/model/client/client_agreements.dart';
 export 'package:synerise_flutter_sdk/model/client/token.dart';
 export 'package:synerise_flutter_sdk/model/client/client_conditional_auth_result.dart';

@@ -1,6 +1,22 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.4.0] - 2024-10-09
+
+### Fixed
+- [iOS] Some potential issues with possible database corruption.
+- [Android] Notification callback issue when app was in foreground.
+
+### Added
+- `Synerise.settings.inAppMessaging.contentBaseUrl` option in settings to let you set the base URL to use for all relative URLs in an in-app message's creation.
+- `Synerise.client.updateAccountBasicInformation(context, onSuccess, onError)` method. The new method updates anonymous users.
+- `ClientAccountUpdateBasicInformationContext` model correlated with the new `Synerise.Client.updateAccountBasicInformation(context, onSuccess, onError)` method.
+
+### Changed
+- Update of native SDK's dependencies.
+- Improvements to stability.
+
+
 ## [1.3.1] - 2024-09-16
 
 ### Fixed

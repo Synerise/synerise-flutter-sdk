@@ -6,6 +6,7 @@ import '../../enums/client/client_sign_out_mode.dart';
 import '../../enums/client/identity_provider.dart';
 import '../../model/client/client_account_information.dart';
 import '../../model/client/client_account_register_context.dart';
+import '../../model/client/client_account_update_basic_information_context.dart';
 import '../../model/client/client_account_update_context.dart';
 import '../../model/client/client_auth_context.dart';
 import '../../model/client/client_conditional_auth_result.dart';
@@ -337,6 +338,27 @@ class ClientImpl extends BaseModule {
 
     result.onSuccess((result) {
       onSuccess(result);
+    }).onError((error) {
+      onError(error);
+    });
+  }
+
+  /// This function updates an anonymous client account using the provided object.
+  ///
+  /// Args:
+  ///   clientAccountUpdateBasicInformatioContext (ClientAccountUpdateBasicInformationContext): It is an object of type
+  /// ClientAccountUpdateBasicInformationContext that contains the information needed to update a client's account. This
+  /// object may include fields such as the client's name, phone number, address, and any other
+  /// relevant information that needs to be updated.
+  Future<void> updateAccountBasicInformation(
+      ClientAccountUpdateBasicInformationContext clientAccountUpdateBasicInformationContext,
+      {required void Function() onSuccess,
+        required void Function(SyneriseError error) onError}) async {
+    SyneriseResult<void> result =
+    await _methods.updateAccountBasicInformation(clientAccountUpdateBasicInformationContext);
+
+    result.onSuccess((result) {
+      onSuccess();
     }).onError((error) {
       onError(error);
     });

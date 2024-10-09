@@ -2,6 +2,37 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-BLANK_TEMPLATE_PASTE_YOUR_FILE_HERE
+	<key>CLIENT_ID</key>
+	<string>237038761983-pcfv22kfegijehekebj2a88p0f2vrubc.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.237038761983-pcfv22kfegijehekebj2a88p0f2vrubc</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>237038761983-183jgo0upr4gait4t316ehgosbeccvgk.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDsCSKEQv4bppVsDtMubPmFmpn37Ye-s8w</string>
+	<key>GCM_SENDER_ID</key>
+	<string>237038761983</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.synerise.sdk.sample-flutter</string>
+	<key>PROJECT_ID</key>
+	<string>synerise-sample-apps</string>
+	<key>STORAGE_BUCKET</key>
+	<string>synerise-sample-apps.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:237038761983:ios:1cefb91a8244785a8f59ca</string>
+	<key>DATABASE_URL</key>
+	<string>https://synerise-sample-apps.firebaseio.com</string>
 </dict>
 </plist>
