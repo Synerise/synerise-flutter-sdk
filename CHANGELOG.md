@@ -1,6 +1,15 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.4.1] - 2024-10-14
+
+### Fixed
+- [Android] workManager npe - for android api lower than 24
+
+### Changed
+- Update of native SDK's dependencies.
+
+
 ## [1.4.0] - 2024-10-09
 
 ### Fixed
