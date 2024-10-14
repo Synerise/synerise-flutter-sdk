@@ -43,5 +43,5 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.synerise.sdk:synerise-mobile-sdk:5.21.0'
+    implementation 'com.synerise.sdk:synerise-mobile-sdk:5.22.1'
 }

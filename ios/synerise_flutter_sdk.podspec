@@ -7,7 +7,7 @@ SYNERISE_SDK_FRAMEWORK_VERSION = '4.23.1'
 
 Pod::Spec.new do |s|
   s.name             = 'synerise_flutter_sdk'
-  s.version          = '1.4.0'
+  s.version          = '1.4.1'
   s.summary          = 'Synerise SDK plugin for Flutter'
   s.description      = 'Flutter plugin for Synerise SDK'
   s.homepage         = 'http://synerise.com'
