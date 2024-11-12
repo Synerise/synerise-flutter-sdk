@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.4.3] - 2024-11-12
+
+### Fixed
+- [iOS] Potential issues with checking if the app is launched in the background. The SDK set the background mode to true on UIScene and SwiftUI based apps. It could cause the app to freeze.
+
+
 ## [1.4.2] - 2024-10-15
 
 ### Fixed
