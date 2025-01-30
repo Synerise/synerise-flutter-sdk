@@ -31,7 +31,7 @@ class ClientAccountInformation {
   final ClientAgreements? agreements;
 
   final Map<String, Object>? attributes;
-  final List<String?> tags;
+  final List<String?>? tags;
 
   ClientAccountInformation(
       {required this.clientId,
@@ -55,7 +55,7 @@ class ClientAccountInformation {
       this.lastActivityDate,
       this.agreements,
       this.attributes,
-      required this.tags});
+      this.tags});
 
   /// This is a named constructor in the `ClientAccountInformation` class that takes a `Map` as input
   /// and creates a new instance of `ClientAccountInformation` with the values extracted from the map.

@@ -1,6 +1,18 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.5.0] - 2025-01-30
+
+### Fixed
+- [Android] We fixed issue with mapping of the `ClientAccountInformation` model. 
+
+### Added
+[Android] We added HMS support. It can be enabled using the new `setMessagingServiceType(messagingServiceType)` method in `SyneriseInitializer`. You can pass `MessagingServiceType.hms` to this method to enable notification processing for HMS payloads.
+
+### Changed
+- Nullability of the `tags` property in the `ClientAccountInformation` model.
+
+
 ## [1.4.3] - 2024-11-12
 
 ### Fixed

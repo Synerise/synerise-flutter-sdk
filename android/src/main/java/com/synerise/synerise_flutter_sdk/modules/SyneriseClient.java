@@ -617,9 +617,11 @@ public final class SyneriseClient implements SyneriseModule {
                     accountMap.put("anonymous", getAccountInformation.getAnonymous());
                     accountMap.put("agreements", agreements);
                     accountMap.put("attributes", (getAccountInformation.getAttributes()));
+                    accountMap.put("tags", getAccountInformation.getTags());
                     if (getAccountInformation.getLastActivityDate() != null) {
                         accountMap.put("lastActivityDate", getAccountInformation.getLastActivityDate().getTime());
                     }
+
                     SyneriseModule.executeSuccessResult(accountMap, result);
                 },
                 new DataActionListener<ApiError>() {
