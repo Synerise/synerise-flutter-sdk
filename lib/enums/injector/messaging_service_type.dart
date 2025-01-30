@@ -1,0 +1,4 @@
+enum MessagingServiceType {
+  gms,
+  hms
+}

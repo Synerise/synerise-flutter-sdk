@@ -10,6 +10,7 @@ import com.synerise.sdk.client.Client;
 import com.synerise.sdk.client.model.client.Agreements;
 import com.synerise.sdk.core.Synerise;
 import com.synerise.sdk.core.types.enums.HostApplicationType;
+import com.synerise.sdk.core.types.enums.MessagingServiceType;
 import com.synerise.sdk.core.types.model.InitializationConfig;
 import com.synerise.synerise_flutter_sdk.SyneriseConnector;
 import com.synerise.synerise_flutter_sdk.SyneriseModule;
@@ -20,7 +21,7 @@ import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 
 public class SyneriseInitializer implements SyneriseModule {
-    private static String sdkPluginVersion = "1.4.3";
+    private static String sdkPluginVersion = "1.5.0";
     private static SyneriseInitializer instance;
     protected static volatile boolean isInitialized = false;
 
@@ -46,10 +47,13 @@ public class SyneriseInitializer implements SyneriseModule {
             Map data = (Map) dataFull.get("initializationParameters");
             String requestValidationSalt = data.containsKey("requestValidationSalt") ? (String) data.get("requestValidationSalt") : null;
             initializeActionInjectorListener();
+            String messagingServiceTypeString = data.containsKey("messagingServiceType") ? (String) data.get("messagingServiceType") : "GMS";
+            String messagingServiceType = messagingServiceTypeString != null ? messagingServiceTypeString : "GMS";
             Synerise.Builder builder = Synerise.Builder.with(app, (String) data.get("clientApiKey"), SyneriseConnector.getApplicationName(app))
                     .baseUrl(data.containsKey("baseUrl") ? (String) data.get("baseUrl") : null)
                     .syneriseDebugMode(data.containsKey("debugModeEnabled") ? (boolean) data.get("debugModeEnabled") : false)
                     .crashHandlingEnabled(data.containsKey("crashHandlingEnabled") ? (boolean) data.get("crashHandlingEnabled") : false)
+                    .mesaggingServiceType(MessagingServiceType.valueOf(messagingServiceType.toUpperCase()))
                     .hostApplicationType(HostApplicationType.FLUTTER)
                     .hostApplicationSDKPluginVersion(sdkPluginVersion)
                     .pushRegistrationRequired(SyneriseNotifications.registerListeners());

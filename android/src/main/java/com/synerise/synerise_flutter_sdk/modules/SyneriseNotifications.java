@@ -1,7 +1,5 @@
 package com.synerise.synerise_flutter_sdk.modules;
 
-import android.util.Log;
-
 import com.synerise.sdk.client.Client;
 import com.synerise.sdk.core.listeners.DataActionListener;
 import com.synerise.sdk.core.listeners.OnRegisterForPushListener;
@@ -13,6 +11,7 @@ import com.synerise.synerise_flutter_sdk.SyneriseModule;
 import com.synerise.synerise_flutter_sdk.modules.listeners.OnRegisterPushListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 import io.flutter.plugin.common.MethodCall;
@@ -164,7 +163,26 @@ public class SyneriseNotifications implements SyneriseModule {
 
     private Map<String, String> notificationMapper(Map pushPayload) {
         Map<String, Object> notificationMap = (Map<String, Object>) pushPayload.get("notification");
-        Map<String, String> dataMapSerialized = (Map<String, String>) notificationMap.get("data");
+        Map<String, String> dataMapSerialized = null;
+        if (notificationMap != null && notificationMap.containsKey("data")) {
+            dataMapSerialized = (Map<String, String>) notificationMap.get("data");
+        } else {
+            dataMapSerialized = convertMap(notificationMap);
+        }
+
         return dataMapSerialized;
     }
+
+    private Map<String, String> convertMap(Map<String, Object> inputMap) {
+        Map<String, String> stringMap = new HashMap<>();
+        for (Map.Entry<String, Object> entry : inputMap.entrySet()) {
+            String key = entry.getKey();
+            Object value = entry.getValue();
+
+            stringMap.put(key, value != null ? value.toString() : "");
+        }
+
+        return stringMap;
+    }
+
 }

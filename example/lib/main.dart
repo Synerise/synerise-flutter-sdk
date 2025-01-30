@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'dart:developer' as developer;
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:synerise_flutter_sdk/enums/injector/messaging_service_type.dart';
 import 'dart:async';
 
 import 'package:synerise_flutter_sdk/synerise.dart';
@@ -51,6 +52,7 @@ class _InitialViewState extends State<InitialView> {
         .withClientApiKey(await rootBundle.loadString('lib/api_key.txt'))
         .withBaseUrl("https://api.snrapi.com")
         .withDebugModeEnabled(true)
+        .setMessagingServiceType(MessagingServiceType.gms)
         .init();
 
     Synerise.notifications.listener((listener) {

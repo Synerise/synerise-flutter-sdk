@@ -1,4 +1,5 @@
 import 'package:flutter/services.dart';
+import 'package:synerise_flutter_sdk/enums/injector/messaging_service_type.dart';
 import 'dependencies.dart';
 
 var syneriseInitialized = false;
@@ -11,6 +12,7 @@ class SyneriseInitializer {
   String? _requestValidationSalt;
   bool _debugModeEnabled = false;
   bool _crashHandlingEnabled = false;
+  String _messagingServiceType = MessagingServiceType.gms.name;
 
   Function(bool initialized)? completionHandler;
 
@@ -75,6 +77,18 @@ class SyneriseInitializer {
     return this;
   }
 
+  /// The function sets the messaging service type.
+  ///
+  /// Args:
+  ///   messagingServiceType (MessagingServiceType): This parameter is an enum containing two values: gms - google mobile services and hms - huawei mobile services.
+  ///   Default value is gms.
+  ///   Please use huawei mobile services only on huawei devices
+  /// SyneriseInitializer class.
+  SyneriseInitializer setMessagingServiceType(MessagingServiceType messagingServiceType) {
+    _messagingServiceType = messagingServiceType.name;
+    return this;
+  }
+
   /// This function initializes a Synerise SDK instance with specified parameters and invokes a
   /// completion handler.
   Future<void> init() async {
@@ -92,7 +106,8 @@ class SyneriseInitializer {
         'baseUrl': _baseUrl,
         'debugModeEnabled': _debugModeEnabled,
         'crashHandlingEnabled': _crashHandlingEnabled,
-        'requestValidationSalt': _requestValidationSalt
+        'requestValidationSalt': _requestValidationSalt,
+        'messagingServiceType': _messagingServiceType
       }
     });
 
