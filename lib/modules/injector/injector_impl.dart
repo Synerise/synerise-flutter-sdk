@@ -1,9 +1,12 @@
 // ignore_for_file: unused_local_variable
 
 import 'package:flutter/services.dart';
-import 'package:synerise_flutter_sdk/synerise.dart';
 
-import 'injector_methods.dart';
+import '../base/base_module_method_channel.dart';
+import '../base/base_module.dart';
+import '../../enums/injector/synerise_source.dart';
+import '../../model/in_app/in_app_message_data.dart';
+import './injector_methods.dart';
 
 typedef InjectorListenerFunction = void Function(InjectorListener listener);
 
@@ -14,39 +17,14 @@ class InjectorListener {
   InjectorListener();
 }
 
-typedef InjectorBannerListenerFunction = void Function(
-    InjectorBannerListener listener);
-
-class InjectorBannerListener {
-  void Function()? onPresent;
-  void Function()? onHide;
-
-  InjectorBannerListener();
-}
-
-typedef InjectorWalkthroughListenerFunction = void Function(
-    InjectorWalkthroughListener listener);
-
-class InjectorWalkthroughListener {
-  void Function()? onLoad;
-  void Function()? onLoadingError;
-  void Function()? onPresent;
-  void Function()? onHide;
-
-  InjectorWalkthroughListener();
-}
-
-typedef InjectorInAppMessageListenerFunction = void Function(
-    InjectorInAppMessageListener listener);
+typedef InjectorInAppMessageListenerFunction = void Function(InjectorInAppMessageListener listener);
 
 class InjectorInAppMessageListener {
   void Function(InAppMessageData data)? onPresent;
   void Function(InAppMessageData data)? onHide;
   void Function(InAppMessageData data, String url)? onOpenUrl;
   void Function(InAppMessageData data, String deepLink)? onDeepLink;
-  void Function(
-          InAppMessageData data, String name, Map<String, String> parameters)?
-      onCustomAction;
+  void Function(InAppMessageData data, String name, Map<String, String> parameters)? onCustomAction;
 
   InjectorInAppMessageListener();
 }
@@ -56,11 +34,7 @@ class InjectorImpl extends BaseModule {
   InjectorImpl();
 
   final InjectorListener _listener = InjectorListener();
-  final InjectorBannerListener _bannerListener = InjectorBannerListener();
-  final InjectorWalkthroughListener _walkthroughListener =
-      InjectorWalkthroughListener();
-  final InjectorInAppMessageListener _inAppMessageListener =
-      InjectorInAppMessageListener();
+  final InjectorInAppMessageListener _inAppMessageListener = InjectorInAppMessageListener();
 
   @override
   void beforeInitialization() async {
@@ -80,18 +54,6 @@ class InjectorImpl extends BaseModule {
     listenerFunction(_listener);
   }
 
-  /// This function handles banner listener methods by calling the appropriate listener method based on
-  /// the method name.
-  void bannerListener(InjectorBannerListenerFunction listenerFunction) {
-    listenerFunction(_bannerListener);
-  }
-
-  /// This function handles different listener methods for a walkthrough feature in a Dart application.
-  void walkthroughListener(
-      InjectorWalkthroughListenerFunction listenerFunction) {
-    listenerFunction(_walkthroughListener);
-  }
-
   /// This function handles different listener methods for in-app messages in Dart.
   void inAppMessageListener(
       InjectorInAppMessageListenerFunction listenerFunction) {
@@ -105,16 +67,6 @@ class InjectorImpl extends BaseModule {
 
     if (listenerName == 'InjectorListener') {
       _handleListenerMethod(call);
-      return;
-    }
-
-    if (listenerName == 'InjectorBannerListener') {
-      _handleBannerListenerMethod(call);
-      return;
-    }
-
-    if (listenerName == 'InjectorWalkthroughListener') {
-      _handleWalkthroughListenerMethod(call);
       return;
     }
 
@@ -159,60 +111,6 @@ class InjectorImpl extends BaseModule {
         }
 
         _listener.onDeepLink!(deepLink, source);
-      }
-      return;
-    }
-  }
-
-  void _handleBannerListenerMethod(MethodCall call) async {
-    var methodPath = call.method.split('#');
-    var listenerName = methodPath[1];
-    var listenerMethodName = methodPath[2];
-
-    if (listenerMethodName == 'onPresent') {
-      if (_bannerListener.onPresent != null) {
-        _bannerListener.onPresent!();
-      }
-      return;
-    }
-
-    if (listenerMethodName == 'onHide') {
-      if (_bannerListener.onHide != null) {
-        _bannerListener.onHide!();
-      }
-      return;
-    }
-  }
-
-  void _handleWalkthroughListenerMethod(MethodCall call) async {
-    var methodPath = call.method.split('#');
-    var listenerName = methodPath[1];
-    var listenerMethodName = methodPath[2];
-
-    if (listenerMethodName == 'onLoad') {
-      if (_walkthroughListener.onLoad != null) {
-        _walkthroughListener.onLoad!();
-      }
-      return;
-    }
-
-    if (listenerMethodName == 'onLoadingError') {
-      if (_walkthroughListener.onLoadingError != null) {
-        _walkthroughListener.onLoadingError!();
-      }
-      return;
-    }
-
-    if (listenerMethodName == 'onPresent') {
-      if (_walkthroughListener.onPresent != null) {
-        _walkthroughListener.onPresent!();
-      }
-      return;
-    }
-
-    if (listenerMethodName == 'onHide') {
-      if (_walkthroughListener.onHide != null) {
-        _walkthroughListener.onHide!();
       }
       return;
     }
@@ -292,21 +190,5 @@ class InjectorImpl extends BaseModule {
 
   void handleDeepLinkBySDK(String deepLink) {
     _methods.handleDeepLinkBySDK(deepLink);
-  }
-
-  Future<void> getWalkthrough() async {
-    _methods.getWalkthrough();
-  }
-
-  Future<void> showWalkthrough() async {
-    _methods.showWalkthrough();
-  }
-
-  Future<bool> isWalkthroughLoaded() async {
-    return _methods.isWalkthroughLoaded();
-  }
-
-  Future<bool> isLoadedWalkthroughUnique() async {
-    return _methods.isLoadedWalkthroughUnique();
   }
 }

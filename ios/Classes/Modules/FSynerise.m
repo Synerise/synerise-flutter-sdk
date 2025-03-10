@@ -13,7 +13,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-static NSString * const sdkPluginVersion = @"1.5.0";
+static NSString * const sdkPluginVersion = @"2.0.0";
 
 @interface FSynerise () <SNRSyneriseDelegate>
 
@@ -54,7 +54,7 @@ static NSString * const sdkPluginVersion = @"1.5.0";
     NSDictionary *dictionary = call.arguments;
     NSDictionary *initializationParameters = dictionary[@"initializationParameters"];
     
-    NSString *clientApiKey = [initializationParameters getStringForKey:@"clientApiKey"];
+    NSString *apiKey = [initializationParameters getStringForKey:@"apiKey"];
     NSString *baseUrl = [initializationParameters getStringForKey:@"baseUrl"];
     NSString *requestValidationSalt = [initializationParameters getStringForKey:@"requestValidationSalt"];
     BOOL debugModeEnabled = [initializationParameters getBoolForKey:@"debugModeEnabled"];
@@ -62,7 +62,7 @@ static NSString * const sdkPluginVersion = @"1.5.0";
     
     [self overwriteDefaultSettings];
     
-    [SNRSynerise initializeWithClientApiKey:clientApiKey andBaseUrl:baseUrl];
+    [SNRSynerise initializeWithApiKey:apiKey andBaseUrl:baseUrl];
     if (requestValidationSalt != nil) {
         [SNRSynerise setRequestValidationSalt:requestValidationSalt];
     }
@@ -90,7 +90,7 @@ static NSString * const sdkPluginVersion = @"1.5.0";
         }
     }
 
-    [SNRSynerise changeClientApiKey:apiKey config:initializationConfig];
+    [SNRSynerise changeApiKey:apiKey config:initializationConfig];
     result([NSNumber numberWithBool:YES]);
 }
 
@@ -108,16 +108,12 @@ static NSString * const sdkPluginVersion = @"1.5.0";
     [[FSyneriseManager sharedInstance].notifications executeRegistrationRequired];
 }
 
-- (void)SNR_handledActionWithURL:(NSURL *)url activity:(SNRSyneriseActivity)activity completionHandler:(SNRSyneriseActivityCompletionHandler)completionHandler {
-    completionHandler(SNRSyneriseActivityActionNone, ^{
-        [[FSyneriseManager sharedInstance].injector executeURLAction:url activity:activity];
-    });
+- (void)SNR_handledActionWithURL:(NSURL *)url source:(SNRSyneriseSource)source {
+    [[FSyneriseManager sharedInstance].injector executeURLAction:url source:source];
 }
 
-- (void)SNR_handledActionWithDeepLink:(NSString *)deepLink activity:(SNRSyneriseActivity)activity completionHandler:(SNRSyneriseActivityCompletionHandler)completionHandler {
-    completionHandler(SNRSyneriseActivityActionNone, ^{
-        [[FSyneriseManager sharedInstance].injector executeDeepLinkAction:deepLink activity:activity];
-    });
+- (void)SNR_handledActionWithDeepLink:(NSString *)deepLink source:(SNRSyneriseSource)source {
+    [[FSyneriseManager sharedInstance].injector executeDeepLinkAction:deepLink source:source];
 }
 
 @end

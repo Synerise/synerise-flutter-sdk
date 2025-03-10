@@ -38,15 +38,15 @@ class ClientImpl extends BaseModule {
     });
   }
 
-  /// This function confirms a user's account using a token.
+  /// This function activates a user account using their email address.
   ///
   /// Args:
-  ///   token (String): The "token" parameter is a string that represents a unique identifier for a user
-  /// account confirmation.
-  Future<void> confirmAccount(String token,
+  ///   email (String): The email parameter is a string that represents the email address of the user
+  /// whose account needs to be activated.
+  Future<void> requestAccountActivation(String email,
       {required void Function() onSuccess,
       required void Function(SyneriseError error) onError}) async {
-    SyneriseResult<void> result = await _methods.confirmAccount(token);
+    SyneriseResult<void> result = await _methods.requestAccountActivation(email);
 
     result.onSuccess((result) {
       onSuccess();
@@ -55,15 +55,15 @@ class ClientImpl extends BaseModule {
     });
   }
 
-  /// This function activates a user account using their email address.
+  /// This function confirms a user's account using a token.
   ///
   /// Args:
-  ///   email (String): The email parameter is a string that represents the email address of the user
-  /// whose account needs to be activated.
-  Future<void> activateAccount(String email,
+  ///   token (String): The "token" parameter is a string that represents a unique identifier for a user
+  /// account confirmation.
+  Future<void> confirmAccountActivation(String token,
       {required void Function() onSuccess,
       required void Function(SyneriseError error) onError}) async {
-    SyneriseResult<void> result = await _methods.activateAccount(email);
+    SyneriseResult<void> result = await _methods.confirmAccountActivation(token);
 
     result.onSuccess((result) {
       onSuccess();

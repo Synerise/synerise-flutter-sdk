@@ -124,7 +124,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)activatePromotionByUUID:(FlutterMethodCall *)call result:(FlutterResult)result
 {
     NSString *UUID = call.arguments;
-    [SNRPromotions activatePromotionByUuid:UUID success:^(BOOL isSuccess) {
+    [SNRPromotions activatePromotionByUuid:UUID success:^() {
         result([NSNumber numberWithBool:YES]);
     } failure:^(NSError *error) {
         result([self makeFlutterErrorWithError:error]);
@@ -136,7 +136,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)activatePromotionByCode:(FlutterMethodCall *)call result:(FlutterResult)result
 {
     NSString *code = call.arguments;
-    [SNRPromotions activatePromotionByCode:code success:^(BOOL isSuccess) {
+    [SNRPromotions activatePromotionByCode:code success:^() {
         result([NSNumber numberWithBool:YES]);
     } failure:^(NSError *error) {
         result([self makeFlutterErrorWithError:error]);
@@ -149,7 +149,7 @@ NS_ASSUME_NONNULL_BEGIN
 {
     NSArray *array = call.arguments;
     NSArray *promotionIdentifiers = [self modelPromotionIdentifiersWithArray:array];
-    [SNRPromotions activatePromotionsWithIdentifiers:promotionIdentifiers success:^(BOOL isSuccess) {
+    [SNRPromotions activatePromotionsWithIdentifiers:promotionIdentifiers success:^() {
         result([NSNumber numberWithBool:YES]);
     } failure:^(NSError *error) {
         result([self makeFlutterErrorWithError:error]);
@@ -161,7 +161,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)deactivatePromotionByUUID:(FlutterMethodCall *)call result:(FlutterResult)result
 {
     NSString *UUID = call.arguments;
-    [SNRPromotions deactivatePromotionByUuid:UUID success:^(BOOL isSuccess) {
+    [SNRPromotions deactivatePromotionByUuid:UUID success:^() {
         result([NSNumber numberWithBool:YES]);
     } failure:^(NSError *error) {
         result([self makeFlutterErrorWithError:error]);
@@ -173,7 +173,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)deactivatePromotionByCode:(FlutterMethodCall *)call result:(FlutterResult)result
 {
     NSString *code = call.arguments;
-    [SNRPromotions deactivatePromotionByCode:code success:^(BOOL isSuccess) {
+    [SNRPromotions deactivatePromotionByCode:code success:^() {
         result([NSNumber numberWithBool:YES]);
     } failure:^(NSError *error) {
         result([self makeFlutterErrorWithError:error]);
@@ -186,7 +186,7 @@ NS_ASSUME_NONNULL_BEGIN
 {
     NSArray *array = call.arguments;
     NSArray *promotionIdentifiers = [self modelPromotionIdentifiersWithArray:array];
-    [SNRPromotions deactivatePromotionsWithIdentifiers:promotionIdentifiers success:^(BOOL isSuccess) {
+    [SNRPromotions deactivatePromotionsWithIdentifiers:promotionIdentifiers success:^() {
         result([NSNumber numberWithBool:YES]);
     } failure:^(NSError *error) {
         result([self makeFlutterErrorWithError:error]);

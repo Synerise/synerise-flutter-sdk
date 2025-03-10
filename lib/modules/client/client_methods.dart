@@ -19,15 +19,15 @@ class ClientMethods extends BaseMethodChannel {
         parameters: clientAccountRegisterContext.asMap());
   }
 
-  Future<SyneriseResult<void>> confirmAccount(String token) async {
+  Future<SyneriseResult<void>> confirmAccountActivation(String token) async {
     return await SyneriseInvocation(methodChannel).invokeSDKApiMethod<void>(
-        'Client/confirmAccount',
+        'Client/confirmAccountActivation',
         parameters: {"token": token});
   }
 
-  Future<SyneriseResult<void>> activateAccount(String email) async {
+  Future<SyneriseResult<void>> requestAccountActivation(String email) async {
     return await SyneriseInvocation(methodChannel).invokeSDKApiMethod<void>(
-        'Client/activateAccount',
+        'Client/requestAccountActivation',
         parameters: {"email": email});
   }
 

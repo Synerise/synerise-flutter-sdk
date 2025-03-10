@@ -49,7 +49,7 @@ class _InitialViewState extends State<InitialView> {
     Synerise.settings.tracker.eventsTriggeringFlush = ["flutter.test"];
 
     Synerise.initializer()
-        .withClientApiKey(await rootBundle.loadString('lib/api_key.txt'))
+        .withApiKey(await rootBundle.loadString('lib/api_key.txt'))
         .withBaseUrl("https://api.snrapi.com")
         .withDebugModeEnabled(true)
         .setMessagingServiceType(MessagingServiceType.gms)
@@ -73,18 +73,6 @@ class _InitialViewState extends State<InitialView> {
       listener.onDeepLink = (deepLink, source) {
         Utils.displaySimpleAlert(deepLink + " " + source.toString(), context);
       };
-    });
-
-    Synerise.injector.bannerListener((listener) {
-      listener.onPresent = () {};
-      listener.onHide = () {};
-    });
-
-    Synerise.injector.walkthroughListener((listener) {
-      listener.onLoad = () {};
-      listener.onLoadingError = () {};
-      listener.onPresent = () {};
-      listener.onHide = () {};
     });
 
     Synerise.injector.inAppMessageListener((listener) {
@@ -324,7 +312,7 @@ class MyApp extends StatelessWidget {
 Future<void> backgroundHandlerForFCM(RemoteMessage message) async {
   await Firebase.initializeApp();
     await Synerise.initializer()
-        .withClientApiKey(await rootBundle.loadString('lib/api_key.txt'))
+        .withApiKey(await rootBundle.loadString('lib/api_key.txt'))
         .withBaseUrl("https://api.snrapi.com")
         .withDebugModeEnabled(true)
         .init();

@@ -53,11 +53,11 @@ public final class SyneriseClient implements SyneriseModule {
             case "registerAccount":
                 registerAccount(call, result);
                 return;
-            case "confirmAccount":
-                confirmAccount(call, result);
+            case "confirmAccountActivation":
+                confirmAccountActivation(call, result);
                 return;
-            case "activateAccount":
-                activateAccount(call, result);
+            case "requestAccountActivation":
+                requestAccountActivation(call, result);
                 return;
             case "confirmAccountActivationByPin":
                 confirmAccountActivationByPin(call, result);
@@ -194,7 +194,7 @@ public final class SyneriseClient implements SyneriseModule {
         });
     }
 
-    public void confirmAccount(MethodCall call, MethodChannel.Result result) {
+    public void confirmAccountActivation(MethodCall call, MethodChannel.Result result) {
         Map data = (Map) call.arguments;
         String token = null;
 
@@ -206,12 +206,12 @@ public final class SyneriseClient implements SyneriseModule {
         }
 
         if (confirmCall != null) confirmCall.cancel();
-        confirmCall = Client.confirmAccount(token);
+        confirmCall = Client.confirmAccountActivation(token);
         confirmCall.execute(() -> SyneriseModule.executeSuccessResult(true, result),
                 (DataActionListener<ApiError>) apiError -> SyneriseModule.executeFailureResult(apiError, result));
     }
 
-    public void activateAccount(MethodCall call, MethodChannel.Result result) {
+    public void requestAccountActivation(MethodCall call, MethodChannel.Result result) {
         Map data = (Map) call.arguments;
         String email = null;
 
@@ -223,7 +223,7 @@ public final class SyneriseClient implements SyneriseModule {
         }
 
         if (activateCall != null) activateCall.cancel();
-        activateCall = Client.activateAccount(email);
+        activateCall = Client.requestAccountActivation(email);
         activateCall.execute(() -> SyneriseModule.executeSuccessResult(true, result),
                 (DataActionListener<ApiError>) apiError -> SyneriseModule.executeFailureResult(apiError, result));
     }

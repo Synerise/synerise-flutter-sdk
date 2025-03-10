@@ -1,12 +1,12 @@
+import '../base/base_module_method_channel.dart';
+import '../base/base_module.dart';
 import '../../model/promotions/promotion.dart';
 import '../../model/promotions/promotion_identifier.dart';
 import '../../model/promotions/promotion_response.dart';
 import '../../model/promotions/promotions_api_query.dart';
 import '../../model/vouchers/assign_voucher_response.dart';
 import '../../model/vouchers/voucher_codes_response.dart';
-import '../base/base_module_method_channel.dart';
-import '../base/base_module.dart';
-import 'promotions_methods.dart';
+import './promotions_methods.dart';
 
 class PromotionsImpl extends BaseModule {
   final PromotionsMethods _methods = PromotionsMethods();

@@ -40,9 +40,6 @@ public class SyneriseNotifications implements SyneriseModule {
             case "isSyneriseSimplePush":
                 isSyneriseSimplePush(call, result);
                 return;
-            case "isSyneriseBanner":
-                isSyneriseBanner(call, result);
-                return;
             case "isSilentCommand":
                 isSilentCommand(call, result);
                 return;
@@ -108,14 +105,7 @@ public class SyneriseNotifications implements SyneriseModule {
         boolean isSyneriseSimplePush = Injector.isSyneriseSimplePush(dataMap);
         SyneriseModule.executeSuccessResult(isSyneriseSimplePush, result);
     }
-
-    public void isSyneriseBanner(MethodCall call, MethodChannel.Result result) {
-        Map<String, Object> notificationMap = (Map) call.arguments;
-        Map<String, String> dataMap = notificationMapper(notificationMap);
-        boolean isSyneriseBanner = Injector.isSyneriseBanner(dataMap);
-        SyneriseModule.executeSuccessResult(isSyneriseBanner, result);
-    }
-
+    
     public void isSilentCommand(MethodCall call, MethodChannel.Result result) {
         Map<String, Object> notificationMap = (Map) call.arguments;
         Map<String, String> dataMap = notificationMapper(notificationMap);

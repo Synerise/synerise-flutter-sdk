@@ -1,13 +1,14 @@
 import 'package:flutter/services.dart';
-import 'package:synerise_flutter_sdk/enums/injector/messaging_service_type.dart';
-import 'dependencies.dart';
+
+import './../enums/injector/messaging_service_type.dart';
+import './dependencies.dart';
 
 var syneriseInitialized = false;
 
 class SyneriseInitializer {
   MethodChannel methodChannel = Dependencies.methodChannel;
 
-  String? _clientApiKey;
+  String? _apiKey;
   String? _baseUrl;
   String? _requestValidationSalt;
   bool _debugModeEnabled = false;
@@ -23,14 +24,14 @@ class SyneriseInitializer {
     this.completionHandler = completionHandler;
   }
 
-  /// The function sets the client API key and returns the SyneriseInitializer object.
+  /// The function sets the API key and returns the SyneriseInitializer object.
   ///
   /// Args:
-  ///   clientApiKey (String): The clientApiKey parameter is a string that represents the API key of the
+  ///   apiKey (String): The apiKey parameter is a string that represents the API key of the
   /// Synerise client. This key is used to authenticate and authorize the client's access to the
   /// Synerise platform.
-  SyneriseInitializer withClientApiKey(String clientApiKey) {
-    _clientApiKey = clientApiKey;
+  SyneriseInitializer withApiKey(String apiKey) {
+    _apiKey = apiKey;
     return this;
   }
 
@@ -102,7 +103,7 @@ class SyneriseInitializer {
 
     final result = await methodChannel.invokeMethod('Synerise/initialize', {
       'initializationParameters': {
-        'clientApiKey': _clientApiKey,
+        'apiKey': _apiKey,
         'baseUrl': _baseUrl,
         'debugModeEnabled': _debugModeEnabled,
         'crashHandlingEnabled': _crashHandlingEnabled,

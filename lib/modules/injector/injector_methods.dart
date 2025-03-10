@@ -10,24 +10,4 @@ class InjectorMethods extends BaseMethodChannel {
     return await SyneriseInvocation(methodChannel)
         .invokeSDKMethod('Injector/handleDeepLinkBySDK', parameters: deepLink);
   }
-
-  Future<void> getWalkthrough() async {
-    return await SyneriseInvocation(methodChannel)
-        .invokeSDKMethod('Injector/getWalkthrough');
-  }
-
-  Future<void> showWalkthrough() async {
-    return await SyneriseInvocation(methodChannel)
-        .invokeSDKMethod('Injector/showWalkthrough');
-  }
-
-  Future<bool> isWalkthroughLoaded() async {
-    return await SyneriseInvocation(methodChannel)
-        .invokeSDKMethod<bool>('Injector/isWalkthroughLoaded');
-  }
-
-  Future<bool> isLoadedWalkthroughUnique() async {
-    return await SyneriseInvocation(methodChannel)
-        .invokeSDKMethod<bool>('Injector/isLoadedWalkthroughUnique');
-  }
 }

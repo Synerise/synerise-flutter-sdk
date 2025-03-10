@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface FInjector () <SNRInjectorBannerDelegate, SNRInjectorWalkthroughDelegate, SNRInjectorInAppMessageDelegate>
+@interface FInjector () <SNRInjectorInAppMessageDelegate>
 
 @end
 
@@ -19,8 +19,6 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Public
 
 - (void)syneriseInitialized {
-    [SNRInjector setBannerDelegate:self];
-    [SNRInjector setWalkthroughDelegate:self];
     [SNRInjector setInAppMessageDelegate:self];
 }
 
@@ -29,28 +27,20 @@ NS_ASSUME_NONNULL_BEGIN
         [self handleOpenUrlBySDK:call result:result];
     } else if ([calledMethod isEqualToString:@"handleDeepLinkBySDK"]) {
         [self handleDeepLinkBySDK:call result:result];
-    } else if ([calledMethod isEqualToString:@"getWalkthrough"]) {
-        [self getWalkthrough:call result:result];
-    } else if ([calledMethod isEqualToString:@"showWalkthrough"]) {
-        [self showWalkthrough:call result:result];
-    } else if ([calledMethod isEqualToString:@"isWalkthroughLoaded"]) {
-        [self isWalkthroughLoaded:call result:result];
-    } else if ([calledMethod isEqualToString:@"isLoadedWalkthroughUnique"]) {
-        [self isLoadedWalkthroughUnique:call result:result];
     }
 }
 
-- (void)executeURLAction:(NSURL *)URL activity:(SNRSyneriseActivity)activity {
+- (void)executeURLAction:(NSURL *)URL source:(SNRSyneriseSource)source {
     [[FSyneriseManager sharedInstance].reverseChannel invokeMethod:@"Injector#InjectorListener#onOpenUrl" arguments:@{
         @"url": URL.absoluteString,
-        @"source": [self stringWithSyneriseActivity:activity]
+        @"source": [self stringWithSyneriseSource:source]
     }];
 }
 
-- (void)executeDeepLinkAction:(NSString *)deepLink activity:(SNRSyneriseActivity)activity {
+- (void)executeDeepLinkAction:(NSString *)deepLink source:(SNRSyneriseSource)source {
     [[FSyneriseManager sharedInstance].reverseChannel invokeMethod:@"Injector#InjectorListener#onDeepLink" arguments:@{
         @"deepLink": deepLink,
-        @"source": [self stringWithSyneriseActivity:activity]
+        @"source": [self stringWithSyneriseSource:source]
     }];
 }
 
@@ -86,34 +76,12 @@ NS_ASSUME_NONNULL_BEGIN
     });
 }
 
-- (void)getWalkthrough:(FlutterMethodCall *)call result:(FlutterResult)result {
-    [SNRInjector getWalkthrough];
-    result(nil);
-}
-
-- (void)showWalkthrough:(FlutterMethodCall *)call result:(FlutterResult)result {
-    [SNRInjector showWalkthrough];
-    result(nil);
-}
-
-- (void)isWalkthroughLoaded:(FlutterMethodCall *)call result:(FlutterResult)result {
-    result([NSNumber numberWithBool:[SNRInjector isWalkthroughLoaded]]);
-}
-
-- (void)isLoadedWalkthroughUnique:(FlutterMethodCall *)call result:(FlutterResult)result {
-    result([NSNumber numberWithBool:[SNRInjector isLoadedWalkthroughUnique]]);
-}
-
 #pragma mark - Dart Mapping
 
-- (NSString *)stringWithSyneriseActivity:(SNRSyneriseActivity)activity {
-    if (activity == SNRSyneriseActivitySimplePush) {
+- (NSString *)stringWithSyneriseSource:(SNRSyneriseSource)source {
+    if (source == SNRSyneriseSourceSimplePush) {
         return @"SIMPLE_PUSH";
-    } else if (activity == SNRSyneriseActivityBanner) {
-        return @"BANNER";
-    } else if (activity == SNRSyneriseActivityWalkthrough) {
-        return @"WALKTHROUGH";
-    } else if (activity == SNRSyneriseActivityInAppMessage) {
+    } else if (source == SNRSyneriseSourceInAppMessage) {
         return @"IN_APP_MESSAGE";
     } else {
         return @"NOT_SPECIFIED";
@@ -133,34 +101,6 @@ NS_ASSUME_NONNULL_BEGIN
     }
     
     return nil;
-}
-
-#pragma mark - SNRInjectorBannerDelegate
-
-- (void)SNR_bannerDidAppear {
-    [[FSyneriseManager sharedInstance].reverseChannel invokeMethod:@"Injector#InjectorBannerListener#onPresent" arguments:nil];
-}
-
-- (void)SNR_bannerDidDisappear {
-    [[FSyneriseManager sharedInstance].reverseChannel invokeMethod:@"Injector#InjectorBannerListener#onHide" arguments:nil];
-}
-
-#pragma mark - SNRInjectorWalkthroughDelegate
-
-- (void)SNR_walkthroughDidLoad {
-    [[FSyneriseManager sharedInstance].reverseChannel invokeMethod:@"Injector#InjectorWalkthroughListener#onLoad" arguments:nil];
-}
-
-- (void)SNR_walkthroughLoadingError:(NSError *)error {
-    [[FSyneriseManager sharedInstance].reverseChannel invokeMethod:@"Injector#InjectorWalkthroughListener#onLoad" arguments:nil];
-}
-
-- (void)SNR_walkthroughDidAppear {
-    [[FSyneriseManager sharedInstance].reverseChannel invokeMethod:@"Injector#InjectorWalkthroughListener#onPresent" arguments:nil];
-}
-
-- (void)SNR_walkthroughDidDisappear {
-    [[FSyneriseManager sharedInstance].reverseChannel invokeMethod:@"Injector#InjectorWalkthroughListener#onHide" arguments:nil];
 }
 
 #pragma mark - SNRInjectorInAppMessageDelegate
@@ -187,7 +127,7 @@ NS_ASSUME_NONNULL_BEGIN
     [[FSyneriseManager sharedInstance].reverseChannel invokeMethod:@"Injector#InjectorInAppMessageListener#onOpenUrl" arguments:dictionary];
 }
 
-- (void)SNR_inAppMessageHandledDeeplinkAction:(SNRInAppMessageData *)data deeplink:(NSString *)deepLink {
+- (void)SNR_inAppMessageHandledDeepLinkAction:(SNRInAppMessageData *)data deepLink:(NSString *)deepLink {
     NSDictionary *dictionary = @{
        @"data": [self dictionaryWithInAppMessageData:data],
        @"deepLink": deepLink

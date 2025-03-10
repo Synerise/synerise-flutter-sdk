@@ -1,6 +1,15 @@
-import 'main/index.dart';
-import 'modules/synerise_dart_method_channel.dart';
-export 'main/index.dart';
+import './main/index.dart';
+export './main/index.dart';
+
+import './modules/synerise_dart_method_channel.dart';
+import './main/synerise_initializer.dart';
+import './modules/settings/settings_impl.dart';
+import './modules/client/client_impl.dart';
+import './modules/tracker/tracker_impl.dart';
+import './modules/content/content_impl.dart';
+import './modules/notifications/notifications_impl.dart';
+import './modules/injector/injector_impl.dart';
+import './modules/promotions/promotions_impl.dart';
 
 class Synerise {
   Synerise();
@@ -41,6 +50,7 @@ class Synerise {
   /// Args:
   ///   apiKey (String): The `apiKey` parameter is a string that represents the new Profile API key that you
   /// want to set.
+  ///   config (InitializationConfig): The `apiKey` parameter is aconfiguration of the SDK after API key change.
   static Future<void> changeApiKey(String apiKey, [InitializationConfig? config]) async {
     await Dependencies.methodChannel
         .invokeMethod('Synerise/changeApiKey', {

@@ -286,7 +286,7 @@ class _SignInState extends State<SignIn> with AutomaticKeepAliveClientMixin {
   }
 
   Future<void> _activateAccountCall(email) async {
-    await Synerise.client.activateAccount(email, onSuccess: () {
+    await Synerise.client.requestAccountActivation(email, onSuccess: () {
       Utils.displaySimpleAlert("account activated", context);
     }, onError: (SyneriseError error) {
       Utils.displaySimpleAlert(error.message, context);

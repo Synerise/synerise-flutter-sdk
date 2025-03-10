@@ -12,8 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface FInjector : FBaseModule
 
-- (void)executeURLAction:(NSURL *)URL activity:(SNRSyneriseActivity)activity;
-- (void)executeDeepLinkAction:(NSString *)deepLink activity:(SNRSyneriseActivity)activity;
+- (void)executeURLAction:(NSURL *)URL source:(SNRSyneriseSource)activity;
+- (void)executeDeepLinkAction:(NSString *)deepLink source:(SNRSyneriseSource)activity;
 
 @end
 
