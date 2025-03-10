@@ -36,12 +36,6 @@ class NotificationsMethods extends BaseMethodChannel {
             parameters: {'notification': notification});
   }
 
-  Future<bool> isSyneriseBanner(Map notification) async {
-    return await SyneriseInvocation(backgroundMethodChannel)
-        .invokeSDKMethod<bool>('Notifications/isSyneriseBanner',
-            parameters: {'notification': notification});
-  }
-
   Future<bool> isSilentCommand(Map notification) async {
     return await SyneriseInvocation(backgroundMethodChannel)
         .invokeSDKMethod<bool>('Notifications/isSilentCommand',

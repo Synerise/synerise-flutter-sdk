@@ -198,7 +198,7 @@ class _ContentMethodsViewState extends State<ContentMethodsView>
                   padding: const EdgeInsets.all(5),
                   decoration: BoxDecoration(
                       border: Border.all(width: 0.5, color: Colors.black)),
-                  child: Text(document.identifier.toString(),
+                  child: Text(document.uuid.toString(),
                       textScaleFactor: 0.5))
             ])));
           });
@@ -228,7 +228,7 @@ class _ContentMethodsViewState extends State<ContentMethodsView>
                   padding: const EdgeInsets.all(5),
                   decoration: BoxDecoration(
                       border: Border.all(width: 0.5, color: Colors.black)),
-                  child: Text(document.identifier.toString(),
+                  child: Text(document.uuid.toString(),
                       textScaleFactor: 0.5))
             ])));
           });

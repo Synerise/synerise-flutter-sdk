@@ -4,7 +4,7 @@
 # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
 ENV['COCOAPODS_DISABLE_STATS'] = 'true'
 
-platform :ios, '11.0'
+platform :ios, '13.0'
 use_frameworks!
 
 project 'Runner', {
@@ -36,19 +36,19 @@ end
 
 target 'SyneriseNotificationServiceExtension' do
 
-  pod 'SyneriseSDK', '4.23.3'
+  pod 'SyneriseSDK', '5.0.5'
 
 end
 
 target 'SyneriseSingleMediaNotificationContentExtension' do
 
-  pod 'SyneriseSDK', '4.23.3'
+  pod 'SyneriseSDK', '5.0.5'
 
 end
 
 target 'SyneriseCarouselNotificationContentExtension' do
 
-  pod 'SyneriseSDK', '4.23.3'
+  pod 'SyneriseSDK', '5.0.5'
 
 end
 

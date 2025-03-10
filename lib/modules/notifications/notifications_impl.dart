@@ -1,7 +1,7 @@
 import 'package:flutter/services.dart';
 
-import '../base/base_module.dart';
 import '../base/base_module_method_channel.dart';
+import '../base/base_module.dart';
 import 'notifications_methods.dart';
 
 typedef NotificationsListenerFunction = void Function(
@@ -96,14 +96,6 @@ class NotificationsImpl extends BaseModule {
   ///   notification (Map): A map containing the notification data.
   Future<bool> isSyneriseSimplePush(Map notification) async {
     return await _methods.isSyneriseSimplePush(notification);
-  }
-
-  /// The function isSyneriseBanner checks if a given notification is a Synerise banner.
-  ///
-  /// Args:
-  ///   notification (Map): A map containing the notification data.
-  Future<bool> isSyneriseBanner(Map notification) async {
-    return await _methods.isSyneriseBanner(notification);
   }
 
   /// The function isSilentCommand checks if a notification is a silent command.

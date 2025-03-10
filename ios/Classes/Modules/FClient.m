@@ -21,10 +21,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)handleMethodCall:(FlutterMethodCall *)call result:(FlutterResult)result calledMethod:(NSString *)calledMethod {
     if ([calledMethod isEqualToString:@"registerAccount"]) {
         [self registerAccount:call result:result];
-    } else if ([calledMethod isEqualToString:@"confirmAccount"]) {
-        [self confirmAccount:call result:result];
-    } else if ([calledMethod isEqualToString:@"activateAccount"]) {
-        [self activateAccount:call result:result];
+    } else if ([calledMethod isEqualToString:@"requestAccountActivation"]) {
+        [self requestAccountActivation:call result:result];
+    } else if ([calledMethod isEqualToString:@"confirmAccountActivation"]) {
+        [self confirmAccountActivation:call result:result];
     } else if ([calledMethod isEqualToString:@"requestAccountActivationByPin"]) {
         [self requestAccountActivationByPin:call result:result];
     } else if ([calledMethod isEqualToString:@"confirmAccountActivationByPin"]) {
@@ -95,29 +95,29 @@ NS_ASSUME_NONNULL_BEGIN
         return;
     }
     
-    [SNRClient registerAccount:clientRegisterAccountContext success:^(BOOL isSuccess) {
+    [SNRClient registerAccount:clientRegisterAccountContext success:^() {
         result([NSNumber numberWithBool:YES]);
     } failure:^(NSError *error) {
         result([self makeFlutterErrorWithError:error]);
     }];
 }
 
-- (void)confirmAccount:(FlutterMethodCall *)call result:(FlutterResult)result {
-    NSDictionary *dictionary = call.arguments;
-    NSString *token = [dictionary getStringForKey:@"token"];
-    
-    [SNRClient confirmAccount:token success:^(BOOL isSuccess) {
-        result([NSNumber numberWithBool:YES]);
-    } failure:^(NSError *error) {
-        result([self makeFlutterErrorWithError:error]);
-    }];
-}
-
-- (void)activateAccount:(FlutterMethodCall *)call result:(FlutterResult)result {
+- (void)requestAccountActivation:(FlutterMethodCall *)call result:(FlutterResult)result {
     NSDictionary *dictionary = call.arguments;
     NSString *email = [dictionary getStringForKey:@"email"];
     
-    [SNRClient activateAccount:email success:^(BOOL isSuccess) {
+    [SNRClient requestAccountActivationWithEmail:email success:^() {
+        result([NSNumber numberWithBool:YES]);
+    } failure:^(NSError *error) {
+        result([self makeFlutterErrorWithError:error]);
+    }];
+}
+
+- (void)confirmAccountActivation:(FlutterMethodCall *)call result:(FlutterResult)result {
+    NSDictionary *dictionary = call.arguments;
+    NSString *token = [dictionary getStringForKey:@"token"];
+    
+    [SNRClient confirmAccountActivationByToken:token success:^() {
         result([NSNumber numberWithBool:YES]);
     } failure:^(NSError *error) {
         result([self makeFlutterErrorWithError:error]);
@@ -129,7 +129,7 @@ NS_ASSUME_NONNULL_BEGIN
     NSString *email = [dictionary getStringForKey:@"email"];
     
     if (email != nil) {
-        [SNRClient requestAccountActivationByPinWithEmail:email success:^(BOOL isSuccess) {
+        [SNRClient requestAccountActivationByPinWithEmail:email success:^() {
             result([NSNumber numberWithBool:YES]);
         } failure:^(NSError *error) {
             result([self makeFlutterErrorWithError:error]);
@@ -145,7 +145,7 @@ NS_ASSUME_NONNULL_BEGIN
     NSString *pinCode = [dictionary getStringForKey:@"pinCode"];
     
     if (email != nil || pinCode != nil) {
-        [SNRClient confirmAccountActivationByPin:pinCode email:email success:^(BOOL isSuccess) {
+        [SNRClient confirmAccountActivationByPin:pinCode email:email success:^() {
             result([NSNumber numberWithBool:YES]);
         } failure:^(NSError *error) {
             result([self makeFlutterErrorWithError:error]);
@@ -166,7 +166,7 @@ NS_ASSUME_NONNULL_BEGIN
         return;
     }
     
-    [SNRClient signInWithEmail:email password:password success:^(BOOL isSuccess) {
+    [SNRClient signInWithEmail:email password:password success:^() {
         result([NSNumber numberWithBool:YES]);
     } failure:^(NSError *error) {
         result([self makeFlutterErrorWithError:error]);
@@ -208,7 +208,7 @@ NS_ASSUME_NONNULL_BEGIN
     NSString *authId = contextDictionary[@"authId"];
     SNRClientAuthenticationContext *context = [self modelClientAuthenticationContextWithDictionary:contextDictionary];
     
-    [SNRClient authenticateWithToken:token clientIdentityProvider:clientIdentityProvider authID:authId context:context success:^(BOOL isSuccess) {
+    [SNRClient authenticateWithToken:token clientIdentityProvider:clientIdentityProvider authID:authId context:context success:^() {
         result([NSNumber numberWithBool:YES]);
     } failure:^(NSError *error) {
         result([self makeFlutterErrorWithError:error]);
@@ -367,7 +367,7 @@ NS_ASSUME_NONNULL_BEGIN
     
     SNRClientUpdateAccountBasicInformationContext *context = [self modelClientUpdateAccountBasicInformationContextWithDictionary:dictionary];
     if (context != nil) {
-        [SNRClient updateAccountBasicInformation:context success:^(BOOL isSuccess) {
+        [SNRClient updateAccountBasicInformation:context success:^() {
                 result([NSNumber numberWithBool:YES]);
         } failure:^(NSError *error) {
             [self makeFlutterErrorWithError:error];
@@ -386,7 +386,7 @@ NS_ASSUME_NONNULL_BEGIN
         return;
     }
     
-    [SNRClient updateAccount:clientUpdateAccountContext success:^(BOOL isSuccess) {
+    [SNRClient updateAccount:clientUpdateAccountContext success:^() {
         result([NSNumber numberWithBool:YES]);
     } failure:^(NSError *error) {
         result([self makeFlutterErrorWithError:error]);
@@ -399,7 +399,7 @@ NS_ASSUME_NONNULL_BEGIN
     NSString *email = [dictionary getStringForKey:@"email"];
     SNRClientPasswordResetRequestContext *clientPasswordResetRequestContext = [[SNRClientPasswordResetRequestContext alloc] initWithEmail:email];
     
-    [SNRClient requestPasswordReset:clientPasswordResetRequestContext success:^(BOOL isSuccess) {
+    [SNRClient requestPasswordReset:clientPasswordResetRequestContext success:^() {
         result([NSNumber numberWithBool:YES]);
     } failure:^(NSError *error) {
         result([self makeFlutterErrorWithError:error]);
@@ -414,7 +414,7 @@ NS_ASSUME_NONNULL_BEGIN
     
     SNRClientPasswordResetConfirmationContext *clientPasswordResetConfirmationContext = [[SNRClientPasswordResetConfirmationContext alloc] initWithPassword:password andToken:token];
     
-    [SNRClient confirmResetPassword:clientPasswordResetConfirmationContext success:^(BOOL isSuccess) {
+    [SNRClient confirmResetPassword:clientPasswordResetConfirmationContext success:^() {
         result([NSNumber numberWithBool:YES]);
     } failure:^(NSError *error) {
         result([self makeFlutterErrorWithError:error]);
@@ -427,7 +427,7 @@ NS_ASSUME_NONNULL_BEGIN
     NSString *newPassword = [dictionary getStringForKey:@"newPassword"];
     NSString *oldPassword = [dictionary getStringForKey:@"oldPassword"];
     
-    [SNRClient changePassword:newPassword oldPassword:oldPassword success:^(BOOL isSuccess) {
+    [SNRClient changePassword:newPassword oldPassword:oldPassword success:^() {
         result([NSNumber numberWithBool:YES]);
     } failure:^(NSError *error) {
         result([self makeFlutterErrorWithError:error]);
@@ -459,7 +459,7 @@ NS_ASSUME_NONNULL_BEGIN
         authID = nil;
     }
     
-    [SNRClient requestEmailChange:email password:password externalToken:externalToken authID:authID success:^(BOOL isSuccess) {
+    [SNRClient requestEmailChange:email password:password externalToken:externalToken authID:authID success:^() {
         result([NSNumber numberWithBool:YES]);
     } failure:^(NSError *error) {
         result([self makeFlutterErrorWithError:error]);
@@ -477,7 +477,7 @@ NS_ASSUME_NONNULL_BEGIN
         return;
     }
     
-    [SNRClient confirmEmailChange:token newsletterAgreement:newsletterAgreement success:^(BOOL isSuccess) {
+    [SNRClient confirmEmailChange:token newsletterAgreement:newsletterAgreement success:^() {
         result([NSNumber numberWithBool:YES]);
     } failure:^(NSError *error) {
         result([self makeFlutterErrorWithError:error]);
@@ -492,7 +492,7 @@ NS_ASSUME_NONNULL_BEGIN
         return;
     }
     
-    [SNRClient requestPhoneUpdate:phone success:^(BOOL isSuccess) {
+    [SNRClient requestPhoneUpdate:phone success:^() {
         result([NSNumber numberWithBool:YES]);
     } failure:^(NSError *error) {
         result([self makeFlutterErrorWithError:error]);
@@ -511,7 +511,7 @@ NS_ASSUME_NONNULL_BEGIN
         return;
     }
     
-    [SNRClient confirmPhoneUpdate:phone confirmationCode:confirmationCode smsAgreement:smsAgreement success:^(BOOL isSuccess) {
+    [SNRClient confirmPhoneUpdate:phone confirmationCode:confirmationCode smsAgreement:smsAgreement success:^() {
         result([NSNumber numberWithBool:YES]);
     } failure:^(NSError *error) {
         result([self makeFlutterErrorWithError:error]);
@@ -526,7 +526,7 @@ NS_ASSUME_NONNULL_BEGIN
     SNRClientIdentityProvider clientIdentityProvider = SNR_StringToClientIdentityProvider(clientIdentityProviderString);
     NSString *authId = dictionary[@"authId"];
     
-    [SNRClient deleteAccount:clientAuthFactor clientIdentityProvider:clientIdentityProvider authID:authId success:^(BOOL isSuccess) {
+    [SNRClient deleteAccount:clientAuthFactor clientIdentityProvider:clientIdentityProvider authID:authId success:^() {
         result([NSNumber numberWithBool:YES]);
     } failure:^(NSError *error) {
         result([self makeFlutterErrorWithError:error]);

@@ -1,5 +1,5 @@
 
-import 'package:synerise_flutter_sdk/model/content/recommendation_options.dart';
+import './recommendation_options.dart';
 
 class DocumentApiQuery {
   String slug;

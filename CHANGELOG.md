@@ -1,6 +1,41 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.0.0] - 2025-03-10
+
+IMPORTANT:
+- This major version is NOT backwards compatible.
+- Update of native SDK's dependencies to 6.0.0 (Android) and 5.0.0 (iOS).
+- [iOS] Support for older iOS versions ends. Minimum deployment target is changed to iOS 13.
+- [iOS] Bitcode is not supported in SDK version 5.0.0 and higher. Xcode ignores bitcode.
+
+### Added
+- `appVersion` parameter for `client.applicationStarted` event. It is the same as `version`. `version` is deprecated.
+- `sdkPreviousVersion` parameter for `client.applicationStarted` event. It is the version of the SDK before the current version in the application.
+
+### Removed
+- `InjectorWalkthroughListener` for handling actions from Walkthrough campaigns.
+- `InjectorBannerListener` for handling actions from Banner campaigns.
+- `Synerise.content.getDocument(slugName, onSuccess, onError)` method. You should use `Synerise.content.generateDocument(slug, onSuccess, onError:)` method.
+- `Synerise.content.getDocuments(apiQuery, onSuccess, onError)` method.
+- `Synerise.content.getRecommendations(options, onSuccess, onError)` method.
+- `Synerise.content.getScreenView(onSuccess, onError)` method and correlated models (`screen_view_response`, `screen_view_audience`). You should use the `Synerise.content.generateScreenView(feedSlug, onSuccess, onError)` or the `Synerise.content.generateScreenView(apiQuery, onSuccess, onError)` method.
+- `Synerise.notifications.isSyneriseBanner(payload:)`
+- `Synerise.injector.getWalkthrough()` method.
+- `Synerise.injector.showWalkthrough()` method.
+- `Synerise.injector.isWalkthroughLoaded()` method.
+- `Synerise.injector.isLoadedWalkthroughUnique()` method.
+- [iOS] `deviceID` parameter from `client.applicationStarted` event. It was redundant with the `deviceId` parameter.
+
+### Changed
+- Synerise initialization builder method `withClientApiKey(clientApiKey)` to `withApiKey(apiKey)`.
+- `Synerise.changeClientApiKey(clientApiKey, config)` to `Synerise.changeApiKey(apiKey, config)`.
+- `Synerise.client.activateAccount(email, onSuccess, onError)` to `Synerise.client.requestAccountActivation(email, onSuccess, onError)`.
+- `Synerise.client.confirmAccount(token:onSuccess:failure:)` to `Synerise.client.confirmAccountActivation(token, onSuccess, onError)`.
+- Property `identifier` in the `Document` model changed to `uuid`.
+- Improvements to stability.
+
+
 ## [1.5.0] - 2025-01-30
 
 ### Fixed

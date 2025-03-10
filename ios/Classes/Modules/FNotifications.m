@@ -30,8 +30,6 @@ NS_ASSUME_NONNULL_BEGIN
         [self isSyneriseNotification:call result:result];
     } else if ([calledMethod isEqualToString:@"isSyneriseSimplePush"]) {
         [self isSyneriseSimplePush:call result:result];
-    } else if ([calledMethod isEqualToString:@"isSyneriseBanner"]) {
-        [self isSyneriseBanner:call result:result];
     } else if ([calledMethod isEqualToString:@"isSilentCommand"]) {
         [self isSilentCommand:call result:result];
     } else if ([calledMethod isEqualToString:@"isSilentSDKCommand"]) {
@@ -56,13 +54,13 @@ NS_ASSUME_NONNULL_BEGIN
     NSNumber *mobileAgreement = [dictionary getNumberForKey:@"mobileAgreement"];
     
     if (mobileAgreement != nil) {
-        [SNRClient registerForPush:registrationToken mobilePushAgreement:[mobileAgreement boolValue] success:^(BOOL isSuccess) {
+        [SNRClient registerForPush:registrationToken mobilePushAgreement:[mobileAgreement boolValue] success:^() {
             result([NSNumber numberWithBool:YES]);
         } failure:^(NSError *error) {
             result([self makeFlutterErrorWithError:error]);
         }];
     } else {
-        [SNRClient registerForPush:registrationToken success:^(BOOL isSuccess) {
+        [SNRClient registerForPush:registrationToken success:^() {
             result([NSNumber numberWithBool:YES]);
         } failure:^(SNRApiError * _Nonnull error) {
             result([self makeFlutterErrorWithError:error]);
@@ -125,20 +123,6 @@ NS_ASSUME_NONNULL_BEGIN
     if (payload != nil) {
         NSNumber *isSyneriseSimplePush = [NSNumber numberWithBool:[SNRSynerise isSyneriseSimplePush:payload]];
         result(isSyneriseSimplePush);
-    } else {
-        result([self makeFlutterErrorWithMessage:@"payload mapping failure"]);
-        return;
-    }
-}
-
-- (void)isSyneriseBanner:(FlutterMethodCall *)call result:(FlutterResult)result {
-    NSDictionary *userInfo = call.arguments;
-    
-    NSDictionary *notification = [userInfo getDictionaryForKey:@"notification"];
-    NSDictionary *payload = [self payloadDictionaryWithDictionary:notification];
-    if (payload != nil) {
-        NSNumber *isSyneriseBanner = [NSNumber numberWithBool:[SNRSynerise isSyneriseBanner:payload]];
-        result(isSyneriseBanner);
     } else {
         result([self makeFlutterErrorWithMessage:@"payload mapping failure"]);
         return;

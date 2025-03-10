@@ -1,5 +1,5 @@
 group 'com.synerise.synerise_flutter_sdk'
-version '1.5.0'
+version '2.0.0'
 
 buildscript {
     repositories {
@@ -30,7 +30,7 @@ android {
     }
 
     defaultConfig {
-        minSdkVersion 21
+        minSdkVersion 24
     }
 
     namespace 'com.synerise.synerise_flutter_sdk'
@@ -43,5 +43,5 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.synerise.sdk:synerise-mobile-sdk:5.23.1'
+    implementation 'com.synerise.sdk:synerise-mobile-sdk:6.0.1'
 }

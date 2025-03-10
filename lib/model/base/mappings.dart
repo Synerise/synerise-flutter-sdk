@@ -5,7 +5,6 @@ import '../client/token.dart';
 import '../content/document.dart';
 import '../content/recommendation_response.dart';
 import '../content/screen_view.dart';
-import '../content/screen_view_response.dart';
 import '../promotions/promotion.dart';
 import '../vouchers/assign_voucher_response.dart';
 import '../vouchers/voucher_codes_response.dart';
@@ -28,7 +27,6 @@ class Mappings {
     //Content Module
     Document: (Map map) => Document.fromMap(map),
     RecommendationResponse: (Map map) => RecommendationResponse.fromMap(map),
-    ScreenViewResponse: (Map map) => ScreenViewResponse.fromMap(map),
     ScreenView: (Map map) => ScreenView.fromMap(map),
 
     //Promotions Module

@@ -1,13 +1,13 @@
 /// The `Document` class represents a document with an identifier, slug, schema, and optional content
 /// stored as a map.
 class Document {
-  final String identifier;
+  final String uuid;
   final String slug;
   final String schema;
   final Map<String, Object>? content;
 
   Document._({
-    required this.identifier,
+    required this.uuid,
     required this.slug,
     required this.schema,
     this.content,
@@ -17,7 +17,7 @@ class Document {
   /// `Document` object from it.
   Document.fromMap(Map map)
       : this._(
-          identifier: map['identifier'],
+          uuid: map['uuid'],
           slug: map['slug'],
           schema: map['schema'],
           content: map['content'] != null
@@ -27,7 +27,7 @@ class Document {
 
   /// The function returns a map containing the identifier, slug, schema, and content properties.
   Map asMap() => {
-        'identifier': identifier,
+        'uuid': uuid,
         'slug': slug,
         'schema': schema,
         'content': content,
