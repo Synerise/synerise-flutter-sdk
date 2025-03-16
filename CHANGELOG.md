@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.0.1] - 2025-03-13
+
+### Fixed
+- [iOS] Issue with authentication (all types): when a customer wanted to authenticate another account, the UUID was not regenerated. The problem occurred in version 2.0.0.
+
+
 ## [2.0.0] - 2025-03-10
 
 IMPORTANT:
