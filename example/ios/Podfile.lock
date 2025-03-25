@@ -117,7 +117,7 @@ PODS:
   - nanopb/decode (2.30909.1)
   - nanopb/encode (2.30909.1)
   - PromisesObjC (2.4.0)
-  - synerise_flutter_sdk (2.0.0):
+  - synerise_flutter_sdk (2.0.2):
     - Flutter
     - SyneriseSDK (= 5.0.6)
   - SyneriseSDK (5.0.6)
@@ -173,7 +173,7 @@ SPEC CHECKSUMS:
   GoogleUtilities: ea963c370a38a8069cc5f7ba4ca849a60b6d7d15
   nanopb: d4d75c12cd1316f4a64e3c6963f879ecd4b5e0d5
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
-  synerise_flutter_sdk: 041b278df54006a4e109309e840328b38643679a
+  synerise_flutter_sdk: 34ed43c51170e577893001129cf7955bd277ca05
   SyneriseSDK: 0496b21bcd1cd80620f2bdd299561dff5740e040
 
 PODFILE CHECKSUM: 105924003330f8fc85361ae4cdfe706aea234d61
