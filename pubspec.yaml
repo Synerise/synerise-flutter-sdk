@@ -1,7 +1,7 @@
 name: synerise_flutter_sdk
 description: >-
   Flutter plugin for Synerise SDK. Most up-to-date documentation is available at Synerise Help Center. 
-version: 2.0.1
+version: 2.0.2
 homepage: https://synerise.com
 documentation: https://help.synerise.com/developers/mobile-sdk/
 repository: https://github.com/Synerise/synerise-flutter-sdk

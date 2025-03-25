@@ -1,7 +1,13 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [2.0.1] - 2025-03-16
+## [2.0.2] - 2025-03-25
+ 
+ ### Fixed
+ - [Android] NPE when clicking on notification with killed app.
+
+
+## [2.0.1] - 2025-03-13
 
 ### Fixed
 - [iOS] Issue with authentication (all types): when a customer wanted to authenticate another account, the UUID was not regenerated. The problem occurred in version 2.0.0.
@@ -40,6 +46,12 @@ IMPORTANT:
 - `Synerise.client.confirmAccount(token:onSuccess:failure:)` to `Synerise.client.confirmAccountActivation(token, onSuccess, onError)`.
 - Property `identifier` in the `Document` model changed to `uuid`.
 - Improvements to stability.
+
+
+## [1.5.1] - 2025-03-25
+ 
+ ### Fixed
+ - [Android] NPE when clicking on notification with killed app.
 
 
 ## [1.5.0] - 2025-01-30
