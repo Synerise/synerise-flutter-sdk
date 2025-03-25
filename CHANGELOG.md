@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.5.1] - 2025-03-25
+
+### Fixed
+- [Android] NPE when clicking on notification with killed app.
+
+
 ## [1.5.0] - 2025-01-30
 
 ### Fixed
