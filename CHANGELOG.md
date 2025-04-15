@@ -1,7 +1,7 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [2.1.0] - 2025-04-11
+## [2.1.0] - 2025-04-15
 
 ### Fixed
 - [Android] Empty payload in NotificationInfo after clicking on push.
