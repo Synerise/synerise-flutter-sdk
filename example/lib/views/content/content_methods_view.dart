@@ -209,6 +209,9 @@ class _ContentMethodsViewState extends State<ContentMethodsView>
 
   Future<void> _generateDocumentWithApiQueryCall(String slug) async {
     DocumentApiQuery apiQuery = DocumentApiQuery(slug: slug);
+    final map = <String, String>{};
+    map['test'] = 'value';
+    apiQuery.params = map;
 
     await Synerise.content.generateDocumentWithApiQuery(apiQuery,
         onSuccess: (Document document) {
@@ -303,6 +306,9 @@ class _ContentMethodsViewState extends State<ContentMethodsView>
   Future<void> _generateScreenViewWithApiQueryCall(String feedSlug) async {
     ScreenViewApiQuery apiQuery = ScreenViewApiQuery(feedSlug: feedSlug);
     apiQuery.productId = "0000208094061-L";
+    final map = <String, String>{};
+    map['test'] = 'value';
+    apiQuery.params = map;
 
     await Synerise.content.generateScreenViewWithApiQuery(apiQuery,
         onSuccess: (ScreenView screenViewResponse) {
