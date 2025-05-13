@@ -12,6 +12,7 @@ class DocumentApiQuery {
   RecommendationFiltersJoinerRule? elasticFiltersJoiner;
   List<String>? displayAttribute;
   bool? includeContextItems;
+  Map<String, Object>? params;
 
   DocumentApiQuery({
     required this.slug,
@@ -24,6 +25,7 @@ class DocumentApiQuery {
     this.elasticFiltersJoiner,
     this.displayAttribute,
     this.includeContextItems = false,
+    this.params
   });
 
   /// `Map asMap()` is a method that returns a `Map` object containing the properties of the
@@ -41,5 +43,6 @@ class DocumentApiQuery {
     elasticFiltersJoiner?.recommendationFiltersJoinerRuleAsString(),
     'displayAttribute': displayAttribute,
     'includeContextItems': includeContextItems,
+    'params': params
   };
 }

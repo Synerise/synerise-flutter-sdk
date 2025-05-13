@@ -35,7 +35,7 @@ class _SignInState extends State<SignIn> with AutomaticKeepAliveClientMixin {
               decoration: const InputDecoration(labelText: "Password"),
               obscureText: true,
             ),
-            ButtonBar(
+            OverflowBar(
               alignment: MainAxisAlignment.center,
               children: <Widget>[
                 ElevatedButton.icon(
@@ -58,7 +58,7 @@ class _SignInState extends State<SignIn> with AutomaticKeepAliveClientMixin {
                     label: const Text('Sign out with mode')),
                 ElevatedButton.icon(
                     onPressed: () => {
-                          _isSignedInCall().whenComplete(() => {
+                          _isSignedInCall().whenComplete(() {
                                 if (_isSignedInBool)
                                   {
                                     ScaffoldMessenger.of(context)
@@ -70,7 +70,7 @@ class _SignInState extends State<SignIn> with AutomaticKeepAliveClientMixin {
                                           // Code to execute.
                                         },
                                       ),
-                                    ))
+                                    ));
                                   }
                                 else
                                   {
@@ -83,8 +83,8 @@ class _SignInState extends State<SignIn> with AutomaticKeepAliveClientMixin {
                                           // Code to execute.
                                         },
                                       ),
-                                    ))
-                                  }
+                                    ));
+                                  };
                               })
                         },
                     icon: const Icon(Icons.login),
