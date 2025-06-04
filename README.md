@@ -17,16 +17,33 @@ Most up-to-date documentation is available at [Developer Guide - Mobile SDK](htt
 ## Requirements
 * Access to workspace
 * A Profile API Key
-* Development environment configured - [Flutter documentation](https://docs.flutter.dev)
+* Flutter configured on your machine - [Getting Started](https://docs.flutter.dev)
+* VS Code / Android Studio / Xcode
 
 ## Android
-* Minimum Android SDK version - 21
-* Supported targetSDKVersion - 33
 
-### iOS
-* Xcode 15 and iOS SDK 17
-* iOS 9.0+ minimum deployment target
-* Valid architectures: arm64 devices and arm64, x86_64 simulators
+For the **Android** platform it uses the [Synerise Android SDK](https://github.com/Synerise/android-sdk).
+
+The development and debugging can be done with Android Studio.
+
+* Recommended environment:
+  - Minimum Android SDK version - 24
+  - Supported targetSDKVersion - 33
+
+## iOS
+
+For the **iOS** platform it uses the [Synerise iOS SDK](https://github.com/Synerise/synerise-ios-sdk).
+
+The development and debugging can be done with Xcode.
+
+* Recommended environment:
+  - Xcode 16
+  - iOS SDK 18
+* Target deployment:
+  * iOS 13.0+ for SDK versions 2.0.0 and higher
+  * iOS 9.0+ for SDK versions lower than 2.0.0
+
+**Bitcode is not supported in SDK version 2.0.0 and higher. Xcode ignores bitcode.**
 
 ## Installation
 
