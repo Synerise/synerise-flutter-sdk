@@ -107,7 +107,9 @@ public class SyneriseContent implements SyneriseModule {
         documentApiQuery.setAdditionalElasticFilters((String) documentApiQueryMap.get("additionalElasticFilters"));
         documentApiQuery.setDisplayAttributes((ArrayList<String>) documentApiQueryMap.get("displayAttributes"));
         documentApiQuery.setIncludeContextItems((boolean) documentApiQueryMap.get("includeContextItems"));
-
+        if (documentApiQueryMap.get("params") != null) {
+            documentApiQuery.setParams((HashMap<String, Object>) documentApiQueryMap.get("params"));
+        }
 
         Map<String, Object> documentMap = new HashMap<>();
         if (generateDocumentApiCall != null) generateDocumentApiCall.cancel();
@@ -123,7 +125,7 @@ public class SyneriseContent implements SyneriseModule {
             } else {
                 documentMap.put("content", document.getContent());
             }
-            documentMap.put("identifier", document.getUuid());
+            documentMap.put("uuid", document.getUuid());
             documentMap.put("slug", document.getSlug());
             documentMap.put("schema", document.getSchema());
             SyneriseModule.executeSuccessResult(documentMap, result);
@@ -204,11 +206,16 @@ public class SyneriseContent implements SyneriseModule {
         Map screenViewApiQueryMap = (Map) call.arguments;
         String productID = null;
         String slugName = null;
+        HashMap<String, Object> params = null;
         if (call.arguments != null) {
             productID = (String) screenViewApiQueryMap.get("productId");
             slugName = (String) screenViewApiQueryMap.get("feedSlug");
+            params = (HashMap<String, Object>) screenViewApiQueryMap.get("params");
         }
         ScreenViewApiQuery screenViewApiQuery = new ScreenViewApiQuery(slugName, productID);
+        if (params != null) {
+            screenViewApiQuery.setParams(params);
+        }
         Map<String, Object> screenViewMap = new HashMap<>();
         if (generateScreenViewApiCall != null) generateScreenViewApiCall.cancel();
         generateScreenViewApiCall = Content.generateScreenView(screenViewApiQuery);

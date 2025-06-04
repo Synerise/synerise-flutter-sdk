@@ -48,7 +48,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)generateDocumentWithApiQuery:(FlutterMethodCall *)call result:(FlutterResult)result {
     NSDictionary *dictionary = call.arguments;
     
-    SNRDocumentsApiQuery *documentApiQuery = [self modelDocumentApiQueryWithDictionary:dictionary];
+    SNRDocumentApiQuery *documentApiQuery = [self modelDocumentApiQueryWithDictionary:dictionary];
     if (documentApiQuery == nil) {
         result([self defaultFlutterError]);
         return;
@@ -142,6 +142,7 @@ NS_ASSUME_NONNULL_BEGIN
             
             model.displayAttribute = [dictionary getArrayForKey:@"displayAttribute"];
             model.includeContextItems = [dictionary getBoolForKey:@"includeContextItems"];
+            model.params = [dictionary getDictionaryForKey:@"params"];
             
             return model;
         }
@@ -180,8 +181,9 @@ NS_ASSUME_NONNULL_BEGIN
     if (dictionary != nil) {
         NSString *feedSlug = [dictionary getStringForKey:@"feedSlug"];
         if (feedSlug != nil) {
-            SNRScreenViewApiQuery *model = [[SNRScreenViewApiQuery alloc] initWithFeedSlug:feedSlug productID:nil];
+            SNRScreenViewApiQuery *model = [[SNRScreenViewApiQuery alloc] initWithSlug:feedSlug];
             model.productID = [dictionary getStringForKey:@"productId"];
+            model.params = [dictionary getDictionaryForKey:@"params"];
             
             return model;
         }
