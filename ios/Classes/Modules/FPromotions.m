@@ -7,6 +7,7 @@
 //
 
 #import "FPromotions.h"
+#import "FPromotions+Functions.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -303,7 +304,7 @@ NS_ASSUME_NONNULL_BEGIN
             }
             
             if ([key isEqualToString:@"UUID"]) {
-                return [[SNRPromotionIdentifier alloc] initWithUUID:value];
+              return [[SNRPromotionIdentifier alloc] initWithUuid:value];
             }
         }
     }
@@ -474,7 +475,7 @@ NS_ASSUME_NONNULL_BEGIN
     if (model != nil) {
         NSMutableDictionary *dictionary = [@{} mutableCopy];
         
-        [dictionary setNumber:model.discountValue forKey:@"discountValue"];
+      [dictionary setNumber:[NSNumber numberWithDouble:model.discountValue] forKey:@"discountValue"];
         [dictionary setNumber:model.usageThreshold forKey:@"usageThreshold"];
         
         return dictionary;

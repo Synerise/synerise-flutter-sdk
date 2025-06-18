@@ -19,15 +19,15 @@ class Promotion {
 
   int? redeemLimitPerClient;
   int? redeemQuantityPerActivation;
-  int currentRedeemedQuantity;
+  int? currentRedeemedQuantity;
   int? currentRedeemLimit;
-  int activationCounter;
-  int possibleRedeems;
+  int? activationCounter;
+  int? possibleRedeems;
   PromotionDiscountType discountType;
-  int discountValue;
+  int? discountValue;
   PromotionDiscountMode discountMode;
   PromotionDiscountModeDetails? discountModeDetails;
-  int requireRedeemedPoints;
+  int? requireRedeemedPoints;
 
   int price;
   int priority;
@@ -60,15 +60,15 @@ class Promotion {
     this.details,
     this.redeemLimitPerClient,
     this.redeemQuantityPerActivation,
-    required this.currentRedeemedQuantity,
+    this.currentRedeemedQuantity,
     this.currentRedeemLimit,
-    required this.activationCounter,
-    required this.possibleRedeems,
+    this.activationCounter,
+    this.possibleRedeems,
     required this.discountType,
-    required this.discountValue,
+    this.discountValue,
     required this.discountMode,
     this.discountModeDetails,
-    required this.requireRedeemedPoints,
+    this.requireRedeemedPoints,
     required this.price,
     required this.priority,
     required this.itemScope,

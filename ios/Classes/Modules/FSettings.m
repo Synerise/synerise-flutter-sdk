@@ -9,6 +9,7 @@
 #import "FSettings.h"
 
 static NSString * const FSettingsSDKEnabled = @"SDK_ENABLED";
+static NSString * const FSettingsSDKDoNotTrack = @"SDK_DO_NOT_TRACK";
 static NSString * const FSettingsSDKAppGroupIdentifier = @"SDK_APP_GROUP_IDENTIFIER";
 static NSString * const FSettingsSDKKeychainGroupIdentifier = @"SDK_KEYCHAIN_GROUP_IDENTIFIER";
 static NSString * const FSettingsSDKMinTokenRefreshInterval = @"SDK_MIN_TOKEN_REFRESH_INTERVAL";
@@ -46,17 +47,20 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)handleMethodCall:(FlutterMethodCall *)call result:(FlutterResult)result calledMethod:(NSString *)calledMethod {
     if ([calledMethod isEqualToString:@"getAllSettings"]) {
         [self getAllSettings:call result:result];
-    } else if ([calledMethod isEqualToString:@"setOne"]) {
-        [self setOne:call result:result];
+    } else if ([calledMethod isEqualToString:@"getOne"]) {
+        [self getOne:call result:result];
     } else if ([calledMethod isEqualToString:@"setMany"]) {
         [self setMany:call result:result];
-    }
+    } else if ([calledMethod isEqualToString:@"setOne"]) {
+        [self setOne:call result:result];
+    } 
 }
 
 #pragma mark - Private
 
 - (void)updateSettingsWithDictionary:(NSDictionary *)dictionary {
     [self updateSettingsKeyPath:@"sdk.enabled" expectedClass:[NSNumber class] object:dictionary[FSettingsSDKEnabled]];
+    [self updateSettingsKeyPath:@"sdk.doNotTrack" expectedClass:[NSNumber class] object:dictionary[FSettingsSDKDoNotTrack]];
     [self updateSettingsKeyPath:@"sdk.appGroupIdentifier" expectedClass:[NSString class] object:dictionary[FSettingsSDKAppGroupIdentifier]];
     [self updateSettingsKeyPath:@"sdk.keychainGroupIdentifier" expectedClass:[NSString class] object:dictionary[FSettingsSDKKeychainGroupIdentifier]];
     [self updateSettingsKeyPath:@"sdk.minTokenRefreshInterval" expectedClass:[NSNumber class] object:dictionary[FSettingsSDKMinTokenRefreshInterval]];
@@ -98,11 +102,61 @@ NS_ASSUME_NONNULL_BEGIN
     @finally {}
 }
 
+- (nullable id)getSettingsForKey:(NSString *)key expectedClass:(Class)expectedClass {
+    @try {
+      id object;
+
+      if ([key isEqualToString:FSettingsSDKDoNotTrack] == YES) {
+          object = [NSNumber numberWithBool:SNRSynerise.settings.sdk.doNotTrack];
+      }
+
+      if ([object isKindOfClass:expectedClass] == NO) {
+          return nil;
+      }
+
+      return object;
+    }
+    @catch (NSException *expection) {}
+    @finally {}
+
+    return nil;
+}
+
 #pragma mark - Methods
 
 - (void)getAllSettings:(FlutterMethodCall *)call result:(FlutterResult)result {
     NSDictionary *settingsDictionary = [self settingsDictionary];
     result(settingsDictionary);
+}
+
+- (void)getOne:(FlutterMethodCall *)call result:(FlutterResult)result {
+    NSDictionary *dictionary = call.arguments;
+    
+    NSString *key = dictionary[@"key"];
+    if (key == nil) {
+        result(nil);
+        return;
+    }
+
+    id settingsOption = [self getSettingsForKey:key expectedClass:[NSNumber class]];
+    result(settingsOption);
+    return;
+}
+
+- (void)setMany:(FlutterMethodCall *)call result:(FlutterResult)result {
+    NSDictionary *dictionary = call.arguments;
+    
+    if (dictionary == nil || [dictionary count] == 0) {
+        result(nil);
+        return;
+    }
+    
+    NSMutableDictionary *settingsDictionary = [[self settingsDictionary] mutableCopy];
+    [settingsDictionary addEntriesFromDictionary:dictionary];
+    
+    [self updateSettingsWithDictionary:settingsDictionary];
+    
+    result(nil);
 }
 
 - (void)setOne:(FlutterMethodCall *)call result:(FlutterResult)result {
@@ -125,28 +179,13 @@ NS_ASSUME_NONNULL_BEGIN
     result(nil);
 }
 
-- (void)setMany:(FlutterMethodCall *)call result:(FlutterResult)result {
-    NSDictionary *dictionary = call.arguments;
-    
-    if (dictionary == nil || [dictionary count] == 0) {
-        result(nil);
-        return;
-    }
-    
-    NSMutableDictionary *settingsDictionary = [[self settingsDictionary] mutableCopy];
-    [settingsDictionary addEntriesFromDictionary:dictionary];
-    
-    [self updateSettingsWithDictionary:settingsDictionary];
-    
-    result(nil);
-}
-
 #pragma mark - Dart Mapping
 
 - (NSDictionary *)settingsDictionary {
     NSMutableDictionary *dictionary = [@{} mutableCopy];
     
     dictionary[FSettingsSDKEnabled] = [NSNumber numberWithBool:SNRSynerise.settings.sdk.enabled];
+    dictionary[FSettingsSDKDoNotTrack] = [NSNumber numberWithBool:SNRSynerise.settings.sdk.doNotTrack];
     dictionary[FSettingsSDKAppGroupIdentifier] = SNRSynerise.settings.sdk.appGroupIdentifier ?: [NSNull null];
     dictionary[FSettingsSDKKeychainGroupIdentifier] = SNRSynerise.settings.sdk.keychainGroupIdentifier ?: [NSNull null];
     dictionary[FSettingsSDKMinTokenRefreshInterval] = [NSNumber numberWithDouble:SNRSynerise.settings.sdk.minTokenRefreshInterval];
@@ -194,7 +233,7 @@ NS_ASSUME_NONNULL_BEGIN
         newDictionary[_SNR_Constants.LOCALIZABLE_STRING_KEY_CANCEL] = localizableKeyCancel;
     }
 
-    if ([newDictionary count] == 0){
+    if ([newDictionary count] == 0) {
         return nil;
     }
 

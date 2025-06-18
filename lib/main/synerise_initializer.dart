@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/services.dart';
 
 import './../enums/injector/messaging_service_type.dart';
@@ -11,6 +13,7 @@ class SyneriseInitializer {
   String? _apiKey;
   String? _baseUrl;
   String? _requestValidationSalt;
+  bool? _initialDoNotTrack;
   bool _debugModeEnabled = false;
   bool _crashHandlingEnabled = false;
   String _messagingServiceType = MessagingServiceType.gms.name;
@@ -78,6 +81,16 @@ class SyneriseInitializer {
     return this;
   }
 
+  /// The function sets the value of a boolean variable enabling or disabling Do Not Track mode.
+  ///
+  /// Args:
+  ///   initialDoNotTrack (bool): A boolean parameter that determines whether or not Do Not Track mode
+  /// is enabled.
+  SyneriseInitializer setInitialDoNotTrack(bool initialDoNotTrack) {
+    _initialDoNotTrack = initialDoNotTrack;
+    return this;
+  }
+
   /// The function sets the messaging service type.
   ///
   /// Args:
@@ -108,6 +121,7 @@ class SyneriseInitializer {
         'debugModeEnabled': _debugModeEnabled,
         'crashHandlingEnabled': _crashHandlingEnabled,
         'requestValidationSalt': _requestValidationSalt,
+        'initialDoNotTrack': _initialDoNotTrack,
         'messagingServiceType': _messagingServiceType
       }
     });
