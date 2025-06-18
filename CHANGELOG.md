@@ -1,10 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [2.3.0] - 2025-06-11
+## [2.3.0] - 2025-06-18
 
 ### Fixed
 - [iOS] InAppMessage deeplink action.
+- [iOS] Some potential issues with notification processing in `NotificationServiceExtension`.
 
 ### Changed
 - Properties in `Promotion` model: `currentRedeemedQuantity`, `currentRedeemLimit`, `activationCounter`, `possibleRedeems`, `requireRedeemedPoints` and `discountValue` are nullable now.
