@@ -2,13 +2,13 @@ import 'dart:ffi';
 import 'dart:io' show Platform;
 
 import 'package:flutter/services.dart';
-
 import '../base/base_module_method_channel.dart';
 import '../base/base_module.dart';
 import 'settings_methods.dart';
 
 class SettingsKeys {
   static const sdkEnabled = "SDK_ENABLED";
+  static const sdkDoNotTrack = "SDK_DO_NOT_TRACK";
   static const sdkAppGroupIdentifier = "SDK_APP_GROUP_IDENTIFIER";
   static const sdkKeychainGroupIdentifier = "SDK_KEYCHAIN_GROUP_IDENTIFIER";
   static const sdkMinTokenRefreshInterval = "SDK_MIN_TOKEN_REFRESH_INTERVAL";
@@ -68,6 +68,11 @@ class GeneralSettings extends BaseSettings {
 
   set enabled(bool enabled) =>
       setFunction<bool>(SettingsKeys.sdkEnabled, enabled);
+
+  bool get doNotTrack => getFunction<bool>(SettingsKeys.sdkDoNotTrack);
+
+  set doNotTrack(bool enabled) =>
+      setFunction<bool>(SettingsKeys.sdkDoNotTrack, enabled);
 
   String? get appGroupIdentifier => getFunction<String>(
       SettingsKeys.sdkAppGroupIdentifier, Platform.isIOS == true, null);
@@ -241,6 +246,12 @@ class SettingsImpl extends BaseModule {
     await _refreshAllSettings();
   }
 
+  @override
+  void afterInitialization() async {
+    super.afterInitialization();
+    await _getOneFromSDKAndUpdate(SettingsKeys.sdkDoNotTrack);
+  }
+
   /// This function retrieves a function based on a given key and platform, with optional default
   /// values.
   ///
@@ -309,8 +320,8 @@ class SettingsImpl extends BaseModule {
   /// This function refreshes all settings by overriding them with values obtained from a method call.
   Future<void> _refreshAllSettings() async {
     return _methods.getAllSettings().then((settings) {
-      _overrideOne<bool>(
-          SettingsKeys.sdkEnabled, settings[SettingsKeys.sdkEnabled]);
+      _overrideOne<bool>(SettingsKeys.sdkEnabled,
+          settings[SettingsKeys.sdkEnabled]);
       _overrideOne<String>(SettingsKeys.sdkAppGroupIdentifier,
           settings[SettingsKeys.sdkAppGroupIdentifier]);
       _overrideOne<String>(SettingsKeys.sdkKeychainGroupIdentifier,
@@ -353,6 +364,13 @@ class SettingsImpl extends BaseModule {
 
       _overrideOne<bool>(SettingsKeys.injectorAutomatic,
           settings[SettingsKeys.injectorAutomatic]);
+    });
+  }
+
+  /// This function gets one setting by overriding it with value obtained from a method call.
+  Future<void> _getOneFromSDKAndUpdate(String key) async {
+    await _methods.getOne(key).then((newSettingValue) {
+      _overrideOne(key, newSettingValue);
     });
   }
 

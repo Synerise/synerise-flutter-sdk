@@ -8,6 +8,12 @@ class SettingsMethods extends BaseMethodChannel {
             isMappable: true, genericTypeKey: GenericTypeKey.mapStringDynamic);
   }
 
+  Future<dynamic> getOne(String key) async {
+    return await SyneriseInvocation(methodChannel)
+        .invokeSDKMethod<dynamic>("Settings/getOne",
+        parameters: { 'key': key });
+  }
+
   Future<void> setOne(String key, dynamic value) async {
     return await SyneriseInvocation(methodChannel).invokeSDKMethod<void>(
         "Settings/setOne",

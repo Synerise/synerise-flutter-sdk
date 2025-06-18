@@ -13,7 +13,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-static NSString * const sdkPluginVersion = @"2.2.0";
+static NSString * const sdkPluginVersion = @"2.3.0";
 
 @interface FSynerise () <SNRSyneriseDelegate>
 
@@ -57,15 +57,21 @@ static NSString * const sdkPluginVersion = @"2.2.0";
     NSString *apiKey = [initializationParameters getStringForKey:@"apiKey"];
     NSString *baseUrl = [initializationParameters getStringForKey:@"baseUrl"];
     NSString *requestValidationSalt = [initializationParameters getStringForKey:@"requestValidationSalt"];
+    NSNumber *initialDoNotTrack = [initializationParameters getNumberForKey:@"initialDoNotTrack"];
     BOOL debugModeEnabled = [initializationParameters getBoolForKey:@"debugModeEnabled"];
     BOOL crashHandlingEnabled = [initializationParameters getBoolForKey:@"crashHandlingEnabled"];
     
     [self overwriteDefaultSettings];
     
-    [SNRSynerise initializeWithApiKey:apiKey andBaseUrl:baseUrl];
+    SNRInitializationConfig *initializationConfig = [SNRInitializationConfig new];
     if (requestValidationSalt != nil) {
-        [SNRSynerise setRequestValidationSalt:requestValidationSalt];
+        initializationConfig.requestValidationSalt = requestValidationSalt;
     }
+    if (initialDoNotTrack != nil) {
+        initializationConfig.initialDoNotTrack = [initialDoNotTrack boolValue];
+    }
+
+    [SNRSynerise initializeWithApiKey:apiKey andBaseUrl:baseUrl config:initializationConfig];
     [SNRSynerise setDebugModeEnabled:debugModeEnabled];
     [SNRSynerise setCrashHandlingEnabled:crashHandlingEnabled];
     [SNRSynerise setHostApplicationType:SNRHostApplicationTypeFlutter];

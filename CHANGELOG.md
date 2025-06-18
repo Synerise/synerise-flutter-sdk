@@ -1,6 +1,17 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.3.0] - 2025-06-11
+
+### Fixed
+- [iOS] InAppMessage deeplink action.
+
+### Changed
+- Properties in `Promotion` model: `currentRedeemedQuantity`, `currentRedeemLimit`, `activationCounter`, `possibleRedeems`, `requireRedeemedPoints` and `discountValue` are nullable now.
+
+### Added
+- `Synerise.settings.sdk.doNotTrack` option to fully disable tracking customer's activity in SDK. When enabled, the SDK stops sending tracking events and replaces the UUID with a random one, preventing profile creation and blocking some functionalities (e.g. authentication).
+
 ## [2.2.0] - 2025-05-13
 
 ### Added

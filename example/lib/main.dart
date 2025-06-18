@@ -52,6 +52,7 @@ class _InitialViewState extends State<InitialView> {
         .withApiKey(await rootBundle.loadString('lib/api_key.txt'))
         .withBaseUrl("https://api.snrapi.com")
         .withDebugModeEnabled(true)
+        .setInitialDoNotTrack(true)
         .setMessagingServiceType(MessagingServiceType.gms)
         .init();
 
@@ -234,12 +235,18 @@ class _InitialViewState extends State<InitialView> {
                 },
               ),
               ElevatedButton(
+                child: const Text('Change Do Not Track Settings'),
+                onPressed: () {
+                  Synerise.settings.sdk.doNotTrack = !Synerise.settings.sdk.doNotTrack;
+                },
+              ),
+              ElevatedButton(
                 child: const Text('Custom Method Test'),
                 onPressed: () {
                   final config = InitializationConfig(requestValidationSalt: "qlksldii");
                   Synerise.changeApiKey("6f5b279f-b148-a663-ea89-dab880e1a7ef");
                 },
-              ),
+              )
             ])))));
   }
 }

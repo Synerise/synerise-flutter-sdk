@@ -21,7 +21,7 @@ import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 
 public class SyneriseInitializer implements SyneriseModule {
-    private static String sdkPluginVersion = "2.2.0";
+    private static String sdkPluginVersion = "2.3.0";
     private static SyneriseInitializer instance;
     protected static volatile boolean isInitialized = false;
 
@@ -46,6 +46,7 @@ public class SyneriseInitializer implements SyneriseModule {
             Map dataFull = (Map) call.arguments;
             Map data = (Map) dataFull.get("initializationParameters");
             String requestValidationSalt = data.containsKey("requestValidationSalt") ? (String) data.get("requestValidationSalt") : null;
+            Boolean initialDoNotTrack = data.containsKey("initialDoNotTrack") && data.get("initialDoNotTrack") != null ? (boolean) data.get("initialDoNotTrack") : null;
             initializeActionInjectorListener();
             String messagingServiceTypeString = data.containsKey("messagingServiceType") ? (String) data.get("messagingServiceType") : "GMS";
             String messagingServiceType = messagingServiceTypeString != null ? messagingServiceTypeString : "GMS";
@@ -59,6 +60,10 @@ public class SyneriseInitializer implements SyneriseModule {
                     .pushRegistrationRequired(SyneriseNotifications.registerListeners());
             if (requestValidationSalt != null) {
                 builder.setRequestValidationSalt(requestValidationSalt);
+            }
+
+            if (initialDoNotTrack != null) {
+                builder.initialDoNotTrack(initialDoNotTrack);
             }
             builder.build();
             isInitialized = true;
