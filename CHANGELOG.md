@@ -1,6 +1,13 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.3.1] - 2025-06-23
+
+### Fixed
+- [iOS] The issue with vouchers api methods.
+- [iOS] Potential issues with URL and deeplink actions when the delegate is set after SDK initialization.
+
+
 ## [2.3.0] - 2025-06-18
 
 ### Fixed
