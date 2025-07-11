@@ -1,7 +1,7 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [2.3.1] - 2025-06-23
+## [2.3.1] - 2025-07-11
 
 ### Fixed
 - [iOS] The issue with vouchers api methods.
