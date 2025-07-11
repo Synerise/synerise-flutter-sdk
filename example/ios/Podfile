@@ -36,19 +36,19 @@ end
 
 target 'SyneriseNotificationServiceExtension' do
 
-  pod 'SyneriseSDK', '5.4.2'
+  pod 'SyneriseSDK', '5.4.4'
 
 end
 
 target 'SyneriseSingleMediaNotificationContentExtension' do
 
-  pod 'SyneriseSDK', '5.4.2'
+  pod 'SyneriseSDK', '5.4.4'
 
 end
 
 target 'SyneriseCarouselNotificationContentExtension' do
 
-  pod 'SyneriseSDK', '5.4.2'
+  pod 'SyneriseSDK', '5.4.4'
 
 end
 
