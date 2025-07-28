@@ -632,64 +632,145 @@ public final class SyneriseClient implements SyneriseModule {
                 });
     }
 
+    @SuppressWarnings("unchecked")
     public void updateAccount(MethodCall call, MethodChannel.Result result) {
-        Map data = (Map) call.arguments;
+        Map<String, Object> data = (Map<String, Object>) call.arguments;
         UpdateAccountInformation updateAccountInformation = new UpdateAccountInformation();
-        updateAccountInformation.setEmail(data.containsKey("email") ? (String) data.get("email") : null);
-        updateAccountInformation.setPhoneNumber(data.containsKey("phone") ? (String) data.get("phone") : null);
-        updateAccountInformation.setCustomId(data.containsKey("customId") ? (String) data.get("customId") : null);
-        updateAccountInformation.setUuid(data.containsKey("uuid") ? (String) data.get("uuid") : null);
-        updateAccountInformation.setFirstName(data.containsKey("firstName") ? (String) data.get("firstName") : null);
-        updateAccountInformation.setLastName(data.containsKey("lastName") ? (String) data.get("lastName") : null);
-        updateAccountInformation.setDisplayName(data.containsKey("displayName") ? (String) data.get("displayName") : null);
+
+        if (data.containsKey("email")) {
+            updateAccountInformation.setEmail((String) data.get("email"));
+        }
+        if (data.containsKey("phone")) {
+            updateAccountInformation.setPhoneNumber((String) data.get("phone"));
+        }
+        if (data.containsKey("customId")) {
+            updateAccountInformation.setCustomId((String) data.get("customId"));
+        }
+        if (data.containsKey("uuid")) {
+            updateAccountInformation.setUuid((String) data.get("uuid"));
+        }
+        if (data.containsKey("firstName")) {
+            updateAccountInformation.setFirstName((String) data.get("firstName"));
+        }
+        if (data.containsKey("lastName")) {
+            updateAccountInformation.setLastName((String) data.get("lastName"));
+        }
+        if (data.containsKey("displayName")) {
+            updateAccountInformation.setDisplayName((String) data.get("displayName"));
+        }
         if (data.containsKey("sex")) {
             updateAccountInformation.setSex(Sex.getSex((String) data.get("sex")));
         }
-        updateAccountInformation.setBirthDate(data.containsKey("birthDate") ? (String) data.get("birthDate") : null);
-        updateAccountInformation.setAvatarUrl(data.containsKey("avatarUrl") ? (String) data.get("avatarUrl") : null);
-        updateAccountInformation.setCompany(data.containsKey("company") ? (String) data.get("company") : null);
-        updateAccountInformation.setAddress(data.containsKey("address") ? (String) data.get("address") : null);
-        updateAccountInformation.setCity(data.containsKey("city") ? (String) data.get("city") : null);
-        updateAccountInformation.setProvince(data.containsKey("province") ? (String) data.get("province") : null);
-        updateAccountInformation.setZipCode(data.containsKey("zipCode") ? (String) data.get("zipCode") : null);
-        updateAccountInformation.setCountryCode(data.containsKey("countryCode") ? (String) data.get("countryCode") : null);
+        if (data.containsKey("birthDate")) {
+            updateAccountInformation.setBirthDate((String) data.get("birthDate"));
+        }
+        if (data.containsKey("avatarUrl")) {
+            updateAccountInformation.setAvatarUrl((String) data.get("avatarUrl"));
+        }
+        if (data.containsKey("company")) {
+            updateAccountInformation.setCompany((String) data.get("company"));
+        }
+        if (data.containsKey("address")) {
+            updateAccountInformation.setAddress((String) data.get("address"));
+        }
+        if (data.containsKey("city")) {
+            updateAccountInformation.setCity((String) data.get("city"));
+        }
+        if (data.containsKey("province")) {
+            updateAccountInformation.setProvince((String) data.get("province"));
+        }
+        if (data.containsKey("zipCode")) {
+            updateAccountInformation.setZipCode((String) data.get("zipCode"));
+        }
+        if (data.containsKey("countryCode")) {
+            updateAccountInformation.setCountryCode((String) data.get("countryCode"));
+        }
 
         if (data.containsKey("attributes")) {
-            Attributes attributes = attributesMapper((HashMap<String, Object>) data.get("attributes"));
-            updateAccountInformation.setAttributes(attributes);
+            Object attributesObj = data.get("attributes");
+            if (attributesObj instanceof Map) {
+                Attributes attributes = attributesMapper((HashMap<String, Object>) attributesObj);
+                updateAccountInformation.setAttributes(attributes);
+            }
         }
 
         if (data.containsKey("agreements")) {
-            Agreements agreements = agreementsMapper((Map) data.get("agreements"));
-            updateAccountInformation.setAgreements(agreements);
+            Object agreementsObj = data.get("agreements");
+            if (agreementsObj instanceof Map) {
+                Agreements agreements = agreementsMapper((Map<String, Object>) agreementsObj);
+                updateAccountInformation.setAgreements(agreements);
+            }
         }
 
-        if (updateAccountCall != null) updateAccountCall.cancel();
-        updateAccountCall = Client.updateAccount(updateAccountInformation);
-        updateAccountCall.execute(() -> SyneriseModule.executeSuccessResult(true, result),
-                (DataActionListener<ApiError>) apiError ->
-                        SyneriseModule.executeFailureResult(apiError, result));
+        if (updateAccountCall != null) {
+            updateAccountCall.cancel();
+        }
 
+        updateAccountCall = Client.updateAccount(updateAccountInformation);
+        updateAccountCall.execute(
+                () -> SyneriseModule.executeSuccessResult(true, result),
+                (DataActionListener<ApiError>) apiError ->
+                        SyneriseModule.executeFailureResult(apiError, result)
+        );
     }
+
+
 
     public void updateAccountBasicInformation(MethodCall call, MethodChannel.Result result) {
         Map data = (Map) call.arguments;
         UpdateAccountBasicInformation updateAccountBasicInformation = new UpdateAccountBasicInformation();
-        updateAccountBasicInformation.setPhoneNumber(data.containsKey("phone") ? (String) data.get("phone") : null);
-        updateAccountBasicInformation.setFirstName(data.containsKey("firstName") ? (String) data.get("firstName") : null);
-        updateAccountBasicInformation.setLastName(data.containsKey("lastName") ? (String) data.get("lastName") : null);
-        updateAccountBasicInformation.setDisplayName(data.containsKey("displayName") ? (String) data.get("displayName") : null);
+
+        if (data.containsKey("phone")) {
+            updateAccountBasicInformation.setPhoneNumber((String) data.get("phone"));
+        }
+
+        if (data.containsKey("firstName")) {
+            updateAccountBasicInformation.setFirstName((String) data.get("firstName"));
+        }
+
+        if (data.containsKey("lastName")) {
+            updateAccountBasicInformation.setLastName((String) data.get("lastName"));
+        }
+
+        if (data.containsKey("displayName")) {
+            updateAccountBasicInformation.setDisplayName((String) data.get("displayName"));
+        }
+
         if (data.containsKey("sex")) {
             updateAccountBasicInformation.setSex(Sex.getSex((String) data.get("sex")));
         }
-        updateAccountBasicInformation.setBirthDate(data.containsKey("birthDate") ? (String) data.get("birthDate") : null);
-        updateAccountBasicInformation.setAvatarUrl(data.containsKey("avatarUrl") ? (String) data.get("avatarUrl") : null);
-        updateAccountBasicInformation.setCompany(data.containsKey("company") ? (String) data.get("company") : null);
-        updateAccountBasicInformation.setAddress(data.containsKey("address") ? (String) data.get("address") : null);
-        updateAccountBasicInformation.setCity(data.containsKey("city") ? (String) data.get("city") : null);
-        updateAccountBasicInformation.setProvince(data.containsKey("province") ? (String) data.get("province") : null);
-        updateAccountBasicInformation.setZipCode(data.containsKey("zipCode") ? (String) data.get("zipCode") : null);
-        updateAccountBasicInformation.setCountryCode(data.containsKey("countryCode") ? (String) data.get("countryCode") : null);
+
+        if (data.containsKey("birthDate")) {
+            updateAccountBasicInformation.setBirthDate((String) data.get("birthDate"));
+        }
+
+        if (data.containsKey("avatarUrl")) {
+            updateAccountBasicInformation.setAvatarUrl((String) data.get("avatarUrl"));
+        }
+
+        if (data.containsKey("company")) {
+            updateAccountBasicInformation.setCompany((String) data.get("company"));
+        }
+
+        if (data.containsKey("address")) {
+            updateAccountBasicInformation.setAddress((String) data.get("address"));
+        }
+
+        if (data.containsKey("city")) {
+            updateAccountBasicInformation.setCity((String) data.get("city"));
+        }
+
+        if (data.containsKey("province")) {
+            updateAccountBasicInformation.setProvince((String) data.get("province"));
+        }
+
+        if (data.containsKey("zipCode")) {
+            updateAccountBasicInformation.setZipCode((String) data.get("zipCode"));
+        }
+
+        if (data.containsKey("countryCode")) {
+            updateAccountBasicInformation.setCountryCode((String) data.get("countryCode"));
+        }
 
         if (data.containsKey("attributes")) {
             Attributes attributes = attributesMapper((HashMap<String, Object>) data.get("attributes"));
@@ -702,10 +783,12 @@ public final class SyneriseClient implements SyneriseModule {
         }
 
         if (updateAccountBasicInformationCall != null) updateAccountBasicInformationCall.cancel();
+
         updateAccountBasicInformationCall = Client.updateAccountBasicInformation(updateAccountBasicInformation);
-        updateAccountBasicInformationCall.execute(() -> SyneriseModule.executeSuccessResult(true, result),
-                (DataActionListener<ApiError>) apiError ->
-                        SyneriseModule.executeFailureResult(apiError, result));
+        updateAccountBasicInformationCall.execute(
+                () -> SyneriseModule.executeSuccessResult(true, result),
+                (DataActionListener<ApiError>) apiError -> SyneriseModule.executeFailureResult(apiError, result)
+        );
     }
 
     public void requestPasswordReset(MethodCall call, MethodChannel.Result result) {
@@ -914,9 +997,7 @@ public final class SyneriseClient implements SyneriseModule {
             Iterator it = map.entrySet().iterator();
             while (it.hasNext()) {
                 Map.Entry pair = (Map.Entry) it.next();
-                if (pair.getValue() instanceof String) {
-                    attributes.add(pair.getKey().toString(), pair.getValue().toString());
-                }
+                    attributes.add(pair.getKey().toString(), pair.getValue());
                 it.remove(); // avoids a ConcurrentModificationException
             }
         }
