@@ -1,7 +1,15 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [2.3.1] - 2025-07-11
+## [2.3.2] - 2025-07-28
+
+### Fixed
+- `Attributes` class (used in `UpdateAccount` and `UpdateBasicAccount`) from now will support any Object not just String.
+
+### Changed
+- Upgraded version of `com.facebook.fresco:fresco` to 3.4.0
+
+## [2.3.1] - 2025-06-23
 
 ### Fixed
 - [iOS] The issue with vouchers api methods.
