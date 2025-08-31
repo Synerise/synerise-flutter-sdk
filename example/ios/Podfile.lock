@@ -117,10 +117,10 @@ PODS:
   - nanopb/decode (2.30909.1)
   - nanopb/encode (2.30909.1)
   - PromisesObjC (2.4.0)
-  - synerise_flutter_sdk (2.3.1):
+  - synerise_flutter_sdk (2.3.3):
     - Flutter
-    - SyneriseSDK (= 5.4.4)
-  - SyneriseSDK (5.4.4)
+    - SyneriseSDK (= 5.4.5)
+  - SyneriseSDK (5.4.5)
 
 DEPENDENCIES:
   - firebase_analytics (from `.symlinks/plugins/firebase_analytics/ios`)
@@ -128,7 +128,7 @@ DEPENDENCIES:
   - firebase_messaging (from `.symlinks/plugins/firebase_messaging/ios`)
   - Flutter (from `Flutter`)
   - synerise_flutter_sdk (from `.symlinks/plugins/synerise_flutter_sdk/ios`)
-  - SyneriseSDK (= 5.4.4)
+  - SyneriseSDK (= 5.4.5)
 
 SPEC REPOS:
   trunk:
@@ -173,9 +173,9 @@ SPEC CHECKSUMS:
   GoogleUtilities: ea963c370a38a8069cc5f7ba4ca849a60b6d7d15
   nanopb: d4d75c12cd1316f4a64e3c6963f879ecd4b5e0d5
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
-  synerise_flutter_sdk: 04725a3ba6ed637c0e5473dc85326b27e8eb20b9
-  SyneriseSDK: 63aa4138acffb242f20c0e052d4300b219bb6a6a
+  synerise_flutter_sdk: f38e9eef1579f74bbe6cd4452124f856febe48c0
+  SyneriseSDK: 509c44111f42059bfb87ed07682d834839e6049c
 
-PODFILE CHECKSUM: 35b9ce3640b8782aac236c1b126c6e13aa21a1f3
+PODFILE CHECKSUM: 91faa0a776b0a7ef3139d6dd435ac966758d8d45
 
 COCOAPODS: 1.13.0

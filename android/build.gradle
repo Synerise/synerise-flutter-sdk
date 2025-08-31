@@ -1,5 +1,5 @@
 group 'com.synerise.synerise_flutter_sdk'
-version '2.3.2'
+version '2.3.3'
 
 buildscript {
     repositories {
@@ -22,7 +22,7 @@ rootProject.allprojects {
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 33
+    compileSdkVersion 34
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
@@ -43,5 +43,5 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.synerise.sdk:synerise-mobile-sdk:6.4.0'
+    implementation 'com.synerise.sdk:synerise-mobile-sdk:6.4.1'
 }

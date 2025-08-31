@@ -743,7 +743,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.3.1;
+				MARKETING_VERSION = 2.3.3;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.synerise.sdk.sample-flutter";
 				PRODUCT_NAME = "SDK Sample App Flutter";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -878,7 +878,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.3.1;
+				MARKETING_VERSION = 2.3.3;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.synerise.sdk.sample-flutter";
 				PRODUCT_NAME = "SDK Sample App Flutter";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -908,7 +908,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.3.1;
+				MARKETING_VERSION = 2.3.3;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.synerise.sdk.sample-flutter";
 				PRODUCT_NAME = "SDK Sample App Flutter";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -945,7 +945,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.3.1;
+				MARKETING_VERSION = 2.3.3;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.synerise.sdk.sample-flutter.notification-service-extension";
@@ -989,7 +989,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.3.1;
+				MARKETING_VERSION = 2.3.3;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.synerise.sdk.sample-flutter.notification-service-extension";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1032,7 +1032,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.3.1;
+				MARKETING_VERSION = 2.3.3;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.synerise.sdk.sample-flutter.notification-service-extension";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1075,7 +1075,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.3.1;
+				MARKETING_VERSION = 2.3.3;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.synerise.sdk.sample-flutter.single-media-notification";
@@ -1119,7 +1119,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.3.1;
+				MARKETING_VERSION = 2.3.3;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.synerise.sdk.sample-flutter.single-media-notification";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1162,7 +1162,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.3.1;
+				MARKETING_VERSION = 2.3.3;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.synerise.sdk.sample-flutter.single-media-notification";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1205,7 +1205,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.3.1;
+				MARKETING_VERSION = 2.3.3;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.synerise.sdk.sample-flutter.carousel-notification";
@@ -1249,7 +1249,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.3.1;
+				MARKETING_VERSION = 2.3.3;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.synerise.sdk.sample-flutter.carousel-notification";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1292,7 +1292,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.3.1;
+				MARKETING_VERSION = 2.3.3;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.synerise.sdk.sample-flutter.carousel-notification";
 				PRODUCT_NAME = "$(TARGET_NAME)";
