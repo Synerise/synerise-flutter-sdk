@@ -1,6 +1,15 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.3.3] - 2025-08-31
+
+### Fixed
+- [Android] Issue with anonymous login after the SDK 2.3.0 update.
+
+### Changed
+- Update of native SDK's dependencies.
+
+
 ## [2.3.2] - 2025-07-28
 
 ### Fixed

@@ -220,6 +220,7 @@ public class SyneriseSettings implements SyneriseModule {
     private Map<String, Object> settingsMap() {
         Map<String, Object> settings = new HashMap<>();
         settings.put(F_SETTINGS_SDK_ENABLED, Synerise.settings.sdk.isSDKEnabled());
+        // Intended do not uncomment. DoNotTrack is retrieved with different method.
         //settings.put(F_SETTINGS_SDK_DO_NOT_TRACK, Synerise.settings.sdk.getDoNotTrack());
         settings.put(F_SETTINGS_SDK_MIN_TOKEN_REFRESH_INTERVAL, Synerise.settings.sdk.getMinTokenRefreshInterval());
         settings.put(F_SETTINGS_TRACKER_IS_BACKEND_TIME_SYNC_REQUIRED, Synerise.settings.tracker.isBackendTimeSyncRequired);
