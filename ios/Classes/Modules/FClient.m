@@ -7,6 +7,7 @@
 //
 
 #import "FClient.h"
+#import "FClient+Functions.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -569,7 +570,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable SNRClientUpdateAccountBasicInformationContext *)modelClientUpdateAccountBasicInformationContextWithDictionary:(nullable NSDictionary *)dictionary {
     if (dictionary != nil) {
-        SNRClientUpdateAccountBasicInformationContext *model = [SNRClientUpdateAccountContext new];
+        SNRClientUpdateAccountBasicInformationContext *model = [SNRClientUpdateAccountBasicInformationContext new];
         model.firstName = [dictionary getStringForKey:@"firstName"];
         model.lastName = [dictionary getStringForKey:@"lastName"];
         model.displayName = [dictionary getStringForKey:@"displayName"];

@@ -225,12 +225,12 @@ NS_ASSUME_NONNULL_BEGIN
 
     NSString *localizableKeyOK = dictionary[LocalizableKeyOK];
     if (localizableKeyOK != nil) {
-        newDictionary[_SNR_Constants.LOCALIZABLE_STRING_KEY_OK] = localizableKeyOK;
+        newDictionary[SNR_LOCALIZABLE_STRING_KEY_OK] = localizableKeyOK;
     }
 
     NSString *localizableKeyCancel = dictionary[LocalizableKeyCancel];
     if (localizableKeyCancel != nil) {
-        newDictionary[_SNR_Constants.LOCALIZABLE_STRING_KEY_CANCEL] = localizableKeyCancel;
+        newDictionary[SNR_LOCALIZABLE_STRING_KEY_CANCEL] = localizableKeyCancel;
     }
 
     if ([newDictionary count] == 0) {
