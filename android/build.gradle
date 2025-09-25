@@ -1,5 +1,5 @@
 group 'com.synerise.synerise_flutter_sdk'
-version '2.3.3'
+version '2.4.0'
 
 buildscript {
     repositories {
@@ -43,5 +43,5 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.synerise.sdk:synerise-mobile-sdk:6.4.1'
+    implementation 'com.synerise.sdk:synerise-mobile-sdk:6.6.0'
 }

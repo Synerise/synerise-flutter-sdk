@@ -21,7 +21,7 @@ import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 
 public class SyneriseInitializer implements SyneriseModule {
-    private static String sdkPluginVersion = "2.3.3";
+    private static String sdkPluginVersion = "2.4.0";
     private static SyneriseInitializer instance;
     protected static volatile boolean isInitialized = false;
 

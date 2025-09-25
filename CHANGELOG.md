@@ -1,6 +1,15 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.4.0] - 2025-09-24
+
+### Added
+- `SRInApp.internalMethod` method to JS interface in the in-app messaging module. This method allows to invoke the native SDK method from predefined methods. You can read more in the documentation about available methods and params you may use. 
+- `SRInApp.resize` method to the JS interface in the in-app messaging module, allowing you resize an in-app message. You can read more in the documentation.
+- `SRInApp.getDeviceData` method to the JS interface in the in-app messaging module. This method allows fetching device info (operating system, if dark mode is enabled, etc.). You can read more in the documentation.
+- [Android] Support for camera permissions inside in-app message. Please note that before showing the in-app message you have to be sure that application has got camera permission.
+
+
 ## [2.3.3] - 2025-08-31
 
 ### Fixed
