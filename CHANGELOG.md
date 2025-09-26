@@ -1,6 +1,16 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.4.1] - 2025-09-26
+
+### Fixed
+- The `SRInApp.trackCustomEvent` method in the JS interface in the in-app messaging module. The method didn't work correctly since version 2.4.0.
+
+### Changed
+- Update of native SDK's dependencies.
+- Improvements to stability.
+
+
 ## [2.4.0] - 2025-09-24
 
 ### Added
@@ -8,6 +18,9 @@ All notable changes to this project will be documented in this file.
 - `SRInApp.resize` method to the JS interface in the in-app messaging module, allowing you resize an in-app message. You can read more in the documentation.
 - `SRInApp.getDeviceData` method to the JS interface in the in-app messaging module. This method allows fetching device info (operating system, if dark mode is enabled, etc.). You can read more in the documentation.
 - [Android] Support for camera permissions inside in-app message. Please note that before showing the in-app message you have to be sure that application has got camera permission.
+
+### Changed
+- Update of native SDK's dependencies.
 
 
 ## [2.3.3] - 2025-08-31
