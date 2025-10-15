@@ -23,8 +23,10 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)handleMethodCall:(FlutterMethodCall*)call result:(FlutterResult)result calledMethod:(NSString *)calledMethod {
-    if ([calledMethod isEqualToString:@"handleOpenUrlBySDK"]) {
-        [self handleOpenUrlBySDK:call result:result];
+    if ([calledMethod isEqualToString:@"closeInAppMessage"]) {
+        [self closeInAppMessage:call result:result];
+    } else if ([calledMethod isEqualToString:@"handleDeepLinkBySDK"]) {
+        [self handleDeepLinkBySDK:call result:result];
     } else if ([calledMethod isEqualToString:@"handleDeepLinkBySDK"]) {
         [self handleDeepLinkBySDK:call result:result];
     }
@@ -45,6 +47,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 #pragma mark - Methods
+
+- (void)closeInAppMessage:(FlutterMethodCall *)call result:(FlutterResult)result {
+    NSString *campaignHash = (NSString *)call.arguments;
+    [SNRInjector closeInAppMessageWithCampaignHash:campaignHash];
+}
 
 - (void)handleOpenUrlBySDK:(FlutterMethodCall *)call result:(FlutterResult)result {
     NSString *urlString = (NSString *)call.arguments;

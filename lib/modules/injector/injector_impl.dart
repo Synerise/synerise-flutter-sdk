@@ -184,6 +184,13 @@ class InjectorImpl extends BaseModule {
     }
   }
 
+  /// This function closes the current in-app message.
+  /// Args:
+  ///   campaignHash (String): An identifier of the in-app message campaign that is currently opened.
+  void closeInAppMessage(String campaignHash) {
+    _methods.closeInAppMessage(campaignHash);
+  }
+
   void handleOpenUrlBySDK(String url) {
     _methods.handleOpenUrlBySDK(url);
   }

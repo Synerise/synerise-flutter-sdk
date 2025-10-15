@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.5.0] - 2025-10-15
+
+### Added
+- The `Synerise.injector.closeInAppMessage(campaignHash)` method to programmaticaly close a currently opened inapp from the application.
+
+
 ## [2.4.1] - 2025-09-26
 
 ### Fixed
