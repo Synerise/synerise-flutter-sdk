@@ -20,8 +20,11 @@ import io.flutter.plugin.common.MethodChannel;
 
 public class SyneriseInjector implements SyneriseModule {
     @Override
-    public void handleMethodCall(MethodCall call, MethodChannel.Result result, String calledMethod) {
+        public void handleMethodCall(MethodCall call, MethodChannel.Result result, String calledMethod) {
         switch (calledMethod) {
+            case "closeInAppMessage":
+                closeInAppMessage(call, result);
+                return;
             case "handleOpenUrlBySDK":
                 handleOpenUrlBySDK(call, result);
                 return;
@@ -29,6 +32,11 @@ public class SyneriseInjector implements SyneriseModule {
                 handleDeepLinkBySDK(call, result);
                 return;
         }
+    }
+
+    public void closeInAppMessage(MethodCall call, MethodChannel.Result result) {
+        String campaignHash = (String) call.arguments;
+        Injector.closeInAppMessage(campaignHash);
     }
 
     public void handleOpenUrlBySDK(MethodCall call, MethodChannel.Result result) {

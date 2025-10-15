@@ -16,6 +16,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
 String? firebaseToken;
+String? currentInAppMessageCampaignHash;
 
 class InitialView extends StatefulWidget {
   const InitialView({super.key});
@@ -80,7 +81,9 @@ class _InitialViewState extends State<InitialView> {
       listener.onOpenUrl = (data, url) {};
       listener.onDeepLink = (data, deepLink) {};
 
-      listener.onPresent = (data) {};
+      listener.onPresent = (data) {
+        currentInAppMessageCampaignHash = data.campaignHash;
+      };
 
       listener.onHide = (data) {};
 
@@ -219,8 +222,7 @@ class _InitialViewState extends State<InitialView> {
                     ]
                   };
 
-                  CustomEvent event =
-                      CustomEvent("label", "flutter.test", paramMap);
+                  CustomEvent event = CustomEvent("label", "flutter.test", paramMap);
                   Synerise.tracker.send(event);
                 },
               ),
@@ -245,6 +247,14 @@ class _InitialViewState extends State<InitialView> {
                 onPressed: () {
                   final config = InitializationConfig(requestValidationSalt: "qlksldii");
                   Synerise.changeApiKey("6f5b279f-b148-a663-ea89-dab880e1a7ef");
+                },
+              ),
+              ElevatedButton(
+                child: const Text('Injector.closeInAppMessage'),
+                onPressed: () {
+                  if (currentInAppMessageCampaignHash != null) {
+                    Synerise.injector.closeInAppMessage(currentInAppMessageCampaignHash!);
+                  }
                 },
               )
             ])))));
