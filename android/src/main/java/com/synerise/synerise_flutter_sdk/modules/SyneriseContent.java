@@ -1,13 +1,15 @@
 package com.synerise.synerise_flutter_sdk.modules;
 
+import android.util.Log;
+
 import com.google.gson.Gson;
 import com.synerise.sdk.content.Content;
+import com.synerise.sdk.content.model.brickwork.BrickworksApiQuery;
 import com.synerise.sdk.content.model.document.Document;
 import com.synerise.sdk.content.model.document.DocumentApiQuery;
 import com.synerise.sdk.content.model.recommendation.FiltersJoinerRule;
 import com.synerise.sdk.content.model.recommendation.RecommendationRequestBody;
 import com.synerise.sdk.content.model.recommendation.RecommendationResponse;
-import com.synerise.sdk.content.model.screenview.Audience;
 import com.synerise.sdk.content.model.screenview.ScreenView;
 import com.synerise.sdk.content.model.screenview.ScreenViewApiQuery;
 import com.synerise.sdk.content.widgets.dataModel.Recommendation;
@@ -35,6 +37,7 @@ public class SyneriseContent implements SyneriseModule {
     private IDataApiCall<RecommendationResponse> getRecommendationsApiCall;
     private IDataApiCall<ScreenView> generateScreenViewApiCall;
     private IDataApiCall<Document> generateDocumentApiCall;
+    private IDataApiCall<Object> generateBrickworksApiCall;
     private Gson gson = new Gson();
 
     public SyneriseContent() {
@@ -57,6 +60,9 @@ public class SyneriseContent implements SyneriseModule {
                 return;
             case "generateScreenViewWithApiQuery":
                 generateScreenViewWithApiQuery(call, result);
+                return;
+            case "generateBrickworks":
+                generateBrickworks(call, result);
                 return;
         }
     }
@@ -185,7 +191,7 @@ public class SyneriseContent implements SyneriseModule {
             screenViewMap.put("path", screenView.getPath());
             screenViewMap.put("name", screenView.getName());
             screenViewMap.put("priority", screenView.getPriority());
-            screenViewMap.put("data", screenViewDataMapper(screenView.getData()));
+            screenViewMap.put("data", objectDataMapper(screenView.getData()));
             try {
                 Date createdAtDate = new SimpleDateFormat(ISO8601_FORMAT, Locale.getDefault()).parse(screenView.getCreatedAt());
                 Date updatedAtDate = new SimpleDateFormat(ISO8601_FORMAT, Locale.getDefault()).parse(screenView.getUpdatedAt());
@@ -226,7 +232,7 @@ public class SyneriseContent implements SyneriseModule {
             screenViewMap.put("path", screenView.getPath());
             screenViewMap.put("name", screenView.getName());
             screenViewMap.put("priority", screenView.getPriority());
-            screenViewMap.put("data", screenViewDataMapper(screenView.getData()));
+            screenViewMap.put("data", objectDataMapper(screenView.getData()));
             try {
                 Date createdAtDate = new SimpleDateFormat(ISO8601_FORMAT, Locale.getDefault()).parse(screenView.getCreatedAt());
                 Date updatedAtDate = new SimpleDateFormat(ISO8601_FORMAT, Locale.getDefault()).parse(screenView.getUpdatedAt());
@@ -241,6 +247,40 @@ public class SyneriseContent implements SyneriseModule {
             }
             SyneriseModule.executeSuccessResult(screenViewMap, result);
         }, apiError -> SyneriseModule.executeFailureResult(apiError, result));
+    }
+
+    public void generateBrickworks(MethodCall call, MethodChannel.Result result) {
+        Map brickworksApiQueryMap = (Map) call.arguments;
+        String schemaSlug = null;
+        String recordSlug = null;
+        String recordId = null;
+        HashMap<String, Object> context = null;
+        HashMap<String, Object> fieldContext = null;
+        BrickworksApiQuery brickworksApiQuery = new BrickworksApiQuery();
+
+        if (brickworksApiQueryMap != null) {
+            schemaSlug = (String) brickworksApiQueryMap.get("schemaSlug");
+            recordSlug = (String) brickworksApiQueryMap.get("recordSlug");
+            recordId = (String) brickworksApiQueryMap.get("recordId");
+            context = (HashMap<String, Object>) brickworksApiQueryMap.get("context");
+            fieldContext = (HashMap<String, Object>) brickworksApiQueryMap.get("fieldContext");
+
+            if (schemaSlug != null) brickworksApiQuery.setSchemaSlug(schemaSlug);
+            if (recordSlug != null) brickworksApiQuery.setRecordSlug(recordSlug);
+            if (recordId != null) brickworksApiQuery.setRecordId(recordId);
+            if (context != null) brickworksApiQuery.setContext(context);
+            if (fieldContext != null) brickworksApiQuery.setFieldContext(fieldContext);
+        }
+
+        if (generateBrickworksApiCall != null) generateBrickworksApiCall.cancel();
+        generateBrickworksApiCall = Content.generateBrickworks(brickworksApiQuery);
+        generateBrickworksApiCall.execute(brickworkObject -> {
+            String jsonObject = gson.toJson(brickworkObject);
+            HashMap<String, Object> brickworkMap = new Gson().fromJson(jsonObject, HashMap.class);
+            SyneriseModule.executeSuccessResult(brickworkMap, result);
+        }, apiError -> {
+            SyneriseModule.executeFailureResult(apiError, result);
+        });
     }
 
     private ArrayList<Map<String, Object>> recommendationToArrayList(List<Recommendation> array) {
@@ -275,7 +315,7 @@ public class SyneriseContent implements SyneriseModule {
         return audienceMap;
     }
 
-    private Map screenViewDataMapper(Object data) {
+    private Map objectDataMapper(Object data) {
         Map screenViewData = (Map) data;
         String jsonObject = gson.toJson(data);
         try {

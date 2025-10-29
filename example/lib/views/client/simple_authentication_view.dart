@@ -71,10 +71,10 @@ class _SimpleAuthenticationState extends State<SimpleAuthentication>
                   onPressed: () {
                     if (simpleAuthenticationForm.currentState!.validate()) {
                       _simpleAuthenticationCall(
-                          emailController.text,
-                          customIDController.text,
-                          firstNameController.text,
-                          lastNameController.text,
+                          emailController.text.isEmpty ? null : emailController.text,
+                          customIDController.text.isEmpty ? null : customIDController.text,
+                          firstNameController.text.isEmpty ? null : firstNameController.text,
+                          lastNameController.text.isEmpty ? null : lastNameController.text,
                           authIDController.text);
                     }
                   },
@@ -89,13 +89,16 @@ class _SimpleAuthenticationState extends State<SimpleAuthentication>
         )));
   }
 
-  Future<void> _simpleAuthenticationCall(String email, String customID,
-      String firstName, String lastName, String authID) async {
+  Future<void> _simpleAuthenticationCall(String? email, String? customID,
+      String? firstName, String? lastName, String authID) async {
     ClientSimpleAuthenticationData data = ClientSimpleAuthenticationData(
         firstName: firstName,
         lastName: lastName,
         email: email,
-        customId: customID);
+        customId: customID
+    );
+    data.agreements = ClientAgreements(email: true, sms: true, push: true, bluetooth: true, rfid: true, wifi: true);
+
     await Synerise.client.simpleAuthentication(data, authID, onSuccess: () {
       Utils.displaySimpleAlert("simple authenticate complete", context);
     }, onError: (SyneriseError error) {

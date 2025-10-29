@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Public
 
 - (BOOL)isValueNotNilForKey:(NSString *)key {
-    return [self objectForKey:key] != nil;
+    return [self objectForKey:key] != nil && [self objectForKey:key] != [NSNull null];
 }
 
 - (nullable NSString *)getStringForKey:(NSString *)key {

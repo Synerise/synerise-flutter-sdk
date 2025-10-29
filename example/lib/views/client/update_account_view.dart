@@ -14,7 +14,6 @@ class UpdateAccount extends StatefulWidget {
 class _UpdateAccountState extends State<UpdateAccount>
     with AutomaticKeepAliveClientMixin {
   final emailController = TextEditingController();
-  final passwordController = TextEditingController();
   final firstNameController = TextEditingController();
   final lastNameController = TextEditingController();
   final sexController = TextEditingController();
@@ -41,11 +40,6 @@ class _UpdateAccountState extends State<UpdateAccount>
                 controller: emailController,
                 decoration: const InputDecoration(labelText: "Email"),
                 keyboardType: TextInputType.text,
-              ),
-              TextFormField(
-                controller: passwordController,
-                decoration: const InputDecoration(labelText: "Password"),
-                obscureText: true,
               ),
               TextFormField(
                 controller: firstNameController,
@@ -92,18 +86,17 @@ class _UpdateAccountState extends State<UpdateAccount>
                 children: <Widget>[
                   ElevatedButton.icon(
                       onPressed: () => _updateAccountCall(
-                          emailController.text,
-                          passwordController.text,
-                          firstNameController.text,
-                          lastNameController.text,
-                          sexController.text,
-                          phoneController.text,
-                          companyController.text,
-                          addressController.text,
-                          cityController.text,
-                          zipCodeController.text,
-                          countryCodeController.text,
-                          provinceController.text),
+                          emailController.text.isEmpty ? null : emailController.text,
+                          firstNameController.text.isEmpty ? null : firstNameController.text,
+                          lastNameController.text.isEmpty ? null : lastNameController.text,
+                          sexController.text.isEmpty ? null : sexController.text,
+                          phoneController.text.isEmpty ? null : phoneController.text,
+                          companyController.text.isEmpty ? null : companyController.text,
+                          addressController.text.isEmpty ? null : addressController.text,
+                          cityController.text.isEmpty ? null : cityController.text,
+                          zipCodeController.text.isEmpty ? null : zipCodeController.text,
+                          countryCodeController.text.isEmpty ? null : countryCodeController.text,
+                          provinceController.text.isEmpty ? null : provinceController.text),
                       icon: const Icon(Icons.arrow_forward),
                       label: const Text('Update Account')),
                 ],
@@ -113,14 +106,14 @@ class _UpdateAccountState extends State<UpdateAccount>
         ));
   }
 
-  Future<void> _updateAccountCall(email, password, firstName, lastName, sex,
-      phone, company, address, city, zipcode, countrycode, province) async {
+  Future<void> _updateAccountCall(String? email, String? firstName, String? lastName, String? sex,
+      String? phone, String? company, String? address, String? city, String? zipcode, String? countrycode, String? province) async {
     ClientAccountUpdateContext clientAccountUpdateContext =
         ClientAccountUpdateContext(
             email: email,
             lastName: lastName,
             firstName: firstName,
-            sex: ClientSex.getClientSexFromString(sex));
+            sex: ClientSex.getClientSexFromString(sex ?? "NOT_SPECIFIED"));
 
     await Synerise.client.updateAccount(clientAccountUpdateContext,
         onSuccess: () {
@@ -133,7 +126,6 @@ class _UpdateAccountState extends State<UpdateAccount>
   @override
   void dispose() {
     emailController.dispose();
-    passwordController.dispose();
     firstNameController.dispose();
     lastNameController.dispose();
     sexController.dispose();
