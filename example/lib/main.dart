@@ -53,7 +53,7 @@ class _InitialViewState extends State<InitialView> {
         .withApiKey(await rootBundle.loadString('lib/api_key.txt'))
         .withBaseUrl("https://api.snrapi.com")
         .withDebugModeEnabled(true)
-        .setInitialDoNotTrack(true)
+        .setRequestValidationSalt("xjmwfqmr")
         .setMessagingServiceType(MessagingServiceType.gms)
         .init();
 

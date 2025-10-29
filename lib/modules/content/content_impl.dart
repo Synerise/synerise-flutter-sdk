@@ -6,6 +6,7 @@ import '../../model/content/recommendation_options.dart';
 import '../../model/content/recommendation_response.dart';
 import '../../model/content/screen_view.dart';
 import '../../model/content/screen_view_api_query.dart';
+import '../../model/content/brickworks_api_query.dart';
 import '../base/base_module.dart';
 import '../base/base_module_method_channel.dart';
 import './content_methods.dart';
@@ -79,11 +80,26 @@ class ContentImpl extends BaseModule {
     });
   }
 
+  /// This function generates a screen view that is defined for parameters provided in the query object.
   Future<void> generateScreenViewWithApiQuery(ScreenViewApiQuery screenViewApiQuery,
       {required void Function(ScreenView) onSuccess,
         required void Function(SyneriseError error) onError}) async {
     SyneriseResult<ScreenView> result =
     await _methods.generateScreenViewWithApiQuery(screenViewApiQuery);
+
+    result.onSuccess((result) {
+      onSuccess(result);
+    }).onError((error) {
+      onError(error);
+    });
+  }
+
+  /// This method generates Brickworks record that is defined for parameters provided in the query object.
+  Future<void> generateBrickworks(BrickworksApiQuery brickworksApiQuery,
+      {required void Function(Map<String, dynamic>) onSuccess,
+        required void Function(SyneriseError error) onError}) async {
+    SyneriseResult<Map<String, dynamic>> result =
+    await _methods.generateBrickworks(brickworksApiQuery);
 
     result.onSuccess((result) {
       onSuccess(result);

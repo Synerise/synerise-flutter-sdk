@@ -29,7 +29,9 @@ NS_ASSUME_NONNULL_BEGIN
         [self generateScreenView:call result:result];
     } else if ([calledMethod isEqualToString:@"generateScreenViewWithApiQuery"]) {
         [self generateScreenViewWithApiQuery:call result:result];
-    }
+    } else if ([calledMethod isEqualToString:@"generateBrickworks"]) {
+      [self generateBrickworks:call result:result];
+  }
 }
 
 #pragma mark - Methods
@@ -119,6 +121,22 @@ NS_ASSUME_NONNULL_BEGIN
     }];
 }
 
+- (void)generateBrickworks:(FlutterMethodCall *)call result:(FlutterResult)result {
+    NSDictionary *dictionary = call.arguments;
+
+    SNRBrickworksApiQuery *brickworksApiQuery = [self modelBrickworksApiQueryWithDictionary:dictionary];
+    if (brickworksApiQuery == nil) {
+        result([self defaultFlutterError]);
+        return;
+    }
+
+    [SNRContent generateBrickworksWithApiQuery:brickworksApiQuery success:^(NSDictionary *brickworksDictionary) {
+        result(brickworksDictionary);
+    } failure:^(NSError *error) {
+        result([self makeFlutterErrorWithError:error]);
+    }];
+}
+
 #pragma mark - SDK Mapping
 
 - (SNRDocumentApiQuery *)modelDocumentApiQueryWithDictionary:(NSDictionary *)dictionary {
@@ -186,6 +204,36 @@ NS_ASSUME_NONNULL_BEGIN
             model.params = [dictionary getDictionaryForKey:@"params"];
             
             return model;
+        }
+    }
+    
+    return nil;
+}
+
+- (SNRBrickworksApiQuery *)modelBrickworksApiQueryWithDictionary:(NSDictionary *)dictionary {
+    if (dictionary != nil) {
+        NSString *schemaSlug = [dictionary getStringForKey:@"schemaSlug"];
+        if (schemaSlug != nil) {
+            NSDictionary *context = [dictionary getDictionaryForKey:@"context"];
+            NSDictionary *fieldContext = [dictionary getDictionaryForKey:@"fieldContext"];
+
+            NSString *recordSlug = [dictionary getStringForKey:@"recordSlug"];
+            if (recordSlug != nil) {
+                SNRBrickworksApiQuery *model = [[SNRBrickworksApiQuery alloc] initWithSchemaSlug:schemaSlug recordSlug:recordSlug];
+                model.context = context;
+                model.fieldContext = fieldContext;
+
+                return model;
+            }
+
+            NSString *recordId = [dictionary getStringForKey:@"recordId"];
+            if (recordId != nil) {
+                SNRBrickworksApiQuery *model = [[SNRBrickworksApiQuery alloc] initWithSchemaSlug:schemaSlug recordId:recordId];
+                model.context = context;
+                model.fieldContext = fieldContext;
+                
+                return model;
+            }
         }
     }
     

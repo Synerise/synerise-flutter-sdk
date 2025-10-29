@@ -1,13 +1,32 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.6.0] - 2025-10-29
+
+### Fixed
+- [iOS] Potential issues with registering and updating accounts (also with Simple Authentication) when the `sex` property was set to `ClientSex.notSpecified`. This caused a `Bad Request` error. The problem occurred since version 2.4.0.
+- [iOS] Issue with the `sex` property in the `ClientAccountUpdateContext` model. It could not be updated. The problem occurred since version 2.4.0.
+- [iOS] Issue with the `agreements` property while registering, authenticating, and updating accounts (also with Simple Authentication). The property could not be updated. The problem occurred since version 2.4.0.
+
+### Added
+- The `Synerise.content.generateBrickworks(apiQuery, onSuccess, onError)` method. The new method generates a Brickworks record for the parameters provided in the query object.
+
+### Changed
+- Update of native SDK's dependencies.
+- Improvements to stability.
+
+
 ## [2.5.0] - 2025-10-15
+
+!!! THIS VERSION HAS POTENTIAL ISSUES WITH MANAGING ACCOUNT. USE VERSION 2.6.0 !!!
 
 ### Added
 - The `Synerise.injector.closeInAppMessage(campaignHash)` method to programmaticaly close a currently opened inapp from the application.
 
 
 ## [2.4.1] - 2025-09-26
+
+!!! THIS VERSION HAS POTENTIAL ISSUES WITH MANAGING ACCOUNT. USE VERSION 2.6.0 !!!
 
 ### Fixed
 - The `SRInApp.trackCustomEvent` method in the JS interface in the in-app messaging module. The method didn't work correctly since version 2.4.0.
@@ -18,6 +37,8 @@ All notable changes to this project will be documented in this file.
 
 
 ## [2.4.0] - 2025-09-24
+
+!!! THIS VERSION HAS POTENTIAL ISSUES WITH MANAGING ACCOUNT. USE VERSION 2.6.0 !!!
 
 ### Added
 - `SRInApp.internalMethod` method to JS interface in the in-app messaging module. This method allows to invoke the native SDK method from predefined methods. You can read more in the documentation about available methods and params you may use. 
@@ -41,10 +62,10 @@ All notable changes to this project will be documented in this file.
 ## [2.3.2] - 2025-07-28
 
 ### Fixed
-- `Attributes` class (used in `UpdateAccount` and `UpdateBasicAccount`) from now will support any Object not just String.
+- [Android] `Attributes` class (used in `UpdateAccount` and `UpdateBasicAccount`) from now will support any Object not just String.
 
 ### Changed
-- Upgraded version of `com.facebook.fresco:fresco` to 3.4.0
+- [Android] Upgraded version of `com.facebook.fresco:fresco` to 3.4.0
 
 ## [2.3.1] - 2025-06-23
 

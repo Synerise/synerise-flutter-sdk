@@ -548,7 +548,10 @@ NS_ASSUME_NONNULL_BEGIN
             
             model.firstName = [dictionary getStringForKey:@"firstName"];
             model.lastName = [dictionary getStringForKey:@"lastName"];
-            model.sex = SNR_StringToClientSex([dictionary getStringForKey:@"sex"]);
+            NSString *clientSex = [dictionary getStringForKey:@"sex"];
+            if (clientSex != nil) {
+                model.sex = SNR_StringToClientSex(clientSex);
+            }
             
             model.company = [dictionary getStringForKey:@"company"];
             model.address = [dictionary getStringForKey:@"address"];
@@ -574,7 +577,10 @@ NS_ASSUME_NONNULL_BEGIN
         model.firstName = [dictionary getStringForKey:@"firstName"];
         model.lastName = [dictionary getStringForKey:@"lastName"];
         model.displayName = [dictionary getStringForKey:@"displayName"];
-        model.sex = SNR_StringToClientSex([dictionary getStringForKey:@"sex"]);
+        NSString *clientSex = [dictionary getStringForKey:@"sex"];
+        if (clientSex != nil) {
+            model.sex = SNR_StringToClientSex(clientSex);
+        }
         model.phone = [dictionary getStringForKey:@"phone"];
         model.birthDate = [dictionary getStringForKey:@"birthDate"];
         model.avatarUrl = [dictionary getStringForKey:@"avatarUrl"];
@@ -607,7 +613,10 @@ NS_ASSUME_NONNULL_BEGIN
         model.firstName = [dictionary getStringForKey:@"firstName"];
         model.lastName = [dictionary getStringForKey:@"lastName"];
         model.displayName = [dictionary getStringForKey:@"displayName"];
-        model.sex = SNR_StringToClientSex([dictionary getStringForKey:@"sex"]);
+        NSString *clientSex = [dictionary getStringForKey:@"sex"];
+        if (clientSex != nil) {
+            model.sex = SNR_StringToClientSex(clientSex);
+        }
         model.birthDate = [dictionary getStringForKey:@"birthDate"];
         model.avatarUrl = [dictionary getStringForKey:@"avatarUrl"];
         
@@ -637,6 +646,52 @@ NS_ASSUME_NONNULL_BEGIN
         return model;
     }
     
+    return nil;
+}
+
+- (nullable SNRClientConditionalAuthenticationContext *)modelClientConditionalAuthenticationContextWithDictionary:(nullable NSDictionary *)dictionary {
+    if (dictionary != nil) {
+        SNRClientConditionalAuthenticationContext *model = [SNRClientConditionalAuthenticationContext new];
+        model.attributes = [dictionary getDictionaryForKey:@"attributes"];
+        model.agreements = [self modelClientAgreementsWithDictionary:[dictionary getDictionaryForKey:@"agreements"]];
+
+        return model;
+    }
+
+    return nil;
+}
+
+- (nullable SNRClientSimpleAuthenticationData *)modelClientSimpleAuthenticationDataWithDictionary:(nullable NSDictionary *)dictionary {
+    if (dictionary != nil) {
+        SNRClientSimpleAuthenticationData *model = [SNRClientSimpleAuthenticationData new];
+        model.email = [[dictionary getStringForKey:@"email"] lowercaseString];
+        model.phone = [dictionary getStringForKey:@"phone"];
+        model.customId = [dictionary getStringForKey:@"customId"];
+        model.uuid = [dictionary getStringForKey:@"uuid"];
+
+        model.firstName = [dictionary getStringForKey:@"firstName"];
+        model.lastName = [dictionary getStringForKey:@"lastName"];
+        model.displayName = [dictionary getStringForKey:@"displayName"];
+        NSString *clientSex = [dictionary getStringForKey:@"sex"];
+        if (clientSex != nil) {
+            model.sex = SNR_StringToClientSex(clientSex);
+        }
+        model.birthDate = [dictionary getStringForKey:@"birthDate"];
+        model.avatarUrl = [dictionary getStringForKey:@"avatarUrl"];
+
+        model.company = [dictionary getStringForKey:@"company"];
+        model.address = [dictionary getStringForKey:@"address"];
+        model.city = [dictionary getStringForKey:@"city"];
+        model.province = [dictionary getStringForKey:@"province"];
+        model.zipCode = [dictionary getStringForKey:@"zipCode"];
+        model.countryCode = [dictionary getStringForKey:@"countryCode"];
+
+        model.agreements = [self modelClientAgreementsWithDictionary:[dictionary getDictionaryForKey:@"agreements"]];
+
+        model.attributes = [dictionary getDictionaryForKey:@"attributes"];
+
+        return model;
+    }
     return nil;
 }
 
@@ -671,49 +726,6 @@ NS_ASSUME_NONNULL_BEGIN
         return model;
     }
     
-    return nil;
-}
-
-- (nullable SNRClientConditionalAuthenticationContext *)modelClientConditionalAuthenticationContextWithDictionary:(nullable NSDictionary *)dictionary {
-    if (dictionary != nil) {
-        SNRClientConditionalAuthenticationContext *model = [SNRClientConditionalAuthenticationContext new];
-        model.attributes = [dictionary getDictionaryForKey:@"attributes"];
-        model.agreements = [self modelClientAgreementsWithDictionary:[dictionary getDictionaryForKey:@"agreements"]];
-        
-        return model;
-    }
-    
-    return nil;
-}
-
-- (nullable SNRClientSimpleAuthenticationData *)modelClientSimpleAuthenticationDataWithDictionary:(nullable NSDictionary *)dictionary {
-    if (dictionary != nil) {
-        SNRClientSimpleAuthenticationData *model = [SNRClientSimpleAuthenticationData new];
-        model.email = [[dictionary getStringForKey:@"email"] lowercaseString];
-        model.phone = [dictionary getStringForKey:@"phone"];
-        model.customId = [dictionary getStringForKey:@"customId"];
-        model.uuid = [dictionary getStringForKey:@"uuid"];
-        
-        model.firstName = [dictionary getStringForKey:@"firstName"];
-        model.lastName = [dictionary getStringForKey:@"lastName"];
-        model.displayName = [dictionary getStringForKey:@"displayName"];
-        model.sex = SNR_StringToClientSex([dictionary getStringForKey:@"sex"]);
-        model.birthDate = [dictionary getStringForKey:@"birthDate"];
-        model.avatarUrl = [dictionary getStringForKey:@"avatarUrl"];
-        
-        model.company = [dictionary getStringForKey:@"company"];
-        model.address = [dictionary getStringForKey:@"address"];
-        model.city = [dictionary getStringForKey:@"city"];
-        model.province = [dictionary getStringForKey:@"province"];
-        model.zipCode = [dictionary getStringForKey:@"zipCode"];
-        model.countryCode = [dictionary getStringForKey:@"countryCode"];
-        
-        model.agreements = [self modelClientAgreementsWithDictionary:[dictionary getDictionaryForKey:@"agreements"]];
-        
-        model.attributes = [dictionary getDictionaryForKey:@"attributes"];
-        
-        return model;
-    }
     return nil;
 }
 
