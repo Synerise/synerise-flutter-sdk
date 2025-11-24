@@ -1,6 +1,18 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.6.1] - 2025-11-24
+
+### Fixed
+- [iOS] Issue with the `sortParamerters` key of the `Promotions/getPromotions` input when using the `SRInApp.internalMethod` method in the JS interface in the in-app messaging module. It was not mapped correctly.
+- [iOS] Issue that could have caused crash in the SDK reinitialization.
+- [iOS] Some potential issues with notification processing in `NotificationServiceExtension`.
+- [iOS] Issue with mapping `descriptionText` property in `Promotion` model.
+
+### Changed
+- Improvements to stability.
+
+
 ## [2.6.0] - 2025-10-29
 
 ### Fixed

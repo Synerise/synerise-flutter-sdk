@@ -1,4 +1,4 @@
-# Synerise Flutter SDK (synerise-flutter-sdk) (2.6.0)
+# Synerise Flutter SDK (synerise-flutter-sdk) (2.6.1)
 
 [![Platform](https://img.shields.io/badge/platform-iOS-orange.svg)](https://github.com/synerise/ios-sdk)
 [![Platform](https://img.shields.io/badge/platform-Android-orange.svg)](https://github.com/synerise/android-sdk)
