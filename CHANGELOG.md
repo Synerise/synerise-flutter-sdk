@@ -1,6 +1,17 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.6.2] - 2025-12-10
+
+### Fixed
+- [iOS] Some potential issues with notification processing in `NotificationServiceExtension`.
+- [iOS] Potential issue with the incorrect anonymous session after app reinstall.
+- [iOS] Potential issues with synchronizing data for shared storage when data was deleted.
+
+### Changed
+- Improvements to stability.
+
+
 ## [2.6.1] - 2025-11-24
 
 ### Fixed
