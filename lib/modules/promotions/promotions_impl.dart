@@ -1,3 +1,5 @@
+import 'package:synerise_flutter_sdk/model/promotions/promotion_activation_options.dart';
+
 import '../base/base_module_method_channel.dart';
 import '../base/base_module.dart';
 import '../../model/promotions/promotion.dart';
@@ -106,6 +108,23 @@ class PromotionsImpl extends BaseModule {
 
     result.onSuccess((result) {
       onSuccess();
+    }).onError((error) {
+      onError(error);
+    });
+  }
+
+  /// This function activates a promotion by a given code.
+  ///
+  /// Args:
+  ///   code (String): The parameter "code" is a String that represents the promotion code that needs to
+  /// be activated.
+  Future<void> activatePromotion(PromotionActivationOptions options,
+      {required void Function(Promotion) onSuccess,
+        required void Function(SyneriseError error) onError}) async {
+    SyneriseResult<Promotion> result = await _methods.activatePromotion(options);
+
+    result.onSuccess((result) {
+      onSuccess(result);
     }).onError((error) {
       onError(error);
     });

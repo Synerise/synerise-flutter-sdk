@@ -1,6 +1,20 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.7.0] - 2026-01-02
+
+### Fixed
+- [iOS] Optimization of the registration for push notifications process. The cache for that request is more efficient.
+
+### Added
+- We added a new `Synerise.promotions.activatePromotion(options, onSuccess, onError)` method. It's analogous to `Synerise.promotions.activatePromotionByUUID(uuid, onSuccess, onError)` and `Synerise.promotions.activatePromotionByCode(code, onSuccess, onError:)`. The new method activates the promotion that is defined for the provided options and fetches the promotion as a response.
+- The `includeVouchers` property in `PromotionsApiQuery` model to set a param that indicates if the promotion should contain vouchers.
+- The `checkGlobalActivationLimits` property in `PromotionsApiQuery` model to set param that checks if the promotion is available considering how many times it was activated.
+- The `vouchers` property in `Promotion` model that contains vouchers as an array with the `PromotionVoucherData` models.
+- `PromotionVoucherData` model representing a voucher that can be included in the `Promotion` model.
+- `DigitalCashback` in `PromotionDiscountType` enumeration type.
+
+
 ## [2.6.3] - 2025-12-15
 
 ### Fixed

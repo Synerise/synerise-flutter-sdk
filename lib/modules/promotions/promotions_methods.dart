@@ -1,3 +1,4 @@
+import '../../model/promotions/promotion_activation_options.dart';
 import '../../model/vouchers/voucher_codes_response.dart';
 import '../../model/promotions/promotion.dart';
 import '../../model/promotions/promotion_identifier.dart';
@@ -30,6 +31,12 @@ class PromotionsMethods extends BaseMethodChannel {
     return await SyneriseInvocation(methodChannel)
         .invokeSDKApiMethod<Promotion>('Promotions/getPromotionByCode',
             parameters: code, isMappable: true);
+  }
+
+  Future<SyneriseResult<Promotion>> activatePromotion(PromotionActivationOptions options) async {
+    return await SyneriseInvocation(methodChannel).invokeSDKApiMethod<Promotion>(
+        'Promotions/activatePromotionWithOptions',
+        parameters: options.asMap(), isMappable: true);
   }
 
   Future<SyneriseResult<void>> activatePromotionByUUID(String uuid) async {
