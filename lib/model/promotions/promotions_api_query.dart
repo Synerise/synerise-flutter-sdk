@@ -7,14 +7,19 @@ import '../../enums/promotions/promotion_type.dart';
 class PromotionsApiQuery extends BaseApiQuery {
   List<PromotionStatus> statuses = [];
   List<PromotionType> types = [];
+  bool checkGlobalActivationLimits = true;
+  bool includeVouchers = false;
 
   PromotionsApiQuery(
       {required this.statuses,
       required this.types,
+      required this.checkGlobalActivationLimits,
+      required this.includeVouchers,
       required super.sorting,
       required super.limit,
       required super.page,
-      required super.includeMeta});
+      required super.includeMeta
+      });
 
   /// This is a named constructor in the `PromotionsApiQuery` class that allows creating an instance of
   /// the class from a `Map` object.
@@ -22,6 +27,8 @@ class PromotionsApiQuery extends BaseApiQuery {
       : this(
             statuses: map['statuses'],
             types: map['types'],
+            checkGlobalActivationLimits: map['checkGlobalActivationLimits'],
+            includeVouchers: map['includeVouchers'],
             sorting: map['sorting'],
             limit: map['limit'],
             page: map['page'],
@@ -32,10 +39,12 @@ class PromotionsApiQuery extends BaseApiQuery {
   Map asMap() => {
         'statuses': _serializeStatusesList(statuses),
         'types': _serializeTypesList(types),
+        'checkGlobalActivationLimits': checkGlobalActivationLimits,
         'sorting': _serializeSortingList(sorting),
         'limit': limit,
         'page': page,
         'includeMeta': includeMeta,
+        'includeVouchers': includeVouchers
       };
 }
 

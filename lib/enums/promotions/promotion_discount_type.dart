@@ -10,7 +10,8 @@ enum PromotionDiscountType {
   twoForOne('2_FOR_1'),
   points('POINTS'),
   multibuy('MULTIBUY'),
-  exactPrice('EXACT_PRICE');
+  exactPrice('EXACT_PRICE'),
+  digitalCashback('DIGITAL_CASHBACK');
 
   const PromotionDiscountType(this.promotionDiscountType);
 
@@ -39,6 +40,8 @@ enum PromotionDiscountType {
       return PromotionDiscountType.multibuy;
     } else if (string == 'EXACT_PRICE') {
       return PromotionDiscountType.exactPrice;
+    } else if (string == 'DIGITAL_CASHBACK') {
+      return PromotionDiscountType.digitalCashback;
     } else {
       return PromotionDiscountType.none;
     }

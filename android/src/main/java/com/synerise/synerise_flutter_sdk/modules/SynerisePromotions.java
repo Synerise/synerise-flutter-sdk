@@ -8,12 +8,14 @@ import com.synerise.sdk.error.ApiError;
 import com.synerise.sdk.promotions.Promotions;
 import com.synerise.sdk.promotions.model.AssignVoucherData;
 import com.synerise.sdk.promotions.model.AssignVoucherResponse;
+import com.synerise.sdk.promotions.model.PromotionVoucherData;
 import com.synerise.sdk.promotions.model.VoucherCodesData;
 import com.synerise.sdk.promotions.model.VoucherCodesResponse;
 import com.synerise.sdk.promotions.model.promotion.DiscountModeDetails;
 import com.synerise.sdk.promotions.model.promotion.DiscountStep;
 import com.synerise.sdk.promotions.model.promotion.Promotion;
 import com.synerise.sdk.promotions.model.promotion.PromotionActivationKey;
+import com.synerise.sdk.promotions.model.promotion.PromotionActivationOptions;
 import com.synerise.sdk.promotions.model.promotion.PromotionDetails;
 import com.synerise.sdk.promotions.model.promotion.PromotionIdentifier;
 import com.synerise.sdk.promotions.model.promotion.PromotionImage;
@@ -40,6 +42,7 @@ public class SynerisePromotions implements SyneriseModule {
     IDataApiCall<PromotionResponse> getPromotionsCall;
     IDataApiCall<SinglePromotionResponse> getSinglePromotionCall;
     IDataApiCall<AssignVoucherResponse> getOrAssignVoucherCall;
+    IDataApiCall<SinglePromotionResponse> activatePromotionWithDataCall;
     IApiCall activatePromotionCall;
     IApiCall deactivatePromotionCall;
     private static SynerisePromotions instance;
@@ -63,6 +66,9 @@ public class SynerisePromotions implements SyneriseModule {
                 return;
             case "getPromotionByCode":
                 getPromotionByCode(call, result);
+                return;
+            case "activatePromotionWithOptions":
+                activatePromotion(call, result);
                 return;
             case "activatePromotionByUUID":
                 activatePromotionByUUID(call, result);
@@ -119,6 +125,8 @@ public class SynerisePromotions implements SyneriseModule {
         promotionsApiQuery.setLimit(promotionsMap.containsKey("limit") ? (int) promotionsMap.get("limit") : 100);
         promotionsApiQuery.setPage(promotionsMap.containsKey("page") ? (int) promotionsMap.get("page") : 1);
         promotionsApiQuery.setIncludeMeta(promotionsMap.containsKey("includeMeta") ? (boolean) promotionsMap.get("includeMeta") : false);
+        promotionsApiQuery.setIncludeVouchers(promotionsMap.containsKey("includeVouchers") ? (boolean) promotionsMap.get("includeVouchers") : false);
+        promotionsApiQuery.setCheckGlobalActivationLimits(promotionsMap.containsKey("checkGlobalActivationLimits") ? (boolean) promotionsMap.get("checkGlobalActivationLimits") : true);
         if (promotionsMap.containsKey("sorting")) {
             promotionsApiQuery.setSortParameters(arrayListToLinkedHashMapSorting((ArrayList) promotionsMap.get("sorting")));
         }
@@ -162,6 +170,43 @@ public class SynerisePromotions implements SyneriseModule {
             SyneriseModule.executeSuccessResult(promotionMap, result);
         }, apiError -> SyneriseModule.executeFailureResult(apiError, result));
     }
+
+    public void activatePromotion(MethodCall call, MethodChannel.Result result) {
+        Map<String, Object> optionsMap = (Map) call.arguments;
+        PromotionIdentifier promotionIdentifier = null;
+        if (optionsMap.containsKey("identifier")) {
+            Map<String, Object> promotionIdentifierMap = (HashMap<String, Object>) optionsMap.get("identifier");
+            PromotionActivationKey key = PromotionActivationKey.valueOf((String) promotionIdentifierMap.get("key"));
+            String value = (String) promotionIdentifierMap.get("value");
+            promotionIdentifier = new PromotionIdentifier(key, value);
+        }
+
+        if (promotionIdentifier != null) {
+            PromotionActivationOptions promotionActivationOptions = new PromotionActivationOptions(promotionIdentifier);
+            if (optionsMap.containsKey("pointsToUse")) {
+                Integer pointsToUse = (Integer) optionsMap.get("pointsToUse");
+                promotionActivationOptions.setPointsToUse(pointsToUse);
+            }
+            if (activatePromotionWithDataCall != null) activatePromotionWithDataCall.cancel();
+            activatePromotionWithDataCall = Promotions.activatePromotion(promotionActivationOptions);
+            activatePromotionWithDataCall.execute(new DataActionListener<SinglePromotionResponse>() {
+                @Override
+                public void onDataAction(SinglePromotionResponse response) {
+                    Map promotionMap = promotionToMap(response.getPromotion());
+                    SyneriseModule.executeSuccessResult(promotionMap, result);
+                }
+            }, new DataActionListener<ApiError>() {
+                @Override
+                public void onDataAction(ApiError apiError) {
+                    SyneriseModule.executeFailureResult(apiError, result);
+                }
+            });
+        } else {
+            ApiError apiError = new ApiError(new Throwable("Promotion identifier must be specified"));
+            SyneriseModule.executeFailureResult(apiError, result);
+        }
+    }
+
 
     public void activatePromotionByUUID(MethodCall call, MethodChannel.Result result) {
         String uuid = (String) call.arguments;
@@ -320,6 +365,9 @@ public class SynerisePromotions implements SyneriseModule {
             if (promotion.getDiscountModeDetails() != null) {
                 promotionMap.put("discountModeDetails", discountModeDetailsToMap(promotion.getDiscountModeDetails()));
             }
+            if (promotion.getVouchers() != null) {
+                promotionMap.put("vouchers", promotionVoucherDataToArrayList(promotion.getVouchers()));
+            }
 
             arrayList.add(promotionMap);
         }
@@ -387,6 +435,9 @@ public class SynerisePromotions implements SyneriseModule {
         if (promotion.getDiscountModeDetails() != null) {
             promotionMap.put("discountModeDetails", discountModeDetailsToMap(promotion.getDiscountModeDetails()));
         }
+        if (promotion.getVouchers() != null) {
+            promotionMap.put("vouchers", promotionVoucherDataToArrayList(promotion.getVouchers()));
+        }
 
         return promotionMap;
     }
@@ -443,6 +494,30 @@ public class SynerisePromotions implements SyneriseModule {
             imageMap.put("type", image.getType().getApiName());
 
             arrayList.add(imageMap);
+        }
+
+        return arrayList;
+    }
+
+    private ArrayList promotionVoucherDataToArrayList(List<PromotionVoucherData> array) {
+        ArrayList<Map<String, Object>> arrayList = new ArrayList();
+        for (int i = 0; i < array.size(); i++) {
+            PromotionVoucherData voucherData = array.get(i);
+            Map<String, Object> voucherMap = new HashMap<>();
+            voucherMap.put("code", voucherData.getCode());
+            voucherMap.put("status", voucherData.getStatus().getStatus());
+            voucherMap.put("autoGenerated", voucherData.getAutoGenerated());
+            if (voucherData.getLastingAt() != null) {
+                voucherMap.put("lastingAt", voucherData.getLastingAt().getTime());
+            }
+            if (voucherData.getRedeemedAt() != null) {
+                voucherMap.put("redeemedAt", voucherData.getRedeemedAt().getTime());
+            }
+            if (voucherData.getAssignedAt() != null) {
+                voucherMap.put("assignedAt", voucherData.getAssignedAt().getTime());
+            }
+
+            arrayList.add(voucherMap);
         }
 
         return arrayList;

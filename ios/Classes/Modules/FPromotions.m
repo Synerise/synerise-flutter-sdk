@@ -32,6 +32,8 @@ NS_ASSUME_NONNULL_BEGIN
         [self activatePromotionByUUID:call result:result];
     } else if ([calledMethod isEqualToString:@"activatePromotionByCode"]) {
         [self activatePromotionByCode:call result:result];
+    } else if ([calledMethod isEqualToString:@"activatePromotionWithOptions"]) {
+        [self activatePromotion:call result:result];
     } else if ([calledMethod isEqualToString:@"deactivatePromotionByUUID"]) {
         [self deactivatePromotionByUUID:call result:result];
     } else if ([calledMethod isEqualToString:@"deactivatePromotionByCode"]) {
@@ -144,6 +146,26 @@ NS_ASSUME_NONNULL_BEGIN
     }];
 }
 
+//activatePromotion(options: PromotionActivationOptions, onSuccess: (promotion: Promotion) => void, onError: (error: Error) => void)
+
+- (void)activatePromotion:(FlutterMethodCall *)call result:(FlutterResult)result
+{
+    NSDictionary *dictionary = call.arguments;
+    SNRPromotionActivationOptions *promotionActivationOptions = [self modelPromotionActivationOptionsWithDictionary:dictionary];
+    if (promotionActivationOptions != nil) {
+        [SNRPromotions activatePromotionWithOptions:promotionActivationOptions success:^(SNRPromotion *promotion) {
+            NSDictionary *promotionDictionary = [self dictionaryWithPromotion:promotion];
+            if (promotionDictionary != nil) {
+                result(promotionDictionary);
+            } else {
+                result([self defaultFlutterError]);
+            }
+        } failure:^(NSError *error) {
+            result([self makeFlutterErrorWithError:error]);
+        }];
+    }
+}
+
 //activatePromotionsBatch(promotionsToActivate: Array<PromotionIdentifier>, onSuccess: () => void, onError: (error: Error) => void)
 
 - (void)activatePromotionsBatch:(FlutterMethodCall *)call result:(FlutterResult)result
@@ -227,7 +249,7 @@ NS_ASSUME_NONNULL_BEGIN
         result([self makeFlutterErrorWithError:error]);
     }];}
 
-
+//getAssignedVoucherCodes(onSuccess: (voucherCodesResponse: VoucherCodesResponse) => void, onError: (error: Error) => void)
 
 - (void)getAssignedVoucherCodes:(FlutterMethodCall *)call result:(FlutterResult)result
 {
@@ -268,14 +290,38 @@ NS_ASSUME_NONNULL_BEGIN
             
             model.sorting = sortingNormalized;
         }
+
+        model.checkGlobalActivationLimits = [dictionary getBoolForKey:@"checkGlobalActivationLimits"];
         
         model.limit = [dictionary getIntegerForKey:@"limit"];
         model.page = [dictionary getIntegerForKey:@"page"];
         
         model.includeMeta = [dictionary getBoolForKey:@"includeMeta"];
+        model.includeVouchers = [dictionary getBoolForKey:@"includeVouchers"];
     }
     
     return model;
+}
+
+- (SNRPromotionActivationOptions *)modelPromotionActivationOptionsWithDictionary:(NSDictionary *)dictionary {
+    if (dictionary != nil) {
+        NSDictionary *promotionIdentifierDictionary = [dictionary getDictionaryForKey:@"identifier"];
+        if (promotionIdentifierDictionary != nil) {
+            SNRPromotionIdentifier *promotionIdentifier = [self modelPromotionIdentifierWithDictionary:promotionIdentifierDictionary];
+            if (promotionIdentifier != nil) {
+                SNRPromotionActivationOptions *options = [[SNRPromotionActivationOptions alloc] initWithIdentifier:promotionIdentifier];
+
+                NSNumber *pointsToUse = [dictionary getNumberForKey:@"pointsToUse"];
+                if (pointsToUse != nil) {
+                    options.pointsToUse = pointsToUse.integerValue;
+                }
+
+                return options;
+            }
+        }
+    }
+
+    return nil;
 }
 
 - (NSArray<SNRPromotionIdentifier *> *)modelPromotionIdentifiersWithArray:(NSArray<NSDictionary *> *)array {
@@ -345,7 +391,6 @@ NS_ASSUME_NONNULL_BEGIN
         NSMutableDictionary *dictionary = [@{} mutableCopy];
         
         [dictionary setString:model.uuid forKey:@"uuid"];
-        
         [dictionary setString:model.code forKey:@"code"];
         [dictionary setString:SNR_PromotionStatusToString(model.status) forKey:@"status"];
         [dictionary setString:SNR_PromotionTypeToString(model.type) forKey:@"type"];
@@ -369,6 +414,8 @@ NS_ASSUME_NONNULL_BEGIN
         [dictionary setString:SNR_PromotionItemScopeToString(model.itemScope) forKey:@"itemScope"];
         [dictionary setNumber:model.minBasketValue forKey:@"minBasketValue"];
         [dictionary setNumber:model.maxBasketValue forKey:@"maxBasketValue"];
+
+        [dictionary setArray:[self arrayWithPromotionVoucherDatas:model.vouchers] forKey:@"vouchers"];
         
         [dictionary setString:model.name forKey:@"name"];
         [dictionary setString:model.headline forKey:@"headline"];
@@ -440,6 +487,27 @@ NS_ASSUME_NONNULL_BEGIN
         return dictionary;
     }
     
+    return nil;
+}
+
+- (nullable NSArray *)arrayWithPromotionVoucherDatas:(NSArray<SNRPromotionVoucherData *> *)model {
+    if (model != nil) {
+        NSMutableArray *array = [@[] mutableCopy];
+        
+        for (SNRPromotionVoucherData *promotionVoucherData in model) {
+            NSMutableDictionary *dictionary = [@{} mutableCopy];
+            [dictionary setString:promotionVoucherData.code forKey:@"code"];
+            [dictionary setString:SNR_VoucherCodeStatusToString(promotionVoucherData.status) forKey:@"status"];
+            [dictionary setBool:promotionVoucherData.autoGenerated forKey:@"autoGenerated"];
+            [dictionary setDate:promotionVoucherData.lastingAt forKey:@"lastingAt"];
+            [dictionary setDate:promotionVoucherData.redeemedAt forKey:@"redeemedAt"];
+            [dictionary setDate:promotionVoucherData.assignedAt forKey:@"assignedAt"];
+            [array addObject:dictionary];
+        }
+        
+        return array;
+    }
+
     return nil;
 }
 

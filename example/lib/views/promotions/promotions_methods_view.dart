@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:synerise_flutter_sdk/model/promotions/promotion_activation_options.dart';
 import 'package:synerise_flutter_sdk/synerise.dart';
 
 import 'package:synerise_flutter_sdk_example/classes/utils.dart';
@@ -63,6 +64,11 @@ class _PromotionsMethodsViewState extends State<PromotionsMethodsView>
                             _getPromotionByUuidCall(uuidController.text),
                         icon: const Icon(Icons.percent_outlined),
                         label: const Text('getPromotionByUUID')),
+                    ElevatedButton.icon(
+                        onPressed: () =>
+                            _activatePromotionWithOptionsCall(),
+                        icon: const Icon(Icons.radio_button_checked_outlined),
+                        label: const Text('activatePromotionWithOptions')),
                     ElevatedButton.icon(
                         onPressed: () =>
                             _activatePromotionByUUIDCall(uuidController.text),
@@ -210,9 +216,11 @@ class _PromotionsMethodsViewState extends State<PromotionsMethodsView>
     PromotionsApiQuery promotionsApiQuery = PromotionsApiQuery(
         statuses: promotionsStatusList,
         types: promotionTypeList,
+        checkGlobalActivationLimits: false,
+        includeVouchers: false,
         sorting: apiQuerySortingList,
         limit: 10,
-        page: 10,
+        page: 1,
         includeMeta: true);
     await Synerise.promotions.getPromotions(promotionsApiQuery,
         onSuccess: (PromotionResponse promotionResponse) {
@@ -260,7 +268,7 @@ class _PromotionsMethodsViewState extends State<PromotionsMethodsView>
                   padding: const EdgeInsets.all(5),
                   decoration: BoxDecoration(
                       border: Border.all(width: 0.5, color: Colors.black)),
-                  child: Text(promotion.name.toString(), textScaleFactor: 0.5))
+                  child: Text('${promotion.name}', textScaleFactor: 0.5))
             ])));
           });
     }, onError: (SyneriseError error) {
@@ -287,7 +295,7 @@ class _PromotionsMethodsViewState extends State<PromotionsMethodsView>
                   padding: const EdgeInsets.all(5),
                   decoration: BoxDecoration(
                       border: Border.all(width: 0.5, color: Colors.black)),
-                  child: Text(promotion.name.toString(), textScaleFactor: 0.5))
+                  child: Text('${promotion.name}', textScaleFactor: 0.5))
             ])));
           });
     }, onError: (SyneriseError error) {
@@ -295,6 +303,17 @@ class _PromotionsMethodsViewState extends State<PromotionsMethodsView>
     });
   }
 
+  Future<void> _activatePromotionWithOptionsCall() async {
+    PromotionIdentifier promotionIdentifier =
+    PromotionIdentifier(key: PromotionIdentifierKey.uuid, value: 'b121d39f-2c26-4c36-8db5-2e9d9541b412');
+    PromotionActivationOptions options = PromotionActivationOptions(identifier: promotionIdentifier);
+    options.pointsToUse = 20;
+    await Synerise.promotions.activatePromotion(options, onSuccess: (Promotion promotion) {
+      Utils.displaySimpleAlert('${promotion.name} activated succesfully', context);
+    }, onError: (SyneriseError error) {
+      Utils.displaySimpleAlert(error.message, context);
+    });
+  }
   Future<void> _activatePromotionByUUIDCall(String uuid) async {
     await Synerise.promotions.activatePromotionByUUID(uuid, onSuccess: () {
       Utils.displaySimpleAlert('$uuid activated succesfully', context);
@@ -312,7 +331,7 @@ class _PromotionsMethodsViewState extends State<PromotionsMethodsView>
   }
 
   Future<void> _deactivatePromotionByUUIDCall(String uuid) async {
-    await Synerise.promotions.deactivatePromotionByUUID(uuid, onSuccess: () {
+    await Synerise.promotions.deactivatePromotionByUUID('b121d39f-2c26-4c36-8db5-2e9d9541b412', onSuccess: () {
       Utils.displaySimpleAlert('$uuid deactivated succesfully', context);
     }, onError: (SyneriseError error) {
       Utils.displaySimpleAlert(error.message, context);

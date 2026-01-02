@@ -1,3 +1,5 @@
+import 'package:synerise_flutter_sdk/model/promotions/promotion_voucher_data.dart';
+
 import '../../model/promotions/promotion_image.dart';
 import '../../enums/promotions/promotion_discount_mode.dart';
 import '../../enums/promotions/promotion_discount_type.dart';
@@ -35,6 +37,8 @@ class Promotion {
   int? minBasketValue;
   int? maxBasketValue;
 
+  List<PromotionVoucherData>? vouchers;
+
   String? name;
   String? headline;
   String? descriptionText;
@@ -52,43 +56,43 @@ class Promotion {
   List<String>? catalogIndexItems;
   List<Object>? tags;
 
-  Promotion._({
-    required this.uuid,
-    required this.code,
-    required this.status,
-    required this.type,
-    this.details,
-    this.redeemLimitPerClient,
-    this.redeemQuantityPerActivation,
-    this.currentRedeemedQuantity,
-    this.currentRedeemLimit,
-    this.activationCounter,
-    this.possibleRedeems,
-    required this.discountType,
-    this.discountValue,
-    required this.discountMode,
-    this.discountModeDetails,
-    this.requireRedeemedPoints,
-    required this.price,
-    required this.priority,
-    required this.itemScope,
-    this.minBasketValue,
-    this.maxBasketValue,
-    this.name,
-    this.headline,
-    this.descriptionText,
-    this.images,
-    this.assignedAt,
-    this.startAt,
-    this.expireAt,
-    this.lastingAt,
-    this.lastingTime,
-    this.displayFrom,
-    this.displayTo,
-    this.params,
-    this.catalogIndexItems,
-    this.tags,
-  });
+  Promotion._(
+      {required this.uuid,
+      required this.code,
+      required this.status,
+      required this.type,
+      this.details,
+      this.redeemLimitPerClient,
+      this.redeemQuantityPerActivation,
+      this.currentRedeemedQuantity,
+      this.currentRedeemLimit,
+      this.activationCounter,
+      this.possibleRedeems,
+      required this.discountType,
+      this.discountValue,
+      required this.discountMode,
+      this.discountModeDetails,
+      this.requireRedeemedPoints,
+      required this.price,
+      required this.priority,
+      required this.itemScope,
+      this.minBasketValue,
+      this.maxBasketValue,
+      this.vouchers,
+      this.name,
+      this.headline,
+      this.descriptionText,
+      this.images,
+      this.assignedAt,
+      this.startAt,
+      this.expireAt,
+      this.lastingAt,
+      this.lastingTime,
+      this.displayFrom,
+      this.displayTo,
+      this.params,
+      this.catalogIndexItems,
+      this.tags});
 
   /// `Promotion.fromMap(Map map)` is a factory constructor that creates a new instance of the
   /// `Promotion` class from a `Map` object. It takes a `Map` object as an argument and uses the values
@@ -127,6 +131,9 @@ class Promotion {
                 map['itemScope']),
             minBasketValue: map['minBasketValue'],
             maxBasketValue: map['maxBasketValue'],
+            vouchers: map['vouchers'] != null
+                ? _convertObjectListToPromotionVoucherDataList(map['vouchers'])
+                : null,
             name: map['name'],
             headline: map['headline'],
             descriptionText: map['descriptionText'],
@@ -154,7 +161,21 @@ class Promotion {
             catalogIndexItems: map['catalogIndexItems'] != null
                 ? List<String>.from(map['catalogIndexItems'])
                 : null,
-            tags: map['tags'] != null ? List<Object>.from(map['tags']) : null);
+            tags: map['tags'] != null ? List<Object>.from(map['tags']) : null
+            );
+}
+
+/// This function converts a list of objects to a list of PromotionVoucherData objects.
+List<PromotionVoucherData> _convertObjectListToPromotionVoucherDataList(
+    List<Object?> list) {
+  List<PromotionVoucherData> promotionVoucherDataList = [];
+  for (var promotionVoucherDataMap in list) {
+    promotionVoucherDataMap as Map<Object?, Object?>;
+    PromotionVoucherData promotionVoucherData =
+        PromotionVoucherData.fromMap(promotionVoucherDataMap);
+    promotionVoucherDataList.add(promotionVoucherData);
+  }
+  return promotionVoucherDataList;
 }
 
 /// This function converts a list of objects to a list of PromotionImage objects.
