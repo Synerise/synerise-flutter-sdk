@@ -18,7 +18,7 @@ All notable changes to this project will be documented in this file.
 ## [2.6.3] - 2025-12-15
 
 ### Fixed
-- [iOS] Potential issue with destroyinh a session after a manual API key change (`Synerise.settings.sdk.shouldDestroySessionOnApiKeyChange` on `true`).
+- [iOS] Potential issue with destroying a session after a manual API key change (`Synerise.settings.sdk.shouldDestroySessionOnApiKeyChange` on `true`).
 - [iOS] Potential issues with authentication requests with a slow internet connection.
 - [iOS] Issue that could have caused a freeze when deleting an account.
 
