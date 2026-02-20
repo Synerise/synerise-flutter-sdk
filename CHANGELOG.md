@@ -1,6 +1,17 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.8.0] - 2026-02-20
+
+### Fixed
+- [Android] Samsung issue with client.applicationStarted. Event was not sent properly due to wrong state of runningProcess on Samsung only.
+- [Android] Issue with mapping errors from promotions. Now it should correctly map to ApiErrorBody.
+- [Android] Issue with double OnDismissed callbacks in OnInAppListener.
+
+### Added
+- `SRInApp.getItem`, `SRInApp.setItem`, `SRInApp.removeItem` and `SRInApp.clear` methods to the JS interface in the in-app messaging module, allowing you to manage storage for the in-app message scoped to the current client context. You can read more in the documentation.
+
+
 ## [2.7.0] - 2026-01-02
 
 ### Fixed
@@ -18,7 +29,7 @@ All notable changes to this project will be documented in this file.
 ## [2.6.3] - 2025-12-15
 
 ### Fixed
-- [iOS] Potential issue with destroying a session after a manual API key change (`Synerise.settings.sdk.shouldDestroySessionOnApiKeyChange` on `true`).
+- [iOS] Potential issue with destroyinh a session after a manual API key change (`Synerise.settings.sdk.shouldDestroySessionOnApiKeyChange` on `true`).
 - [iOS] Potential issues with authentication requests with a slow internet connection.
 - [iOS] Issue that could have caused a freeze when deleting an account.
 
