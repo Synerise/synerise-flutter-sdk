@@ -1,7 +1,7 @@
 /// The class Recommendation represents a recommendation with attributes and an item ID, and can be
 /// converted to and from a map.
 class Recommendation {
-  final Map<String, Object> attributes;
+  final Map<String, dynamic> attributes;
   final String itemID;
 
   Recommendation._({
@@ -13,7 +13,7 @@ class Recommendation {
   /// a new instance of the `Recommendation` class using the values from the input `Map`.
   Recommendation.fromMap(Map map)
       : this._(
-          attributes: Map<String, Object>.from(map['attributes']),
+          attributes: Map<String, dynamic>.from(map['attributes']),
           itemID: map['itemID'],
         );
 
