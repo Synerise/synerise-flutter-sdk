@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.8.1] - 2026-02-25
+
+### Fixed
+- Issue with mapping `attributes` property in `Recommendation` model.
+
+
 ## [2.8.0] - 2026-02-20
 
 ### Fixed
