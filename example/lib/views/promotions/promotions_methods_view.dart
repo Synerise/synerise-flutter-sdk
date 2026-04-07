@@ -216,6 +216,7 @@ class _PromotionsMethodsViewState extends State<PromotionsMethodsView>
     PromotionsApiQuery promotionsApiQuery = PromotionsApiQuery(
         statuses: promotionsStatusList,
         types: promotionTypeList,
+        presentOnly: true,
         checkGlobalActivationLimits: false,
         includeVouchers: false,
         sorting: apiQuerySortingList,

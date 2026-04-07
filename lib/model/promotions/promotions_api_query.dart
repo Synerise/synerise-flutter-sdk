@@ -7,12 +7,14 @@ import '../../enums/promotions/promotion_type.dart';
 class PromotionsApiQuery extends BaseApiQuery {
   List<PromotionStatus> statuses = [];
   List<PromotionType> types = [];
+  bool presentOnly = true;
   bool checkGlobalActivationLimits = true;
   bool includeVouchers = false;
 
   PromotionsApiQuery(
       {required this.statuses,
       required this.types,
+      required this.presentOnly,
       required this.checkGlobalActivationLimits,
       required this.includeVouchers,
       required super.sorting,
@@ -27,6 +29,7 @@ class PromotionsApiQuery extends BaseApiQuery {
       : this(
             statuses: map['statuses'],
             types: map['types'],
+            presentOnly: map['presentOnly'],
             checkGlobalActivationLimits: map['checkGlobalActivationLimits'],
             includeVouchers: map['includeVouchers'],
             sorting: map['sorting'],
@@ -39,6 +42,7 @@ class PromotionsApiQuery extends BaseApiQuery {
   Map asMap() => {
         'statuses': _serializeStatusesList(statuses),
         'types': _serializeTypesList(types),
+        'presentOnly': presentOnly,
         'checkGlobalActivationLimits': checkGlobalActivationLimits,
         'sorting': _serializeSortingList(sorting),
         'limit': limit,
