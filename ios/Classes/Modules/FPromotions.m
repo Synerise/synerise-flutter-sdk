@@ -291,6 +291,7 @@ NS_ASSUME_NONNULL_BEGIN
             model.sorting = sortingNormalized;
         }
 
+        model.presentOnly = [dictionary getBoolForKey:@"presentOnly"];
         model.checkGlobalActivationLimits = [dictionary getBoolForKey:@"checkGlobalActivationLimits"];
         
         model.limit = [dictionary getIntegerForKey:@"limit"];

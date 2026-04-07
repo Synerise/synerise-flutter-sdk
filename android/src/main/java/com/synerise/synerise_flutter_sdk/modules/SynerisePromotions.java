@@ -126,6 +126,7 @@ public class SynerisePromotions implements SyneriseModule {
         promotionsApiQuery.setPage(promotionsMap.containsKey("page") ? (int) promotionsMap.get("page") : 1);
         promotionsApiQuery.setIncludeMeta(promotionsMap.containsKey("includeMeta") ? (boolean) promotionsMap.get("includeMeta") : false);
         promotionsApiQuery.setIncludeVouchers(promotionsMap.containsKey("includeVouchers") ? (boolean) promotionsMap.get("includeVouchers") : false);
+        promotionsApiQuery.setPresentOnly(promotionsMap.containsKey("presentOnly") ? (boolean) promotionsMap.get("presentOnly") : true);
         promotionsApiQuery.setCheckGlobalActivationLimits(promotionsMap.containsKey("checkGlobalActivationLimits") ? (boolean) promotionsMap.get("checkGlobalActivationLimits") : true);
         if (promotionsMap.containsKey("sorting")) {
             promotionsApiQuery.setSortParameters(arrayListToLinkedHashMapSorting((ArrayList) promotionsMap.get("sorting")));

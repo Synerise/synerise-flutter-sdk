@@ -1,6 +1,24 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.9.0] - 2026-04-07
+
+### Fixed
+- [Android] ANR issues: key generation on main thread, possible ANR when creating WorkerManager and when getting definitions during push registration.
+- [Android] Crash when dismissing in-app dialog after Activity destruction.
+- [Android] Token refresh retry mechanism now clears cached errors to prevent poisoning subsequent retry attempts.
+- [iOS] Potential issue that could have caused a freeze in rare cases when use `Synerise.settings.sdk.doNotTrack`.
+- [iOS] Issue that could have caused crash during SDK reinitialization.
+- [iOS] Potential issues with mapping event triggers in in-app messaging.
+
+### Added
+- The `presentOnly` property in `PromotionsApiQuery` model to set a param that indicates if only currently active promotions should be returned.
+
+### Changed
+- [iOS] Management token optimalizations.
+- Improvements to stability.
+
+
 ## [2.8.1] - 2026-02-25
 
 ### Fixed
