@@ -1,6 +1,24 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.10.0] - 2026-06-01
+
+### Fixed
+- [iOS] Issue with invoking helper methods for notifications (for example, `Synerise.isSyneriseNotification(_:)`) in notification service and content extensions.
+- [iOS] Issue that could have caused problems with re-authorizing anonymous tokens when the app was removed and installed again. The problem occurred since version 5.12.1.
+
+### Added
+- `Client/destroySession` method available in the `SRInApp.internalMethod` method in the JS interface in the in-app messaging module. This method is equivalent to the `Synerise.client.destroySession()` method in in-app messaging.
+- [iOS] More debug logs.
+
+### Removed
+- [iOS] Client recovery mechanism that allowed recovering an UUID for an anonymous client after the app was reinstalled while the client was logged in.
+
+### Changed
+- [iOS] Optimization of the in-app messaging module.
+- Improvements to stability.
+
+
 ## [2.9.0] - 2026-04-07
 
 ### Fixed
