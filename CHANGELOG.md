@@ -1,6 +1,18 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.11.0] - 2026-07-28
+
+### Added
+- `Synerise.injector.inAppContext` property to set the context for use in JS interface in the in-app messaging module.
+- `Synerise.injector.notifyInAppContextChange()` method to trigger JS interface callback function in the in-app messaging module (`SRInApp.onContextFromApp(context)`).
+- `SRInApp.onContextFromApp(context)` callback function to JS interface in the in-app messaging module. This callback function allows notifying about the context change after `Injector.notifyInAppContextChange()` is invoked.  
+- `SRInApp.getContextFromApp()` method to JS interface in the in-app messaging module. This method allows to get the context from the host app available in JS interface in the in-app messaging module.
+- `SRInApp.handleCustomMethod(name, params, timeoutMs)` method to JS interface in the in-app messaging module. This method allows communicating with your host app.
+- `onCustomMethod(data, name, parameters, completion:)` callback method to `InjectorInAppMessageListener`. This method is invoked when the JS interface of the in-app messaging module invokes the `SRInApp.handleCustomMethod(name, params, timeoutMs)` method. Notice, that it is required to invoke `completion.success(_:)` or `completion.failure(_:)` to resolve the pending in-app message JS Promise.
+
+To learn how to use the new methods and properties, see https://hub.synerise.com/docs/campaign/in-app-messages/creating-inapp-templates/creating-inapp-template#receive-context-from-the-application
+
 ## [2.10.0] - 2026-06-01
 
 ### Fixed
