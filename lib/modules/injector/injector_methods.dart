@@ -15,4 +15,25 @@ class InjectorMethods extends BaseMethodChannel {
     return await SyneriseInvocation(methodChannel)
         .invokeSDKMethod('Injector/handleDeepLinkBySDK', parameters: deepLink);
   }
+
+  Future<void> setInAppContext(Map<String, dynamic> context) async {
+    return await SyneriseInvocation(methodChannel)
+        .invokeSDKMethod<void>('Injector/setInAppContext', parameters: context);
+  }
+
+  Future<void> notifyInAppContextChange() async {
+    return await SyneriseInvocation(methodChannel)
+        .invokeSDKMethod<void>('Injector/notifyInAppContextChange');
+  }
+
+  Future<void> resolveInAppCustomMethod(String callId, bool success,
+      Object? result, String? error) async {
+    return await SyneriseInvocation(methodChannel)
+        .invokeSDKMethod<void>('Injector/resolveInAppCustomMethod', parameters: {
+      "callId": callId,
+      "success": success,
+      "result": result,
+      "error": error,
+    });
+  }
 }

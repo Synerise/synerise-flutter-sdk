@@ -11,6 +11,7 @@ import 'classes/utils.dart';
 import 'views/client/client_methods_view.dart';
 import 'views/content/content_methods_view.dart';
 import 'views/promotions/promotions_methods_view.dart';
+import 'views/injector/in_app_context_view.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -255,6 +256,16 @@ class _InitialViewState extends State<InitialView> {
                   if (currentInAppMessageCampaignHash != null) {
                     Synerise.injector.closeInAppMessage(currentInAppMessageCampaignHash!);
                   }
+                },
+              ),
+              ElevatedButton(
+                child: const Text('InApp Context & Custom Methods'),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const InAppContextView()),
+                  );
                 },
               )
             ])))));

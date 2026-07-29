@@ -1,11 +1,13 @@
 // ignore_for_file: unused_local_variable
 
+import 'dart:collection';
+
 import 'package:flutter/services.dart';
 
-import '../base/base_module_method_channel.dart';
 import '../base/base_module.dart';
 import '../../enums/injector/synerise_source.dart';
 import '../../model/in_app/in_app_message_data.dart';
+import '../../model/in_app/in_app_custom_method_completion.dart';
 import './injector_methods.dart';
 
 typedef InjectorListenerFunction = void Function(InjectorListener listener);
@@ -25,8 +27,41 @@ class InjectorInAppMessageListener {
   void Function(InAppMessageData data, String url)? onOpenUrl;
   void Function(InAppMessageData data, String deepLink)? onDeepLink;
   void Function(InAppMessageData data, String name, Map<String, String> parameters)? onCustomAction;
+  void Function(InAppMessageData data, String name, Map<String, dynamic> parameters, InAppCustomMethodCompletion completion)? onCustomMethod;
 
   InjectorInAppMessageListener();
+}
+
+class _SyncedInAppContext extends MapBase<String, dynamic> {
+  final Map<String, dynamic> _target;
+  final void Function() _onChange;
+
+  _SyncedInAppContext(this._target, this._onChange);
+
+  @override
+  dynamic operator [](Object? key) => _target[key];
+
+  @override
+  void operator []=(String key, dynamic value) {
+    _target[key] = value;
+    _onChange();
+  }
+
+  @override
+  void clear() {
+    _target.clear();
+    _onChange();
+  }
+
+  @override
+  Iterable<String> get keys => _target.keys;
+
+  @override
+  dynamic remove(Object? key) {
+    final value = _target.remove(key);
+    _onChange();
+    return value;
+  }
 }
 
 class InjectorImpl extends BaseModule {
@@ -35,6 +70,9 @@ class InjectorImpl extends BaseModule {
 
   final InjectorListener _listener = InjectorListener();
   final InjectorInAppMessageListener _inAppMessageListener = InjectorInAppMessageListener();
+
+  final Map<String, dynamic> _inAppContextTarget = {};
+  late final Map<String, dynamic> inAppContext = _SyncedInAppContext(_inAppContextTarget, _pushInAppContext);
 
   @override
   void beforeInitialization() async {
@@ -139,7 +177,7 @@ class InjectorImpl extends BaseModule {
     String variantIdentifier = inAppMessageDataArguments['variantIdentifier'];
     Map<String, String> additionalParamaters = Map<String, String>.from(
         inAppMessageDataArguments['additionalParameters']);
-    bool isTest = inAppMessageDataArguments['isTest'];
+    bool isTest = inAppMessageDataArguments['isTest'] ?? false;
     InAppMessageData data = InAppMessageData(
         campaignHash, variantIdentifier, additionalParamaters, isTest);
 
@@ -182,6 +220,36 @@ class InjectorImpl extends BaseModule {
       }
       return;
     }
+
+    if (listenerMethodName == 'onCustomMethod') {
+      String callId = call.arguments['callId'];
+      String name = call.arguments['name'];
+      Map<String, dynamic> parameters = call.arguments['parameters'] != null
+          ? Map<String, dynamic>.from(call.arguments['parameters'])
+          : <String, dynamic>{};
+
+      InAppCustomMethodCompletion completion = InAppCustomMethodCompletion(
+        (result) => _methods.resolveInAppCustomMethod(callId, true, result, null),
+        (errorMessage) => _methods.resolveInAppCustomMethod(callId, false, null, errorMessage),
+      );
+
+      final onCustomMethod = _inAppMessageListener.onCustomMethod;
+      if (onCustomMethod != null) {
+        onCustomMethod(data, name, parameters, completion);
+      } else {
+        completion.failure("An error has occurred (the listener method `onCustomMethod(data, name, parameters, completion:)` is not implemented).");
+      }
+      return;
+    }
+  }
+
+  /// This function notifies current in-app messages that context from the app was changed.
+  void notifyInAppContextChange() {
+    _methods.notifyInAppContextChange();
+  }
+
+  void _pushInAppContext() {
+    _methods.setInAppContext(Map<String, dynamic>.from(_inAppContextTarget));
   }
 
   /// This function closes the current in-app message.
