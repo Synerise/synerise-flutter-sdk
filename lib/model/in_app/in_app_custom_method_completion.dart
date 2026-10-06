@@ -1,4 +1,5 @@
 /// Completion handler used to resolve a custom method invoked from an in-app message.
+/// Resolve it exactly once — the first resolution wins and any later call is ignored.
 ///
 class InAppCustomMethodCompletion {
   final void Function(Object? result) _onSuccess;

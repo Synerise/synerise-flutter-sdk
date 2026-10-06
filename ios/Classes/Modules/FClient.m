@@ -11,6 +11,21 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+static SNRClientIdentityProvider FClientIdentityProviderFromString(NSString *value) {
+    if ([value isEqualToString:@"FACEBOOK"]) {
+        return SNRClientIdentityProviderFacebook;
+    } else if ([value isEqualToString:@"OAUTH"]) {
+        return SNRClientIdentityProviderOAuth;
+    } else if ([value isEqualToString:@"APPLE"]) {
+        return SNRClientIdentityProviderApple;
+    } else if ([value isEqualToString:@"GOOGLE"]) {
+        return SNRClientIdentityProviderGoogle;
+    } else if ([value isEqualToString:@"SYNERISE"]) {
+        return SNRClientIdentityProviderSynerise;
+    }
+    return SNRClientIdentityProviderUnknown;
+}
+
 @interface FClient ()
 
 @end
@@ -203,7 +218,7 @@ NS_ASSUME_NONNULL_BEGIN
     id token = [dictionary getStringForKey:@"tokenString"];
     
     NSString *clientIdentityProviderString = [dictionary getStringForKey:@"identityProvider"];
-    SNRClientIdentityProvider clientIdentityProvider = SNR_StringToClientIdentityProvider(clientIdentityProviderString);
+    SNRClientIdentityProvider clientIdentityProvider = FClientIdentityProviderFromString(clientIdentityProviderString);
     
     NSDictionary *contextDictionary = dictionary[@"context"];
     NSString *authId = contextDictionary[@"authId"];
@@ -221,7 +236,7 @@ NS_ASSUME_NONNULL_BEGIN
     
     id token = [dictionary getStringForKey:@"tokenString"];
     NSString *clientIdentityProviderString = [dictionary getStringForKey:@"identityProvider"];
-    SNRClientIdentityProvider clientIdentityProvider = SNR_StringToClientIdentityProvider(clientIdentityProviderString);
+    SNRClientIdentityProvider clientIdentityProvider = FClientIdentityProviderFromString(clientIdentityProviderString);
     NSString *authID;
     SNRClientConditionalAuthenticationContext *context;
     
@@ -524,7 +539,7 @@ NS_ASSUME_NONNULL_BEGIN
     
     id clientAuthFactor = dictionary[@"clientAuthFactor"];
     NSString *clientIdentityProviderString = dictionary[@"clientIdentityProviderString"];
-    SNRClientIdentityProvider clientIdentityProvider = SNR_StringToClientIdentityProvider(clientIdentityProviderString);
+    SNRClientIdentityProvider clientIdentityProvider = FClientIdentityProviderFromString(clientIdentityProviderString);
     NSString *authId = dictionary[@"authId"];
     
     [SNRClient deleteAccount:clientAuthFactor clientIdentityProvider:clientIdentityProvider authID:authId success:^() {

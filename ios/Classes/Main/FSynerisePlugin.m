@@ -9,6 +9,7 @@
 #import "FSynerisePlugin.h"
 #import "FSyneriseManager.h"
 #import "FBaseModule.h"
+#import "FInlineInAppViewFactory.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -35,6 +36,9 @@ NS_ASSUME_NONNULL_BEGIN
     [FSyneriseManager sharedInstance].backgroundChannel = backgroundChannel;
     
     [[FSyneriseManager sharedInstance] createModules];
+
+    FInlineInAppViewFactory *inlineInAppViewFactory = [[FInlineInAppViewFactory alloc] initWithMessenger:[registrar messenger]];
+    [registrar registerViewFactory:inlineInAppViewFactory withId:@"synerise_flutter_sdk/inline_in_app_view"];
 }
 
 #pragma mark - Public

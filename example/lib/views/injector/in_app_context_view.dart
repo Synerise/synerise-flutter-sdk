@@ -31,20 +31,23 @@ class _InAppContextViewState extends State<InAppContextView> {
     _seedContext();
 
     Synerise.injector.inAppMessageListener((listener) {
-      listener.onPresent = (data) => _appendLog('onPresent', data.campaignHash);
-      listener.onHide = (data) => _appendLog('onHide', data.campaignHash);
-      listener.onOpenUrl = (data, url) => _appendLog('onOpenUrl', url);
-      listener.onDeepLink = (data, deepLink) => _appendLog('onDeepLink', deepLink);
-      listener.onCustomAction = (data, name, parameters) =>
-          _appendLog('onCustomAction', '$name params=${_stringify(parameters)}');
+      listener.onPresent = (data) => _appendLog('onPresent', '${data.campaignHash} isTest=${data.isTest}');
+      listener.onHide = (data) => _appendLog('onHide', '${data.campaignHash} isTest=${data.isTest}');
+      listener.onOpenUrl = (data, url) => _appendLog('onOpenUrl', '$url isTest=${data.isTest}');
+      listener.onDeepLink =
+          (data, deepLink) => _appendLog('onDeepLink', '$deepLink isTest=${data.isTest}');
+      listener.onCustomAction = (data, name, parameters) => _appendLog('onCustomAction',
+          '$name isTest=${data.isTest} params=${_stringify(parameters)}');
       listener.onCustomMethod = (data, name, parameters, completion) {
-        _appendLog('onCustomMethod', '$name params=${_stringify(parameters)}');
+        _appendLog('onCustomMethod', '$name isTest=${data.isTest} params=${_stringify(parameters)}');
         _handleCustomMethod(name, parameters, completion);
       };
     });
 
     _appendLog('init',
         'InApp listener registered. Trigger your campaign, then use the InApp.');
+    _appendLog('init',
+        'customMethod result-type tests: returnString, returnNumber, returnBoolean, returnArray, returnObject, returnNull');
   }
 
   @override
@@ -130,6 +133,15 @@ class _InAppContextViewState extends State<InAppContextView> {
     _appendLog('notify', 'notifyInAppContextChange() called');
   }
 
+  void _setJinjavaContext() {
+    Synerise.injector.inAppContext[InAppContextKey.jinjavaContext] = <String, Object>{
+      'tier': 'gold',
+      'cart': 3,
+    };
+    _refreshContext();
+    _appendLog('jinjava', "set jinjavaContext = { tier: 'gold', cart: 3 }");
+  }
+
   void _sendTriggerEvent() {
     Synerise.tracker.send(CustomEvent('InApp context test', 'inapp.context.test', null));
     _appendLog('event', 'Sent trigger event: inapp.context.test');
@@ -139,6 +151,27 @@ class _InAppContextViewState extends State<InAppContextView> {
     final raw = parameters['delayMs'];
     final delay = raw is num ? raw.toInt() : 500;
     return delay.clamp(0, 15000);
+  }
+
+  /// Result-type round-trip cases from the RN sample: the overlay completion must accept every JSON
+  /// type, not only maps.
+  static final Map<String, Object?> _typedResults = <String, Object?>{
+    'returnString': 'plain string result',
+    'returnNumber': 42.5,
+    'returnBoolean': true,
+    'returnArray': <Object?>['first', 2, true, <String, Object>{'nested': 'value'}],
+    'returnObject': <String, Object>{'status': 'ok', 'nested': <String, Object>{'level': 2}},
+    'returnNull': null,
+  };
+
+  String _describeResultType(Object? value) {
+    if (value == null) return 'null';
+    if (value is List) return 'array';
+    if (value is Map) return 'object';
+    if (value is String) return 'string';
+    if (value is num) return 'number';
+    if (value is bool) return 'boolean';
+    return value.runtimeType.toString();
   }
 
   void _handleCustomMethod(
@@ -170,6 +203,14 @@ class _InAppContextViewState extends State<InAppContextView> {
           'currency': 'PLN',
         };
         _appendLog('customMethod', '-> success: ${_stringify(result)}');
+        completion.success(result);
+        return;
+      }
+
+      if (_typedResults.containsKey(name)) {
+        final Object? result = _typedResults[name];
+        _appendLog('customMethod',
+            '-> success (${_describeResultType(result)}): ${_stringify(result)}');
         completion.success(result);
         return;
       }
@@ -225,6 +266,9 @@ class _InAppContextViewState extends State<InAppContextView> {
                   const SizedBox(height: 8),
                   ElevatedButton(
                       onPressed: _addToContext, child: const Text('Add to context')),
+                  ElevatedButton(
+                      onPressed: _setJinjavaContext,
+                      child: const Text('Set jinjavaContext')),
                   ElevatedButton(
                       onPressed: _notifyContextChange,
                       child: const Text('Notify context change')),
