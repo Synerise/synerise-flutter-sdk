@@ -11,7 +11,8 @@ import 'classes/utils.dart';
 import 'views/client/client_methods_view.dart';
 import 'views/content/content_methods_view.dart';
 import 'views/promotions/promotions_methods_view.dart';
-import 'views/injector/in_app_context_view.dart';
+import 'views/injector/inline/inline_in_app_section_screen.dart';
+import 'views/injector/overlay/overlay_section_screen.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -259,12 +260,22 @@ class _InitialViewState extends State<InitialView> {
                 },
               ),
               ElevatedButton(
-                child: const Text('InApp Context & Custom Methods'),
+                child: const Text('Inline InApp'),
                 onPressed: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const InAppContextView()),
+                        builder: (context) => const InlineInAppSectionScreen()),
+                  );
+                },
+              ),
+              ElevatedButton(
+                child: const Text('Overlay InApp'),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const OverlaySectionScreen()),
                   );
                 },
               )

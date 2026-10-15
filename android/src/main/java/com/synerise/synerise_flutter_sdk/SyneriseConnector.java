@@ -16,6 +16,7 @@ import com.synerise.synerise_flutter_sdk.modules.SyneriseNotifications;
 import com.synerise.synerise_flutter_sdk.modules.SynerisePromotions;
 import com.synerise.synerise_flutter_sdk.modules.SyneriseTracker;
 import com.synerise.synerise_flutter_sdk.modules.SyneriseSettings;
+import com.synerise.synerise_flutter_sdk.views.InlineInAppViewFactory;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -37,6 +38,7 @@ public class SyneriseConnector implements FlutterPlugin, MethodCallHandler, Acti
     public Context context;
     public static Application app;
     private Activity activity;
+    private MethodChannel reverseChannel;
     private static int engineHashCode;
     private static volatile boolean isCalled = false;
 
@@ -58,10 +60,19 @@ public class SyneriseConnector implements FlutterPlugin, MethodCallHandler, Acti
                         StandardMethodCodec.INSTANCE,
                         taskQueue);
         backgroundChannel.setMethodCallHandler(this);
+
+        flutterPluginBinding.getPlatformViewRegistry().registerViewFactory(
+                InlineInAppViewFactory.VIEW_TYPE,
+                new InlineInAppViewFactory(messenger));
+
+        reverseChannel = SyneriseMethodChannel.createChannel(messenger);
+        SyneriseMethodChannel.bindChannelIfNoneBound(reverseChannel);
     }
 
     @Override
     public void onDetachedFromEngine(@NonNull FlutterPluginBinding binding) {
+        SyneriseMethodChannel.unbindChannel(reverseChannel);
+        reverseChannel = null;
         if (engineHashCode == binding.hashCode()) {
             channel.setMethodCallHandler(null);
         }
@@ -94,6 +105,7 @@ public class SyneriseConnector implements FlutterPlugin, MethodCallHandler, Acti
     @Override
     public void onAttachedToActivity(@NonNull ActivityPluginBinding binding) {
         activity = binding.getActivity();
+        bindReverseChannelToUiEngine();
     }
 
     @Override
@@ -104,11 +116,18 @@ public class SyneriseConnector implements FlutterPlugin, MethodCallHandler, Acti
     @Override
     public void onReattachedToActivityForConfigChanges(@NonNull ActivityPluginBinding binding) {
         this.activity = binding.getActivity();
+        bindReverseChannelToUiEngine();
     }
 
     @Override
     public void onDetachedFromActivity() {
         this.activity = null;
+    }
+
+    private void bindReverseChannelToUiEngine() {
+        if (reverseChannel != null) {
+            SyneriseMethodChannel.bindChannel(reverseChannel);
+        }
     }
 
     private SyneriseModule handleModule(String callMethodModule) {

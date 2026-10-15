@@ -75,8 +75,12 @@ export 'package:synerise_flutter_sdk/enums/vouchers/voucher_code_status.dart';
 
 // INJECTOR
 export 'package:synerise_flutter_sdk/enums/injector/synerise_source.dart';
+export 'package:synerise_flutter_sdk/enums/injector/in_app_context_key.dart';
 export 'package:synerise_flutter_sdk/model/in_app/in_app_message_data.dart';
+export 'package:synerise_flutter_sdk/model/in_app/inline_in_app_message_data.dart';
+export 'package:synerise_flutter_sdk/model/in_app/inline_in_app_size.dart';
 export 'package:synerise_flutter_sdk/model/in_app/in_app_custom_method_completion.dart';
+export 'package:synerise_flutter_sdk/modules/injector/inapp/inline_in_app_view.dart';
 
 // TRACKER
 export 'package:synerise_flutter_sdk/events/event.dart';

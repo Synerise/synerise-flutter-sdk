@@ -1,6 +1,38 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [3.0.0] - 2026-10-05
+
+IMPORTANT:
+- [iOS] Notification content extensions are no longer supported in Objective-C. Use Swift instead.
+
+### Fixed
+- `Synerise.injector.inAppContext` is cleared when the API key changes, so context from a previous workspace is not passed.
+- [Android] Crash (`NullPointerException`) when an in-app message was shown, dismissed, opened a URL or a deep link, or invoked a custom action or custom method while the `synerise_dart_channel` method channel was not configured. The channel is now configured by the plugin itself and all in-app listener callbacks are skipped instead of crashing when no Flutter engine is attached.
+
+### Added
+- We added inline in-app messages. It's a new in-app type rendered inside your own layout instead of over it.
+- `InlineInAppView` widget to place and render inline in-app messages in the host app. It takes the `placementKey` parameter (and optional `identifier` and `controller` parameters).
+- `InlineInAppView` callbacks for controlling the state and handling the widget lifecycle: `onLoaded(data)`, `onUpdated(data)`, `onFailed(data, error)`, `onRemove(data)`, `onSizeChanged(data, size)`, and `onProcessingStarted()`.
+- `InlineInAppViewController` class with the `render()`, `release()`, `isRendered()`, and `getData()` methods. Pass it as the `controller` parameter of `InlineInAppView` to render an on-demand campaign, tear the inline in-app message down while the widget stays mounted, or query the currently shown campaign.
+- `Synerise.injector.inlineInAppMessageListener(listenerFunction)` method to set a listener for inline in-app message campaigns, and `Synerise.injector.removeInlineInAppListener()` method to remove it.
+- `InjectorInlineInAppMessageListener` class for handling inline in-app message campaigns. It's analogous to `InjectorInAppMessageListener`, but handles inline in-app messages. It provides the `onInlineInAppAvailable(view, data)` callback, invoked when the SDK creates an inline in-app message view on its own (for example, for a campaign triggered by an event) and hands it over as a ready-to-place `InlineInAppView` widget, and the optional `onOpenUrl(data, url)`, `onDeepLink(data, deepLink)`, `onCustomAction(data, name, parameters)`, and `onCustomMethod(data, name, parameters, completion)` callbacks. The `completion` is the same `InAppCustomMethodCompletion` used by `InjectorInAppMessageListener`.
+- `InAppContextKey` class with well-known keys of `Synerise.injector.inAppContext` (`InAppContextKey.jinjavaContext`). The value stored under this key is sent to the backend for server-side Jinja evaluation when a campaign with a dynamic variant is rendered.
+- `InlineInAppMessageData` model with the `campaignHash`, `variantIdentifier`, `placementKey`, `additionalParameters`, and `isTest` properties.
+- `InlineInAppSize` model with the `width`, `height`, `widthPx`, `heightPx`, `widthScreenRatio`, and `heightScreenRatio` properties.
+- `SyneriseSource.inlineInAppMessage` value. It is passed to `InjectorListener.onOpenUrl(url, source)` and `InjectorListener.onDeepLink(deepLink, source)` for actions from inline in-app messages.
+- `SRInApp.setComponentSize(width, height)` method to the JS interface in the in-app messaging module. This method allows reporting the content size to change the component view size in the host app.
+- `SRInApp.getComponentSize()` method to the JS interface in the in-app messaging module. This method allows getting the current size of the component view containing the web view with the in-app message.
+
+### Changed
+- [Android] Updated the native Synerise Android SDK to 6.16.1.
+- [iOS] Updated the native Synerise iOS SDK to 6.0.6.
+- [Android] Configuring `SyneriseMethodChannel.configureChannel(flutterEngine)` in `MainActivity` is no longer required. Existing integrations that still call it are not affected.
+- Improvements to stability.
+
+### Removed
+- `SyneriseSource.banner` and `SyneriseSource.walkthrough`.
+
 ## [2.11.0] - 2026-07-28
 
 ### Added

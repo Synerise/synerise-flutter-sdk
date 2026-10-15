@@ -1,4 +1,4 @@
-# Synerise Flutter SDK (synerise-flutter-sdk) (2.11.0)
+# Synerise Flutter SDK (synerise-flutter-sdk) (3.0.0)
 
 [![Platform](https://img.shields.io/badge/platform-iOS-orange.svg)](https://github.com/synerise/ios-sdk)
 [![Platform](https://img.shields.io/badge/platform-Android-orange.svg)](https://github.com/synerise/android-sdk)
@@ -98,7 +98,9 @@ repositories {
 
 ``` 
 
-in MainActivity add:
+No changes in `MainActivity` are required. Since version 2.11.1 the plugin configures its method channels itself, on both Android and iOS.
+
+If your `MainActivity` still calls `SyneriseMethodChannel.configureChannel(flutterEngine)`, it keeps working and you may remove it:
 ```
 public class MainActivity extends FlutterActivity {
 @Override    

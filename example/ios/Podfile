@@ -1,5 +1,5 @@
 # Uncomment this line to define a global platform for your project
-# platform :ios, '11.0'
+# platform :ios, '13.0'
 
 # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
 ENV['COCOAPODS_DISABLE_STATS'] = 'true'
@@ -31,24 +31,25 @@ require File.expand_path(File.join('packages', 'flutter_tools', 'bin', 'podhelpe
 flutter_ios_podfile_setup
 
 target 'Runner' do
+  pod 'SyneriseSDK', '6.0.6'
   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
 end
 
 target 'SyneriseNotificationServiceExtension' do
 
-  pod 'SyneriseSDK', '5.14.1'
+  pod 'SyneriseSDK', '6.0.6'
 
 end
 
 target 'SyneriseSingleMediaNotificationContentExtension' do
 
-  pod 'SyneriseSDK', '5.14.1'
+  pod 'SyneriseSDK', '6.0.6'
 
 end
 
 target 'SyneriseCarouselNotificationContentExtension' do
 
-  pod 'SyneriseSDK', '5.14.1'
+  pod 'SyneriseSDK', '6.0.6'
 
 end
 

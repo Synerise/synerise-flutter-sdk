@@ -71,7 +71,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)getRecommendationsV2:(FlutterMethodCall *)call result:(FlutterResult)result {
     NSDictionary *dictionary = call.arguments;
     
-    SNRRecommendationOptions *recommendationOptions = [self modelRecommendationOptionsWithDictionary:dictionary];
+    SNRRecommendationApiQuery *recommendationOptions = [self modelRecommendationOptionsWithDictionary:dictionary];
     if (recommendationOptions == nil) {
         result([self defaultFlutterError]);
         return;
@@ -169,9 +169,9 @@ NS_ASSUME_NONNULL_BEGIN
     return nil;
 }
 
-- (SNRRecommendationOptions *)modelRecommendationOptionsWithDictionary:(NSDictionary *)dictionary {
+- (SNRRecommendationApiQuery *)modelRecommendationOptionsWithDictionary:(NSDictionary *)dictionary {
     NSString *slug = [dictionary getStringForKey:@"slug"];
-    SNRRecommendationOptions *model = [[SNRRecommendationOptions alloc] initWithSlug:slug];
+    SNRRecommendationApiQuery *model = [[SNRRecommendationApiQuery alloc] initWithSlug:slug];
     
     if (dictionary != nil) {
         model.productID = [dictionary getStringForKey:@"productID"];
