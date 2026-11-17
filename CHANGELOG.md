@@ -1,6 +1,24 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+### Fixed
+## [3.0.1] - 2026-11-17
+
+### Fixed
+- [iOS] Issue with sending the control group event (`inApp.controlGroup`) for in-app messages with a global control group and a segment checked in real time. The event was sent to every client assigned to the global control group, even when the client did not match the campaign segment. The problem occurred since version 0.8.3.
+- [iOS] Issue with displaying in-app messages that use global control groups when the backend did not recognize the client yet (for example, a new anonymous profile). The problem occurred since version 3.0.0.
+- [iOS] Issue with missing additional parameters (`additionalParameters`) and the test message flag (`test_message`) in events of overlay in-app messages. The problem occurred since version 3.0.0.
+- [iOS] Potential issue with in-app messaging database execute operations which caused crash when the SDK could not open persistent store for the database.
+- [iOS] Potential issue with in-app messaging database when the application was launched in the background while the device was locked and the files were protected by Data Protection. The database is now opened again when protected data becomes available, without restarting the application.
+- [iOS] Potential issue with high memory usage and long processing time on the main thread when the `screen.content` event was created for a large screen view response. The problem could cause a crash.
+- [Android] Build failure on Gradle 9 (`Could not find method jcenter()`). The plugin no longer declares the removed JCenter repository.
+
+### Changed
+- Update of native SDK's dependencies.
+- [iOS] Optimization of the in-app messaging module.
+- Improvements to stability.
+
+
 ## [3.0.0] - 2026-10-05
 
 IMPORTANT:

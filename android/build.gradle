@@ -1,5 +1,5 @@
 group 'com.synerise.synerise_flutter_sdk'
-version '3.0.0'
+version '3.0.1'
 
 buildscript {
     repositories {
@@ -41,9 +41,8 @@ android {
 }
 
 repositories {
-    mavenLocal()
     google()
-    jcenter()
+    mavenCentral()
 }
 
 dependencies {
