@@ -6,6 +6,8 @@
 //  Copyright © 2023 Synerise. All rights reserved.
 //
 
+#import <Foundation/Foundation.h>
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface NSMutableDictionary (Flutter)

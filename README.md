@@ -1,4 +1,4 @@
-# Synerise Flutter SDK (synerise-flutter-sdk) (3.0.1)
+# Synerise Flutter SDK (synerise-flutter-sdk) (3.1.0)
 
 [![Platform](https://img.shields.io/badge/platform-iOS-orange.svg)](https://github.com/synerise/ios-sdk)
 [![Platform](https://img.shields.io/badge/platform-Android-orange.svg)](https://github.com/synerise/android-sdk)
@@ -42,6 +42,8 @@ The development and debugging can be done with Xcode.
 * Target deployment:
   * iOS 13.0+ for SDK versions 2.0.0 and higher
   * iOS 9.0+ for SDK versions lower than 2.0.0
+* Integration: Swift Package Manager or CocoaPods (Flutter chooses it, see [iOS configuration](#ios-configuration))
+  * Swift Package Manager requires Flutter 3.41 or later (enabled by default since Flutter 3.44)
 
 **Bitcode is not supported in SDK version 2.0.0 and higher. Xcode ignores bitcode.**
 
@@ -57,7 +59,7 @@ This will add a line like this to your package's pubspec.yaml (and run an implic
 
 ```
 dependencies:
-  synerise_flutter_sdk: ^1.3.0
+  synerise_flutter_sdk: ^3.1.0
 ```
 
 Alternatively, your editor might support flutter pub get. Check the docs for your editor to learn more.
@@ -112,7 +114,17 @@ public void configureFlutterEngine(@NonNull FlutterEngine flutterEngine) {
 
 ## iOS configuration
 
-In iOS portion of your application (/ios) you will need to run `pod update`.
+The plugin supports both Swift Package Manager and CocoaPods. Flutter chooses the integration based on the `enable-swift-package-manager` setting and resolves iOS dependencies on `flutter build` and `flutter run`, so you don't need to run `pod install` manually.
+
+### Swift Package Manager
+
+The plugin brings the native SDK from the [synerise-ios-sdk](https://github.com/Synerise/synerise-ios-sdk) package. **Do not add `pod 'SyneriseSDK'` to `ios/Podfile`** - it duplicates the framework and the build fails with `Multiple commands produce '.../Frameworks/SyneriseSDK.framework'`.
+
+### CocoaPods
+
+If `pod install` fails after a plugin update with `CocoaPods could not find compatible versions for pod "SyneriseSDK"`:
+- If extension targets in `ios/Podfile` contain `pod 'SyneriseSDK'`, set their version to the one used by the plugin.
+- Otherwise, run `pod update SyneriseSDK` in the `ios` directory.
 
 ## Initialization
 
@@ -128,9 +140,10 @@ Synerise.initializer()
 ```
 
 ## Running example app
+- iOS: the example app uses Swift Package Manager and requires Flutter 3.41 or later. Clone the repository into a directory named `synerise_flutter_sdk`, otherwise the iOS build fails with a package identity error ([flutter/flutter#186881](https://github.com/flutter/flutter/issues/186881))
 - Open project folder in selected IDE
 - `flutter pub get` in the terminal (dependencies pull)
-- Select the device/emulator in your IDE (for ios part it is required to run `pod update` in example/ios directory)
+- Select the device/emulator in your IDE
 - Fill the file `api_key.txt` located in `example/lib` with your profile api key
 - Make sure the firebase related files `example/ios/Runner/GoogleService-Info.plist` and `example/android/app/google-services.json` are filled with your firebase project configuration data
 - Run the example app via selected sdk or execute `cd example` and `flutter run` in the terminal

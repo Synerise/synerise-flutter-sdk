@@ -1,6 +1,6 @@
 name: synerise_flutter_sdk_example
 description: Demonstrates how to use the synerise_flutter_sdk plugin.
-version: 3.0.1
+version: 3.1.0
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -50,6 +50,11 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
+  # The iOS project is set up for Swift Package Manager (no SyneriseSDK pod,
+  # extensions link the synerise-ios-sdk package), so it must not depend on
+  # the developer's global Swift Package Manager setting.
+  config:
+    enable-swift-package-manager: true
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

@@ -1,7 +1,15 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-### Fixed
+## [3.1.0] - 2026-11-26
+
+### Added
+- [iOS] Swift Package Manager support (Flutter 3.41 or later, enabled by default since Flutter 3.44). CocoaPods is still supported. On Flutter older than 3.41, keep Swift Package Manager disabled (`flutter config --no-enable-swift-package-manager`). Apps that use Swift Package Manager and have `pod 'SyneriseSDK'` in `ios/Podfile` need to migrate. See Migrating to version 3.1.0 in the documentation.
+
+### Changed
+- [iOS] Internal plugin headers are no longer public. Only `FSynerisePlugin.h` is exposed.
+
+
 ## [3.0.1] - 2026-11-17
 
 ### Fixed

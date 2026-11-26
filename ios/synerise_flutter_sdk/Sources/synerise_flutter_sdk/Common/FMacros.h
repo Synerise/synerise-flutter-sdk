@@ -1,3 +1,6 @@
+
+#import <Foundation/Foundation.h>
+
 #define THROW_ABSTRACT_METHOD_EXCEPTION() \
 [NSException raise:NSInternalInconsistencyException format:@"You must override %@ in a subclass/category", NSStringFromSelector(_cmd)];
 

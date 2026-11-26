@@ -1,0 +1,14 @@
+{
+  "pins" : [
+    {
+      "identity" : "synerise-ios-sdk",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Synerise/synerise-ios-sdk",
+      "state" : {
+        "revision" : "8d5eb34e220ffe1a44bb712d392399d2b258a2e1",
+        "version" : "6.1.2"
+      }
+    }
+  ],
+  "version" : 2
+}
