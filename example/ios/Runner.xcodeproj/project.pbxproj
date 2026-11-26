@@ -8,20 +8,20 @@
 
 /* Begin PBXBuildFile section */
 		1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */ = {isa = PBXBuildFile; fileRef = 1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */; };
-		29432033E30D25E4E3774317 /* Pods_SyneriseCarouselNotificationContentExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72ED4A848CFA36AB6036241A /* Pods_SyneriseCarouselNotificationContentExtension.framework */; };
 		2BC5B79291B0D5AE8DB460A5 /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE6B7E8213F63403EE17D44B /* Pods_Runner.framework */; };
 		3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */; };
-		3CCE2C960FD1D6847699960A /* Pods_SyneriseNotificationServiceExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 834BA49C73DCF4A9C327131F /* Pods_SyneriseNotificationServiceExtension.framework */; };
-		7D157903AE1E6EDCD907CE93 /* Pods_SyneriseSingleMediaNotificationContentExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DEFD5ED69104E7B69A817BC5 /* Pods_SyneriseSingleMediaNotificationContentExtension.framework */; };
+		60F163FA907FEC9D0694FFB8 /* SyneriseSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 4C38B360A88B75E34288C13E /* SyneriseSDK */; };
+		6189ABBB9EF6D137174CA671 /* SyneriseSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 61707424A9B829B5671E4483 /* SyneriseSDK */; };
+		6FD853B330AEF76A004A1323 /* SyneriseNotificationServiceExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = C1921F532A4D8C480010BC77 /* SyneriseNotificationServiceExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		6FD853B430AEF76A004A1323 /* SyneriseSingleMediaNotificationContentExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = C1921F642A4D8C710010BC77 /* SyneriseSingleMediaNotificationContentExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		6FD853B530AEF76A004A1323 /* SyneriseCarouselNotificationContentExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = C1921F7B2A4D8C840010BC77 /* SyneriseCarouselNotificationContentExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		78A318202AECB46A00862997 /* FlutterGeneratedPluginSwiftPackage in Frameworks */ = {isa = PBXBuildFile; productRef = 78A3181F2AECB46A00862997 /* FlutterGeneratedPluginSwiftPackage */; };
 		978B8F6F1D3862AE00F588F7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AFFD8EE1D35381100E5BB4D /* AppDelegate.m */; };
 		97C146F31CF9000F007C117D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 97C146F21CF9000F007C117D /* main.m */; };
 		97C146FC1CF9000F007C117D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FA1CF9000F007C117D /* Main.storyboard */; };
 		97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FD1CF9000F007C117D /* Assets.xcassets */; };
 		97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */; };
 		C16324A32CB5B2FC008C6BBB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C16324A22CB5B2FC008C6BBB /* GoogleService-Info.plist */; };
-		C1918F0C2EE959DD00ABA0E1 /* SyneriseNotificationServiceExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = C1921F532A4D8C480010BC77 /* SyneriseNotificationServiceExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		C1918F0D2EE959DD00ABA0E1 /* SyneriseSingleMediaNotificationContentExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = C1921F642A4D8C710010BC77 /* SyneriseSingleMediaNotificationContentExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		C1918F0E2EE959DD00ABA0E1 /* SyneriseCarouselNotificationContentExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = C1921F7B2A4D8C840010BC77 /* SyneriseCarouselNotificationContentExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		C1921F562A4D8C480010BC77 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1921F552A4D8C480010BC77 /* NotificationService.swift */; };
 		C1921F662A4D8C720010BC77 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C1921F652A4D8C710010BC77 /* UserNotifications.framework */; };
 		C1921F682A4D8C720010BC77 /* UserNotificationsUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C1921F672A4D8C720010BC77 /* UserNotificationsUI.framework */; };
@@ -29,29 +29,30 @@
 		C1921F7C2A4D8C840010BC77 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C1921F652A4D8C710010BC77 /* UserNotifications.framework */; };
 		C1921F7D2A4D8C840010BC77 /* UserNotificationsUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C1921F672A4D8C720010BC77 /* UserNotificationsUI.framework */; };
 		C1921F802A4D8C840010BC77 /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1921F7F2A4D8C840010BC77 /* NotificationViewController.swift */; };
+		CCF0E1E05007822FD6350913 /* SyneriseSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 80DDE5C8BD2943DF2B3BE658 /* SyneriseSDK */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		C1921F582A4D8C480010BC77 /* PBXContainerItemProxy */ = {
+		6FD853AD30AEF75E004A1323 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 97C146E61CF9000F007C117D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C1921F7A2A4D8C840010BC77;
+			remoteInfo = SyneriseCarouselNotificationContentExtension;
+		};
+		6FD853AF30AEF75E004A1323 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 97C146E61CF9000F007C117D /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = C1921F522A4D8C480010BC77;
 			remoteInfo = SyneriseNotificationServiceExtension;
 		};
-		C1921F702A4D8C720010BC77 /* PBXContainerItemProxy */ = {
+		6FD853B130AEF75E004A1323 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 97C146E61CF9000F007C117D /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = C1921F632A4D8C710010BC77;
 			remoteInfo = SyneriseSingleMediaNotificationContentExtension;
-		};
-		C1921F852A4D8C840010BC77 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 97C146E61CF9000F007C117D /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = C1921F7A2A4D8C840010BC77;
-			remoteInfo = SyneriseCarouselNotificationContentExtension;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -72,9 +73,9 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				C1918F0C2EE959DD00ABA0E1 /* SyneriseNotificationServiceExtension.appex in Embed Foundation Extensions */,
-				C1918F0D2EE959DD00ABA0E1 /* SyneriseSingleMediaNotificationContentExtension.appex in Embed Foundation Extensions */,
-				C1918F0E2EE959DD00ABA0E1 /* SyneriseCarouselNotificationContentExtension.appex in Embed Foundation Extensions */,
+				6FD853B330AEF76A004A1323 /* SyneriseNotificationServiceExtension.appex in Embed Foundation Extensions */,
+				6FD853B430AEF76A004A1323 /* SyneriseSingleMediaNotificationContentExtension.appex in Embed Foundation Extensions */,
+				6FD853B530AEF76A004A1323 /* SyneriseCarouselNotificationContentExtension.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 1;
@@ -84,23 +85,16 @@
 /* Begin PBXFileReference section */
 		1498D2321E8E86230040F4C2 /* GeneratedPluginRegistrant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GeneratedPluginRegistrant.h; sourceTree = "<group>"; };
 		1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeneratedPluginRegistrant.m; sourceTree = "<group>"; };
-		15F3331A6C452822F750223E /* Pods-SyneriseSingleMediaNotificationContentExtension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SyneriseSingleMediaNotificationContentExtension.release.xcconfig"; path = "Target Support Files/Pods-SyneriseSingleMediaNotificationContentExtension/Pods-SyneriseSingleMediaNotificationContentExtension.release.xcconfig"; sourceTree = "<group>"; };
 		18F4052962DBCAE3A43985BF /* Pods-Runner.profile.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile.xcconfig"; sourceTree = "<group>"; };
-		1BFB5EC2D46C08812D88024A /* Pods-SyneriseNotificationServiceExtension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SyneriseNotificationServiceExtension.release.xcconfig"; path = "Target Support Files/Pods-SyneriseNotificationServiceExtension/Pods-SyneriseNotificationServiceExtension.release.xcconfig"; sourceTree = "<group>"; };
-		2A4AF9411B23F24BA90246A7 /* Pods-SyneriseCarouselNotificationContentExtension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SyneriseCarouselNotificationContentExtension.debug.xcconfig"; path = "Target Support Files/Pods-SyneriseCarouselNotificationContentExtension/Pods-SyneriseCarouselNotificationContentExtension.debug.xcconfig"; sourceTree = "<group>"; };
-		2B039EC63661CFD19FB66544 /* Pods-SyneriseNotificationServiceExtension.profile.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SyneriseNotificationServiceExtension.profile.xcconfig"; path = "Target Support Files/Pods-SyneriseNotificationServiceExtension/Pods-SyneriseNotificationServiceExtension.profile.xcconfig"; sourceTree = "<group>"; };
 		355B0C88CD632BBAC83F3CA4 /* Pods-Runner.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug.xcconfig"; sourceTree = "<group>"; };
-		37B4E9E2BFD8366F33AF06EB /* Pods-SyneriseNotificationServiceExtension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SyneriseNotificationServiceExtension.debug.xcconfig"; path = "Target Support Files/Pods-SyneriseNotificationServiceExtension/Pods-SyneriseNotificationServiceExtension.debug.xcconfig"; sourceTree = "<group>"; };
 		3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = AppFrameworkInfo.plist; path = Flutter/AppFrameworkInfo.plist; sourceTree = "<group>"; };
 		3BECE5CD85131BA603EEA2F9 /* Pods-Runner.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release.xcconfig"; sourceTree = "<group>"; };
-		46EDF28ACFD421BA1BC6682A /* Pods-SyneriseCarouselNotificationContentExtension.profile.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SyneriseCarouselNotificationContentExtension.profile.xcconfig"; path = "Target Support Files/Pods-SyneriseCarouselNotificationContentExtension/Pods-SyneriseCarouselNotificationContentExtension.profile.xcconfig"; sourceTree = "<group>"; };
-		55A6469EBBDDB73050ED1DE6 /* Pods-SyneriseSingleMediaNotificationContentExtension.profile.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SyneriseSingleMediaNotificationContentExtension.profile.xcconfig"; path = "Target Support Files/Pods-SyneriseSingleMediaNotificationContentExtension/Pods-SyneriseSingleMediaNotificationContentExtension.profile.xcconfig"; sourceTree = "<group>"; };
-		72ED4A848CFA36AB6036241A /* Pods_SyneriseCarouselNotificationContentExtension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SyneriseCarouselNotificationContentExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		784666492D4C4C64000A1A5F /* FlutterFramework */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = FlutterFramework; path = Flutter/ephemeral/Packages/.packages/FlutterFramework; sourceTree = "<group>"; };
+		78DABEA22ED26510000E7860 /* synerise_flutter_sdk */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = synerise_flutter_sdk; path = ../../ios/synerise_flutter_sdk; sourceTree = "<group>"; };
+		78E0A7A72DC9AD7400C4905E /* FlutterGeneratedPluginSwiftPackage */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = FlutterGeneratedPluginSwiftPackage; path = Flutter/ephemeral/Packages/FlutterGeneratedPluginSwiftPackage; sourceTree = "<group>"; };
 		7AFA3C8E1D35360C0083082E /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = Flutter/Release.xcconfig; sourceTree = "<group>"; };
 		7AFFD8ED1D35381100E5BB4D /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		7AFFD8EE1D35381100E5BB4D /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		7E2F324A899FB1139D180148 /* Pods-SyneriseCarouselNotificationContentExtension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SyneriseCarouselNotificationContentExtension.release.xcconfig"; path = "Target Support Files/Pods-SyneriseCarouselNotificationContentExtension/Pods-SyneriseCarouselNotificationContentExtension.release.xcconfig"; sourceTree = "<group>"; };
-		834BA49C73DCF4A9C327131F /* Pods_SyneriseNotificationServiceExtension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SyneriseNotificationServiceExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8CA4C72229A767CA00744EB7 /* Runner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Runner.entitlements; sourceTree = "<group>"; };
 		9740EEB21CF90195004384FC /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = Flutter/Debug.xcconfig; sourceTree = "<group>"; };
 		9740EEB31CF90195004384FC /* Generated.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Generated.xcconfig; path = Flutter/Generated.xcconfig; sourceTree = "<group>"; };
@@ -110,7 +104,6 @@
 		97C146FD1CF9000F007C117D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		97C147001CF9000F007C117D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		97C147021CF9000F007C117D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		AD7D80647F099F0E37372149 /* Pods-SyneriseSingleMediaNotificationContentExtension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SyneriseSingleMediaNotificationContentExtension.debug.xcconfig"; path = "Target Support Files/Pods-SyneriseSingleMediaNotificationContentExtension/Pods-SyneriseSingleMediaNotificationContentExtension.debug.xcconfig"; sourceTree = "<group>"; };
 		C16324A22CB5B2FC008C6BBB /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C1921F532A4D8C480010BC77 /* SyneriseNotificationServiceExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SyneriseNotificationServiceExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		C1921F552A4D8C480010BC77 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
@@ -126,7 +119,6 @@
 		C1921F8C2A4D8E120010BC77 /* SyneriseNotificationServiceExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SyneriseNotificationServiceExtension.entitlements; sourceTree = "<group>"; };
 		C1921F8D2A4D8E1A0010BC77 /* SyneriseSingleMediaNotificationContentExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SyneriseSingleMediaNotificationContentExtension.entitlements; sourceTree = "<group>"; };
 		C1921F8E2A4D8E220010BC77 /* SyneriseCarouselNotificationContentExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SyneriseCarouselNotificationContentExtension.entitlements; sourceTree = "<group>"; };
-		DEFD5ED69104E7B69A817BC5 /* Pods_SyneriseSingleMediaNotificationContentExtension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SyneriseSingleMediaNotificationContentExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FE6B7E8213F63403EE17D44B /* Pods_Runner.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Runner.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -135,6 +127,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				78A318202AECB46A00862997 /* FlutterGeneratedPluginSwiftPackage in Frameworks */,
 				2BC5B79291B0D5AE8DB460A5 /* Pods_Runner.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -143,7 +136,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3CCE2C960FD1D6847699960A /* Pods_SyneriseNotificationServiceExtension.framework in Frameworks */,
+				60F163FA907FEC9D0694FFB8 /* SyneriseSDK in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -153,7 +146,7 @@
 			files = (
 				C1921F682A4D8C720010BC77 /* UserNotificationsUI.framework in Frameworks */,
 				C1921F662A4D8C720010BC77 /* UserNotifications.framework in Frameworks */,
-				7D157903AE1E6EDCD907CE93 /* Pods_SyneriseSingleMediaNotificationContentExtension.framework in Frameworks */,
+				6189ABBB9EF6D137174CA671 /* SyneriseSDK in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -163,7 +156,7 @@
 			files = (
 				C1921F7D2A4D8C840010BC77 /* UserNotificationsUI.framework in Frameworks */,
 				C1921F7C2A4D8C840010BC77 /* UserNotifications.framework in Frameworks */,
-				29432033E30D25E4E3774317 /* Pods_SyneriseCarouselNotificationContentExtension.framework in Frameworks */,
+				CCF0E1E05007822FD6350913 /* SyneriseSDK in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -176,15 +169,6 @@
 				355B0C88CD632BBAC83F3CA4 /* Pods-Runner.debug.xcconfig */,
 				3BECE5CD85131BA603EEA2F9 /* Pods-Runner.release.xcconfig */,
 				18F4052962DBCAE3A43985BF /* Pods-Runner.profile.xcconfig */,
-				2A4AF9411B23F24BA90246A7 /* Pods-SyneriseCarouselNotificationContentExtension.debug.xcconfig */,
-				7E2F324A899FB1139D180148 /* Pods-SyneriseCarouselNotificationContentExtension.release.xcconfig */,
-				46EDF28ACFD421BA1BC6682A /* Pods-SyneriseCarouselNotificationContentExtension.profile.xcconfig */,
-				37B4E9E2BFD8366F33AF06EB /* Pods-SyneriseNotificationServiceExtension.debug.xcconfig */,
-				1BFB5EC2D46C08812D88024A /* Pods-SyneriseNotificationServiceExtension.release.xcconfig */,
-				2B039EC63661CFD19FB66544 /* Pods-SyneriseNotificationServiceExtension.profile.xcconfig */,
-				AD7D80647F099F0E37372149 /* Pods-SyneriseSingleMediaNotificationContentExtension.debug.xcconfig */,
-				15F3331A6C452822F750223E /* Pods-SyneriseSingleMediaNotificationContentExtension.release.xcconfig */,
-				55A6469EBBDDB73050ED1DE6 /* Pods-SyneriseSingleMediaNotificationContentExtension.profile.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -192,6 +176,9 @@
 		9740EEB11CF90186004384FC /* Flutter */ = {
 			isa = PBXGroup;
 			children = (
+				78DABEA22ED26510000E7860 /* synerise_flutter_sdk */,
+				784666492D4C4C64000A1A5F /* FlutterFramework */,
+				78E0A7A72DC9AD7400C4905E /* FlutterGeneratedPluginSwiftPackage */,
 				3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */,
 				9740EEB21CF90195004384FC /* Debug.xcconfig */,
 				7AFA3C8E1D35360C0083082E /* Release.xcconfig */,
@@ -287,9 +274,6 @@
 				C1921F652A4D8C710010BC77 /* UserNotifications.framework */,
 				C1921F672A4D8C720010BC77 /* UserNotificationsUI.framework */,
 				FE6B7E8213F63403EE17D44B /* Pods_Runner.framework */,
-				72ED4A848CFA36AB6036241A /* Pods_SyneriseCarouselNotificationContentExtension.framework */,
-				834BA49C73DCF4A9C327131F /* Pods_SyneriseNotificationServiceExtension.framework */,
-				DEFD5ED69104E7B69A817BC5 /* Pods_SyneriseSingleMediaNotificationContentExtension.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -314,11 +298,14 @@
 			buildRules = (
 			);
 			dependencies = (
-				C1921F592A4D8C480010BC77 /* PBXTargetDependency */,
-				C1921F712A4D8C720010BC77 /* PBXTargetDependency */,
-				C1921F862A4D8C840010BC77 /* PBXTargetDependency */,
+				6FD853AE30AEF75E004A1323 /* PBXTargetDependency */,
+				6FD853B030AEF75E004A1323 /* PBXTargetDependency */,
+				6FD853B230AEF75E004A1323 /* PBXTargetDependency */,
 			);
 			name = Runner;
+			packageProductDependencies = (
+				78A3181F2AECB46A00862997 /* FlutterGeneratedPluginSwiftPackage */,
+			);
 			productName = Runner;
 			productReference = 97C146EE1CF9000F007C117D /* SDK Sample App Flutter.app */;
 			productType = "com.apple.product-type.application";
@@ -327,7 +314,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C1921F5F2A4D8C480010BC77 /* Build configuration list for PBXNativeTarget "SyneriseNotificationServiceExtension" */;
 			buildPhases = (
-				FC5DA7D866F0D2EAAC5AFEEA /* [CP] Check Pods Manifest.lock */,
 				C1921F4F2A4D8C480010BC77 /* Sources */,
 				C1921F502A4D8C480010BC77 /* Frameworks */,
 				C1921F512A4D8C480010BC77 /* Resources */,
@@ -337,6 +323,9 @@
 			dependencies = (
 			);
 			name = SyneriseNotificationServiceExtension;
+			packageProductDependencies = (
+				4C38B360A88B75E34288C13E /* SyneriseSDK */,
+			);
 			productName = SyneriseNotificationServiceExtension;
 			productReference = C1921F532A4D8C480010BC77 /* SyneriseNotificationServiceExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
@@ -345,7 +334,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C1921F732A4D8C720010BC77 /* Build configuration list for PBXNativeTarget "SyneriseSingleMediaNotificationContentExtension" */;
 			buildPhases = (
-				4024917F7F5E0E342567C8EB /* [CP] Check Pods Manifest.lock */,
 				C1921F602A4D8C710010BC77 /* Sources */,
 				C1921F612A4D8C710010BC77 /* Frameworks */,
 				C1921F622A4D8C710010BC77 /* Resources */,
@@ -355,6 +343,9 @@
 			dependencies = (
 			);
 			name = SyneriseSingleMediaNotificationContentExtension;
+			packageProductDependencies = (
+				61707424A9B829B5671E4483 /* SyneriseSDK */,
+			);
 			productName = SyneriseSingleMediaNotificationContentExtension;
 			productReference = C1921F642A4D8C710010BC77 /* SyneriseSingleMediaNotificationContentExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
@@ -363,7 +354,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C1921F882A4D8C850010BC77 /* Build configuration list for PBXNativeTarget "SyneriseCarouselNotificationContentExtension" */;
 			buildPhases = (
-				6123D19A0883D1D96E828B6A /* [CP] Check Pods Manifest.lock */,
 				C1921F772A4D8C840010BC77 /* Sources */,
 				C1921F782A4D8C840010BC77 /* Frameworks */,
 				C1921F792A4D8C840010BC77 /* Resources */,
@@ -373,6 +363,9 @@
 			dependencies = (
 			);
 			name = SyneriseCarouselNotificationContentExtension;
+			packageProductDependencies = (
+				80DDE5C8BD2943DF2B3BE658 /* SyneriseSDK */,
+			);
 			productName = SyneriseCarouselNotificationContentExtension;
 			productReference = C1921F7B2A4D8C840010BC77 /* SyneriseCarouselNotificationContentExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
@@ -410,6 +403,10 @@
 				Base,
 			);
 			mainGroup = 97C146E51CF9000F007C117D;
+			packageReferences = (
+				781AD8BC2B33823900A9FFBB /* XCLocalSwiftPackageReference "FlutterGeneratedPluginSwiftPackage" */,
+				6FD853B830AEF971004A1323 /* XCRemoteSwiftPackageReference "synerise-ios-sdk" */,
+			);
 			productRefGroup = 97C146EF1CF9000F007C117D /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -467,13 +464,9 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			inputPaths = (
-			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -518,50 +511,6 @@
 			shellPath = /bin/sh;
 			shellScript = "/bin/sh \"$FLUTTER_ROOT/packages/flutter_tools/bin/xcode_backend.sh\" embed_and_thin\n";
 		};
-		4024917F7F5E0E342567C8EB /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-SyneriseSingleMediaNotificationContentExtension-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		6123D19A0883D1D96E828B6A /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-SyneriseCarouselNotificationContentExtension-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
 		9740EEB61CF901F6004384FC /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
@@ -576,28 +525,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "/bin/sh \"$FLUTTER_ROOT/packages/flutter_tools/bin/xcode_backend.sh\" build\n";
-		};
-		FC5DA7D866F0D2EAAC5AFEEA /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-SyneriseNotificationServiceExtension-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -639,20 +566,20 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		C1921F592A4D8C480010BC77 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = C1921F522A4D8C480010BC77 /* SyneriseNotificationServiceExtension */;
-			targetProxy = C1921F582A4D8C480010BC77 /* PBXContainerItemProxy */;
-		};
-		C1921F712A4D8C720010BC77 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = C1921F632A4D8C710010BC77 /* SyneriseSingleMediaNotificationContentExtension */;
-			targetProxy = C1921F702A4D8C720010BC77 /* PBXContainerItemProxy */;
-		};
-		C1921F862A4D8C840010BC77 /* PBXTargetDependency */ = {
+		6FD853AE30AEF75E004A1323 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = C1921F7A2A4D8C840010BC77 /* SyneriseCarouselNotificationContentExtension */;
-			targetProxy = C1921F852A4D8C840010BC77 /* PBXContainerItemProxy */;
+			targetProxy = 6FD853AD30AEF75E004A1323 /* PBXContainerItemProxy */;
+		};
+		6FD853B030AEF75E004A1323 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C1921F522A4D8C480010BC77 /* SyneriseNotificationServiceExtension */;
+			targetProxy = 6FD853AF30AEF75E004A1323 /* PBXContainerItemProxy */;
+		};
+		6FD853B230AEF75E004A1323 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C1921F632A4D8C710010BC77 /* SyneriseSingleMediaNotificationContentExtension */;
+			targetProxy = 6FD853B130AEF75E004A1323 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -745,7 +672,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.0.1;
+				MARKETING_VERSION = 3.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.synerise.sdk.sample-flutter";
 				PRODUCT_NAME = "SDK Sample App Flutter";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -877,7 +804,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.0.1;
+				MARKETING_VERSION = 3.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.synerise.sdk.sample-flutter";
 				PRODUCT_NAME = "SDK Sample App Flutter";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -904,7 +831,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.0.1;
+				MARKETING_VERSION = 3.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.synerise.sdk.sample-flutter";
 				PRODUCT_NAME = "SDK Sample App Flutter";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -914,7 +841,6 @@
 		};
 		C1921F5C2A4D8C480010BC77 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 37B4E9E2BFD8366F33AF06EB /* Pods-SyneriseNotificationServiceExtension.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -938,7 +864,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 3.0.1;
+				MARKETING_VERSION = 3.1.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.synerise.sdk.sample-flutter.notification-service-extension";
@@ -955,7 +881,6 @@
 		};
 		C1921F5D2A4D8C480010BC77 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1BFB5EC2D46C08812D88024A /* Pods-SyneriseNotificationServiceExtension.release.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -979,7 +904,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 3.0.1;
+				MARKETING_VERSION = 3.1.0;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.synerise.sdk.sample-flutter.notification-service-extension";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -995,7 +920,6 @@
 		};
 		C1921F5E2A4D8C480010BC77 /* Profile */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2B039EC63661CFD19FB66544 /* Pods-SyneriseNotificationServiceExtension.profile.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -1019,7 +943,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 3.0.1;
+				MARKETING_VERSION = 3.1.0;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.synerise.sdk.sample-flutter.notification-service-extension";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1035,7 +959,6 @@
 		};
 		C1921F742A4D8C720010BC77 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = AD7D80647F099F0E37372149 /* Pods-SyneriseSingleMediaNotificationContentExtension.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -1059,7 +982,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 3.0.1;
+				MARKETING_VERSION = 3.1.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.synerise.sdk.sample-flutter.single-media-notification";
@@ -1076,7 +999,6 @@
 		};
 		C1921F752A4D8C720010BC77 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 15F3331A6C452822F750223E /* Pods-SyneriseSingleMediaNotificationContentExtension.release.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -1100,7 +1022,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 3.0.1;
+				MARKETING_VERSION = 3.1.0;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.synerise.sdk.sample-flutter.single-media-notification";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1116,7 +1038,6 @@
 		};
 		C1921F762A4D8C720010BC77 /* Profile */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 55A6469EBBDDB73050ED1DE6 /* Pods-SyneriseSingleMediaNotificationContentExtension.profile.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -1140,7 +1061,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 3.0.1;
+				MARKETING_VERSION = 3.1.0;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.synerise.sdk.sample-flutter.single-media-notification";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1156,7 +1077,6 @@
 		};
 		C1921F892A4D8C850010BC77 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2A4AF9411B23F24BA90246A7 /* Pods-SyneriseCarouselNotificationContentExtension.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -1180,7 +1100,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 3.0.1;
+				MARKETING_VERSION = 3.1.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.synerise.sdk.sample-flutter.carousel-notification";
@@ -1197,7 +1117,6 @@
 		};
 		C1921F8A2A4D8C850010BC77 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7E2F324A899FB1139D180148 /* Pods-SyneriseCarouselNotificationContentExtension.release.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -1221,7 +1140,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 3.0.1;
+				MARKETING_VERSION = 3.1.0;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.synerise.sdk.sample-flutter.carousel-notification";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1237,7 +1156,6 @@
 		};
 		C1921F8B2A4D8C850010BC77 /* Profile */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 46EDF28ACFD421BA1BC6682A /* Pods-SyneriseCarouselNotificationContentExtension.profile.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -1261,7 +1179,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 3.0.1;
+				MARKETING_VERSION = 3.1.0;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.synerise.sdk.sample-flutter.carousel-notification";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1329,6 +1247,46 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		781AD8BC2B33823900A9FFBB /* XCLocalSwiftPackageReference "FlutterGeneratedPluginSwiftPackage" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Flutter/ephemeral/Packages/FlutterGeneratedPluginSwiftPackage;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		6FD853B830AEF971004A1323 /* XCRemoteSwiftPackageReference "synerise-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Synerise/synerise-ios-sdk";
+			requirement = {
+				kind = exactVersion;
+				version = 6.1.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		4C38B360A88B75E34288C13E /* SyneriseSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6FD853B830AEF971004A1323 /* XCRemoteSwiftPackageReference "synerise-ios-sdk" */;
+			productName = SyneriseSDK;
+		};
+		61707424A9B829B5671E4483 /* SyneriseSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6FD853B830AEF971004A1323 /* XCRemoteSwiftPackageReference "synerise-ios-sdk" */;
+			productName = SyneriseSDK;
+		};
+		78A3181F2AECB46A00862997 /* FlutterGeneratedPluginSwiftPackage */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FlutterGeneratedPluginSwiftPackage;
+		};
+		80DDE5C8BD2943DF2B3BE658 /* SyneriseSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6FD853B830AEF971004A1323 /* XCRemoteSwiftPackageReference "synerise-ios-sdk" */;
+			productName = SyneriseSDK;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 97C146E61CF9000F007C117D /* Project object */;
 }

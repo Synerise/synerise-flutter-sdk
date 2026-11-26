@@ -2,7 +2,6 @@ import 'dart:ffi';
 import 'dart:io' show Platform;
 
 import 'package:flutter/services.dart';
-import '../base/base_module_method_channel.dart';
 import '../base/base_module.dart';
 import 'settings_methods.dart';
 

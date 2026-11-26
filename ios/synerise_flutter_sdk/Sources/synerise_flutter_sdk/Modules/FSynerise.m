@@ -13,7 +13,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-static NSString * const sdkPluginVersion = @"3.0.1";
+static NSString * const sdkPluginVersion = @"3.1.0";
 
 @interface FSynerise () <SNRSyneriseDelegate>
 
